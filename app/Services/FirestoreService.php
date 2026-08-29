@@ -24,6 +24,26 @@ class FirestoreService
 
     private const SCOPE = 'https://www.googleapis.com/auth/datastore';
 
+    /**
+     * Round-trips project ID, credentials, and network access in one call:
+     * signs a JWT with the service-account private key, exchanges it for an
+     * OAuth2 access token, then writes a throwaway document. A wrong project
+     * ID, a missing/invalid key file, or a revoked key all surface here
+     * instead of at the first real chat message.
+     */
+    public function testConnection(): array
+    {
+        try {
+            $this->setDocument('_diagnostics/connection_test', [
+                'checked_at' => now()->toIso8601String(),
+            ]);
+
+            return ['success' => true, 'message' => 'Connected — wrote a test document to Firestore successfully.'];
+        } catch (\Throwable $e) {
+            return ['success' => false, 'message' => $e->getMessage()];
+        }
+    }
+
     /** Upserts a document's fields (leaves any other existing fields alone). */
     public function setDocument(string $relativePath, array $fields): void
     {

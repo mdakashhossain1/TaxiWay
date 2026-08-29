@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\FirestoreService;
 use App\Services\OtpService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -17,8 +18,10 @@ class SettingsController extends Controller
         'all' => ['Cache', 'Clears all cached routes, views, config, and application data — run this after deploying code changes, plus PHP OPcache if available.', 'optimize:clear'],
     ];
 
-    public function __construct(private readonly OtpService $otp)
-    {
+    public function __construct(
+        private readonly OtpService $otp,
+        private readonly FirestoreService $firestore,
+    ) {
     }
 
     public function index(): View
@@ -212,6 +215,14 @@ class SettingsController extends Controller
         Artisan::call('config:clear');
 
         return redirect()->route('settings.firebase.edit')->with('status', 'Firebase settings updated.');
+    }
+
+    /** Signs in as the service account and writes a throwaway Firestore document to confirm the whole chain actually works. */
+    public function testFirebase(): RedirectResponse
+    {
+        $result = $this->firestore->testConnection();
+
+        return redirect()->route('settings.firebase.edit')->with('firebaseTestResult', $result);
     }
 
     public function clearCache(Request $request): RedirectResponse

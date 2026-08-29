@@ -92,6 +92,7 @@ Route::middleware('auth')->group(function () {
     Route::get('settings/support-chat/token', [AdminSupportChatController::class, 'token'])->name('settings.support-chat.token');
     Route::get('settings/firebase', [AdminSettingsController::class, 'editFirebase'])->name('settings.firebase.edit');
     Route::post('settings/firebase', [AdminSettingsController::class, 'updateFirebase'])->name('settings.firebase.update');
+    Route::post('settings/firebase/test', [AdminSettingsController::class, 'testFirebase'])->name('settings.firebase.test');
     Route::get('settings/mail', [AdminSettingsController::class, 'editMail'])->name('settings.mail.edit');
     Route::post('settings/mail', [AdminSettingsController::class, 'updateMail'])->name('settings.mail.update');
     Route::get('settings/sms', [AdminSettingsController::class, 'editSms'])->name('settings.sms.edit');
