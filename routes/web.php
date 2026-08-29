@@ -15,8 +15,16 @@ use App\Http\Controllers\Admin\SupportChatController as AdminSupportChatControll
 use App\Http\Controllers\Admin\VehicleCategoryController as AdminVehicleCategoryController;
 use App\Http\Controllers\Admin\VehicleController as AdminVehicleController;
 use App\Http\Controllers\Auth\SessionController;
+use App\Http\Controllers\CronController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+
+// HTTP-triggerable equivalent of crontab's `php artisan schedule:run`, for
+// an external server hitting this over HTTP instead of a local cron —
+// deliberately outside the guest/auth groups below: the caller has no admin
+// session, just the CRON_SECRET token. See CronController for why a bad
+// token 404s instead of 403.
+Route::get('/cron/run', [CronController::class, 'run'])->name('cron.run');
 
 // guest-only authentication pages
 Route::middleware('guest')->group(function () {
@@ -95,6 +103,7 @@ Route::middleware('auth')->group(function () {
     Route::post('settings/firebase/test', [AdminSettingsController::class, 'testFirebase'])->name('settings.firebase.test');
     Route::get('settings/mail', [AdminSettingsController::class, 'editMail'])->name('settings.mail.edit');
     Route::post('settings/mail', [AdminSettingsController::class, 'updateMail'])->name('settings.mail.update');
+    Route::post('settings/mail/test-queue', [AdminSettingsController::class, 'testQueue'])->name('settings.mail.test-queue');
     Route::get('settings/sms', [AdminSettingsController::class, 'editSms'])->name('settings.sms.edit');
     Route::post('settings/sms', [AdminSettingsController::class, 'updateSms'])->name('settings.sms.update');
     Route::post('settings/sms/test', [AdminSettingsController::class, 'testSms'])->name('settings.sms.test');
