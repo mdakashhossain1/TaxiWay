@@ -1,0 +1,37 @@
+rules_version = '2';
+
+// Deploy: Firebase Console > Firestore Database > Rules, or `firebase deploy
+// --only firestore:rules` if you use the Firebase CLI. Not deployed
+// automatically by this repo — Firestore rules live in the Firebase project,
+// not in application code.
+//
+// Trust model: conversation documents (`conversations/{id}`) are written
+// ONLY by the Laravel backend, using a service-account OAuth2 token
+// (App\Services\FirestoreService) that bypasses these rules entirely — the
+// same way the Firebase Admin SDK would. Clients (the mobile apps and the
+// admin Support Chat page) can never create or modify a conversation
+// document, only read one they're a participant of and append messages to
+// it. This is what stops a signed-in customer from fabricating a
+// `participants` array to snoop on someone else's ride or support thread.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /conversations/{conversationId} {
+      allow read: if request.auth != null && request.auth.uid in resource.data.participants;
+      allow write: if false;
+
+      match /messages/{messageId} {
+        allow read: if request.auth != null
+          && request.auth.uid in get(/databases/$(database)/documents/conversations/$(conversationId)).data.participants;
+
+        allow create: if request.auth != null
+          && request.auth.uid in get(/databases/$(database)/documents/conversations/$(conversationId)).data.participants
+          && request.resource.data.senderId == request.auth.uid
+          && request.resource.data.text is string
+          && request.resource.data.text.size() > 0
+          && request.resource.data.text.size() < 4000;
+
+        allow update, delete: if false;
+      }
+    }
+  }
+}

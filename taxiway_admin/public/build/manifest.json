@@ -1,0 +1,38 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-B3iOuBJI.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-D6DT1FJG.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/js/components/calendar-init.js",
+      "resources/js/components/dashboard-charts.js"
+    ],
+    "css": [
+      "assets/app-U_b-ZeMd.css"
+    ]
+  },
+  "resources/js/components/calendar-init.js": {
+    "file": "assets/calendar-init-5vvHPgSL.js",
+    "name": "calendar-init",
+    "src": "resources/js/components/calendar-init.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "resources/js/components/dashboard-charts.js": {
+    "file": "assets/dashboard-charts-dg6PY-J6.js",
+    "name": "dashboard-charts",
+    "src": "resources/js/components/dashboard-charts.js",
+    "isDynamicEntry": true
+  }
+}

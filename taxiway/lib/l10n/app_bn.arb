@@ -1,0 +1,68 @@
+{
+  "@@locale": "bn",
+
+  "appTitle": "Taxiway",
+
+  "languageEnglish": "English",
+  "languageHindi": "हिन्दी",
+  "languageBengali": "বাংলা",
+
+  "languagePickerTitle": "আপনার ভাষা নির্বাচন করুন",
+  "languagePickerSubtitle": "আপনি হোম স্ক্রিন থেকে যেকোনো সময় এটি পরিবর্তন করতে পারেন।",
+  "continueLabel": "চালিয়ে যান",
+
+  "onboardSlide1Title": "নিরাপদ। নির্ভরযোগ্য। যেকোনো সময়।",
+  "onboardSlide1Subtitle": "যাচাইকৃত ড্রাইভার, স্বচ্ছ ভাড়া, এবং প্রতিবার একটি আরামদায়ক যাত্রা।",
+  "onboardSlide2Title": "আপনার যাত্রা লাইভ ট্র্যাক করুন",
+  "onboardSlide2Subtitle": "পিকআপ থেকে ড্রপ-অফ পর্যন্ত, আপনার ড্রাইভারকে রিয়েল টাইমে আসতে দেখুন।",
+  "onboardSlide3Title": "এক ট্যাপ, একাধিক গাড়ি",
+  "onboardSlide3Subtitle": "একক যাত্রা থেকে সম্পূর্ণ গ্রুপ বুকিং পর্যন্ত, Taxiway আপনার সাথে বাড়ে।",
+  "getStarted": "শুরু করুন",
+  "login": "লগইন",
+  "appVersion": "v1.0.0",
+
+  "welcome": "স্বাগতম!",
+  "enterPhoneSubtitle": "চালিয়ে যেতে আপনার ফোন নম্বর লিখুন।",
+  "enterMobileNumber": "মোবাইল নম্বর লিখুন",
+  "agreeToTerms": "চালিয়ে গেলে, আপনি আমাদের ",
+  "termsAndConditions": "শর্তাবলী",
+  "andWord": " এবং ",
+  "privacyPolicy": "গোপনীয়তা নীতি",
+
+  "verifyYourNumber": "আপনার নম্বর যাচাই করুন",
+  "otpSentTo": "আমরা +91 {phone} নম্বরে ৬-সংখ্যার OTP পাঠিয়েছি",
+  "@otpSentTo": {
+    "placeholders": { "phone": { "type": "String" } }
+  },
+  "otpDemoHint": "(এই ডেমোর জন্য 123456 ব্যবহার করুন)",
+  "resendIn": "{time}-এ পুনরায় পাঠান",
+  "@resendIn": {
+    "placeholders": { "time": { "type": "String" } }
+  },
+  "resendOtp": "OTP পুনরায় পাঠান",
+  "verifyAndContinue": "যাচাই করুন এবং চালিয়ে যান",
+  "invalidOtp": "ভুল OTP। আবার চেষ্টা করুন।",
+  "otpResent": "OTP আবার পাঠানো হয়েছে।",
+
+  "enterDestinationHint": "গাড়ি এবং ভাড়া দেখতে একটি গন্তব্য লিখুন।",
+  "bulkBookingTitle": "বাল্ক বুকিং",
+  "bulkBookingSubtitle": "গ্রুপ বা নির্ধারিত ভ্রমণের জন্য একাধিক গাড়ি বুক করুন।",
+  "selectVehicle": "গাড়ি নির্বাচন করুন",
+  "bookRide": "যাত্রা বুক করুন",
+  "selectAVehicle": "একটি গাড়ি নির্বাচন করুন",
+  "fromLabel": "থেকে",
+  "toLabel": "পর্যন্ত",
+  "searchPickup": "পিকআপ খুঁজুন",
+  "enterDestination": "গন্তব্য লিখুন",
+  "distanceLabel": "দূরত্ব",
+  "estTimeLabel": "আনু. সময়",
+
+  "profileTitle": "প্রোফাইল",
+  "myTrips": "আমার ভ্রমণ",
+  "helpSupport": "সাহায্য ও সহায়তা",
+  "languageMenuItem": "ভাষা",
+  "logout": "লগআউট",
+  "guest": "অতিথি",
+  "logoutConfirmBody": "আপনি কি নিশ্চিত যে আপনি লগআউট করতে চান?",
+  "cancel": "বাতিল করুন"
+}

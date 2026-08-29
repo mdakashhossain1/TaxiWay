@@ -1,0 +1,68 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "Taxiway",
+
+  "languageEnglish": "English",
+  "languageHindi": "हिन्दी",
+  "languageBengali": "বাংলা",
+
+  "languagePickerTitle": "Choose your language",
+  "languagePickerSubtitle": "You can change this anytime from the home screen.",
+  "continueLabel": "Continue",
+
+  "onboardSlide1Title": "Safe. Reliable. Anytime.",
+  "onboardSlide1Subtitle": "Verified drivers, transparent fares, and a smooth ride every time.",
+  "onboardSlide2Title": "Track your ride, live",
+  "onboardSlide2Subtitle": "Watch your driver approach in real time, from pickup to drop-off.",
+  "onboardSlide3Title": "One tap, multiple vehicles",
+  "onboardSlide3Subtitle": "From a solo ride to a full group booking, Taxiway scales with you.",
+  "getStarted": "Get Started",
+  "login": "Login",
+  "appVersion": "v1.0.0",
+
+  "welcome": "Welcome!",
+  "enterPhoneSubtitle": "Enter your phone number to continue.",
+  "enterMobileNumber": "Enter mobile number",
+  "agreeToTerms": "By continuing, you agree to our ",
+  "termsAndConditions": "Terms & Conditions",
+  "andWord": " and ",
+  "privacyPolicy": "Privacy Policy",
+
+  "verifyYourNumber": "Verify your number",
+  "otpSentTo": "We've sent a 6-digit OTP to +91 {phone}",
+  "@otpSentTo": {
+    "placeholders": { "phone": { "type": "String" } }
+  },
+  "otpDemoHint": "(Use 123456 for this demo)",
+  "resendIn": "Resend in {time}",
+  "@resendIn": {
+    "placeholders": { "time": { "type": "String" } }
+  },
+  "resendOtp": "Resend OTP",
+  "verifyAndContinue": "Verify & Continue",
+  "invalidOtp": "Invalid OTP. Please try again.",
+  "otpResent": "OTP resent.",
+
+  "enterDestinationHint": "Enter a destination to see vehicles and fare.",
+  "bulkBookingTitle": "Bulk Booking",
+  "bulkBookingSubtitle": "Book multiple vehicles for a group or scheduled trip.",
+  "selectVehicle": "Select Vehicle",
+  "bookRide": "Book Ride",
+  "selectAVehicle": "Select a Vehicle",
+  "fromLabel": "From",
+  "toLabel": "To",
+  "searchPickup": "Search Pickup",
+  "enterDestination": "Enter Destination",
+  "distanceLabel": "Distance",
+  "estTimeLabel": "Est. Time",
+
+  "profileTitle": "Profile",
+  "myTrips": "My Trips",
+  "helpSupport": "Help & Support",
+  "languageMenuItem": "Language",
+  "logout": "Logout",
+  "guest": "Guest",
+  "logoutConfirmBody": "Are you sure you want to logout?",
+  "cancel": "Cancel"
+}
