@@ -40,6 +40,11 @@ return [
         'web_api_key' => env('FIREBASE_WEB_API_KEY'),
     ],
 
+    /* Shared secret for the /cron/run HTTP endpoint — see CronController. */
+    'cron' => [
+        'secret' => env('CRON_SECRET'),
+    ],
+
     /*
     | SMS OTP gateway. When disabled, OtpService skips the HTTP call and the
     | generated code is instead returned straight in the API response so the

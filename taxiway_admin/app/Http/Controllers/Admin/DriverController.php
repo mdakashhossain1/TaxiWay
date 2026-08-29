@@ -118,11 +118,15 @@ class DriverController extends Controller
 
         if ($driver->email) {
             try {
-                Mail::to($driver->email)->send(new DriverVerifiedMail($driver));
-                $status .= ' Notification email sent.';
+                // Queued (DriverVerifiedMail implements ShouldQueue) — this only
+                // catches failures to enqueue the job, not delivery failures.
+                // Actual send failures land in the failed_jobs table instead,
+                // once something processes the queue (see routes/console.php).
+                Mail::to($driver->email)->queue(new DriverVerifiedMail($driver));
+                $status .= ' Notification email queued.';
             } catch (\Throwable $e) {
-                Log::warning("Failed to send verification email to driver {$driver->id}: {$e->getMessage()}");
-                $status .= ' (Notification email could not be sent — check mail settings.)';
+                Log::warning("Failed to queue verification email to driver {$driver->id}: {$e->getMessage()}");
+                $status .= ' (Notification email could not be queued — check mail settings.)';
             }
         } else {
             $status .= ' No email on file, so no notification was sent.';

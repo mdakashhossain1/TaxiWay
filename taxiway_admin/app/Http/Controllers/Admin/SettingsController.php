@@ -8,7 +8,9 @@ use App\Services\OtpService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class SettingsController extends Controller
@@ -70,7 +72,60 @@ class SettingsController extends Controller
             'mailUsername' => env('MAIL_USERNAME'),
             'mailFromAddress' => env('MAIL_FROM_ADDRESS'),
             'mailFromName' => env('MAIL_FROM_NAME'),
+            'queueConnection' => config('queue.default'),
+            'queuePendingCount' => $this->queueTableCount('jobs'),
+            'queueFailedCount' => $this->queueTableCount('failed_jobs'),
         ]);
+    }
+
+    /**
+     * Pushes a trivial closure job onto the real queue connection and
+     * confirms it landed in the jobs table — proves QUEUE_CONNECTION, the
+     * jobs table, and DriverVerifiedMail's ShouldQueue wiring all actually
+     * work, without needing to wait for a real driver to be verified.
+     * Doesn't wait for it to be *processed* — that happens on the next
+     * `queue:work` run (every minute, via routes/console.php's schedule).
+     */
+    public function testQueue(): RedirectResponse
+    {
+        $before = $this->queueTableCount('jobs');
+
+        if ($before === null) {
+            return redirect()->route('settings.mail.edit')->with('queueTestResult', [
+                'success' => false,
+                'message' => "Can't read the jobs table — migrations may not have been run, or the database connection is unreachable.",
+            ]);
+        }
+
+        try {
+            dispatch(function () {
+                Log::info('Queue test job executed at '.now()->toIso8601String());
+            });
+        } catch (\Throwable $e) {
+            return redirect()->route('settings.mail.edit')->with('queueTestResult', [
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
+
+        $after = $this->queueTableCount('jobs');
+
+        return redirect()->route('settings.mail.edit')->with('queueTestResult', [
+            'success' => $after > $before,
+            'message' => $after > $before
+                ? "Job dispatched and confirmed in the jobs table ({$before} → {$after} pending). It'll run on the next scheduled queue:work — check back in a minute to see the pending count drop."
+                : "Dispatch didn't throw, but the pending count didn't increase ({$before} → {$after}) — check QUEUE_CONNECTION in .env.",
+        ]);
+    }
+
+    /** Null-safe count — returns null instead of throwing if the table doesn't exist (schema not migrated) or the DB connection is unreachable. */
+    private function queueTableCount(string $table): ?int
+    {
+        try {
+            return DB::table($table)->count();
+        } catch (\Throwable $e) {
+            return null;
+        }
     }
 
     public function updateMail(Request $request): RedirectResponse
