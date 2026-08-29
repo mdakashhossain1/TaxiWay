@@ -1,4 +1,4 @@
-name: Sync taxiway_admin/ folder → admin branch
+name: Sync taxiway_admin/ folder → taxiway_admin branch
 
 on:
   push:
@@ -8,11 +8,11 @@ on:
       - 'taxiway_admin/**'    # only trigger when files inside taxiway_admin/ change
 
 permissions:
-  contents: write     # allow pushing to admin branch
+  contents: write     # allow pushing to taxiway_admin branch
 
 jobs:
   sync-admin-folder:
-    name: Extract taxiway_admin/ and push to admin branch
+    name: Extract taxiway_admin/ and push to taxiway_admin branch
     runs-on: ubuntu-latest
 
     steps:
@@ -28,11 +28,11 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Push taxiway_admin/ contents (not the folder itself) to admin branch
+      - name: Push taxiway_admin/ contents (not the folder itself) to taxiway_admin branch
         run: |
-          # Switch to admin branch — explicitly reference remote to avoid
-          # ambiguity with the local taxiway_admin/ directory
-          git checkout -B admin origin/admin
+          # Switch to taxiway_admin branch — explicitly reference remote to
+          # avoid ambiguity with the local taxiway_admin/ directory
+          git checkout -B taxiway_admin origin/taxiway_admin
 
           # Wipe all tracked files so the branch is clean
           git rm -rf . --quiet
@@ -50,6 +50,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to sync."
           else
-            git commit -m "sync: update admin branch from main/admin/ [skip ci]"
-            git push origin admin
+            git commit -m "sync: update taxiway_admin branch from main/taxiway_admin/ [skip ci]"
+            git push origin taxiway_admin
           fi
