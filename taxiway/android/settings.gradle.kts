@@ -28,6 +28,8 @@ plugins {
     id("org.jetbrains.kotlin.android") version "2.3.20" apply false
     // Processes android/app/google-services.json for Firebase (Google Sign-In).
     id("com.google.gms.google-services") version "4.4.2" apply false
+    // Uploads native crash symbols / mapping files to Firebase Crashlytics.
+    id("com.google.firebase.crashlytics") version "3.0.8" apply false
 }
 
 include(":app")

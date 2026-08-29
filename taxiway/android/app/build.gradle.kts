@@ -9,6 +9,8 @@ plugins {
     // Requires android/app/google-services.json (from the Firebase console)
     // to be present, or the build fails at configuration time.
     id("com.google.gms.google-services")
+    // Uploads mapping/symbol files so Crashlytics can deobfuscate stack traces.
+    id("com.google.firebase.crashlytics")
 }
 
 // Google Maps API key, kept out of source control in local.properties

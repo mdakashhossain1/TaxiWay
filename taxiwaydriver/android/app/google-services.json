@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "484853390654",
+    "project_id": "taxiway-769fd",
+    "storage_bucket": "taxiway-769fd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:484853390654:android:32760681b4bcdcf1e0606f",
+        "android_client_info": {
+          "package_name": "com.taxiway.driver.arknox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "484853390654-9ondffro3ic1kit6kang2ba8e52vb3f2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.taxiway.driver.arknox",
+            "certificate_hash": "cc0aa2a132533603621aae61ac4a2fdc71f0efba"
+          }
+        },
+        {
+          "client_id": "484853390654-f140hhdnoul95d5apufa1cndmvjdj670.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAKnEA_xZ3FHKruVLqw5QS8y1e3xw14uI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "484853390654-f140hhdnoul95d5apufa1cndmvjdj670.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "484853390654-3d62btrli3pjgjatep9ne3aacae9lq21.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.taxiway.user.arknox"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:484853390654:android:5b568d0dd650c3fde0606f",
+        "android_client_info": {
+          "package_name": "com.taxiway.user.arknox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "484853390654-76rj0hl4nia92bb33fpu4097m6ulhh13.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.taxiway.user.arknox",
+            "certificate_hash": "cc0aa2a132533603621aae61ac4a2fdc71f0efba"
+          }
+        },
+        {
+          "client_id": "484853390654-f140hhdnoul95d5apufa1cndmvjdj670.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAKnEA_xZ3FHKruVLqw5QS8y1e3xw14uI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "484853390654-f140hhdnoul95d5apufa1cndmvjdj670.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "484853390654-3d62btrli3pjgjatep9ne3aacae9lq21.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.taxiway.user.arknox"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

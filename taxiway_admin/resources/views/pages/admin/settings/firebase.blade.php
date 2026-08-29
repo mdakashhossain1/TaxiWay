@@ -35,4 +35,27 @@
             <x-ui.button type="submit">Save Firebase Settings</x-ui.button>
         </form>
     </x-common.component-card>
+
+    <div class="mt-6">
+        <x-common.component-card title="Test Firebase Connection">
+            <p class="mb-5 text-theme-sm text-gray-500 dark:text-gray-400">
+                Signs in as the service account above and writes a throwaway test document to Firestore — catches a wrong Project ID, a missing/invalid key file, or a revoked key now instead of at the first real chat message.
+            </p>
+
+            @if (session('firebaseTestResult'))
+                @php $result = session('firebaseTestResult'); @endphp
+                <div class="mb-5 rounded-lg border p-4 {{ $result['success'] ? 'border-success-200 bg-success-50 dark:border-success-800 dark:bg-success-500/10' : 'border-error-200 bg-error-50 dark:border-error-800 dark:bg-error-500/10' }}">
+                    <p class="text-theme-sm font-medium {{ $result['success'] ? 'text-success-700 dark:text-success-400' : 'text-error-700 dark:text-error-400' }}">
+                        {{ $result['success'] ? 'Connected' : 'Failed' }}
+                    </p>
+                    <pre class="mt-2 max-h-40 overflow-auto rounded bg-white/60 p-2 text-theme-xs text-gray-600 dark:bg-black/20 dark:text-gray-300">{{ $result['message'] }}</pre>
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('settings.firebase.test') }}">
+                @csrf
+                <x-ui.button type="submit" variant="outline">Test Firebase Connection</x-ui.button>
+            </form>
+        </x-common.component-card>
+    </div>
 @endsection
