@@ -19,11 +19,9 @@ pluginManagement {
 
 plugins {
     id("dev.flutter.flutter-plugin-loader") version "1.0.0"
-    id("com.android.application") version "9.1.0" apply false
-    id("org.jetbrains.kotlin.android") version "2.4.0" apply false
-    // Processes android/app/google-services.json for Firebase (Google Sign-In).
+    id("com.android.application") version "9.3.2" apply false
+    id("org.jetbrains.kotlin.android") version "2.3.20" apply false
     id("com.google.gms.google-services") version "4.4.2" apply false
-    // Uploads native crash symbols / mapping files to Firebase Crashlytics.
     id("com.google.firebase.crashlytics") version "3.0.8" apply false
 }
 
