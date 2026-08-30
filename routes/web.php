@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountDeletionController;
+use App\Http\Controllers\Admin\AccountDeletionController as AdminAccountDeletionController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\BulkBookingController as AdminBulkBookingController;
 use App\Http\Controllers\Admin\CalendarController as AdminCalendarController;
@@ -33,6 +34,9 @@ Route::get('/account/delete', [AccountDeletionController::class, 'show'])->name(
 Route::post('/account/delete', [AccountDeletionController::class, 'destroy'])
     ->middleware('throttle:6,1')
     ->name('account.delete.destroy');
+Route::get('/account/delete/confirm/{accountDeletionRequest}', [AccountDeletionController::class, 'confirm'])
+    ->middleware('signed')
+    ->name('account.delete.confirm');
 
 // guest-only authentication pages
 Route::middleware('guest')->group(function () {
@@ -81,6 +85,9 @@ Route::middleware('auth')->group(function () {
     Route::get('customers/{customer}/edit', [AdminCustomerController::class, 'edit'])->name('customers.edit');
     Route::put('customers/{customer}', [AdminCustomerController::class, 'update'])->name('customers.update');
     Route::delete('customers/{customer}', [AdminCustomerController::class, 'destroy'])->name('customers.destroy');
+
+    Route::get('account-deletions', [AdminAccountDeletionController::class, 'index'])->name('account-deletions.index');
+    Route::delete('account-deletions/bulk-destroy', [AdminAccountDeletionController::class, 'bulkDestroy'])->name('account-deletions.bulk-destroy');
 
     Route::get('bookings', [AdminBookingController::class, 'index'])->name('bookings.index');
     Route::delete('bookings/bulk-destroy', [AdminBookingController::class, 'bulkDestroy'])->name('bookings.bulk-destroy');

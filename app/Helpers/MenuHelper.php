@@ -33,7 +33,10 @@ class MenuHelper
             [
                 'icon' => 'user-profile',
                 'name' => 'Customers',
-                'path' => '/customers',
+                'subItems' => [
+                    ['name' => 'Customers', 'path' => '/customers'],
+                    ['name' => 'Account Deletions', 'path' => '/account-deletions'],
+                ],
             ],
             [
                 'icon' => 'authentication',
