@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../data/nominatim_client.dart';
 import '../models/place_location.dart';
 import '../theme/app_colors.dart';
+import '../theme/dark_map_style.dart';
 import '../utils/geo_utils.dart';
 import 'ride_map_view.dart' show kMapFallbackCenter;
 
@@ -98,6 +99,7 @@ class LocationPickerMapState extends State<LocationPickerMap> {
           children: [
             GoogleMap(
               initialCameraPosition: CameraPosition(target: _center, zoom: 16),
+              style: Theme.of(context).brightness == Brightness.dark ? kDarkMapStyle : null,
               onMapCreated: (controller) => _controller = controller,
               onCameraMoveStarted: () => setState(() => _moving = true),
               onCameraMove: (position) => _center = position.target,
@@ -124,12 +126,12 @@ class LocationPickerMapState extends State<LocationPickerMap> {
                 offset: _moving ? const Offset(0, -0.12) : Offset.zero,
                 duration: const Duration(milliseconds: 150),
                 curve: Curves.easeOut,
-                child: const Padding(
+                child: Padding(
                   padding: EdgeInsets.only(bottom: 30),
                   child: Icon(
                     BootstrapIcons.geo_alt_fill,
                     size: 38,
-                    color: AppColors.mapDestination,
+                    color: AppColors.of(context).mapDestination,
                     shadows: [Shadow(color: Color(0x40000000), blurRadius: 4, offset: Offset(0, 2))],
                   ),
                 ),
@@ -150,15 +152,15 @@ class _RecenterFab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.white,
+      color: AppColors.of(context).card,
       shape: const CircleBorder(),
       elevation: 2,
       child: InkWell(
         customBorder: const CircleBorder(),
         onTap: onTap,
-        child: const Padding(
+        child: Padding(
           padding: EdgeInsets.all(10),
-          child: Icon(BootstrapIcons.crosshair, size: 20, color: AppColors.navy),
+          child: Icon(BootstrapIcons.crosshair, size: 20, color: AppColors.of(context).navy),
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import '../theme/app_colors.dart';
 import '../theme/app_radius.dart';
 
 /// Base shimmer container providing consistent lighting and speed.
@@ -17,9 +18,10 @@ class AppShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Shimmer.fromColors(
-      baseColor: baseColor ?? const Color(0xFFE2E8F0),
-      highlightColor: highlightColor ?? const Color(0xFFF8FAFC),
+      baseColor: baseColor ?? (isDark ? AppColors.of(context).surface : const Color(0xFFE2E8F0)),
+      highlightColor: highlightColor ?? (isDark ? AppColors.of(context).border : const Color(0xFFF8FAFC)),
       period: const Duration(milliseconds: 1400),
       child: child,
     );
@@ -127,7 +129,7 @@ class RideListShimmer extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(AppRadius.card),
-            border: Border.all(color: const Color(0xFFE2E8F0)),
+            border: Border.all(color: AppColors.of(context).border),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -166,7 +168,7 @@ class RideListShimmer extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 14),
-              const Divider(height: 1, color: Color(0xFFF1F5F9)),
+              Divider(height: 1, color: AppColors.of(context).border),
               const SizedBox(height: 12),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -199,7 +201,7 @@ class VehicleSelectionShimmer extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(AppRadius.card),
-              border: Border.all(color: const Color(0xFFE2E8F0)),
+              border: Border.all(color: AppColors.of(context).border),
             ),
             child: Row(
               children: const [
@@ -282,7 +284,7 @@ class DashboardShimmer extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(AppRadius.card),
-                border: Border.all(color: const Color(0xFFE2E8F0)),
+                border: Border.all(color: AppColors.of(context).border),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

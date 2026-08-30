@@ -11,6 +11,7 @@ import '../../../../core/utils/geo_utils.dart';
 import '../../../../core/widgets/app_scaffold.dart';
 import '../../../../core/widgets/buttons.dart';
 import '../../../../core/widgets/ride_map_view.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 class DestinationSearchScreen extends ConsumerStatefulWidget {
   const DestinationSearchScreen({super.key});
@@ -119,6 +120,7 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final pickup = ref.read(bookingDraftControllerProvider).pickup ??
         ref.read(placeRepositoryProvider).currentLocation;
 
@@ -126,7 +128,7 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
     final etaMin = distanceKm != null ? ((distanceKm / 28.0) * 60).round().clamp(3, 180) : null;
 
     return AppScaffold(
-      appBar: AppBar(title: const Text('Destination')),
+      appBar: AppBar(title: Text(l10n.destinationLabel)),
       padHorizontal: false,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,10 +151,10 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
             padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
             child: Text(
               _selected != null
-                  ? 'Showing live road route to selected destination. Tap map or search to change.'
-                  : 'Tap on map or search below to see live road route.',
-              style: AppTypography.caption.copyWith(
-                color: _selected != null ? AppColors.primaryDark : AppColors.mutedText,
+                  ? l10n.liveRouteShowingHint
+                  : l10n.tapMapToSeeRouteHint,
+              style: AppTypography.of(context).caption.copyWith(
+                color: _selected != null ? AppColors.of(context).primaryDark : AppColors.of(context).mutedText,
                 fontWeight: _selected != null ? FontWeight.w600 : FontWeight.w400,
               ),
             ),
@@ -164,18 +166,18 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 10),
-                  Text('Where do you want to go?', style: AppTypography.h2),
+                  Text(l10n.whereDoYouWantToGo, style: AppTypography.of(context).h2),
                   const SizedBox(height: 12),
                   // Search text input with clear button
                   TextField(
                     controller: _controller,
                     onChanged: _onQueryChanged,
                     decoration: InputDecoration(
-                      hintText: 'Search destination on real map...',
-                      prefixIcon: const Icon(BootstrapIcons.search, size: 18, color: AppColors.primary),
+                      hintText: l10n.searchDestinationMapHint,
+                      prefixIcon: Icon(BootstrapIcons.search, size: 18, color: AppColors.of(context).primary),
                       suffixIcon: _controller.text.isNotEmpty
                           ? IconButton(
-                              icon: const Icon(Icons.close_rounded, size: 20, color: AppColors.mutedText),
+                              icon: Icon(Icons.close_rounded, size: 20, color: AppColors.of(context).mutedText),
                               onPressed: () {
                                 _controller.clear();
                                 _onQueryChanged('');
@@ -183,19 +185,19 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
                             )
                           : null,
                       filled: true,
-                      fillColor: AppColors.surface,
+                      fillColor: AppColors.of(context).surface,
                       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(AppRadius.input),
-                        borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+                        borderSide: BorderSide(color: AppColors.of(context).primary, width: 1.5),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(AppRadius.input),
-                        borderSide: const BorderSide(color: AppColors.border, width: 1),
+                        borderSide: BorderSide(color: AppColors.of(context).border, width: 1),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(AppRadius.input),
-                        borderSide: const BorderSide(color: AppColors.primary, width: 1.8),
+                        borderSide: BorderSide(color: AppColors.of(context).primary, width: 1.8),
                       ),
                     ),
                   ),
@@ -205,10 +207,10 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
                     children: [
                       Text(
                         _searching
-                            ? 'Closest Matches (${_results.length})'
-                            : 'Recent Search History',
-                        style: AppTypography.label.copyWith(
-                          color: AppColors.secondaryText,
+                            ? l10n.closestMatchesLabel(_results.length)
+                            : l10n.recentSearchHistoryLabel,
+                        style: AppTypography.of(context).label.copyWith(
+                          color: AppColors.of(context).secondaryText,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -219,8 +221,8 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
                             setState(() => _recent.clear());
                           },
                           child: Text(
-                            'Clear all',
-                            style: AppTypography.caption.copyWith(color: AppColors.error),
+                            l10n.clearAllLabel,
+                            style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).error),
                           ),
                         ),
                     ],
@@ -244,8 +246,8 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     child: PrimaryButton(
                       label: _selected != null
-                          ? 'Confirm Destination'
-                          : 'Select Destination from Map / List',
+                          ? l10n.confirmDestinationLabel
+                          : l10n.selectDestinationFromMapLabel,
                       onPressed: _selected != null ? _confirmSelection : null,
                     ),
                   ),
@@ -259,6 +261,7 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
   }
 
   Widget _buildSearchResults(PlaceLocation origin) {
+    final l10n = AppLocalizations.of(context);
     if (_results.isEmpty) {
       return Center(
         child: Padding(
@@ -266,16 +269,16 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(BootstrapIcons.geo_alt, size: 36, color: AppColors.mutedText),
+              Icon(BootstrapIcons.geo_alt, size: 36, color: AppColors.of(context).mutedText),
               const SizedBox(height: 8),
               Text(
-                'No exact match found on map.',
-                style: AppTypography.label,
+                l10n.noExactMatchTitle,
+                style: AppTypography.of(context).label,
               ),
               const SizedBox(height: 4),
               Text(
-                'Tap on the map directly to select this spot.',
-                style: AppTypography.caption,
+                l10n.tapMapDirectlyHint,
+                style: AppTypography.of(context).caption,
               ),
             ],
           ),
@@ -285,7 +288,7 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
 
     return ListView.separated(
       itemCount: _results.length,
-      separatorBuilder: (context, index) => const Divider(height: 1, color: AppColors.border),
+      separatorBuilder: (context, index) => Divider(height: 1, color: AppColors.of(context).border),
       itemBuilder: (context, i) {
         final place = _results[i];
         final isSelected = _selected?.address == place.address;
@@ -296,12 +299,12 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
           leading: Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: isSelected ? AppColors.primaryBackground : AppColors.surface,
+              color: isSelected ? AppColors.of(context).primaryBackground : AppColors.of(context).surface,
               shape: BoxShape.circle,
             ),
             child: Icon(
               BootstrapIcons.geo_alt_fill,
-              color: isSelected ? AppColors.primary : AppColors.secondaryText,
+              color: isSelected ? AppColors.of(context).primary : AppColors.of(context).secondaryText,
               size: 16,
             ),
           ),
@@ -310,23 +313,23 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
               Expanded(
                 child: Text(
                   place.shortName,
-                  style: AppTypography.label.copyWith(
+                  style: AppTypography.of(context).label.copyWith(
                     fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
-                    color: isSelected ? AppColors.primaryDark : AppColors.navy,
+                    color: isSelected ? AppColors.of(context).primaryDark : AppColors.of(context).navy,
                   ),
                 ),
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
-                  color: AppColors.surface,
+                  color: AppColors.of(context).surface,
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
                   '${distanceKm.toStringAsFixed(1)} km',
-                  style: AppTypography.caption.copyWith(
+                  style: AppTypography.of(context).caption.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: AppColors.primaryDark,
+                    color: AppColors.of(context).primaryDark,
                   ),
                 ),
               ),
@@ -334,7 +337,7 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
           ),
           subtitle: Text(
             place.address,
-            style: AppTypography.caption.copyWith(color: AppColors.bodyText),
+            style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).bodyText),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
@@ -347,6 +350,7 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
   }
 
   Widget _buildRecentHistory(PlaceLocation origin) {
+    final l10n = AppLocalizations.of(context);
     if (_recent.isEmpty) {
       return Center(
         child: Padding(
@@ -354,13 +358,13 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(BootstrapIcons.clock_history, size: 36, color: AppColors.mutedText),
+              Icon(BootstrapIcons.clock_history, size: 36, color: AppColors.of(context).mutedText),
               const SizedBox(height: 8),
-              Text('No recent searches', style: AppTypography.label.copyWith(color: AppColors.secondaryText)),
+              Text(l10n.noRecentSearchesTitle, style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).secondaryText)),
               const SizedBox(height: 4),
               Text(
-                'Type above to search real places or tap on the map.',
-                style: AppTypography.caption,
+                l10n.typeAboveToSearchHint,
+                style: AppTypography.of(context).caption,
                 textAlign: TextAlign.center,
               ),
             ],
@@ -371,7 +375,7 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
 
     return ListView.separated(
       itemCount: _recent.length,
-      separatorBuilder: (context, index) => const Divider(height: 1, color: AppColors.border),
+      separatorBuilder: (context, index) => Divider(height: 1, color: AppColors.of(context).border),
       itemBuilder: (context, i) {
         final place = _recent[i];
         final isSelected = _selected?.address == place.address;
@@ -381,21 +385,21 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
           contentPadding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
           leading: Container(
             padding: const EdgeInsets.all(8),
-            decoration: const BoxDecoration(
-              color: AppColors.surface,
+            decoration: BoxDecoration(
+              color: AppColors.of(context).surface,
               shape: BoxShape.circle,
             ),
-            child: const Icon(
+            child: Icon(
               BootstrapIcons.clock_history,
-              color: AppColors.secondaryText,
+              color: AppColors.of(context).secondaryText,
               size: 16,
             ),
           ),
           title: Text(
             place.shortName,
-            style: AppTypography.label.copyWith(
+            style: AppTypography.of(context).label.copyWith(
               fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
-              color: isSelected ? AppColors.primaryDark : AppColors.navy,
+              color: isSelected ? AppColors.of(context).primaryDark : AppColors.of(context).navy,
             ),
           ),
           subtitle: Row(
@@ -403,7 +407,7 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
               Expanded(
                 child: Text(
                   place.address,
-                  style: AppTypography.caption.copyWith(color: AppColors.bodyText),
+                  style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).bodyText),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -411,13 +415,13 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
               const SizedBox(width: 8),
               Text(
                 '${distanceKm.toStringAsFixed(1)} km',
-                style: AppTypography.caption.copyWith(color: AppColors.mutedText),
+                style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).mutedText),
               ),
             ],
           ),
           trailing: IconButton(
-            icon: const Icon(Icons.close_rounded, size: 18, color: AppColors.mutedText),
-            tooltip: 'Remove from history',
+            icon: Icon(Icons.close_rounded, size: 18, color: AppColors.of(context).mutedText),
+            tooltip: l10n.removeFromHistoryTooltip,
             onPressed: () => _deleteRecent(place),
           ),
           selected: isSelected,

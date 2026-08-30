@@ -31,9 +31,9 @@ class LocationCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.of(context).card,
         borderRadius: BorderRadius.circular(AppRadius.card),
-        border: Border.all(color: const Color(0xFFE2E8F0), width: 1.2),
+        border: Border.all(color: AppColors.of(context).border, width: 1.2),
         boxShadow: [
           BoxShadow(
             color: const Color(0xFF0F172A).withValues(alpha: 0.05),
@@ -53,12 +53,12 @@ class LocationCard extends StatelessWidget {
                 width: 12,
                 height: 12,
                 decoration: BoxDecoration(
-                  color: AppColors.success,
+                  color: AppColors.of(context).success,
                   shape: BoxShape.circle,
                   border: Border.all(color: Colors.white, width: 2),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.success.withValues(alpha: 0.35),
+                      color: AppColors.of(context).success.withValues(alpha: 0.35),
                       blurRadius: 4,
                       offset: const Offset(0, 1),
                     ),
@@ -72,9 +72,9 @@ class LocationCard extends StatelessWidget {
                 painter: _DottedLinePainter(color: const Color(0xFFCBD5E1)),
               ),
               const SizedBox(height: 3),
-              const Icon(
+              Icon(
                 BootstrapIcons.geo_alt_fill,
-                color: AppColors.primary,
+                color: AppColors.of(context).primary,
                 size: 16,
               ),
             ],
@@ -97,9 +97,9 @@ class LocationCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'From (Pickup)',
-                          style: AppTypography.caption.copyWith(
-                            color: AppColors.mutedText,
+                          l10n.fromPickupLabel,
+                          style: AppTypography.of(context).caption.copyWith(
+                            color: AppColors.of(context).mutedText,
                             fontSize: 11,
                             fontWeight: FontWeight.w500,
                             letterSpacing: 0.2,
@@ -108,8 +108,8 @@ class LocationCard extends StatelessWidget {
                         const SizedBox(height: 2),
                         Text(
                           pickup?.shortName ?? (pickup?.address ?? l10n.searchPickup),
-                          style: AppTypography.bodyLarge.copyWith(
-                            color: AppColors.navy,
+                          style: AppTypography.of(context).bodyLarge.copyWith(
+                            color: AppColors.of(context).navy,
                             fontWeight: FontWeight.w700,
                             fontSize: 14.5,
                           ),
@@ -121,9 +121,9 @@ class LocationCard extends StatelessWidget {
                   ),
                 ),
 
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 4),
-                  child: Divider(height: 1, thickness: 1, color: Color(0xFFF1F5F9)),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: Divider(height: 1, thickness: 1, color: AppColors.of(context).border),
                 ),
 
                 // To (Destination)
@@ -136,9 +136,9 @@ class LocationCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'To (Destination)',
-                          style: AppTypography.caption.copyWith(
-                            color: AppColors.mutedText,
+                          l10n.toDestinationLabel,
+                          style: AppTypography.of(context).caption.copyWith(
+                            color: AppColors.of(context).mutedText,
                             fontSize: 11,
                             fontWeight: FontWeight.w500,
                             letterSpacing: 0.2,
@@ -148,9 +148,9 @@ class LocationCard extends StatelessWidget {
                         Text(
                           hasDestination
                               ? destination!.shortName
-                              : 'Where do you want to go?',
-                          style: AppTypography.bodyLarge.copyWith(
-                            color: hasDestination ? AppColors.navy : AppColors.primary,
+                              : l10n.whereDoYouWantToGo,
+                          style: AppTypography.of(context).bodyLarge.copyWith(
+                            color: hasDestination ? AppColors.of(context).navy : AppColors.of(context).primary,
                             fontWeight: hasDestination ? FontWeight.w700 : FontWeight.w600,
                             fontSize: 14.5,
                           ),
@@ -178,12 +178,12 @@ class LocationCard extends StatelessWidget {
                 child: InkWell(
                   onTap: onSwap,
                   borderRadius: BorderRadius.circular(10),
-                  child: const Padding(
-                    padding: EdgeInsets.all(8),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
                     child: Icon(
                       BootstrapIcons.arrow_down_up,
                       size: 16,
-                      color: AppColors.primary,
+                      color: AppColors.of(context).primary,
                     ),
                   ),
                 ),

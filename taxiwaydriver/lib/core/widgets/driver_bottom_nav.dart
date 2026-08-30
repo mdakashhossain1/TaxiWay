@@ -18,8 +18,8 @@ class DriverBottomNav extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border(top: BorderSide(color: AppColors.border)),
+        color: AppColors.of(context).card,
+        border: Border(top: BorderSide(color: AppColors.of(context).border)),
       ),
       child: SafeArea(
         child: Padding(
@@ -60,7 +60,7 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = active ? AppColors.primary : AppColors.mutedText;
+    final color = active ? AppColors.of(context).primary : AppColors.of(context).mutedText;
     return InkWell(
       onTap: onTap,
       child: Padding(
@@ -70,7 +70,7 @@ class _NavItem extends StatelessWidget {
           children: [
             Icon(icon, color: color, size: 24),
             const SizedBox(height: 4),
-            Text(label, style: AppTypography.caption.copyWith(color: color, fontWeight: active ? FontWeight.w700 : FontWeight.w500)),
+            Text(label, style: AppTypography.of(context).caption.copyWith(color: color, fontWeight: active ? FontWeight.w700 : FontWeight.w500)),
           ],
         ),
       ),

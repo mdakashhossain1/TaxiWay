@@ -58,11 +58,11 @@ class BulkRequestDetailsScreen extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(request.id, style: AppTypography.h3),
+              Text(request.id, style: AppTypography.of(context).h3),
               StatusBadge(label: bulkStatusLabel(request.status), variant: _variant(request.status)),
             ],
           ),
-          Text(DateFormat('dd MMM yyyy, hh:mm a').format(request.createdAt), style: AppTypography.caption),
+          Text(DateFormat('dd MMM yyyy, hh:mm a').format(request.createdAt), style: AppTypography.of(context).caption),
           const SizedBox(height: 16),
           RideMapView(
             pickup: request.pickup,
@@ -76,7 +76,7 @@ class BulkRequestDetailsScreen extends ConsumerWidget {
           const SizedBox(height: 16),
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(AppRadius.card), border: Border.all(color: AppColors.border)),
+            decoration: BoxDecoration(color: AppColors.of(context).card, borderRadius: BorderRadius.circular(AppRadius.card), border: Border.all(color: AppColors.of(context).border)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -94,19 +94,19 @@ class BulkRequestDetailsScreen extends ConsumerWidget {
           const SizedBox(height: 20),
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(AppRadius.card)),
+            decoration: BoxDecoration(color: AppColors.of(context).surface, borderRadius: BorderRadius.circular(AppRadius.card)),
             child: Row(
               children: [
-                const SizedBox(
+                SizedBox(
                   width: 20,
                   height: 20,
-                  child: CircularProgressIndicator(strokeWidth: 2.4, color: AppColors.primary),
+                  child: CircularProgressIndicator(strokeWidth: 2.4, color: AppColors.of(context).primary),
                 ),
                 const SizedBox(width: 14),
                 Expanded(
                   child: Text(
                     "We're arranging vehicles for your trip. You'll be notified when an offer is ready.",
-                    style: AppTypography.body,
+                    style: AppTypography.of(context).body,
                   ),
                 ),
               ],
@@ -132,8 +132,8 @@ class _Row extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(width: 100, child: Text(label, style: AppTypography.caption)),
-          Expanded(child: Text(value, style: AppTypography.label, textAlign: TextAlign.right)),
+          SizedBox(width: 100, child: Text(label, style: AppTypography.of(context).caption)),
+          Expanded(child: Text(value, style: AppTypography.of(context).label, textAlign: TextAlign.right)),
         ],
       ),
     );

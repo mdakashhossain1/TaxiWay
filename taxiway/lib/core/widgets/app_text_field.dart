@@ -31,7 +31,7 @@ class AppTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (label != null) ...[
-          Text(label!, style: AppTypography.label),
+          Text(label!, style: AppTypography.of(context).label),
           const SizedBox(height: 8),
         ],
         TextField(
@@ -40,7 +40,7 @@ class AppTextField extends StatelessWidget {
           keyboardType: keyboardType,
           maxLines: maxLines,
           onChanged: onChanged,
-          style: AppTypography.bodyLarge,
+          style: AppTypography.of(context).bodyLarge,
           decoration: InputDecoration(
             hintText: hint,
             prefixIcon: prefixIcon == null ? null : Icon(prefixIcon, size: 20),

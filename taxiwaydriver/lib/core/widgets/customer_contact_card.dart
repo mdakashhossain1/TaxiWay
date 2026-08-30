@@ -24,26 +24,26 @@ class CustomerContactCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.of(context).card,
         borderRadius: BorderRadius.circular(AppRadius.card),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: AppColors.of(context).border),
       ),
       child: Row(
         children: [
           Container(
             width: 48,
             height: 48,
-            decoration: const BoxDecoration(color: AppColors.surface, shape: BoxShape.circle),
-            child: const Icon(BootstrapIcons.person_fill, color: AppColors.mutedText, size: 24),
+            decoration: BoxDecoration(color: AppColors.of(context).surface, shape: BoxShape.circle),
+            child: Icon(BootstrapIcons.person_fill, color: AppColors.of(context).mutedText, size: 24),
           ),
           const SizedBox(width: 14),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(customerName, style: AppTypography.label.copyWith(fontWeight: FontWeight.w700)),
+                Text(customerName, style: AppTypography.of(context).label.copyWith(fontWeight: FontWeight.w700)),
                 const SizedBox(height: 2),
-                Text(vehicleCategory, style: AppTypography.caption),
+                Text(vehicleCategory, style: AppTypography.of(context).caption),
               ],
             ),
           ),

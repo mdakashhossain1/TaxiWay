@@ -30,7 +30,7 @@ class RideCompletedScreen extends ConsumerWidget {
     return AppScaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('Trip Completed', style: AppTypography.h2.copyWith(fontSize: 18, color: AppColors.navy)),
+        title: Text('Trip Completed', style: AppTypography.of(context).h2.copyWith(fontSize: 18, color: AppColors.of(context).navy)),
       ),
       scrollable: true,
       body: Column(
@@ -44,12 +44,12 @@ class RideCompletedScreen extends ConsumerWidget {
                 const SizedBox(height: 14),
                 Text(
                   'Ride Completed!',
-                  style: AppTypography.h1.copyWith(fontSize: 24, color: AppColors.navy, fontWeight: FontWeight.w700),
+                  style: AppTypography.of(context).h1.copyWith(fontSize: 24, color: AppColors.of(context).navy, fontWeight: FontWeight.w700),
                 ).animate().fadeIn(delay: 150.ms, duration: 300.ms).slideY(begin: 0.15, end: 0),
                 const SizedBox(height: 4),
                 Text(
                   'Hope you enjoyed your ride with Taxiway.',
-                  style: AppTypography.body.copyWith(color: AppColors.bodyText),
+                  style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).bodyText),
                 ),
               ],
             ),
@@ -60,9 +60,9 @@ class RideCompletedScreen extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
-              color: AppColors.primaryBackground,
+              color: AppColors.of(context).primaryBackground,
               borderRadius: BorderRadius.circular(AppRadius.card),
-              border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
+              border: Border.all(color: AppColors.of(context).primary.withValues(alpha: 0.3)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,19 +70,19 @@ class RideCompletedScreen extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Total Paid', style: AppTypography.label.copyWith(fontSize: 15, color: AppColors.navy)),
+                    Text('Total Paid', style: AppTypography.of(context).label.copyWith(fontSize: 15, color: AppColors.of(context).navy)),
                     Text(
                       formatRupees(booking.fare.total),
-                      style: AppTypography.h1.copyWith(
+                      style: AppTypography.of(context).h1.copyWith(
                         fontSize: 24,
-                        color: AppColors.primaryDark,
+                        color: AppColors.of(context).primaryDark,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 10),
-                Container(height: 1, color: AppColors.primary.withValues(alpha: 0.15)),
+                Container(height: 1, color: AppColors.of(context).primary.withValues(alpha: 0.15)),
                 const SizedBox(height: 10),
                 _Detail('Payment Method', booking.paymentMethod.toUpperCase()),
                 _Detail('Payment Status', booking.paymentStatus),
@@ -96,9 +96,9 @@ class RideCompletedScreen extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.of(context).card,
               borderRadius: BorderRadius.circular(AppRadius.card),
-              border: Border.all(color: const Color(0xFFE2E8F0)),
+              border: Border.all(color: AppColors.of(context).border),
               boxShadow: [
                 BoxShadow(
                   color: const Color(0xFF0F172A).withValues(alpha: 0.04),
@@ -112,7 +112,7 @@ class RideCompletedScreen extends ConsumerWidget {
               children: [
                 Text(
                   'Trip Details',
-                  style: AppTypography.h3.copyWith(fontSize: 16, color: AppColors.navy),
+                  style: AppTypography.of(context).h3.copyWith(fontSize: 16, color: AppColors.of(context).navy),
                 ),
                 const SizedBox(height: 12),
                 _Detail('Pickup', booking.pickup.shortName),
@@ -159,14 +159,14 @@ class _Detail extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: AppTypography.caption.copyWith(color: AppColors.mutedText, fontSize: 13)),
+          Text(label, style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).mutedText, fontSize: 13)),
           Flexible(
             child: Text(
               value,
-              style: AppTypography.bodyLarge.copyWith(
+              style: AppTypography.of(context).bodyLarge.copyWith(
                 fontWeight: FontWeight.w600,
                 fontSize: 13,
-                color: AppColors.navy,
+                color: AppColors.of(context).navy,
               ),
               textAlign: TextAlign.right,
             ),

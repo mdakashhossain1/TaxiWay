@@ -27,10 +27,10 @@ Future<void> showLanguagePickerSheet(BuildContext context, WidgetRef ref) {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: Container(width: 36, height: 4, decoration: BoxDecoration(color: AppColors.border, borderRadius: BorderRadius.circular(2))),
+              child: Container(width: 36, height: 4, decoration: BoxDecoration(color: AppColors.of(context).border, borderRadius: BorderRadius.circular(2))),
             ),
             const SizedBox(height: 16),
-            Text(l10n.languagePickerTitle, style: AppTypography.h3),
+            Text(l10n.languagePickerTitle, style: AppTypography.of(context).h3),
             const SizedBox(height: 14),
             ...kSupportedLocales.map(
               (locale) => LanguageTile(

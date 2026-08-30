@@ -37,7 +37,7 @@ class BulkBookingConfirmedScreen extends ConsumerWidget {
         children: [
           const AnimatedSuccessCheck(size: 50, iconSize: 30),
           const SizedBox(height: 14),
-          Text('Bulk Booking Confirmed', style: AppTypography.h1)
+          Text('Bulk Booking Confirmed', style: AppTypography.of(context).h1)
               .animate()
               .fadeIn(delay: 150.ms, duration: 350.ms)
               .slideY(begin: 0.15, end: 0, delay: 150.ms, duration: 350.ms),
@@ -54,7 +54,7 @@ class BulkBookingConfirmedScreen extends ConsumerWidget {
           const SizedBox(height: 18),
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(AppRadius.card), border: Border.all(color: AppColors.border)),
+            decoration: BoxDecoration(color: AppColors.of(context).card, borderRadius: BorderRadius.circular(AppRadius.card), border: Border.all(color: AppColors.of(context).border)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -69,19 +69,19 @@ class BulkBookingConfirmedScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 20),
-          Text('Your Drivers', style: AppTypography.h3),
+          Text('Your Drivers', style: AppTypography.of(context).h3),
           const SizedBox(height: 10),
           for (final v in offer.vehicles)
             Container(
               margin: const EdgeInsets.only(bottom: 10),
               padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(AppRadius.medium)),
+              decoration: BoxDecoration(color: AppColors.of(context).surface, borderRadius: BorderRadius.circular(AppRadius.medium)),
               child: Row(
                 children: [
                   Container(
                     width: 40,
                     height: 40,
-                    decoration: const BoxDecoration(color: AppColors.navySecondary, shape: BoxShape.circle),
+                    decoration: BoxDecoration(color: AppColors.of(context).navySecondary, shape: BoxShape.circle),
                     child: const Icon(BootstrapIcons.person_fill, color: Colors.white, size: 20),
                   ),
                   const SizedBox(width: 12),
@@ -89,12 +89,12 @@ class BulkBookingConfirmedScreen extends ConsumerWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(v.driverName, style: AppTypography.label),
+                        Text(v.driverName, style: AppTypography.of(context).label),
                         Row(
                           children: [
                             RatingStars(rating: v.rating, size: 12),
                             const SizedBox(width: 4),
-                            Text('${v.vehicleModel} · ${v.registrationNumber}', style: AppTypography.caption),
+                            Text('${v.vehicleModel} · ${v.registrationNumber}', style: AppTypography.of(context).caption),
                           ],
                         ),
                       ],
@@ -130,8 +130,8 @@ class _Row extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: AppTypography.caption),
-          Flexible(child: Text(value, style: AppTypography.label, textAlign: TextAlign.right)),
+          Text(label, style: AppTypography.of(context).caption),
+          Flexible(child: Text(value, style: AppTypography.of(context).label, textAlign: TextAlign.right)),
         ],
       ),
     );

@@ -9,49 +9,55 @@ import 'app_typography.dart';
 class AppTheme {
   AppTheme._();
 
-  static ThemeData get light {
-    final base = ThemeData(useMaterial3: true, brightness: Brightness.light);
+  static ThemeData get light => _build(Brightness.light, AppColorsExtension.light);
+
+  static ThemeData get dark => _build(Brightness.dark, AppColorsExtension.dark);
+
+  static ThemeData _build(Brightness brightness, AppColorsExtension colors) {
+    final base = ThemeData(useMaterial3: true, brightness: brightness);
+    final typography = AppTypographyExtension.build(colors: colors);
 
     return base.copyWith(
-      scaffoldBackgroundColor: AppColors.appBackground,
+      scaffoldBackgroundColor: colors.appBackground,
       colorScheme: base.colorScheme.copyWith(
-        primary: AppColors.primary,
+        primary: colors.primary,
         onPrimary: Colors.white,
-        secondary: AppColors.primaryDark,
-        surface: AppColors.card,
-        error: AppColors.error,
+        secondary: colors.primaryDark,
+        surface: colors.card,
+        error: colors.error,
       ),
+      extensions: [colors, typography],
       textTheme: GoogleFonts.plusJakartaSansTextTheme(
         TextTheme(
-          displayLarge: AppTypography.display,
-          headlineLarge: AppTypography.h1,
-          headlineMedium: AppTypography.h2,
-          titleMedium: AppTypography.h3,
-          bodyLarge: AppTypography.bodyLarge,
-          bodyMedium: AppTypography.body,
-          labelLarge: AppTypography.label,
-          bodySmall: AppTypography.caption,
-          labelSmall: AppTypography.caption,
+          displayLarge: typography.display,
+          headlineLarge: typography.h1,
+          headlineMedium: typography.h2,
+          titleMedium: typography.h3,
+          bodyLarge: typography.bodyLarge,
+          bodyMedium: typography.body,
+          labelLarge: typography.label,
+          bodySmall: typography.caption,
+          labelSmall: typography.caption,
         ),
       ),
       appBarTheme: AppBarTheme(
-        backgroundColor: AppColors.appBackground,
+        backgroundColor: colors.appBackground,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         centerTitle: false,
-        iconTheme: const IconThemeData(color: AppColors.navy),
-        titleTextStyle: AppTypography.h3,
+        iconTheme: IconThemeData(color: colors.navy),
+        titleTextStyle: typography.h3,
       ),
       actionIconTheme: ActionIconThemeData(
         backButtonIconBuilder: (context) => const AppBackButton(),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primary,
+          backgroundColor: colors.primary,
           foregroundColor: Colors.white,
-          disabledBackgroundColor: AppColors.mutedText.withValues(alpha: 0.4),
+          disabledBackgroundColor: colors.mutedText.withValues(alpha: 0.4),
           minimumSize: const Size.fromHeight(52),
-          textStyle: AppTypography.button,
+          textStyle: typography.button,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.button),
           ),
@@ -60,10 +66,10 @@ class AppTheme {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.navy,
+          foregroundColor: colors.navy,
           minimumSize: const Size.fromHeight(52),
-          textStyle: AppTypography.button,
-          side: const BorderSide(color: AppColors.border),
+          textStyle: typography.button,
+          side: BorderSide(color: colors.border),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.button),
           ),
@@ -71,23 +77,23 @@ class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.card,
-        hintStyle: AppTypography.bodyLarge.copyWith(color: AppColors.mutedText),
+        fillColor: colors.card,
+        hintStyle: typography.bodyLarge.copyWith(color: colors.mutedText),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.input),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: colors.border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.input),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: colors.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.input),
-          borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+          borderSide: BorderSide(color: colors.primary, width: 1.5),
         ),
       ),
-      dividerTheme: const DividerThemeData(color: AppColors.border, thickness: 1, space: 1),
+      dividerTheme: DividerThemeData(color: colors.border, thickness: 1, space: 1),
       splashFactory: NoSplash.splashFactory,
       highlightColor: Colors.transparent,
     );

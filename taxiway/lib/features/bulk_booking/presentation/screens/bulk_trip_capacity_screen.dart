@@ -181,13 +181,13 @@ class _TripTypeTab extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 12),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: selected ? AppColors.primaryBackground : Colors.white,
+          color: selected ? AppColors.of(context).primaryBackground : AppColors.of(context).card,
           borderRadius: BorderRadius.circular(AppRadius.medium),
-          border: Border.all(color: selected ? AppColors.primary : AppColors.border),
+          border: Border.all(color: selected ? AppColors.of(context).primary : AppColors.of(context).border),
         ),
         child: Text(
           label,
-          style: AppTypography.label.copyWith(color: selected ? AppColors.primaryDark : AppColors.navy),
+          style: AppTypography.of(context).label.copyWith(color: selected ? AppColors.of(context).primaryDark : AppColors.of(context).navy),
         ),
       ),
     );
@@ -208,21 +208,21 @@ class _DateTimeField extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: AppTypography.label),
+          Text(label, style: AppTypography.of(context).label),
           const SizedBox(height: 8),
           Container(
             height: 52,
             padding: const EdgeInsets.symmetric(horizontal: 14),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.of(context).card,
               borderRadius: BorderRadius.circular(AppRadius.input),
-              border: Border.all(color: AppColors.border),
+              border: Border.all(color: AppColors.of(context).border),
             ),
             child: Row(
               children: [
-                Icon(icon, size: 18, color: AppColors.mutedText),
+                Icon(icon, size: 18, color: AppColors.of(context).mutedText),
                 const SizedBox(width: 8),
-                Expanded(child: Text(value, style: AppTypography.body.copyWith(color: AppColors.navy), overflow: TextOverflow.ellipsis)),
+                Expanded(child: Text(value, style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).navy), overflow: TextOverflow.ellipsis)),
               ],
             ),
           ),

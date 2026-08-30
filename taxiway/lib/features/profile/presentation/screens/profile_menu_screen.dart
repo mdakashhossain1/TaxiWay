@@ -21,17 +21,17 @@ class ProfileMenuScreen extends ConsumerWidget {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.card)),
-        title: Text(l10n.logout, style: AppTypography.h3.copyWith(color: AppColors.navy)),
-        content: Text(l10n.logoutConfirmBody, style: AppTypography.body),
+        title: Text(l10n.logout, style: AppTypography.of(context).h3.copyWith(color: AppColors.of(context).navy)),
+        content: Text(l10n.logoutConfirmBody, style: AppTypography.of(context).body),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: Text(l10n.cancel, style: AppTypography.label.copyWith(color: AppColors.mutedText)),
+            child: Text(l10n.cancel, style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).mutedText)),
           ),
           ElevatedButton(
             onPressed: () => Navigator.of(context).pop(true),
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.error,
+              backgroundColor: AppColors.of(context).error,
               foregroundColor: Colors.white,
               elevation: 0,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.button)),
@@ -56,7 +56,7 @@ class ProfileMenuScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(
           l10n.profileTitle,
-          style: AppTypography.h2.copyWith(fontSize: 18, color: AppColors.navy),
+          style: AppTypography.of(context).h2.copyWith(fontSize: 18, color: AppColors.of(context).navy),
         ),
       ),
       scrollable: true,
@@ -69,9 +69,9 @@ class ProfileMenuScreen extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.of(context).card,
               borderRadius: BorderRadius.circular(AppRadius.card),
-              border: Border.all(color: const Color(0xFFE2E8F0), width: 1.2),
+              border: Border.all(color: AppColors.of(context).border, width: 1.2),
               boxShadow: [
                 BoxShadow(
                   color: const Color(0xFF0F172A).withValues(alpha: 0.04),
@@ -100,16 +100,16 @@ class ProfileMenuScreen extends ConsumerWidget {
                     children: [
                       Text(
                         customer?.name ?? l10n.guest,
-                        style: AppTypography.h2.copyWith(fontSize: 18, color: AppColors.navy),
+                        style: AppTypography.of(context).h2.copyWith(fontSize: 18, color: AppColors.of(context).navy),
                       ),
                       const SizedBox(height: 2),
                       Row(
                         children: [
-                          const Icon(BootstrapIcons.telephone, size: 12, color: AppColors.primary),
+                          Icon(BootstrapIcons.telephone, size: 12, color: AppColors.of(context).primary),
                           const SizedBox(width: 4),
                           Text(
                             '+91 ${customer?.phone ?? ''}',
-                            style: AppTypography.body.copyWith(color: AppColors.bodyText, fontSize: 13),
+                            style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).bodyText, fontSize: 13),
                           ),
                         ],
                       ),
@@ -188,9 +188,9 @@ class _MenuSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.of(context).card,
         borderRadius: BorderRadius.circular(AppRadius.card),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
+        border: Border.all(color: AppColors.of(context).border),
       ),
       child: Column(
         children: children,
@@ -209,7 +209,7 @@ class _MenuTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = destructive ? AppColors.error : AppColors.navy;
+    final color = destructive ? AppColors.of(context).error : AppColors.of(context).navy;
     return InkWell(
       onTap: onTap,
       child: Padding(
@@ -221,14 +221,14 @@ class _MenuTile extends StatelessWidget {
             Expanded(
               child: Text(
                 label,
-                style: AppTypography.bodyLarge.copyWith(
+                style: AppTypography.of(context).bodyLarge.copyWith(
                   color: color,
                   fontWeight: FontWeight.w600,
                   fontSize: 14,
                 ),
               ),
             ),
-            if (!destructive) const Icon(BootstrapIcons.chevron_right, size: 14, color: AppColors.mutedText),
+            if (!destructive) Icon(BootstrapIcons.chevron_right, size: 14, color: AppColors.of(context).mutedText),
           ],
         ),
       ),

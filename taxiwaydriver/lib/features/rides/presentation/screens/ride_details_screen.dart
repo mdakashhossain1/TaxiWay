@@ -29,7 +29,7 @@ class RideDetailsScreen extends ConsumerWidget {
     final isCompleted = ride.status == DriverRideStatus.completed;
 
     return AppScaffold(
-      appBar: AppBar(title: Text(l10n.rideDetailsTitle, style: AppTypography.h2)),
+      appBar: AppBar(title: Text(l10n.rideDetailsTitle, style: AppTypography.of(context).h2)),
       scrollable: true,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,9 +39,9 @@ class RideDetailsScreen extends ConsumerWidget {
             width: double.infinity,
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.of(context).card,
               borderRadius: BorderRadius.circular(AppRadius.card),
-              border: Border.all(color: AppColors.border),
+              border: Border.all(color: AppColors.of(context).border),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +58,7 @@ class RideDetailsScreen extends ConsumerWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(l10n.paymentStatusLabel, style: AppTypography.caption),
+                      Text(l10n.paymentStatusLabel, style: AppTypography.of(context).caption),
                       StatusBadge(
                         label: isPaid ? l10n.paid : l10n.pending,
                         variant: isPaid ? BadgeVariant.verified : BadgeVariant.pending,
@@ -71,7 +71,7 @@ class RideDetailsScreen extends ConsumerWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(l10n.rideStatusLabel, style: AppTypography.caption),
+                      Text(l10n.rideStatusLabel, style: AppTypography.of(context).caption),
                       StatusBadge(
                         label: isCompleted ? l10n.completedTab : l10n.upcomingTab,
                         variant: isCompleted ? BadgeVariant.verified : BadgeVariant.pending,
@@ -144,11 +144,11 @@ class _InfoRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: AppTypography.caption),
+          Text(label, style: AppTypography.of(context).caption),
           Flexible(
             child: Text(
               value,
-              style: AppTypography.label.copyWith(fontWeight: FontWeight.w600),
+              style: AppTypography.of(context).label.copyWith(fontWeight: FontWeight.w600),
               textAlign: TextAlign.right,
             ),
           ),

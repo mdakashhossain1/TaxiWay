@@ -94,7 +94,7 @@ class _IncomingRideOfferScreenState extends ConsumerState<IncomingRideOfferScree
     final expired = _secondsLeft <= 0;
 
     return AppScaffold(
-      appBar: AppBar(title: Text('New Ride Offer', style: AppTypography.h2), automaticallyImplyLeading: false),
+      appBar: AppBar(title: Text('New Ride Offer', style: AppTypography.of(context).h2), automaticallyImplyLeading: false),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -104,13 +104,13 @@ class _IncomingRideOfferScreenState extends ConsumerState<IncomingRideOfferScree
               width: 84,
               height: 84,
               decoration: BoxDecoration(
-                color: expired ? AppColors.surface : AppColors.primaryBackground,
+                color: expired ? AppColors.of(context).surface : AppColors.of(context).primaryBackground,
                 shape: BoxShape.circle,
               ),
               child: Center(
                 child: Text(
                   expired ? '0s' : '${_secondsLeft}s',
-                  style: AppTypography.h2.copyWith(color: expired ? AppColors.mutedText : AppColors.primaryDark),
+                  style: AppTypography.of(context).h2.copyWith(color: expired ? AppColors.of(context).mutedText : AppColors.of(context).primaryDark),
                 ),
               ),
             ),
@@ -120,31 +120,31 @@ class _IncomingRideOfferScreenState extends ConsumerState<IncomingRideOfferScree
             width: double.infinity,
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.of(context).card,
               borderRadius: BorderRadius.circular(AppRadius.card),
-              border: Border.all(color: AppColors.border),
+              border: Border.all(color: AppColors.of(context).border),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _RoutePoint(color: AppColors.success, text: ride.pickup),
-                const Padding(
-                  padding: EdgeInsets.only(left: 4),
-                  child: SizedBox(height: 14, child: VerticalDivider(width: 1, thickness: 1.5, color: AppColors.borderStrong)),
+                _RoutePoint(color: AppColors.of(context).success, text: ride.pickup),
+                Padding(
+                  padding: const EdgeInsets.only(left: 4),
+                  child: SizedBox(height: 14, child: VerticalDivider(width: 1, thickness: 1.5, color: AppColors.of(context).borderStrong)),
                 ),
-                _RoutePoint(color: AppColors.primary, text: ride.destination),
+                _RoutePoint(color: AppColors.of(context).primary, text: ride.destination),
                 const SizedBox(height: 12),
-                Container(height: 1, color: AppColors.border),
+                Container(height: 1, color: AppColors.of(context).border),
                 const SizedBox(height: 12),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Customer: ${ride.customerName}', style: AppTypography.body),
-                    Text(ride.vehicleCategory, style: AppTypography.body),
+                    Text('Customer: ${ride.customerName}', style: AppTypography.of(context).body),
+                    Text(ride.vehicleCategory, style: AppTypography.of(context).body),
                   ],
                 ),
                 const SizedBox(height: 6),
-                Text('Fare: ${formatRupees(ride.fare)}', style: AppTypography.h3.copyWith(color: AppColors.primaryDark)),
+                Text('Fare: ${formatRupees(ride.fare)}', style: AppTypography.of(context).h3.copyWith(color: AppColors.of(context).primaryDark)),
               ],
             ),
           ),
@@ -153,7 +153,7 @@ class _IncomingRideOfferScreenState extends ConsumerState<IncomingRideOfferScree
             Center(
               child: Text(
                 'This offer has expired.',
-                style: AppTypography.body.copyWith(color: AppColors.mutedText),
+                style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).mutedText),
               ),
             )
           else ...[
@@ -185,7 +185,7 @@ class _RoutePoint extends StatelessWidget {
       children: [
         Container(width: 8, height: 8, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
         const SizedBox(width: 10),
-        Expanded(child: Text(text, style: AppTypography.body.copyWith(fontWeight: FontWeight.w600))),
+        Expanded(child: Text(text, style: AppTypography.of(context).body.copyWith(fontWeight: FontWeight.w600))),
       ],
     );
   }

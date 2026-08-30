@@ -18,10 +18,10 @@ class GoogleSignInButton extends StatelessWidget {
       child: OutlinedButton(
         onPressed: loading ? null : onPressed,
         style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.navy,
-          side: const BorderSide(color: AppColors.primaryBorder),
+          foregroundColor: AppColors.of(context).navy,
+          side: BorderSide(color: AppColors.of(context).primaryBorder),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.button)),
-          textStyle: AppTypography.button,
+          textStyle: AppTypography.of(context).button,
         ),
         child: loading
             ? const SizedBox(
@@ -51,12 +51,12 @@ class OrDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Expanded(child: Divider(color: AppColors.primaryBorder)),
+        Expanded(child: Divider(color: AppColors.of(context).primaryBorder)),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Text('OR', style: AppTypography.caption.copyWith(color: AppColors.bodyText)),
+          child: Text('OR', style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).bodyText)),
         ),
-        const Expanded(child: Divider(color: AppColors.primaryBorder)),
+        Expanded(child: Divider(color: AppColors.of(context).primaryBorder)),
       ],
     );
   }

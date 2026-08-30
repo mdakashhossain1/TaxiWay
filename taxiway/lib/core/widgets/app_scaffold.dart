@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart' hide RefreshCallback;
+import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
 import 'app_back_button.dart';
 
@@ -13,6 +15,11 @@ class AppScaffold extends StatelessWidget {
   final bool padHorizontal;
   final bool scrollable;
 
+  /// When set (and [scrollable] is true), wraps the scroll view in a
+  /// [LiquidPullToRefresh] instead of a plain [SingleChildScrollView] —
+  /// pull down from the top to trigger it.
+  final RefreshCallback? onRefresh;
+
   const AppScaffold({
     super.key,
     this.appBar,
@@ -20,6 +27,7 @@ class AppScaffold extends StatelessWidget {
     this.bottomBar,
     this.padHorizontal = true,
     this.scrollable = false,
+    this.onRefresh,
   });
 
   /// Returns an [AppBar] with the custom circular [AppBackButton] injected as [leading].
@@ -64,10 +72,27 @@ class AppScaffold extends StatelessWidget {
     }
 
     final bar = bottomBar;
+    final scrollView = SingleChildScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      child: content,
+    );
+
+    Widget scrollableBody = scrollView;
+    if (scrollable && onRefresh != null) {
+      scrollableBody = LiquidPullToRefresh(
+        onRefresh: onRefresh!,
+        color: AppColors.of(context).primary,
+        backgroundColor: AppColors.of(context).card,
+        height: 90,
+        showChildOpacityTransition: false,
+        child: scrollView,
+      );
+    }
+
     return Scaffold(
       appBar: effectiveAppBar,
       body: SafeArea(
-        child: scrollable ? SingleChildScrollView(child: content) : content,
+        child: scrollable ? scrollableBody : content,
       ),
       bottomNavigationBar: bar == null
           ? null

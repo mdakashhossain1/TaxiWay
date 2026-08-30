@@ -13,7 +13,7 @@ class TaxiwayPinLogo extends StatelessWidget {
       width: size,
       height: size * 1.18,
       child: CustomPaint(
-        painter: _PinPainter(color: AppColors.primary),
+        painter: _PinPainter(color: AppColors.of(context).primary),
         child: Padding(
           padding: EdgeInsets.only(bottom: size * 0.18),
           child: Center(
@@ -145,7 +145,7 @@ class PhoneAuthHeroIllustration extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                     decoration: BoxDecoration(
-                      color: AppColors.primary,
+                      color: AppColors.of(context).primary,
                       borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(12),
                         topRight: Radius.circular(12),
@@ -154,7 +154,7 @@ class PhoneAuthHeroIllustration extends StatelessWidget {
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.primary.withValues(alpha: 0.35),
+                          color: AppColors.of(context).primary.withValues(alpha: 0.35),
                           blurRadius: 8,
                           offset: const Offset(0, 4),
                         ),
@@ -270,11 +270,11 @@ class OtpHeroIllustration extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: AppColors.primary,
+                      color: AppColors.of(context).primary,
                       borderRadius: BorderRadius.circular(10),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.primary.withValues(alpha: 0.35),
+                          color: AppColors.of(context).primary.withValues(alpha: 0.35),
                           blurRadius: 10,
                           offset: const Offset(0, 4),
                         ),
@@ -310,8 +310,8 @@ class OtpHeroIllustration extends StatelessWidget {
               ),
               child: Container(
                 padding: const EdgeInsets.all(5),
-                decoration: const BoxDecoration(
-                  color: AppColors.success,
+                decoration: BoxDecoration(
+                  color: AppColors.of(context).success,
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(

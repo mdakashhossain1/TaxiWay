@@ -1,5 +1,6 @@
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../models/vehicle_category.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_radius.dart';
@@ -38,6 +39,7 @@ class VehicleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
@@ -45,16 +47,16 @@ class VehicleCard extends StatelessWidget {
         width: 148,
         padding: const EdgeInsets.fromLTRB(10, 10, 10, 8),
         decoration: BoxDecoration(
-          color: selected ? AppColors.primaryBackground : Colors.white,
+          color: selected ? AppColors.of(context).primaryBackground : AppColors.of(context).card,
           borderRadius: BorderRadius.circular(AppRadius.card),
           border: Border.all(
-            color: selected ? AppColors.primary : const Color(0xFFE2E8F0),
+            color: selected ? AppColors.of(context).primary : AppColors.of(context).border,
             width: selected ? 2.0 : 1.2,
           ),
           boxShadow: [
             BoxShadow(
               color: selected
-                  ? AppColors.primary.withValues(alpha: 0.15)
+                  ? AppColors.of(context).primary.withValues(alpha: 0.15)
                   : const Color(0xFF0F172A).withValues(alpha: 0.04),
               blurRadius: selected ? 10 : 6,
               offset: const Offset(0, 3),
@@ -82,7 +84,7 @@ class VehicleCard extends StatelessWidget {
                         errorBuilder: (context, error, stackTrace) => Center(
                           child: Icon(
                             BootstrapIcons.car_front_fill,
-                            color: selected ? AppColors.primary : AppColors.navy,
+                            color: selected ? AppColors.of(context).primary : AppColors.of(context).navy,
                             size: 26,
                           ),
                         ),
@@ -93,7 +95,7 @@ class VehicleCard extends StatelessWidget {
                         errorBuilder: (context, error, stackTrace) => Center(
                           child: Icon(
                             BootstrapIcons.car_front_fill,
-                            color: selected ? AppColors.primary : AppColors.navy,
+                            color: selected ? AppColors.of(context).primary : AppColors.of(context).navy,
                             size: 26,
                           ),
                         ),
@@ -104,11 +106,11 @@ class VehicleCard extends StatelessWidget {
 
             // Vehicle Category Title (e.g. 3 Seater Hatchback)
             Text(
-              '${category.seats} Seater\n${category.name}',
-              style: AppTypography.caption.copyWith(
+              '${l10n.seaterCount(category.seats)}\n${category.name}',
+              style: AppTypography.of(context).caption.copyWith(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: AppColors.navy,
+                color: AppColors.of(context).navy,
                 height: 1.2,
               ),
               maxLines: 2,
@@ -119,10 +121,10 @@ class VehicleCard extends StatelessWidget {
             // Price in Bold Rupees
             Text(
               formatRupees(fare),
-              style: AppTypography.h3.copyWith(
+              style: AppTypography.of(context).h3.copyWith(
                 fontSize: 16,
                 fontWeight: FontWeight.w800,
-                color: selected ? AppColors.primaryDark : AppColors.navy,
+                color: selected ? AppColors.of(context).primaryDark : AppColors.of(context).navy,
               ),
             ),
 
@@ -131,18 +133,18 @@ class VehicleCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '${category.etaMinutes} min',
-                  style: AppTypography.caption.copyWith(
+                  l10n.minutesShort(category.etaMinutes),
+                  style: AppTypography.of(context).caption.copyWith(
                     fontSize: 11,
-                    color: selected ? AppColors.primaryDark : AppColors.mutedText,
+                    color: selected ? AppColors.of(context).primaryDark : AppColors.of(context).mutedText,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
                 if (selected)
                   Container(
                     padding: const EdgeInsets.all(2),
-                    decoration: const BoxDecoration(
-                      color: AppColors.primary,
+                    decoration: BoxDecoration(
+                      color: AppColors.of(context).primary,
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(

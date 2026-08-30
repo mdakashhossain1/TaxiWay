@@ -11,6 +11,7 @@ import '../../../../core/widgets/app_back_button.dart';
 import '../../../../core/widgets/app_scaffold.dart';
 import '../../../../core/widgets/app_toast.dart';
 import '../../../../core/widgets/ride_map_view.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 class BookingConfirmedScreen extends ConsumerStatefulWidget {
   const BookingConfirmedScreen({super.key});
@@ -97,22 +98,21 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
   }
 
   void _showCancelDialog() {
+    final l10n = AppLocalizations.of(context);
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.card)),
-        title: const Text('Cancel Ride?'),
-        content: const Text(
-          'Are you sure you want to cancel this ride? No cancellation fee applies within 5 minutes.',
-        ),
+        title: Text(l10n.cancelRideTitle),
+        content: Text(l10n.cancelRideBody),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
-            child: const Text('Keep Ride'),
+            child: Text(l10n.keepRideLabel),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.error,
+              backgroundColor: AppColors.of(context).error,
               foregroundColor: Colors.white,
             ),
             onPressed: () {
@@ -120,7 +120,7 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
               ref.read(bookingControllerProvider.notifier).cancelBooking();
               context.go(AppRoutes.home);
             },
-            child: const Text('Cancel Ride'),
+            child: Text(l10n.cancelRideLabel),
           ),
         ],
       ),
@@ -129,28 +129,29 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final booking = ref.watch(bookingControllerProvider);
     final driver = ref.watch(currentDriverProvider);
     final vehicle = ref.watch(currentVehicleProvider);
 
     if (booking == null) {
       return AppScaffold(
-        appBar: AppBar(title: const Text('Booking Confirmed')),
-        body: const Center(child: Text('No active booking.')),
+        appBar: AppBar(title: Text(l10n.bookingConfirmedTitle)),
+        body: Center(child: Text(l10n.noActiveBookingLabel)),
       );
     }
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.of(context).card,
         elevation: 0,
         leading: AppBackButton(
           onPressed: () => context.go(AppRoutes.home),
         ),
         title: Text(
-          'Booking Confirmed',
-          style: AppTypography.h2.copyWith(fontSize: 18, color: AppColors.navy),
+          l10n.bookingConfirmedTitle,
+          style: AppTypography.of(context).h2.copyWith(fontSize: 18, color: AppColors.of(context).navy),
         ),
         centerTitle: true,
       ),
@@ -198,19 +199,19 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Your booking is confirmed!',
-                                style: AppTypography.h2.copyWith(
+                                l10n.yourBookingConfirmedHeading,
+                                style: AppTypography.of(context).h2.copyWith(
                                   fontSize: 18.5,
                                   fontWeight: FontWeight.w800,
-                                  color: AppColors.navy,
+                                  color: AppColors.of(context).navy,
                                 ),
                               ),
                               const SizedBox(height: 3),
                               Text(
-                                'Driver has been allocated',
-                                style: AppTypography.body.copyWith(
+                                l10n.driverAllocatedSubtitle,
+                                style: AppTypography.of(context).body.copyWith(
                                   fontSize: 13,
-                                  color: AppColors.secondaryText,
+                                  color: AppColors.of(context).secondaryText,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -244,7 +245,7 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                           decoration: BoxDecoration(
                             color: const Color(0xFFF1F5F9),
                             borderRadius: BorderRadius.circular(AppRadius.card),
-                            border: Border.all(color: const Color(0xFFE2E8F0)),
+                            border: Border.all(color: AppColors.of(context).border),
                           ),
                           child: Row(
                             children: [
@@ -270,18 +271,18 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Driver may call you',
-                                      style: AppTypography.label.copyWith(
+                                      l10n.driverMayCallTitle,
+                                      style: AppTypography.of(context).label.copyWith(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w700,
-                                        color: AppColors.navy,
+                                        color: AppColors.of(context).navy,
                                       ),
                                     ),
                                     const SizedBox(height: 2),
                                     Text(
-                                      'Please keep your phone reachable',
-                                      style: AppTypography.caption.copyWith(
-                                        color: AppColors.secondaryText,
+                                      l10n.keepPhoneReachableSubtitle,
+                                      style: AppTypography.of(context).caption.copyWith(
+                                        color: AppColors.of(context).secondaryText,
                                         fontSize: 12,
                                       ),
                                     ),
@@ -299,16 +300,16 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                           width: double.infinity,
                           child: ElevatedButton.icon(
                             icon: const Icon(BootstrapIcons.geo_alt_fill, size: 18),
-                            label: const Text('Live Track Driver'),
+                            label: Text(l10n.liveTrackDriverLabel),
                             onPressed: () => context.push(AppRoutes.liveTracking),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primary,
+                              backgroundColor: AppColors.of(context).primary,
                               foregroundColor: Colors.white,
                               elevation: 2,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(AppRadius.button),
                               ),
-                              textStyle: AppTypography.button.copyWith(fontSize: 15),
+                              textStyle: AppTypography.of(context).button.copyWith(fontSize: 15),
                             ),
                           ),
                         ),
@@ -329,8 +330,8 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                               backgroundColor: Colors.white,
                             ),
                             child: Text(
-                              'Cancel Ride',
-                              style: AppTypography.button.copyWith(
+                              l10n.cancelRideLabel,
+                              style: AppTypography.of(context).button.copyWith(
                                 color: const Color(0xFFEA580C),
                                 fontWeight: FontWeight.w700,
                                 fontSize: 14.5,
@@ -353,11 +354,12 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
   }
 
   Widget _buildDriverCard(String name, double rating, String vehicleModel, String plateNumber) {
+    final l10n = AppLocalizations.of(context);
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.of(context).card,
         borderRadius: BorderRadius.circular(AppRadius.card),
-        border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+        border: Border.all(color: AppColors.of(context).border, width: 1),
         boxShadow: [
           BoxShadow(
             color: const Color(0xFF0F172A).withValues(alpha: 0.05),
@@ -383,7 +385,7 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                       height: 56,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        border: Border.all(color: const Color(0xFFE2E8F0), width: 2),
+                        border: Border.all(color: AppColors.of(context).border, width: 2),
                         image: const DecorationImage(
                           image: AssetImage('assets/images/driver_avatar.jpg'),
                           fit: BoxFit.cover,
@@ -399,14 +401,14 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                             children: [
                               Text(
                                 name,
-                                style: AppTypography.h3.copyWith(
+                                style: AppTypography.of(context).h3.copyWith(
                                   fontSize: 16.5,
                                   fontWeight: FontWeight.w800,
-                                  color: AppColors.navy,
+                                  color: AppColors.of(context).navy,
                                 ),
                               ),
                               const SizedBox(width: 6),
-                              const Icon(BootstrapIcons.chevron_right, size: 14, color: AppColors.mutedText),
+                              Icon(BootstrapIcons.chevron_right, size: 14, color: AppColors.of(context).mutedText),
                             ],
                           ),
                           const SizedBox(height: 3),
@@ -415,10 +417,10 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                               const Icon(Icons.star_rounded, size: 16, color: Color(0xFFEAB308)),
                               const SizedBox(width: 4),
                               Text(
-                                '${rating.toStringAsFixed(1)} (230 trips)',
-                                style: AppTypography.caption.copyWith(
+                                '${rating.toStringAsFixed(1)} ${l10n.reviewCountSuffix(230)}',
+                                style: AppTypography.of(context).caption.copyWith(
                                   fontWeight: FontWeight.w600,
-                                  color: AppColors.navy,
+                                  color: AppColors.of(context).navy,
                                   fontSize: 12.5,
                                 ),
                               ),
@@ -437,7 +439,7 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                                 const Icon(Icons.verified_rounded, size: 12, color: Color(0xFF16A34A)),
                                 const SizedBox(width: 4),
                                 Text(
-                                  'Verified Driver',
+                                  l10n.verifiedDriverLabel,
                                   style: TextStyle(
                                     fontSize: 11,
                                     fontWeight: FontWeight.w700,
@@ -451,7 +453,7 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                       ),
                     ),
                     Material(
-                      color: Colors.white,
+                      color: AppColors.of(context).card,
                       shape: const CircleBorder(),
                       elevation: 2,
                       shadowColor: Colors.black26,
@@ -460,8 +462,8 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                         onTap: () {
                           AppToast.call(
                             context,
-                            'Calling $name (+91 98765 00000)...',
-                            title: 'Connecting Call',
+                            l10n.callingDriverMessage(name),
+                            title: l10n.connectingCallTitle,
                           );
                         },
                         child: Container(
@@ -469,11 +471,11 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                           height: 44,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            border: Border.all(color: const Color(0xFFE2E8F0)),
+                            border: Border.all(color: AppColors.of(context).border),
                           ),
-                          child: const Icon(
+                          child: Icon(
                             BootstrapIcons.telephone_fill,
-                            color: AppColors.navy,
+                            color: AppColors.of(context).navy,
                             size: 18,
                           ),
                         ),
@@ -484,7 +486,7 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
               ),
 
               const SizedBox(height: 14),
-              const Divider(height: 1, color: Color(0xFFF1F5F9)),
+              Divider(height: 1, color: AppColors.of(context).border),
               const SizedBox(height: 14),
 
               InkWell(
@@ -509,10 +511,10 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                         children: [
                           Text(
                             vehicleModel,
-                            style: AppTypography.label.copyWith(
+                            style: AppTypography.of(context).label.copyWith(
                               fontWeight: FontWeight.w700,
                               fontSize: 14,
-                              color: AppColors.navy,
+                              color: AppColors.of(context).navy,
                             ),
                           ),
                           const SizedBox(height: 3),
@@ -535,7 +537,7 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                         ],
                       ),
                     ),
-                    const Icon(BootstrapIcons.chevron_right, size: 14, color: AppColors.mutedText),
+                    Icon(BootstrapIcons.chevron_right, size: 14, color: AppColors.of(context).mutedText),
                   ],
                 ),
               ),
@@ -547,13 +549,14 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
   }
 
   Widget _buildDriverStatusMapCard(dynamic booking) {
+    final l10n = AppLocalizations.of(context);
     final driverProgress = 1.0 - (booking.driverDistanceKm / 2.4).clamp(0.0, 1.0);
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.of(context).card,
         borderRadius: BorderRadius.circular(AppRadius.card),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
+        border: Border.all(color: AppColors.of(context).border),
         boxShadow: [
           BoxShadow(
             color: const Color(0xFF0F172A).withValues(alpha: 0.05),
@@ -589,16 +592,16 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Driver is on the way',
-                        style: TextStyle(
+                      Text(
+                        l10n.driverOnWayHeading,
+                        style: const TextStyle(
                           fontSize: 13.5,
                           fontWeight: FontWeight.w800,
                           color: Color(0xFF065F46),
                         ),
                       ),
                       Text(
-                        booking.driverDistanceKm <= 0.05 ? 'Driver has arrived!' : '${booking.driverDistanceKm.toStringAsFixed(1)} km away',
+                        booking.driverDistanceKm <= 0.05 ? l10n.driverArrivedLabel : l10n.kmAwaySuffix(booking.driverDistanceKm.toStringAsFixed(1)),
                         style: const TextStyle(
                           fontSize: 11.5,
                           fontWeight: FontWeight.w500,
@@ -612,14 +615,14 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      'Arriving in',
+                      l10n.arrivingInLabel,
                       style: TextStyle(
                         fontSize: 11,
                         color: const Color(0xFF065F46).withValues(alpha: 0.8),
                       ),
                     ),
                     Text(
-                      booking.driverEtaMinutes <= 0 ? '0 min' : '${booking.driverEtaMinutes} min',
+                      l10n.minutesShort(booking.driverEtaMinutes <= 0 ? 0 : booking.driverEtaMinutes),
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w900,
@@ -671,17 +674,17 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Pickup',
-                            style: AppTypography.caption.copyWith(
-                              color: AppColors.mutedText,
+                            l10n.pickupLabel,
+                            style: AppTypography.of(context).caption.copyWith(
+                              color: AppColors.of(context).mutedText,
                               fontSize: 11,
                             ),
                           ),
                           Text(
                             booking.pickup.shortName,
-                            style: AppTypography.label.copyWith(
+                            style: AppTypography.of(context).label.copyWith(
                               fontWeight: FontWeight.w700,
-                              color: AppColors.navy,
+                              color: AppColors.of(context).navy,
                               fontSize: 13.5,
                             ),
                             maxLines: 1,
@@ -692,9 +695,9 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                     ),
                     Text(
                       '09:30 AM',
-                      style: AppTypography.caption.copyWith(
+                      style: AppTypography.of(context).caption.copyWith(
                         fontWeight: FontWeight.w600,
-                        color: AppColors.navy,
+                        color: AppColors.of(context).navy,
                       ),
                     ),
                   ],
@@ -731,17 +734,17 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Drop',
-                            style: AppTypography.caption.copyWith(
-                              color: AppColors.mutedText,
+                            l10n.dropLabel,
+                            style: AppTypography.of(context).caption.copyWith(
+                              color: AppColors.of(context).mutedText,
                               fontSize: 11,
                             ),
                           ),
                           Text(
                             booking.destination.shortName,
-                            style: AppTypography.label.copyWith(
+                            style: AppTypography.of(context).label.copyWith(
                               fontWeight: FontWeight.w700,
-                              color: AppColors.navy,
+                              color: AppColors.of(context).navy,
                               fontSize: 13.5,
                             ),
                             maxLines: 1,
@@ -752,9 +755,9 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                     ),
                     Text(
                       '10:05 AM',
-                      style: AppTypography.caption.copyWith(
+                      style: AppTypography.of(context).caption.copyWith(
                         fontWeight: FontWeight.w600,
-                        color: AppColors.navy,
+                        color: AppColors.of(context).navy,
                       ),
                     ),
                   ],

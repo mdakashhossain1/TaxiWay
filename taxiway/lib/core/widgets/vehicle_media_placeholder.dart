@@ -56,7 +56,7 @@ class VehicleMediaTile extends StatelessWidget {
           decoration: BoxDecoration(gradient: LinearGradient(colors: _gradient, begin: Alignment.topLeft, end: Alignment.bottomRight)),
           child: Stack(
             children: [
-              Center(child: Icon(_icon, size: 34, color: AppColors.navy.withValues(alpha: 0.55))),
+              Center(child: Icon(_icon, size: 34, color: AppColors.of(context).navy.withValues(alpha: 0.55))),
               if (media.type == VehicleMediaType.video)
                 const Positioned(
                   right: 8,
@@ -71,7 +71,7 @@ class VehicleMediaTile extends StatelessWidget {
                   media.type == VehicleMediaType.video && media.videoDuration != null
                       ? '${media.label}  ${media.videoDuration!.inSeconds ~/ 60}:${(media.videoDuration!.inSeconds % 60).toString().padLeft(2, '0')}'
                       : media.label,
-                  style: AppTypography.caption.copyWith(color: AppColors.navy, fontWeight: FontWeight.w600),
+                  style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).navy, fontWeight: FontWeight.w600),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),

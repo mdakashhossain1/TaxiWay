@@ -46,7 +46,7 @@ class BulkReviewRequestScreen extends ConsumerWidget {
           ],
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(AppRadius.card), border: Border.all(color: AppColors.border)),
+            decoration: BoxDecoration(color: AppColors.of(context).card, borderRadius: BorderRadius.circular(AppRadius.card), border: Border.all(color: AppColors.of(context).border)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -66,18 +66,18 @@ class BulkReviewRequestScreen extends ConsumerWidget {
           const SizedBox(height: 20),
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(color: AppColors.primaryBackground, borderRadius: BorderRadius.circular(AppRadius.card)),
+            decoration: BoxDecoration(color: AppColors.of(context).primaryBackground, borderRadius: BorderRadius.circular(AppRadius.card)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Estimated Fare Range', style: AppTypography.label),
+                Text('Estimated Fare Range', style: AppTypography.of(context).label),
                 const SizedBox(height: 6),
                 Text(
                   '${formatRupees(fareMin)} – ${formatRupees(fareMax)}',
-                  style: AppTypography.price.copyWith(color: AppColors.primaryDark),
+                  style: AppTypography.of(context).price.copyWith(color: AppColors.of(context).primaryDark),
                 ),
                 const SizedBox(height: 8),
-                Text('Estimated only. Final offer may vary after vehicle confirmation.', style: AppTypography.caption),
+                Text('Estimated only. Final offer may vary after vehicle confirmation.', style: AppTypography.of(context).caption),
               ],
             ),
           ),
@@ -111,8 +111,8 @@ class _Row extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(width: 100, child: Text(label, style: AppTypography.caption)),
-          Expanded(child: Text(value, style: AppTypography.label, textAlign: TextAlign.right)),
+          SizedBox(width: 100, child: Text(label, style: AppTypography.of(context).caption)),
+          Expanded(child: Text(value, style: AppTypography.of(context).label, textAlign: TextAlign.right)),
         ],
       ),
     );

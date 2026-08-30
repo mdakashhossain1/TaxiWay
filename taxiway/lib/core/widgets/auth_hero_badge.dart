@@ -7,7 +7,7 @@ import '../theme/app_colors.dart';
 /// an optional small overlapping status badge (e.g. a checkmark).
 class AuthHeroBadge extends StatelessWidget {
   final IconData icon;
-  final Color color;
+  final Color? color;
   final double size;
   final IconData? badgeIcon;
   final Color? badgeColor;
@@ -15,7 +15,7 @@ class AuthHeroBadge extends StatelessWidget {
   const AuthHeroBadge({
     super.key,
     required this.icon,
-    this.color = AppColors.primary,
+    this.color,
     this.size = 108,
     this.badgeIcon,
     this.badgeColor,
@@ -23,6 +23,7 @@ class AuthHeroBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final color = this.color ?? AppColors.of(context).primary;
     final stage = size * 1.7;
     return SizedBox(
       width: stage,
@@ -73,7 +74,7 @@ class AuthHeroBadge extends StatelessWidget {
                 decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
                 child: Container(
                   padding: EdgeInsets.all(size * 0.06),
-                  decoration: BoxDecoration(color: badgeColor ?? AppColors.success, shape: BoxShape.circle),
+                  decoration: BoxDecoration(color: badgeColor ?? AppColors.of(context).success, shape: BoxShape.circle),
                   child: Icon(badgeIcon, color: Colors.white, size: size * 0.2),
                 ),
               ),

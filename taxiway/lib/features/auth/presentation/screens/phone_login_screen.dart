@@ -109,7 +109,7 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.of(context).appBackground,
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -133,10 +133,10 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
                             child: Center(
                               child: Text(
                                 'Login',
-                                style: AppTypography.h3.copyWith(
+                                style: AppTypography.of(context).h3.copyWith(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w700,
-                                  color: AppColors.navy,
+                                  color: AppColors.of(context).navy,
                                 ),
                               ),
                             ),
@@ -169,10 +169,10 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
                       // Heading: Welcome!
                       Text(
                         l10n.welcome,
-                        style: AppTypography.h1.copyWith(
+                        style: AppTypography.of(context).h1.copyWith(
                           fontSize: 28,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.navy,
+                          color: AppColors.of(context).navy,
                         ),
                       )
                           .animate()
@@ -184,9 +184,9 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
                       // Subtitle
                       Text(
                         'Enter your phone number\nto continue',
-                        style: AppTypography.body.copyWith(
+                        style: AppTypography.of(context).body.copyWith(
                           fontSize: 15,
-                          color: AppColors.bodyText,
+                          color: AppColors.of(context).bodyText,
                           height: 1.35,
                         ),
                       )
@@ -209,16 +209,16 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Padding(
-                            padding: EdgeInsets.only(top: 2),
-                            child: Icon(BootstrapIcons.lock, size: 14, color: AppColors.bodyText),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 2),
+                            child: Icon(BootstrapIcons.lock, size: 14, color: AppColors.of(context).bodyText),
                           ),
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text.rich(
                               TextSpan(
-                                style: AppTypography.caption.copyWith(
-                                  color: AppColors.bodyText,
+                                style: AppTypography.of(context).caption.copyWith(
+                                  color: AppColors.of(context).bodyText,
                                   fontSize: 12,
                                   height: 1.4,
                                 ),
@@ -226,8 +226,8 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
                                   TextSpan(text: l10n.agreeToTerms),
                                   TextSpan(
                                     text: l10n.termsAndConditions,
-                                    style: const TextStyle(
-                                      color: AppColors.primary,
+                                    style: TextStyle(
+                                      color: AppColors.of(context).primary,
                                       fontWeight: FontWeight.w600,
                                     ),
                                     recognizer: TapGestureRecognizer()..onTap = () => openInAppBrowser(kTermsAndConditionsUrl),
@@ -235,8 +235,8 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
                                   TextSpan(text: l10n.andWord),
                                   TextSpan(
                                     text: l10n.privacyPolicy,
-                                    style: const TextStyle(
-                                      color: AppColors.primary,
+                                    style: TextStyle(
+                                      color: AppColors.of(context).primary,
                                       fontWeight: FontWeight.w600,
                                     ),
                                     recognizer: TapGestureRecognizer()..onTap = () => openInAppBrowser(kPrivacyPolicyUrl),
@@ -260,15 +260,15 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
                         child: ElevatedButton(
                           onPressed: _isValid ? _continue : null,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
-                            disabledBackgroundColor: AppColors.primary.withValues(alpha: 0.4),
+                            backgroundColor: AppColors.of(context).primary,
+                            disabledBackgroundColor: AppColors.of(context).primary.withValues(alpha: 0.4),
                             foregroundColor: Colors.white,
                             disabledForegroundColor: Colors.white70,
                             elevation: 0,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(AppRadius.button),
                             ),
-                            textStyle: AppTypography.button,
+                            textStyle: AppTypography.of(context).button,
                           ),
                           child: _loading
                               ? const SizedBox(

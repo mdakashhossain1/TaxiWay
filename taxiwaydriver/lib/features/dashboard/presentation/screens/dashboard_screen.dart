@@ -44,7 +44,7 @@ class DashboardScreen extends ConsumerWidget {
               ref.read(authControllerProvider.notifier).logout();
               context.go(AppRoutes.login);
             },
-            child: Text(l10n.logout, style: const TextStyle(color: AppColors.error)),
+            child: Text(l10n.logout, style: TextStyle(color: AppColors.of(context).error)),
           ),
         ],
       ),
@@ -60,7 +60,7 @@ class DashboardScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: AppColors.appBackground,
+      backgroundColor: AppColors.of(context).appBackground,
       bottomNavigationBar: DriverBottomNav(selected: null, onSelect: (tab) => _goToTab(context, tab)),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -80,15 +80,15 @@ class DashboardScreen extends ConsumerWidget {
                   Container(
                     width: 52,
                     height: 52,
-                    decoration: const BoxDecoration(color: AppColors.surface, shape: BoxShape.circle),
-                    child: const Icon(BootstrapIcons.person_fill, color: AppColors.mutedText, size: 26),
+                    decoration: BoxDecoration(color: AppColors.of(context).surface, shape: BoxShape.circle),
+                    child: Icon(BootstrapIcons.person_fill, color: AppColors.of(context).mutedText, size: 26),
                   ),
                   const SizedBox(width: 14),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(driver?.name ?? '', style: AppTypography.h2),
+                        Text(driver?.name ?? '', style: AppTypography.of(context).h2),
                         const SizedBox(height: 4),
                         StatusBadge(label: l10n.verifiedDriver, variant: BadgeVariant.verified, icon: BootstrapIcons.check_circle_fill),
                       ],
@@ -112,17 +112,17 @@ class DashboardScreen extends ConsumerWidget {
                     width: double.infinity,
                     padding: const EdgeInsets.all(18),
                     decoration: BoxDecoration(
-                      color: AppColors.primaryBackground,
+                      color: AppColors.of(context).primaryBackground,
                       borderRadius: BorderRadius.circular(AppRadius.card),
-                      border: Border.all(color: AppColors.primaryBorder),
+                      border: Border.all(color: AppColors.of(context).primaryBorder),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(l10n.currentPlan, style: AppTypography.label.copyWith(color: AppColors.primaryDark)),
+                        Text(l10n.currentPlan, style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).primaryDark)),
                         const SizedBox(height: 4),
-                        Text('${formatRupees(plan.pricePerMonth)} / month', style: AppTypography.priceLarge),
-                        Text(l10n.ridesIncluded(plan.totalRides), style: AppTypography.body),
+                        Text('${formatRupees(plan.pricePerMonth)} / month', style: AppTypography.of(context).priceLarge),
+                        Text(l10n.ridesIncluded(plan.totalRides), style: AppTypography.of(context).body),
                         const SizedBox(height: 14),
                         UsageProgressBar(fraction: plan.usageFraction),
                         const SizedBox(height: 14),
@@ -132,15 +132,15 @@ class DashboardScreen extends ConsumerWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('${plan.usedRides}', style: AppTypography.priceLarge.copyWith(color: AppColors.primaryDark)),
-                                Text(l10n.ridesUsed, style: AppTypography.caption),
+                                Text('${plan.usedRides}', style: AppTypography.of(context).priceLarge.copyWith(color: AppColors.of(context).primaryDark)),
+                                Text(l10n.ridesUsed, style: AppTypography.of(context).caption),
                               ],
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                Text('${plan.remainingRides}', style: AppTypography.priceLarge.copyWith(color: AppColors.primaryDark)),
-                                Text(l10n.ridesRemaining, style: AppTypography.caption),
+                                Text('${plan.remainingRides}', style: AppTypography.of(context).priceLarge.copyWith(color: AppColors.of(context).primaryDark)),
+                                Text(l10n.ridesRemaining, style: AppTypography.of(context).caption),
                               ],
                             ),
                           ],
@@ -148,7 +148,7 @@ class DashboardScreen extends ConsumerWidget {
                         const SizedBox(height: 10),
                         Text(
                           '${l10n.renewalDateLabel}: ${formatRideDate(plan.renewalDate)} ${plan.renewalDate.year}',
-                          style: AppTypography.caption,
+                          style: AppTypography.of(context).caption,
                         ),
                       ],
                     ),
@@ -168,7 +168,7 @@ class DashboardScreen extends ConsumerWidget {
                 orElse: () => const SizedBox.shrink(),
               ),
 
-              Text(l10n.nextRide, style: AppTypography.h3),
+              Text(l10n.nextRide, style: AppTypography.of(context).h3),
               const SizedBox(height: 10),
 
               nextRideAsync.when(
@@ -206,20 +206,20 @@ class _PendingOfferBanner extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.primaryBackground,
+        color: AppColors.of(context).primaryBackground,
         borderRadius: BorderRadius.circular(AppRadius.card),
-        border: Border.all(color: AppColors.primaryBorder),
+        border: Border.all(color: AppColors.of(context).primaryBorder),
       ),
       child: Row(
         children: [
-          const Icon(BootstrapIcons.bell_fill, color: AppColors.primaryDark),
+          Icon(BootstrapIcons.bell_fill, color: AppColors.of(context).primaryDark),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('New ride offer waiting', style: AppTypography.label.copyWith(fontWeight: FontWeight.w700)),
-                Text(ride.pickup, style: AppTypography.caption, maxLines: 1, overflow: TextOverflow.ellipsis),
+                Text('New ride offer waiting', style: AppTypography.of(context).label.copyWith(fontWeight: FontWeight.w700)),
+                Text(ride.pickup, style: AppTypography.of(context).caption, maxLines: 1, overflow: TextOverflow.ellipsis),
               ],
             ),
           ),
@@ -246,33 +246,33 @@ class _NextRideCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.of(context).card,
         borderRadius: BorderRadius.circular(AppRadius.card),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: AppColors.of(context).border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('${formatRideDate(ride.dateTime)} · ${formatRideTime(ride.dateTime)}', style: AppTypography.label.copyWith(fontWeight: FontWeight.w700)),
+          Text('${formatRideDate(ride.dateTime)} · ${formatRideTime(ride.dateTime)}', style: AppTypography.of(context).label.copyWith(fontWeight: FontWeight.w700)),
           const SizedBox(height: 12),
-          _RoutePoint(color: AppColors.success, text: ride.pickup),
-          const Padding(
-            padding: EdgeInsets.only(left: 4),
-            child: SizedBox(height: 14, child: VerticalDivider(width: 1, thickness: 1.5, color: AppColors.borderStrong)),
+          _RoutePoint(color: AppColors.of(context).success, text: ride.pickup),
+          Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: SizedBox(height: 14, child: VerticalDivider(width: 1, thickness: 1.5, color: AppColors.of(context).borderStrong)),
           ),
-          _RoutePoint(color: AppColors.primary, text: ride.destination),
+          _RoutePoint(color: AppColors.of(context).primary, text: ride.destination),
           const SizedBox(height: 12),
-          Container(height: 1, color: AppColors.border),
+          Container(height: 1, color: AppColors.of(context).border),
           const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('${l10n.customerLabel}: ${ride.customerName}', style: AppTypography.body),
-              Text(ride.vehicleCategory, style: AppTypography.body),
+              Text('${l10n.customerLabel}: ${ride.customerName}', style: AppTypography.of(context).body),
+              Text(ride.vehicleCategory, style: AppTypography.of(context).body),
             ],
           ),
           const SizedBox(height: 6),
-          Text('${l10n.expectedFare}: ${formatRupees(ride.fare)}', style: AppTypography.h3.copyWith(color: AppColors.primaryDark)),
+          Text('${l10n.expectedFare}: ${formatRupees(ride.fare)}', style: AppTypography.of(context).h3.copyWith(color: AppColors.of(context).primaryDark)),
           const SizedBox(height: 16),
           PrimaryButton(
             label: l10n.viewRideDetails,
@@ -301,8 +301,8 @@ class _NextRideCard extends StatelessWidget {
                     AppRoutes.chat,
                     extra: ChatScreenArgs(title: ride.customerName, conversationId: 'ride_${ride.id}'),
                   ),
-                  background: AppColors.surface,
-                  foreground: AppColors.navy,
+                  background: AppColors.of(context).surface,
+                  foreground: AppColors.of(context).navy,
                 ),
               ),
             ],
@@ -325,7 +325,7 @@ class _RoutePoint extends StatelessWidget {
       children: [
         Container(width: 8, height: 8, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
         const SizedBox(width: 10),
-        Expanded(child: Text(text, style: AppTypography.body.copyWith(fontWeight: FontWeight.w600))),
+        Expanded(child: Text(text, style: AppTypography.of(context).body.copyWith(fontWeight: FontWeight.w600))),
       ],
     );
   }

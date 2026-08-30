@@ -58,7 +58,7 @@ class LiveTrackingScreen extends ConsumerWidget {
     final progress = 1 - (booking.driverDistanceKm / 2.4).clamp(0.0, 1.0);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.of(context).appBackground,
       body: Stack(
         children: [
           Column(
@@ -80,9 +80,9 @@ class LiveTrackingScreen extends ConsumerWidget {
                 child: Container(
                   width: double.infinity,
                   padding: const EdgeInsets.fromLTRB(20, 18, 20, 18),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.bottomSheet)),
+                  decoration: BoxDecoration(
+                    color: AppColors.of(context).card,
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(AppRadius.bottomSheet)),
                     boxShadow: AppShadows.elevated,
                   ),
                   child: SingleChildScrollView(
@@ -107,19 +107,19 @@ class LiveTrackingScreen extends ConsumerWidget {
                           children: [
                             Text(
                               'En route to pickup',
-                              style: AppTypography.h3.copyWith(fontSize: 17, color: AppColors.navy),
+                              style: AppTypography.of(context).h3.copyWith(fontSize: 17, color: AppColors.of(context).navy),
                             ),
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                               decoration: BoxDecoration(
-                                color: AppColors.primaryBackground,
+                                color: AppColors.of(context).primaryBackground,
                                 borderRadius: BorderRadius.circular(AppRadius.pill),
                               ),
                               child: Text(
                                 '${booking.driverEtaMinutes} min away',
-                                style: AppTypography.caption.copyWith(
+                                style: AppTypography.of(context).caption.copyWith(
                                   fontWeight: FontWeight.w700,
-                                  color: AppColors.primaryDark,
+                                  color: AppColors.of(context).primaryDark,
                                 ),
                               ),
                             ),
@@ -128,7 +128,7 @@ class LiveTrackingScreen extends ConsumerWidget {
                         const SizedBox(height: 4),
                         Text(
                           'Your driver is on the way',
-                          style: AppTypography.caption.copyWith(color: AppColors.bodyText),
+                          style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).bodyText),
                         ),
                         const SizedBox(height: 14),
 
@@ -136,17 +136,17 @@ class LiveTrackingScreen extends ConsumerWidget {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                           decoration: BoxDecoration(
-                            color: AppColors.surface,
+                            color: AppColors.of(context).surface,
                             borderRadius: BorderRadius.circular(AppRadius.card),
-                            border: Border.all(color: const Color(0xFFE2E8F0)),
+                            border: Border.all(color: AppColors.of(context).border),
                           ),
                           child: Row(
                             children: [
                               _Metric(label: 'Distance Left', value: '${booking.driverDistanceKm.toStringAsFixed(1)} km'),
-                              Container(width: 1, height: 26, color: AppColors.border),
+                              Container(width: 1, height: 26, color: AppColors.of(context).border),
                               const SizedBox(width: 12),
                               _Metric(label: 'Est. Time Left', value: '${booking.driverEtaMinutes} min'),
-                              Container(width: 1, height: 26, color: AppColors.border),
+                              Container(width: 1, height: 26, color: AppColors.of(context).border),
                               const SizedBox(width: 12),
                               _Metric(
                                 label: 'Arrival Time',
@@ -205,11 +205,11 @@ class LiveTrackingScreen extends ConsumerWidget {
             top: 48,
             left: 16,
             child: CircleAvatar(
-              backgroundColor: Colors.white,
+              backgroundColor: AppColors.of(context).card,
               radius: 20,
               child: IconButton(
                 onPressed: () => context.go(AppRoutes.home),
-                icon: const Icon(BootstrapIcons.chevron_left, color: AppColors.navy, size: 18),
+                icon: Icon(BootstrapIcons.chevron_left, color: AppColors.of(context).navy, size: 18),
               ),
             ),
           ),
@@ -230,11 +230,11 @@ class _Metric extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: AppTypography.caption.copyWith(color: AppColors.mutedText, fontSize: 11)),
+          Text(label, style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).mutedText, fontSize: 11)),
           const SizedBox(height: 2),
           Text(
             value,
-            style: AppTypography.h3.copyWith(fontSize: 14, color: AppColors.navy, fontWeight: FontWeight.w700),
+            style: AppTypography.of(context).h3.copyWith(fontSize: 14, color: AppColors.of(context).navy, fontWeight: FontWeight.w700),
           ),
         ],
       ),

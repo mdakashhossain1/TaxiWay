@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../models/fare_breakdown.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_radius.dart';
@@ -18,15 +19,16 @@ class FareCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final distText = distanceKm != null ? ' (${distanceKm!.toStringAsFixed(1)} km)' : '';
-    final timeText = etaMinutes != null ? ' ($etaMinutes min)' : '';
+    final l10n = AppLocalizations.of(context);
+    final distText = distanceKm != null ? ' (${l10n.kmShort(distanceKm!.toStringAsFixed(1))})' : '';
+    final timeText = etaMinutes != null ? ' (${l10n.minutesShort(etaMinutes!)})' : '';
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.of(context).card,
         borderRadius: BorderRadius.circular(AppRadius.card),
-        border: Border.all(color: const Color(0xFFE2E8F0), width: 1.2),
+        border: Border.all(color: AppColors.of(context).border, width: 1.2),
         boxShadow: [
           BoxShadow(
             color: const Color(0xFF0F172A).withValues(alpha: 0.04),
@@ -41,20 +43,20 @@ class FareCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _FareItem(label: 'Base Fare', value: '₹${fare.baseFare.toInt()}'),
-              const Text('+', style: TextStyle(color: AppColors.mutedText, fontWeight: FontWeight.bold)),
-              _FareItem(label: 'Distance$distText', value: '₹${fare.distanceFare.toInt()}'),
-              const Text('+', style: TextStyle(color: AppColors.mutedText, fontWeight: FontWeight.bold)),
-              _FareItem(label: 'Time$timeText', value: '₹${fare.timeFare.toInt()}'),
+              _FareItem(label: l10n.baseFareLabel, value: '₹${fare.baseFare.toInt()}'),
+              Text('+', style: TextStyle(color: AppColors.of(context).mutedText, fontWeight: FontWeight.bold)),
+              _FareItem(label: '${l10n.distanceLabel}$distText', value: '₹${fare.distanceFare.toInt()}'),
+              Text('+', style: TextStyle(color: AppColors.of(context).mutedText, fontWeight: FontWeight.bold)),
+              _FareItem(label: '${l10n.timeLabel}$timeText', value: '₹${fare.timeFare.toInt()}'),
             ],
           ),
           const SizedBox(height: 10),
-          const Divider(height: 1, color: Color(0xFFF1F5F9)),
+          Divider(height: 1, color: AppColors.of(context).border),
           const SizedBox(height: 8),
           Text(
-            'Tolls & parking extra',
-            style: AppTypography.caption.copyWith(
-              color: AppColors.mutedText,
+            l10n.tollsParkingNote,
+            style: AppTypography.of(context).caption.copyWith(
+              color: AppColors.of(context).mutedText,
               fontSize: 11,
             ),
           ),
@@ -77,17 +79,17 @@ class _FareItem extends StatelessWidget {
       children: [
         Text(
           label,
-          style: AppTypography.caption.copyWith(
-            color: AppColors.mutedText,
+          style: AppTypography.of(context).caption.copyWith(
+            color: AppColors.of(context).mutedText,
             fontSize: 11,
           ),
         ),
         const SizedBox(height: 2),
         Text(
           value,
-          style: AppTypography.body.copyWith(
+          style: AppTypography.of(context).body.copyWith(
             fontWeight: FontWeight.w700,
-            color: AppColors.navy,
+            color: AppColors.of(context).navy,
             fontSize: 14,
           ),
         ),

@@ -119,9 +119,9 @@ class _NetworkErrorViewState extends State<NetworkErrorView> {
             // Title
             Text(
               titleText,
-              style: AppTypography.h2.copyWith(
+              style: AppTypography.of(context).h2.copyWith(
                 fontSize: widget.isCompact ? 18 : 22,
-                color: AppColors.navy,
+                color: AppColors.of(context).navy,
                 fontWeight: FontWeight.w700,
               ),
               textAlign: TextAlign.center,
@@ -137,9 +137,9 @@ class _NetworkErrorViewState extends State<NetworkErrorView> {
               constraints: const BoxConstraints(maxWidth: 320),
               child: Text(
                 messageText,
-                style: AppTypography.body.copyWith(
+                style: AppTypography.of(context).body.copyWith(
                   fontSize: 14,
-                  color: AppColors.bodyText,
+                  color: AppColors.of(context).bodyText,
                   height: 1.4,
                 ),
                 textAlign: TextAlign.center,
@@ -208,7 +208,7 @@ class NetworkErrorScreen extends StatelessWidget {
               backgroundColor: Colors.transparent,
               elevation: 0,
               leading: IconButton(
-                icon: const Icon(BootstrapIcons.arrow_left, color: AppColors.navy),
+                icon: Icon(BootstrapIcons.arrow_left, color: AppColors.of(context).navy),
                 onPressed: onBack,
               ),
             )

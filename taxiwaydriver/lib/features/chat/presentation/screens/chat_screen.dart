@@ -70,13 +70,13 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: AppBar(title: Text(widget.title, style: AppTypography.h2.copyWith(fontSize: 18, color: AppColors.navy))),
+      appBar: AppBar(title: Text(widget.title, style: AppTypography.of(context).h2.copyWith(fontSize: 18, color: AppColors.of(context).navy))),
       body: FutureBuilder<String>(
         future: _readyConversationId,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Center(
-              child: Text('Could not open chat right now.', style: AppTypography.body.copyWith(color: AppColors.mutedText)),
+              child: Text('Could not open chat right now.', style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).mutedText)),
             );
           }
           if (!snapshot.hasData) {
@@ -119,7 +119,7 @@ class _MessageList extends ConsumerWidget {
         }
         if (messages.isEmpty) {
           return Center(
-            child: Text('No messages yet — say hello!', style: AppTypography.body.copyWith(color: AppColors.mutedText)),
+            child: Text('No messages yet — say hello!', style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).mutedText)),
           );
         }
         return ListView.builder(
@@ -151,7 +151,7 @@ class _MessageBubble extends StatelessWidget {
         constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.75),
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
-          color: mine ? AppColors.primary : AppColors.surface,
+          color: mine ? AppColors.of(context).primary : AppColors.of(context).surface,
           borderRadius: BorderRadius.circular(AppRadius.card),
         ),
         child: Column(
@@ -160,14 +160,14 @@ class _MessageBubble extends StatelessWidget {
           children: [
             Text(
               message.text,
-              style: AppTypography.body.copyWith(color: mine ? Colors.white : AppColors.navy),
+              style: AppTypography.of(context).body.copyWith(color: mine ? Colors.white : AppColors.of(context).navy),
             ),
             if (message.createdAt != null) ...[
               const SizedBox(height: 4),
               Text(
                 DateFormat.jm().format(message.createdAt!),
-                style: AppTypography.caption.copyWith(
-                  color: mine ? Colors.white.withValues(alpha: 0.75) : AppColors.mutedText,
+                style: AppTypography.of(context).caption.copyWith(
+                  color: mine ? Colors.white.withValues(alpha: 0.75) : AppColors.of(context).mutedText,
                   fontSize: 10,
                 ),
               ),
@@ -190,9 +190,9 @@ class _MessageInputBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        border: Border(top: BorderSide(color: AppColors.border)),
+      decoration: BoxDecoration(
+        color: AppColors.of(context).card,
+        border: Border(top: BorderSide(color: AppColors.of(context).border)),
       ),
       child: Row(
         children: [
@@ -207,7 +207,7 @@ class _MessageInputBar extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: 'Type a message…',
                 filled: true,
-                fillColor: AppColors.surface,
+                fillColor: AppColors.of(context).surface,
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppRadius.button), borderSide: BorderSide.none),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               ),
@@ -215,7 +215,7 @@ class _MessageInputBar extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Material(
-            color: enabled ? AppColors.primary : AppColors.mutedText,
+            color: enabled ? AppColors.of(context).primary : AppColors.of(context).mutedText,
             shape: const CircleBorder(),
             child: InkWell(
               customBorder: const CircleBorder(),

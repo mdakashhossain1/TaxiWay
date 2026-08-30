@@ -16,10 +16,8 @@ class AppBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.white,
+      color: Colors.transparent,
       shape: const CircleBorder(),
-      elevation: 1.5,
-      shadowColor: Colors.black12,
       child: InkWell(
         customBorder: const CircleBorder(),
         onTap: onPressed ??
@@ -30,20 +28,16 @@ class AppBackButton extends StatelessWidget {
                 Navigator.of(context).maybePop();
               }
             },
-        child: Container(
+        child: SizedBox(
           width: 38,
           height: 38,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: const Color(0xFFE2E8F0)),
-          ),
           child: Center(
             child: Padding(
               padding: const EdgeInsets.only(right: 2), // Optical centering for chevron
               child: Icon(
                 BootstrapIcons.chevron_left,
-                color: iconColor ?? AppColors.navy,
-                size: 18,
+                color: iconColor ?? AppColors.of(context).navy,
+                size: 22,
               ),
             ),
           ),

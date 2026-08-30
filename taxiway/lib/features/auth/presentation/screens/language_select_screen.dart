@@ -44,18 +44,18 @@ class _LanguageSelectScreenState extends ConsumerState<LanguageSelectScreen> {
     final localeState = ref.watch(localeControllerProvider);
 
     if (localeState.loading) {
-      return const Scaffold(backgroundColor: AppColors.appBackground, body: SizedBox.shrink());
+      return Scaffold(backgroundColor: AppColors.of(context).appBackground, body: const SizedBox.shrink());
     }
     if (localeState.hasChosen) {
       WidgetsBinding.instance.addPostFrameCallback((_) => _goToSplash());
-      return const Scaffold(backgroundColor: AppColors.appBackground, body: SizedBox.shrink());
+      return Scaffold(backgroundColor: AppColors.of(context).appBackground, body: const SizedBox.shrink());
     }
 
     final l10n = AppLocalizations.of(context);
     _selected ??= kSupportedLocales.first;
 
     return Scaffold(
-      backgroundColor: AppColors.appBackground,
+      backgroundColor: AppColors.of(context).appBackground,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 28),
@@ -67,12 +67,12 @@ class _LanguageSelectScreenState extends ConsumerState<LanguageSelectScreen> {
                   .scale(duration: 450.ms, curve: Curves.elasticOut, begin: const Offset(0.5, 0.5), end: const Offset(1, 1))
                   .fadeIn(duration: 300.ms),
               const SizedBox(height: 28),
-              Text(l10n.languagePickerTitle, style: AppTypography.h1, textAlign: TextAlign.center)
+              Text(l10n.languagePickerTitle, style: AppTypography.of(context).h1, textAlign: TextAlign.center)
                   .animate()
                   .fadeIn(delay: 150.ms, duration: 350.ms)
                   .slideY(begin: 0.25, end: 0),
               const SizedBox(height: 8),
-              Text(l10n.languagePickerSubtitle, style: AppTypography.bodyLarge, textAlign: TextAlign.center)
+              Text(l10n.languagePickerSubtitle, style: AppTypography.of(context).bodyLarge, textAlign: TextAlign.center)
                   .animate()
                   .fadeIn(delay: 220.ms, duration: 350.ms)
                   .slideY(begin: 0.25, end: 0),

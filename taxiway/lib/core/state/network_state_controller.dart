@@ -137,7 +137,7 @@ class OfflineBannerWidget extends ConsumerWidget {
             const SizedBox(width: 8),
             Text(
               networkState.isServerError ? 'Server Unreachable — Showing cached data' : 'You are offline — Check connection',
-              style: AppTypography.caption.copyWith(
+              style: AppTypography.of(context).caption.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.w600,
                 fontSize: 12,

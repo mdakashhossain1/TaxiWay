@@ -39,20 +39,20 @@ class _MyRidesScreenState extends ConsumerState<MyRidesScreen> with SingleTicker
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: AppColors.appBackground,
+      backgroundColor: AppColors.of(context).appBackground,
       appBar: AppBar(
-        title: Text(l10n.myRidesTitle, style: AppTypography.h2),
+        title: Text(l10n.myRidesTitle, style: AppTypography.of(context).h2),
         automaticallyImplyLeading: false,
         leading: IconButton(
-          icon: const Icon(BootstrapIcons.house_fill, color: AppColors.navy),
+          icon: Icon(BootstrapIcons.house_fill, color: AppColors.of(context).navy),
           onPressed: () => context.go(AppRoutes.dashboard),
         ),
         bottom: TabBar(
           controller: _tabController,
-          labelColor: AppColors.primary,
-          unselectedLabelColor: AppColors.mutedText,
-          labelStyle: AppTypography.label,
-          indicatorColor: AppColors.primary,
+          labelColor: AppColors.of(context).primary,
+          unselectedLabelColor: AppColors.of(context).mutedText,
+          labelStyle: AppTypography.of(context).label,
+          indicatorColor: AppColors.of(context).primary,
           tabs: [Tab(text: l10n.upcomingTab), Tab(text: l10n.completedTab)],
         ),
       ),

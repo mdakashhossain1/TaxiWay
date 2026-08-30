@@ -53,9 +53,9 @@ class SimPhonePickerSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
+      decoration: BoxDecoration(
+        color: AppColors.of(context).card,
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(24),
           topRight: Radius.circular(24),
         ),
@@ -85,12 +85,12 @@ class SimPhonePickerSheet extends StatelessWidget {
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.1),
+                  color: AppColors.of(context).primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Icon(
+                child: Icon(
                   BootstrapIcons.sim,
-                  color: AppColors.primary,
+                  color: AppColors.of(context).primary,
                   size: 22,
                 ),
               ),
@@ -101,17 +101,17 @@ class SimPhonePickerSheet extends StatelessWidget {
                   children: [
                     Text(
                       'Continue with phone number',
-                      style: AppTypography.h3.copyWith(
+                      style: AppTypography.of(context).h3.copyWith(
                         fontSize: 17,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.navy,
+                        color: AppColors.of(context).navy,
                       ),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       'Select a number from your device SIM cards',
-                      style: AppTypography.caption.copyWith(
-                        color: AppColors.bodyText,
+                      style: AppTypography.of(context).caption.copyWith(
+                        color: AppColors.of(context).bodyText,
                         fontSize: 12,
                       ),
                     ),
@@ -122,7 +122,7 @@ class SimPhonePickerSheet extends StatelessWidget {
           ),
 
           const SizedBox(height: 20),
-          const Divider(height: 1, color: Color(0xFFF1F5F9)),
+          Divider(height: 1, color: AppColors.of(context).border),
           const SizedBox(height: 12),
 
           // SIM list items
@@ -143,8 +143,8 @@ class SimPhonePickerSheet extends StatelessWidget {
               ),
               child: Text(
                 'None of the above',
-                style: AppTypography.button.copyWith(
-                  color: AppColors.secondaryText,
+                style: AppTypography.of(context).button.copyWith(
+                  color: AppColors.of(context).secondaryText,
                   fontWeight: FontWeight.w600,
                   fontSize: 14,
                 ),
@@ -162,7 +162,7 @@ class SimPhonePickerSheet extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color(0xFFF8FAFC),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
+        border: Border.all(color: AppColors.of(context).border),
       ),
       child: ListTile(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -171,19 +171,19 @@ class SimPhonePickerSheet extends StatelessWidget {
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.of(context).card,
             shape: BoxShape.circle,
-            border: Border.all(color: const Color(0xFFCBD5E1)),
+            border: Border.all(color: AppColors.of(context).borderStrong),
           ),
-          child: const Center(
-            child: Icon(BootstrapIcons.phone, size: 18, color: AppColors.navy),
+          child: Center(
+            child: Icon(BootstrapIcons.phone, size: 18, color: AppColors.of(context).navy),
           ),
         ),
         title: Text(
           sim.phoneNumber,
-          style: AppTypography.bodyLarge.copyWith(
+          style: AppTypography.of(context).bodyLarge.copyWith(
             fontWeight: FontWeight.w700,
-            color: AppColors.navy,
+            color: AppColors.of(context).navy,
             fontSize: 16,
           ),
         ),
@@ -192,31 +192,31 @@ class SimPhonePickerSheet extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               decoration: BoxDecoration(
-                color: AppColors.primary.withValues(alpha: 0.12),
+                color: AppColors.of(context).primary.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(4),
               ),
               child: Text(
                 sim.slot,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.primary,
+                  color: AppColors.of(context).primary,
                 ),
               ),
             ),
             const SizedBox(width: 6),
             Text(
               sim.carrier,
-              style: AppTypography.caption.copyWith(
-                color: AppColors.bodyText,
+              style: AppTypography.of(context).caption.copyWith(
+                color: AppColors.of(context).bodyText,
                 fontSize: 12,
               ),
             ),
           ],
         ),
-        trailing: const Icon(
+        trailing: Icon(
           BootstrapIcons.arrow_right_circle_fill,
-          color: AppColors.primary,
+          color: AppColors.of(context).primary,
           size: 22,
         ),
         onTap: () => onSelected(sim.raw10Digits),

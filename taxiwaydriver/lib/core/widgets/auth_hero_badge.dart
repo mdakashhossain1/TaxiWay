@@ -7,7 +7,7 @@ import '../theme/app_colors.dart';
 /// an optional small overlapping status badge (e.g. a checkmark).
 class AuthHeroBadge extends StatelessWidget {
   final IconData icon;
-  final Color color;
+  final Color? color;
   final double size;
   final IconData? badgeIcon;
   final Color? badgeColor;
@@ -15,7 +15,7 @@ class AuthHeroBadge extends StatelessWidget {
   const AuthHeroBadge({
     super.key,
     required this.icon,
-    this.color = AppColors.primary,
+    this.color,
     this.size = 108,
     this.badgeIcon,
     this.badgeColor,
@@ -23,6 +23,7 @@ class AuthHeroBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final resolvedColor = color ?? AppColors.of(context).primary;
     final stage = size * 1.7;
     return SizedBox(
       width: stage,
@@ -33,22 +34,22 @@ class AuthHeroBadge extends StatelessWidget {
           Container(
             width: stage,
             height: stage,
-            decoration: BoxDecoration(shape: BoxShape.circle, color: color.withValues(alpha: 0.08)),
+            decoration: BoxDecoration(shape: BoxShape.circle, color: resolvedColor.withValues(alpha: 0.08)),
           ),
           Container(
             width: stage * 0.72,
             height: stage * 0.72,
-            decoration: BoxDecoration(shape: BoxShape.circle, color: color.withValues(alpha: 0.10)),
+            decoration: BoxDecoration(shape: BoxShape.circle, color: resolvedColor.withValues(alpha: 0.10)),
           ),
           Positioned(
             top: stage * 0.06,
             right: stage * 0.1,
-            child: Icon(BootstrapIcons.stars, size: 18, color: color.withValues(alpha: 0.55)),
+            child: Icon(BootstrapIcons.stars, size: 18, color: resolvedColor.withValues(alpha: 0.55)),
           ),
           Positioned(
             bottom: stage * 0.16,
             left: stage * 0.02,
-            child: Icon(BootstrapIcons.stars, size: 13, color: color.withValues(alpha: 0.4)),
+            child: Icon(BootstrapIcons.stars, size: 13, color: resolvedColor.withValues(alpha: 0.4)),
           ),
           Container(
             width: size,
@@ -58,9 +59,9 @@ class AuthHeroBadge extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [color, Color.lerp(color, Colors.black, 0.18)!],
+                colors: [resolvedColor, Color.lerp(resolvedColor, Colors.black, 0.18)!],
               ),
-              boxShadow: [BoxShadow(color: color.withValues(alpha: 0.35), blurRadius: 28, offset: const Offset(0, 12))],
+              boxShadow: [BoxShadow(color: resolvedColor.withValues(alpha: 0.35), blurRadius: 28, offset: const Offset(0, 12))],
             ),
             child: Icon(icon, color: Colors.white, size: size * 0.44),
           ),
@@ -73,7 +74,7 @@ class AuthHeroBadge extends StatelessWidget {
                 decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
                 child: Container(
                   padding: EdgeInsets.all(size * 0.06),
-                  decoration: BoxDecoration(color: badgeColor ?? AppColors.success, shape: BoxShape.circle),
+                  decoration: BoxDecoration(color: badgeColor ?? AppColors.of(context).success, shape: BoxShape.circle),
                   child: Icon(badgeIcon, color: Colors.white, size: size * 0.2),
                 ),
               ),

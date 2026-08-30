@@ -31,26 +31,26 @@ class BulkRequestSubmittedScreen extends ConsumerWidget {
           const Spacer(),
           Container(
             padding: const EdgeInsets.all(18),
-            decoration: const BoxDecoration(color: AppColors.successBackground, shape: BoxShape.circle),
-            child: const Icon(BootstrapIcons.check_circle_fill, color: AppColors.success, size: 42),
+            decoration: BoxDecoration(color: AppColors.of(context).successBackground, shape: BoxShape.circle),
+            child: Icon(BootstrapIcons.check_circle_fill, color: AppColors.of(context).success, size: 42),
           ),
           const SizedBox(height: 20),
           Text(
             'Your bulk booking request has been submitted!',
-            style: AppTypography.h1,
+            style: AppTypography.of(context).h1,
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 10),
           Text(
             'We will notify you when suitable vehicles and drivers are available.',
-            style: AppTypography.bodyLarge,
+            style: AppTypography.of(context).bodyLarge,
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 24),
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(AppRadius.card)),
+            decoration: BoxDecoration(color: AppColors.of(context).surface, borderRadius: BorderRadius.circular(AppRadius.card)),
             child: Column(
               children: [
                 _Row('Request ID', request.id),
@@ -83,8 +83,8 @@ class _Row extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: AppTypography.caption),
-          Text(value, style: AppTypography.label),
+          Text(label, style: AppTypography.of(context).caption),
+          Text(value, style: AppTypography.of(context).label),
         ],
       ),
     );

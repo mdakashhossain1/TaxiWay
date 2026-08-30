@@ -64,7 +64,7 @@ class _RatingReviewScreenState extends ConsumerState<RatingReviewScreen> {
     return AppScaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('Rate & Review', style: AppTypography.h2.copyWith(fontSize: 18, color: AppColors.navy)),
+        title: Text('Rate & Review', style: AppTypography.of(context).h2.copyWith(fontSize: 18, color: AppColors.of(context).navy)),
       ),
       scrollable: true,
       body: Column(
@@ -78,13 +78,13 @@ class _RatingReviewScreenState extends ConsumerState<RatingReviewScreen> {
 
           Text(
             'How was your ride?',
-            style: AppTypography.h1.copyWith(fontSize: 22, color: AppColors.navy),
+            style: AppTypography.of(context).h1.copyWith(fontSize: 22, color: AppColors.of(context).navy),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 4),
           Text(
             'with ${driver.name}',
-            style: AppTypography.body.copyWith(color: AppColors.bodyText),
+            style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).bodyText),
           ),
           const SizedBox(height: 20),
 
@@ -101,7 +101,7 @@ class _RatingReviewScreenState extends ConsumerState<RatingReviewScreen> {
             alignment: Alignment.centerLeft,
             child: Text(
               'What went well?',
-              style: AppTypography.h3.copyWith(fontSize: 15, color: AppColors.navy),
+              style: AppTypography.of(context).h3.copyWith(fontSize: 15, color: AppColors.of(context).navy),
             ),
           ),
           const SizedBox(height: 10),
@@ -116,15 +116,15 @@ class _RatingReviewScreenState extends ConsumerState<RatingReviewScreen> {
                   label: Text(tag),
                   selected: selected,
                   onSelected: (v) => setState(() => v ? _selectedTags.add(tag) : _selectedTags.remove(tag)),
-                  labelStyle: AppTypography.label.copyWith(
-                    color: selected ? AppColors.primaryDark : AppColors.navy,
+                  labelStyle: AppTypography.of(context).label.copyWith(
+                    color: selected ? AppColors.of(context).primaryDark : AppColors.of(context).navy,
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
                   ),
-                  selectedColor: AppColors.primaryBackground,
+                  selectedColor: AppColors.of(context).primaryBackground,
                   backgroundColor: Colors.white,
                   side: BorderSide(
-                    color: selected ? AppColors.primary : const Color(0xFFCBD5E1),
+                    color: selected ? AppColors.of(context).primary : AppColors.of(context).borderStrong,
                   ),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.pill)),
                 );
@@ -139,7 +139,7 @@ class _RatingReviewScreenState extends ConsumerState<RatingReviewScreen> {
             alignment: Alignment.centerLeft,
             child: Text(
               'Add a Tip (Optional)',
-              style: AppTypography.h3.copyWith(fontSize: 15, color: AppColors.navy),
+              style: AppTypography.of(context).h3.copyWith(fontSize: 15, color: AppColors.of(context).navy),
             ),
           ),
           const SizedBox(height: 10),
@@ -155,18 +155,18 @@ class _RatingReviewScreenState extends ConsumerState<RatingReviewScreen> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       decoration: BoxDecoration(
-                        color: isSelected ? AppColors.primaryBackground : Colors.white,
+                        color: isSelected ? AppColors.of(context).primaryBackground : Colors.white,
                         borderRadius: BorderRadius.circular(AppRadius.medium),
                         border: Border.all(
-                          color: isSelected ? AppColors.primary : const Color(0xFFCBD5E1),
+                          color: isSelected ? AppColors.of(context).primary : AppColors.of(context).borderStrong,
                           width: isSelected ? 1.5 : 1,
                         ),
                       ),
                       child: Center(
                         child: Text(
                           '₹$tip',
-                          style: AppTypography.label.copyWith(
-                            color: isSelected ? AppColors.primaryDark : AppColors.navy,
+                          style: AppTypography.of(context).label.copyWith(
+                            color: isSelected ? AppColors.of(context).primaryDark : AppColors.of(context).navy,
                             fontWeight: FontWeight.w700,
                           ),
                         ),

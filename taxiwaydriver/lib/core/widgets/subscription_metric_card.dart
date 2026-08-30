@@ -15,16 +15,16 @@ class SubscriptionMetricCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.of(context).card,
         borderRadius: BorderRadius.circular(AppRadius.card),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: AppColors.of(context).border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(value, style: AppTypography.price.copyWith(fontSize: 24, color: AppColors.navy)),
+          Text(value, style: AppTypography.of(context).price.copyWith(fontSize: 24, color: AppColors.of(context).navy)),
           const SizedBox(height: 4),
-          Text(label, style: AppTypography.caption),
+          Text(label, style: AppTypography.of(context).caption),
         ],
       ),
     );

@@ -15,8 +15,8 @@ class AnimatedSuccessCheck extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(size / 5),
-      decoration: const BoxDecoration(color: AppColors.successBackground, shape: BoxShape.circle),
-      child: Icon(BootstrapIcons.check, color: AppColors.success, size: iconSize),
+      decoration: BoxDecoration(color: AppColors.of(context).successBackground, shape: BoxShape.circle),
+      child: Icon(BootstrapIcons.check, color: AppColors.of(context).success, size: iconSize),
     )
         .animate()
         .scale(

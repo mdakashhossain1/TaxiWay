@@ -119,7 +119,7 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.of(context).card,
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -143,10 +143,10 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
                             child: Center(
                               child: Text(
                                 'Login',
-                                style: AppTypography.h3.copyWith(
+                                style: AppTypography.of(context).h3.copyWith(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w700,
-                                  color: AppColors.navy,
+                                  color: AppColors.of(context).navy,
                                 ),
                               ),
                             ),
@@ -176,7 +176,7 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
 
                       const SizedBox(height: 24),
 
-                      Text(l10n.driverLoginTitle, style: AppTypography.h1)
+                      Text(l10n.driverLoginTitle, style: AppTypography.of(context).h1)
                           .animate()
                           .fadeIn(delay: 150.ms, duration: 350.ms)
                           .slideY(begin: 0.2, end: 0),
@@ -197,13 +197,13 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
                         Container(
                           padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
-                            color: AppColors.errorBackground,
+                            color: AppColors.of(context).errorBackground,
                             borderRadius: BorderRadius.circular(AppRadius.medium),
-                            border: Border.all(color: AppColors.errorBorder),
+                            border: Border.all(color: AppColors.of(context).errorBorder),
                           ),
                           child: Text(
                             _error!,
-                            style: AppTypography.body.copyWith(color: AppColors.error, fontWeight: FontWeight.w500),
+                            style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).error, fontWeight: FontWeight.w500),
                           ),
                         ),
                       ],

@@ -44,13 +44,13 @@ class BulkOfferDetailsScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
           ],
-          Text('Driver & Vehicle List', style: AppTypography.h3),
+          Text('Driver & Vehicle List', style: AppTypography.of(context).h3),
           const SizedBox(height: 12),
           for (final v in offer.vehicles)
             Container(
               margin: const EdgeInsets.only(bottom: 12),
               padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(AppRadius.card), border: Border.all(color: AppColors.border)),
+              decoration: BoxDecoration(color: AppColors.of(context).card, borderRadius: BorderRadius.circular(AppRadius.card), border: Border.all(color: AppColors.of(context).border)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -59,7 +59,7 @@ class BulkOfferDetailsScreen extends ConsumerWidget {
                       Container(
                         width: 44,
                         height: 44,
-                        decoration: const BoxDecoration(color: AppColors.navySecondary, shape: BoxShape.circle),
+                        decoration: BoxDecoration(color: AppColors.of(context).navySecondary, shape: BoxShape.circle),
                         child: const Icon(BootstrapIcons.person_fill, color: Colors.white, size: 22),
                       ),
                       const SizedBox(width: 12),
@@ -67,24 +67,24 @@ class BulkOfferDetailsScreen extends ConsumerWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(v.driverName, style: AppTypography.label),
+                            Text(v.driverName, style: AppTypography.of(context).label),
                             Row(
                               children: [
                                 RatingStars(rating: v.rating, size: 12),
                                 const SizedBox(width: 4),
-                                Text('${v.rating}', style: AppTypography.caption),
+                                Text('${v.rating}', style: AppTypography.of(context).caption),
                               ],
                             ),
                           ],
                         ),
                       ),
-                      Text(formatRupees(v.fareShare), style: AppTypography.label),
+                      Text(formatRupees(v.fareShare), style: AppTypography.of(context).label),
                     ],
                   ),
                   const SizedBox(height: 10),
-                  Container(height: 1, color: AppColors.border),
+                  Container(height: 1, color: AppColors.of(context).border),
                   const SizedBox(height: 10),
-                  Text('${v.vehicleModel} · ${v.registrationNumber}', style: AppTypography.body),
+                  Text('${v.vehicleModel} · ${v.registrationNumber}', style: AppTypography.of(context).body),
                   const SizedBox(height: 6),
                   Wrap(
                     spacing: 8,
@@ -99,11 +99,11 @@ class BulkOfferDetailsScreen extends ConsumerWidget {
               ),
             ),
           const SizedBox(height: 8),
-          Text('Included Charges', style: AppTypography.h3),
+          Text('Included Charges', style: AppTypography.of(context).h3),
           const SizedBox(height: 10),
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(AppRadius.card)),
+            decoration: BoxDecoration(color: AppColors.of(context).surface, borderRadius: BorderRadius.circular(AppRadius.card)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: offer.includedCharges
@@ -111,9 +111,9 @@ class BulkOfferDetailsScreen extends ConsumerWidget {
                         padding: const EdgeInsets.symmetric(vertical: 4),
                         child: Row(
                           children: [
-                            const Icon(BootstrapIcons.check, size: 18, color: AppColors.success),
+                            Icon(BootstrapIcons.check, size: 18, color: AppColors.of(context).success),
                             const SizedBox(width: 8),
-                            Text(c, style: AppTypography.body.copyWith(color: AppColors.navy)),
+                            Text(c, style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).navy)),
                           ],
                         ),
                       ))
@@ -123,12 +123,12 @@ class BulkOfferDetailsScreen extends ConsumerWidget {
           const SizedBox(height: 20),
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(color: AppColors.primaryBackground, borderRadius: BorderRadius.circular(AppRadius.card)),
+            decoration: BoxDecoration(color: AppColors.of(context).primaryBackground, borderRadius: BorderRadius.circular(AppRadius.card)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Total Fare', style: AppTypography.label),
-                Text(formatRupees(offer.totalFare), style: AppTypography.price.copyWith(color: AppColors.primaryDark)),
+                Text('Total Fare', style: AppTypography.of(context).label),
+                Text(formatRupees(offer.totalFare), style: AppTypography.of(context).price.copyWith(color: AppColors.of(context).primaryDark)),
               ],
             ),
           ),
@@ -160,8 +160,8 @@ class _Chip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(AppRadius.badge)),
-      child: Text(label, style: AppTypography.caption.copyWith(fontWeight: FontWeight.w600, color: AppColors.navy)),
+      decoration: BoxDecoration(color: AppColors.of(context).surface, borderRadius: BorderRadius.circular(AppRadius.badge)),
+      child: Text(label, style: AppTypography.of(context).caption.copyWith(fontWeight: FontWeight.w600, color: AppColors.of(context).navy)),
     );
   }
 }

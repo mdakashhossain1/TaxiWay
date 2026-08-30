@@ -99,9 +99,9 @@ class _EditPhoneBottomSheetState extends State<EditPhoneBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
+      decoration: BoxDecoration(
+        color: AppColors.of(context).card,
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(24),
           topRight: Radius.circular(24),
         ),
@@ -131,12 +131,12 @@ class _EditPhoneBottomSheetState extends State<EditPhoneBottomSheet> {
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.1),
+                  color: AppColors.of(context).primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Icon(
+                child: Icon(
                   BootstrapIcons.pencil_square,
-                  color: AppColors.primary,
+                  color: AppColors.of(context).primary,
                   size: 22,
                 ),
               ),
@@ -147,17 +147,17 @@ class _EditPhoneBottomSheetState extends State<EditPhoneBottomSheet> {
                   children: [
                     Text(
                       'Change Phone Number',
-                      style: AppTypography.h3.copyWith(
+                      style: AppTypography.of(context).h3.copyWith(
                         fontSize: 17,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.navy,
+                        color: AppColors.of(context).navy,
                       ),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       'Enter your correct mobile number to receive a new OTP',
-                      style: AppTypography.caption.copyWith(
-                        color: AppColors.bodyText,
+                      style: AppTypography.of(context).caption.copyWith(
+                        color: AppColors.of(context).bodyText,
                         fontSize: 12,
                       ),
                     ),
@@ -168,7 +168,7 @@ class _EditPhoneBottomSheetState extends State<EditPhoneBottomSheet> {
           ),
 
           const SizedBox(height: 20),
-          const Divider(height: 1, color: Color(0xFFF1F5F9)),
+          Divider(height: 1, color: AppColors.of(context).border),
           const SizedBox(height: 20),
 
           // Phone input
@@ -185,7 +185,7 @@ class _EditPhoneBottomSheetState extends State<EditPhoneBottomSheet> {
             const SizedBox(height: 10),
             Text(
               _error!,
-              style: AppTypography.caption.copyWith(color: AppColors.error),
+              style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).error),
             ),
           ],
 
@@ -205,8 +205,8 @@ class _EditPhoneBottomSheetState extends State<EditPhoneBottomSheet> {
               onPressed: () => Navigator.of(context).pop(),
               child: Text(
                 'Cancel',
-                style: AppTypography.button.copyWith(
-                  color: AppColors.secondaryText,
+                style: AppTypography.of(context).button.copyWith(
+                  color: AppColors.of(context).secondaryText,
                   fontWeight: FontWeight.w600,
                 ),
               ),

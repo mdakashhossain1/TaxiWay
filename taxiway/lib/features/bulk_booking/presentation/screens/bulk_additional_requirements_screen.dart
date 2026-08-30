@@ -72,14 +72,14 @@ class _BulkAdditionalRequirementsScreenState extends ConsumerState<BulkAdditiona
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   decoration: BoxDecoration(
-                    color: selected ? AppColors.primaryBackground : Colors.white,
+                    color: selected ? AppColors.of(context).primaryBackground : Colors.white,
                     borderRadius: BorderRadius.circular(AppRadius.pill),
-                    border: Border.all(color: selected ? AppColors.primary : AppColors.border),
+                    border: Border.all(color: selected ? AppColors.of(context).primary : AppColors.of(context).border),
                   ),
                   child: Text(
                     r,
-                    style: AppTypography.label.copyWith(
-                      color: selected ? AppColors.primaryDark : AppColors.navy,
+                    style: AppTypography.of(context).label.copyWith(
+                      color: selected ? AppColors.of(context).primaryDark : AppColors.of(context).navy,
                     ),
                   ),
                 ),
@@ -100,23 +100,23 @@ class _BulkAdditionalRequirementsScreenState extends ConsumerState<BulkAdditiona
                 decoration: BoxDecoration(
                   color: const Color(0xFFF8FAFC),
                   borderRadius: BorderRadius.circular(AppRadius.medium),
-                  border: Border.all(color: const Color(0xFFE2E8F0)),
+                  border: Border.all(color: AppColors.of(context).border),
                 ),
                 child: Row(
                   children: [
-                    const Icon(BootstrapIcons.chat_left_text, size: 16, color: AppColors.primary),
+                    Icon(BootstrapIcons.chat_left_text, size: 16, color: AppColors.of(context).primary),
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
                         'Add Special Notes / Instructions (Optional)',
-                        style: AppTypography.caption.copyWith(
+                        style: AppTypography.of(context).caption.copyWith(
                           fontSize: 13.5,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.navy,
+                          color: AppColors.of(context).navy,
                         ),
                       ),
                     ),
-                    const Icon(BootstrapIcons.plus_circle, size: 18, color: AppColors.primary),
+                    Icon(BootstrapIcons.plus_circle, size: 18, color: AppColors.of(context).primary),
                   ],
                 ),
               ),
@@ -126,7 +126,7 @@ class _BulkAdditionalRequirementsScreenState extends ConsumerState<BulkAdditiona
               decoration: BoxDecoration(
                 color: const Color(0xFFF8FAFC),
                 borderRadius: BorderRadius.circular(AppRadius.medium),
-                border: Border.all(color: const Color(0xFFE2E8F0)),
+                border: Border.all(color: AppColors.of(context).border),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,11 +136,11 @@ class _BulkAdditionalRequirementsScreenState extends ConsumerState<BulkAdditiona
                     children: [
                       Row(
                         children: [
-                          const Icon(BootstrapIcons.chat_left_text, size: 16, color: AppColors.primary),
+                          Icon(BootstrapIcons.chat_left_text, size: 16, color: AppColors.of(context).primary),
                           const SizedBox(width: 8),
                           Text(
                             'Special Notes (Optional)',
-                            style: AppTypography.label.copyWith(fontSize: 14),
+                            style: AppTypography.of(context).label.copyWith(fontSize: 14),
                           ),
                         ],
                       ),
@@ -154,8 +154,8 @@ class _BulkAdditionalRequirementsScreenState extends ConsumerState<BulkAdditiona
                         },
                         child: Text(
                           'Remove',
-                          style: AppTypography.caption.copyWith(
-                            color: AppColors.error,
+                          style: AppTypography.of(context).caption.copyWith(
+                            color: AppColors.of(context).error,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -167,24 +167,24 @@ class _BulkAdditionalRequirementsScreenState extends ConsumerState<BulkAdditiona
                     controller: _notesController,
                     maxLines: 3,
                     onChanged: notifier.setNotes,
-                    style: AppTypography.body,
+                    style: AppTypography.of(context).body,
                     decoration: InputDecoration(
                       hintText: 'e.g. Extra luggage space, airport flight details, English speaking driver...',
-                      hintStyle: AppTypography.caption,
+                      hintStyle: AppTypography.of(context).caption,
                       filled: true,
                       fillColor: Colors.white,
                       contentPadding: const EdgeInsets.all(12),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(AppRadius.small),
-                        borderSide: const BorderSide(color: AppColors.border),
+                        borderSide: BorderSide(color: AppColors.of(context).border),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(AppRadius.small),
-                        borderSide: const BorderSide(color: AppColors.border),
+                        borderSide: BorderSide(color: AppColors.of(context).border),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(AppRadius.small),
-                        borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+                        borderSide: BorderSide(color: AppColors.of(context).primary, width: 1.5),
                       ),
                     ),
                   ),
@@ -195,7 +195,7 @@ class _BulkAdditionalRequirementsScreenState extends ConsumerState<BulkAdditiona
           const SizedBox(height: 22),
 
           // Contact Person Section
-          Text('Contact Person', style: AppTypography.h3),
+          Text('Contact Person', style: AppTypography.of(context).h3),
           const SizedBox(height: 12),
           AppTextField(
             controller: _nameController,

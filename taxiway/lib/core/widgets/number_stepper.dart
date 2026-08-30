@@ -25,20 +25,20 @@ class NumberStepper extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: AppTypography.label),
+        Text(label, style: AppTypography.of(context).label),
         const SizedBox(height: 8),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.of(context).card,
             borderRadius: BorderRadius.circular(AppRadius.input),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: AppColors.of(context).border),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _StepperButton(icon: BootstrapIcons.dash, onTap: value > min ? () => onChanged(value - 1) : null),
-              Text('$value', style: AppTypography.h2),
+              Text('$value', style: AppTypography.of(context).h2),
               _StepperButton(icon: BootstrapIcons.plus, onTap: value < max ? () => onChanged(value + 1) : null),
             ],
           ),
@@ -57,14 +57,14 @@ class _StepperButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final enabled = onTap != null;
     return Material(
-      color: enabled ? AppColors.primaryBackground : AppColors.surface,
+      color: enabled ? AppColors.of(context).primaryBackground : AppColors.of(context).surface,
       shape: const CircleBorder(),
       child: InkWell(
         customBorder: const CircleBorder(),
         onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.all(10),
-          child: Icon(icon, size: 22, color: enabled ? AppColors.primaryDark : AppColors.mutedText),
+          child: Icon(icon, size: 22, color: enabled ? AppColors.of(context).primaryDark : AppColors.of(context).mutedText),
         ),
       ),
     );

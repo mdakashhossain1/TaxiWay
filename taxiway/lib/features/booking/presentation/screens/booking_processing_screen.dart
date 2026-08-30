@@ -11,12 +11,14 @@ import '../../../../core/theme/app_shadows.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/widgets/buttons.dart';
 import '../../../../core/widgets/ride_map_view.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 class BookingProcessingScreen extends ConsumerWidget {
   const BookingProcessingScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final booking = ref.watch(bookingControllerProvider);
 
     ref.listen(bookingControllerProvider, (previous, next) {
@@ -54,29 +56,29 @@ class BookingProcessingScreen extends ConsumerWidget {
                 margin: const EdgeInsets.all(16),
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.of(context).card,
                   borderRadius: BorderRadius.circular(AppRadius.bottomSheet),
                   boxShadow: AppShadows.elevated,
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const SizedBox(
+                    SizedBox(
                       width: 24,
                       height: 24,
-                      child: CircularProgressIndicator(strokeWidth: 2.5, color: AppColors.primary),
+                      child: CircularProgressIndicator(strokeWidth: 2.5, color: AppColors.of(context).primary),
                     ),
                     const SizedBox(height: 14),
-                    Text('Finding a suitable driver...', style: AppTypography.h3, textAlign: TextAlign.center),
+                    Text(l10n.findingDriverHeading, style: AppTypography.of(context).h3, textAlign: TextAlign.center),
                     const SizedBox(height: 6),
                     Text(
-                      'This usually takes a few seconds.',
-                      style: AppTypography.body,
+                      l10n.findingDriverSubtitle,
+                      style: AppTypography.of(context).body,
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 18),
                     DestructiveButton(
-                      label: 'Cancel Request',
+                      label: l10n.cancelRequestLabel,
                       onPressed: () {
                         ref.read(bookingControllerProvider.notifier).cancelBooking();
                       },
@@ -104,8 +106,8 @@ class SearchPulseOverlay extends StatelessWidget {
           height: 140,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: AppColors.primary.withValues(alpha: 0.15),
-            border: Border.all(color: AppColors.primary.withValues(alpha: 0.4), width: 2),
+            color: AppColors.of(context).primary.withValues(alpha: 0.15),
+            border: Border.all(color: AppColors.of(context).primary.withValues(alpha: 0.4), width: 2),
           ),
         )
             .animate(onPlay: (c) => c.repeat())

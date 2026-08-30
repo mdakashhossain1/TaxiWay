@@ -25,12 +25,12 @@ class _Slide {
   });
 }
 
-const _slides = [
+List<_Slide> _slides(BuildContext context) => [
   _Slide(
     icon: BootstrapIcons.geo_alt_fill,
     title: 'Ride Anywhere in Patna',
     subtitle: 'Book a cab to any destination instantly — airport, station, or your favourite spot.',
-    accent: AppColors.primary,
+    accent: AppColors.of(context).primary,
   ),
   _Slide(
     icon: BootstrapIcons.shield_check,
@@ -75,7 +75,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   }
 
   void _next() {
-    if (_currentPage < _slides.length - 1) {
+    if (_currentPage < _slides(context).length - 1) {
       _pageController.nextPage(
         duration: const Duration(milliseconds: 350),
         curve: Curves.easeInOut,
@@ -88,10 +88,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final isLast = _currentPage == _slides.length - 1;
+    final isLast = _currentPage == _slides(context).length - 1;
 
     return Scaffold(
-      backgroundColor: AppColors.appBackground,
+      backgroundColor: AppColors.of(context).appBackground,
       body: SafeArea(
         child: Column(
           children: [
@@ -107,7 +107,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       onPressed: _finish,
                       child: Text(
                         'Skip',
-                        style: AppTypography.body.copyWith(color: AppColors.secondaryText),
+                        style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).secondaryText),
                       ),
                     ),
                 ],
@@ -119,9 +119,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               child: PageView.builder(
                 controller: _pageController,
                 onPageChanged: (i) => setState(() => _currentPage = i),
-                itemCount: _slides.length,
+                itemCount: _slides(context).length,
                 itemBuilder: (context, index) {
-                  final s = _slides[index];
+                  final s = _slides(context)[index];
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 32),
                     child: Column(
@@ -146,7 +146,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         // Title
                         Text(
                           s.title,
-                          style: AppTypography.h1.copyWith(fontSize: 26),
+                          style: AppTypography.of(context).h1.copyWith(fontSize: 26),
                           textAlign: TextAlign.center,
                         )
                             .animate(key: ValueKey('t$index'))
@@ -158,8 +158,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         // Subtitle
                         Text(
                           s.subtitle,
-                          style: AppTypography.bodyLarge.copyWith(
-                            color: AppColors.secondaryText,
+                          style: AppTypography.of(context).bodyLarge.copyWith(
+                            color: AppColors.of(context).secondaryText,
                             height: 1.55,
                           ),
                           textAlign: TextAlign.center,
@@ -182,7 +182,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   // Page indicator dots
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(_slides.length, (i) {
+                    children: List.generate(_slides(context).length, (i) {
                       final isActive = i == _currentPage;
                       return AnimatedContainer(
                         duration: const Duration(milliseconds: 280),
@@ -190,7 +190,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         width: isActive ? 24 : 8,
                         height: 8,
                         decoration: BoxDecoration(
-                          color: isActive ? AppColors.primary : AppColors.border,
+                          color: isActive ? AppColors.of(context).primary : AppColors.of(context).border,
                           borderRadius: BorderRadius.circular(4),
                         ),
                       );
@@ -205,13 +205,13 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     child: ElevatedButton(
                       onPressed: _next,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
+                        backgroundColor: AppColors.of(context).primary,
                         foregroundColor: Colors.white,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(AppRadius.button),
                         ),
-                        textStyle: AppTypography.button,
+                        textStyle: AppTypography.of(context).button,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -236,12 +236,12 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       child: OutlinedButton(
                         onPressed: _finish,
                         style: OutlinedButton.styleFrom(
-                          foregroundColor: AppColors.primary,
-                          side: const BorderSide(color: AppColors.primary, width: 1.5),
+                          foregroundColor: AppColors.of(context).primary,
+                          side: BorderSide(color: AppColors.of(context).primary, width: 1.5),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(AppRadius.button),
                           ),
-                          textStyle: AppTypography.button.copyWith(color: AppColors.primary),
+                          textStyle: AppTypography.of(context).button.copyWith(color: AppColors.of(context).primary),
                         ),
                         child: Text(l10n.login),
                       ),

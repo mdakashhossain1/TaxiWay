@@ -47,7 +47,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.of(context).appBackground,
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -82,17 +82,17 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
                                 color: Color(0xFFF1F5F9),
                                 shape: BoxShape.circle,
                               ),
-                              child: const Icon(
+                              child: Icon(
                                 BootstrapIcons.person_fill,
                                 size: 48,
-                                color: AppColors.mutedText,
+                                color: AppColors.of(context).mutedText,
                               ),
                             ),
                             Positioned(
                               right: 0,
                               bottom: 0,
                               child: Material(
-                                color: AppColors.primary,
+                                color: AppColors.of(context).primary,
                                 shape: const CircleBorder(),
                                 elevation: 2,
                                 child: InkWell(
@@ -116,10 +116,10 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
                       // Heading: Tell us about you
                       Text(
                         'Tell us about you',
-                        style: AppTypography.h1.copyWith(
+                        style: AppTypography.of(context).h1.copyWith(
                           fontSize: 28,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.navy,
+                          color: AppColors.of(context).navy,
                         ),
                       ).animate().fadeIn(delay: 150.ms, duration: 350.ms).slideY(begin: 0.2, end: 0),
 
@@ -128,9 +128,9 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
                       // Subtitle
                       Text(
                         'Just the essentials — you can update this anytime.',
-                        style: AppTypography.body.copyWith(
+                        style: AppTypography.of(context).body.copyWith(
                           fontSize: 15,
-                          color: AppColors.bodyText,
+                          color: AppColors.of(context).bodyText,
                         ),
                       ).animate().fadeIn(delay: 200.ms, duration: 350.ms).slideY(begin: 0.2, end: 0),
 
@@ -166,15 +166,15 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
                         child: ElevatedButton(
                           onPressed: _name.trim().isNotEmpty && !_saving ? _continue : null,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
-                            disabledBackgroundColor: AppColors.primary.withValues(alpha: 0.4),
+                            backgroundColor: AppColors.of(context).primary,
+                            disabledBackgroundColor: AppColors.of(context).primary.withValues(alpha: 0.4),
                             foregroundColor: Colors.white,
                             disabledForegroundColor: Colors.white70,
                             elevation: 0,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(AppRadius.button),
                             ),
-                            textStyle: AppTypography.button,
+                            textStyle: AppTypography.of(context).button,
                           ),
                           child: _saving
                               ? const SizedBox(

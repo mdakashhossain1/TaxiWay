@@ -38,7 +38,7 @@ class TripDetailsScreen extends ConsumerWidget {
 
     return AppScaffold(
       appBar: AppBar(
-        title: Text('Trip Details', style: AppTypography.h2.copyWith(fontSize: 18, color: AppColors.navy)),
+        title: Text('Trip Details', style: AppTypography.of(context).h2.copyWith(fontSize: 18, color: AppColors.of(context).navy)),
       ),
       scrollable: true,
       body: Column(
@@ -62,7 +62,7 @@ class TripDetailsScreen extends ConsumerWidget {
             children: [
               Text(
                 'Trip #${booking.id}',
-                style: AppTypography.label.copyWith(fontSize: 15, fontWeight: FontWeight.w700, color: AppColors.navy),
+                style: AppTypography.of(context).label.copyWith(fontSize: 15, fontWeight: FontWeight.w700, color: AppColors.of(context).navy),
               ),
               StatusBadge(
                 label: booking.status.name.toUpperCase(),
@@ -73,7 +73,7 @@ class TripDetailsScreen extends ConsumerWidget {
           const SizedBox(height: 2),
           Text(
             DateFormat('dd MMM yyyy, hh:mm a').format(booking.createdAt),
-            style: AppTypography.caption.copyWith(color: AppColors.mutedText),
+            style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).mutedText),
           ),
           const SizedBox(height: 16),
 
@@ -81,9 +81,9 @@ class TripDetailsScreen extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.of(context).card,
               borderRadius: BorderRadius.circular(AppRadius.card),
-              border: Border.all(color: const Color(0xFFE2E8F0)),
+              border: Border.all(color: AppColors.of(context).border),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,7 +96,7 @@ class TripDetailsScreen extends ConsumerWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Vehicle', style: AppTypography.caption),
+                      Text('Vehicle', style: AppTypography.of(context).caption),
                       Row(
                         children: [
                           Container(
@@ -107,7 +107,7 @@ class TripDetailsScreen extends ConsumerWidget {
                           ),
                           Text(
                             vehicle != null ? '${vehicle.model} · ${vehicle.registrationNumber}' : '—',
-                            style: AppTypography.label.copyWith(color: AppColors.navy),
+                            style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).navy),
                           ),
                         ],
                       ),
@@ -126,16 +126,16 @@ class TripDetailsScreen extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: AppColors.primaryBackground,
+              color: AppColors.of(context).primaryBackground,
               borderRadius: BorderRadius.circular(AppRadius.card),
-              border: Border.all(color: AppColors.primary.withValues(alpha: 0.25)),
+              border: Border.all(color: AppColors.of(context).primary.withValues(alpha: 0.25)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Fare Invoice',
-                  style: AppTypography.h3.copyWith(fontSize: 16, color: AppColors.navy),
+                  style: AppTypography.of(context).h3.copyWith(fontSize: 16, color: AppColors.of(context).navy),
                 ),
                 const SizedBox(height: 10),
                 _Row('Base Fare', formatRupees(booking.fare.baseFare)),
@@ -155,13 +155,13 @@ class TripDetailsScreen extends ConsumerWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.of(context).card,
                 borderRadius: BorderRadius.circular(AppRadius.card),
-                border: Border.all(color: const Color(0xFFE2E8F0)),
+                border: Border.all(color: AppColors.of(context).border),
               ),
               child: Row(
                 children: [
-                  Text('Your Rating', style: AppTypography.label.copyWith(color: AppColors.navy)),
+                  Text('Your Rating', style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).navy)),
                   const SizedBox(width: 10),
                   RatingStars(rating: item.ratingGiven!, size: 16),
                 ],
@@ -197,13 +197,13 @@ class _Row extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: emphasize ? AppTypography.label.copyWith(color: AppColors.navy) : AppTypography.caption),
+          Text(label, style: emphasize ? AppTypography.of(context).label.copyWith(color: AppColors.of(context).navy) : AppTypography.of(context).caption),
           Flexible(
             child: Text(
               value,
               style: emphasize
-                  ? AppTypography.h3.copyWith(color: AppColors.primaryDark, fontWeight: FontWeight.w700)
-                  : AppTypography.label.copyWith(color: AppColors.navy),
+                  ? AppTypography.of(context).h3.copyWith(color: AppColors.of(context).primaryDark, fontWeight: FontWeight.w700)
+                  : AppTypography.of(context).label.copyWith(color: AppColors.of(context).navy),
               textAlign: TextAlign.right,
             ),
           ),

@@ -46,7 +46,7 @@ class DriverArrivedScreen extends ConsumerWidget {
     return AppScaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('Driver Arrived', style: AppTypography.h2.copyWith(fontSize: 18, color: AppColors.navy)),
+        title: Text('Driver Arrived', style: AppTypography.of(context).h2.copyWith(fontSize: 18, color: AppColors.of(context).navy)),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,11 +58,11 @@ class DriverArrivedScreen extends ConsumerWidget {
             children: [
               Container(
                 padding: const EdgeInsets.all(12),
-                decoration: const BoxDecoration(
-                  color: AppColors.successBackground,
+                decoration: BoxDecoration(
+                  color: AppColors.of(context).successBackground,
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(BootstrapIcons.geo_alt_fill, color: AppColors.success, size: 26),
+                child: Icon(BootstrapIcons.geo_alt_fill, color: AppColors.of(context).success, size: 26),
               ),
               const SizedBox(width: 14),
               Expanded(
@@ -71,12 +71,12 @@ class DriverArrivedScreen extends ConsumerWidget {
                   children: [
                     Text(
                       'Your driver has arrived',
-                      style: AppTypography.h2.copyWith(fontSize: 20, color: AppColors.navy),
+                      style: AppTypography.of(context).h2.copyWith(fontSize: 20, color: AppColors.of(context).navy),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       'Waiting at ${booking.pickup.shortName}',
-                      style: AppTypography.body.copyWith(fontSize: 14, color: AppColors.bodyText),
+                      style: AppTypography.of(context).body.copyWith(fontSize: 14, color: AppColors.of(context).bodyText),
                     ),
                   ],
                 ),
@@ -90,9 +90,9 @@ class DriverArrivedScreen extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: AppColors.primaryBackground,
+              color: AppColors.of(context).primaryBackground,
               borderRadius: BorderRadius.circular(AppRadius.card),
-              border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
+              border: Border.all(color: AppColors.of(context).primary.withValues(alpha: 0.3)),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -102,32 +102,32 @@ class DriverArrivedScreen extends ConsumerWidget {
                   children: [
                     Text(
                       'START RIDE OTP',
-                      style: AppTypography.caption.copyWith(
+                      style: AppTypography.of(context).caption.copyWith(
                         fontWeight: FontWeight.w700,
-                        color: AppColors.primaryDark,
+                        color: AppColors.of(context).primaryDark,
                         letterSpacing: 0.8,
                       ),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       'Share with driver to start ride',
-                      style: AppTypography.caption.copyWith(color: AppColors.bodyText),
+                      style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).bodyText),
                     ),
                   ],
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.of(context).card,
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: AppColors.primary),
+                    border: Border.all(color: AppColors.of(context).primary),
                   ),
                   child: Text(
                     '1234',
-                    style: AppTypography.h1.copyWith(
+                    style: AppTypography.of(context).h1.copyWith(
                       fontSize: 22,
                       letterSpacing: 4,
-                      color: AppColors.primaryDark,
+                      color: AppColors.of(context).primaryDark,
                     ),
                   ),
                 ),
@@ -155,18 +155,18 @@ class DriverArrivedScreen extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             decoration: BoxDecoration(
-              color: AppColors.surface,
+              color: AppColors.of(context).surface,
               borderRadius: BorderRadius.circular(AppRadius.medium),
-              border: Border.all(color: const Color(0xFFE2E8F0)),
+              border: Border.all(color: AppColors.of(context).border),
             ),
             child: Row(
               children: [
-                const Icon(BootstrapIcons.shield_check, size: 18, color: AppColors.primary),
+                Icon(BootstrapIcons.shield_check, size: 18, color: AppColors.of(context).primary),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
                     'Please check the vehicle number before boarding.',
-                    style: AppTypography.caption.copyWith(color: AppColors.bodyText),
+                    style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).bodyText),
                   ),
                 ),
               ],

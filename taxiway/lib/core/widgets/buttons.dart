@@ -58,12 +58,12 @@ class SecondaryButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primaryBackground,
-          foregroundColor: AppColors.primaryDark,
+          backgroundColor: AppColors.of(context).primaryBackground,
+          foregroundColor: AppColors.of(context).primaryDark,
           elevation: 0,
-          side: const BorderSide(color: AppColors.primaryBorder),
+          side: BorderSide(color: AppColors.of(context).primaryBorder),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.button)),
-          textStyle: AppTypography.button,
+          textStyle: AppTypography.of(context).button,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -120,12 +120,12 @@ class DestructiveButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: filled ? AppColors.error : Colors.white,
-          foregroundColor: filled ? Colors.white : AppColors.error,
+          backgroundColor: filled ? AppColors.of(context).error : AppColors.of(context).card,
+          foregroundColor: filled ? Colors.white : AppColors.of(context).error,
           elevation: 0,
-          side: filled ? BorderSide.none : const BorderSide(color: AppColors.errorBorder),
+          side: filled ? BorderSide.none : BorderSide(color: AppColors.of(context).errorBorder),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.button)),
-          textStyle: AppTypography.button,
+          textStyle: AppTypography.of(context).button,
         ),
         child: Text(label),
       ),
@@ -137,19 +137,21 @@ class DestructiveButton extends StatelessWidget {
 class CircleIconButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onPressed;
-  final Color background;
-  final Color foreground;
+  final Color? background;
+  final Color? foreground;
 
   const CircleIconButton({
     super.key,
     required this.icon,
     required this.onPressed,
-    this.background = AppColors.primaryBackground,
-    this.foreground = AppColors.primary,
+    this.background,
+    this.foreground,
   });
 
   @override
   Widget build(BuildContext context) {
+    final background = this.background ?? AppColors.of(context).primaryBackground;
+    final foreground = this.foreground ?? AppColors.of(context).primary;
     return Material(
       color: background,
       shape: const CircleBorder(),

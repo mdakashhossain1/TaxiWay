@@ -67,9 +67,9 @@ class _DriverOnboardingScreenState extends ConsumerState<DriverOnboardingScreen>
   List<_DriverOnboardingSlide> _buildSlides() {
     return [
       _DriverOnboardingSlide(
-        illustration: const AuthHeroBadge(
+        illustration: AuthHeroBadge(
           icon: BootstrapIcons.car_front_fill,
-          color: AppColors.primary,
+          color: AppColors.of(context).primary,
           size: 110,
           badgeIcon: BootstrapIcons.cash_coin,
           badgeColor: Color(0xFF16A34A),
@@ -81,7 +81,7 @@ class _DriverOnboardingScreenState extends ConsumerState<DriverOnboardingScreen>
             .fadeIn(duration: 350.ms),
         title: 'Drive & Earn in Patna',
         subtitle: 'Earn reliable daily income with direct payouts, guaranteed ride requests, and 0% commission.',
-        accent: AppColors.primary,
+        accent: AppColors.of(context).primary,
       ),
       _DriverOnboardingSlide(
         illustration: const OtpHeroIllustration(size: 140)
@@ -131,8 +131,8 @@ class _DriverOnboardingScreenState extends ConsumerState<DriverOnboardingScreen>
                       onPressed: _finish,
                       child: Text(
                         'Skip',
-                        style: AppTypography.body.copyWith(
-                          color: AppColors.secondaryText,
+                        style: AppTypography.of(context).body.copyWith(
+                          color: AppColors.of(context).secondaryText,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -162,10 +162,10 @@ class _DriverOnboardingScreenState extends ConsumerState<DriverOnboardingScreen>
                         // Title
                         Text(
                           s.title,
-                          style: AppTypography.h1.copyWith(
+                          style: AppTypography.of(context).h1.copyWith(
                             fontSize: 26,
                             fontWeight: FontWeight.w800,
-                            color: AppColors.navy,
+                            color: AppColors.of(context).navy,
                           ),
                           textAlign: TextAlign.center,
                         )
@@ -178,8 +178,8 @@ class _DriverOnboardingScreenState extends ConsumerState<DriverOnboardingScreen>
                         // Subtitle
                         Text(
                           s.subtitle,
-                          style: AppTypography.bodyLarge.copyWith(
-                            color: AppColors.bodyText,
+                          style: AppTypography.of(context).bodyLarge.copyWith(
+                            color: AppColors.of(context).bodyText,
                             height: 1.5,
                             fontSize: 15,
                           ),
@@ -211,7 +211,7 @@ class _DriverOnboardingScreenState extends ConsumerState<DriverOnboardingScreen>
                         width: isActive ? 24 : 8,
                         height: 8,
                         decoration: BoxDecoration(
-                          color: isActive ? AppColors.primary : const Color(0xFFE2E8F0),
+                          color: isActive ? AppColors.of(context).primary : AppColors.of(context).border,
                           borderRadius: BorderRadius.circular(4),
                         ),
                       );
@@ -226,13 +226,13 @@ class _DriverOnboardingScreenState extends ConsumerState<DriverOnboardingScreen>
                     child: ElevatedButton(
                       onPressed: () => _next(slides.length),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
+                        backgroundColor: AppColors.of(context).primary,
                         foregroundColor: Colors.white,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(AppRadius.button),
                         ),
-                        textStyle: AppTypography.button,
+                        textStyle: AppTypography.of(context).button,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -257,12 +257,12 @@ class _DriverOnboardingScreenState extends ConsumerState<DriverOnboardingScreen>
                       child: OutlinedButton(
                         onPressed: _finish,
                         style: OutlinedButton.styleFrom(
-                          foregroundColor: AppColors.primary,
-                          side: const BorderSide(color: AppColors.primary, width: 1.5),
+                          foregroundColor: AppColors.of(context).primary,
+                          side: BorderSide(color: AppColors.of(context).primary, width: 1.5),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(AppRadius.button),
                           ),
-                          textStyle: AppTypography.button.copyWith(color: AppColors.primary),
+                          textStyle: AppTypography.of(context).button.copyWith(color: AppColors.of(context).primary),
                         ),
                         child: Text(l10n.loginLabel),
                       ),

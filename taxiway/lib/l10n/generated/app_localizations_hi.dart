@@ -171,4 +171,282 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get cancel => 'रद्द करें';
+
+  @override
+  String seatsCountShort(int count) {
+    return '$count सीटें';
+  }
+
+  @override
+  String get couldNotLoadVehicles => 'वाहन लोड नहीं हो सके।';
+
+  @override
+  String seaterCount(int count) {
+    return '$count सीटर';
+  }
+
+  @override
+  String minutesShort(int count) {
+    return '$count मिनट';
+  }
+
+  @override
+  String kmShort(String value) {
+    return '$value किमी';
+  }
+
+  @override
+  String get pickupLabel => 'पिकअप';
+
+  @override
+  String get destinationLabel => 'गंतव्य';
+
+  @override
+  String get driverLocationLabel => 'ड्राइवर का स्थान';
+
+  @override
+  String get expandMapLabel => 'फुल स्क्रीन';
+
+  @override
+  String get collapseMapLabel => 'छोटा करें';
+
+  @override
+  String get fromPickupLabel => 'से (पिकअप)';
+
+  @override
+  String get toDestinationLabel => 'तक (गंतव्य)';
+
+  @override
+  String get whereDoYouWantToGo => 'आप कहाँ जाना चाहते हैं?';
+
+  @override
+  String get baseFareLabel => 'बेस किराया';
+
+  @override
+  String get timeLabel => 'समय';
+
+  @override
+  String get tollsParkingNote => 'टोल और पार्किंग अतिरिक्त';
+
+  @override
+  String get pickupLocationTitle => 'पिकअप स्थान';
+
+  @override
+  String get dragMapPickupHint =>
+      'पिन हटाने के लिए मैप को खींचें, या नीचे पिकअप स्थान खोजें।';
+
+  @override
+  String get searchPickupMapHint => 'वास्तविक मैप पर पिकअप स्थान खोजें...';
+
+  @override
+  String get useCurrentGpsLocation => 'वर्तमान GPS स्थान उपयोग करें';
+
+  @override
+  String get detectLocationAutomatically => 'स्वचालित रूप से स्थान पहचानें';
+
+  @override
+  String closestResultsLabel(int count) {
+    return 'निकटतम परिणाम ($count)';
+  }
+
+  @override
+  String get recentPickupsLabel => 'हाल के पिकअप';
+
+  @override
+  String get clearAllLabel => 'सभी हटाएं';
+
+  @override
+  String get confirmPickupLabel => 'पिकअप की पुष्टि करें';
+
+  @override
+  String get selectPickupLocationLabel => 'पिकअप स्थान चुनें';
+
+  @override
+  String get noExactMatchTitle => 'मैप पर कोई सटीक मिलान नहीं मिला।';
+
+  @override
+  String get dragPinToSelectHint =>
+      'इस स्थान को सीधे चुनने के लिए मैप पिन खींचें।';
+
+  @override
+  String get noRecentPickupsTitle => 'कोई हाल का पिकअप नहीं';
+
+  @override
+  String get searchPickupAboveHint => 'ऊपर पिकअप खोजें या मैप पर पिन खींचें।';
+
+  @override
+  String get removeFromHistoryTooltip => 'इतिहास से हटाएं';
+
+  @override
+  String get liveRouteShowingHint =>
+      'चयनित गंतव्य के लिए लाइव सड़क मार्ग दिखाया जा रहा है। बदलने के लिए मैप पर टैप करें या खोजें।';
+
+  @override
+  String get tapMapToSeeRouteHint =>
+      'लाइव सड़क मार्ग देखने के लिए मैप पर टैप करें या नीचे खोजें।';
+
+  @override
+  String get searchDestinationMapHint => 'वास्तविक मैप पर गंतव्य खोजें...';
+
+  @override
+  String closestMatchesLabel(int count) {
+    return 'निकटतम मिलान ($count)';
+  }
+
+  @override
+  String get recentSearchHistoryLabel => 'हाल की खोज इतिहास';
+
+  @override
+  String get confirmDestinationLabel => 'गंतव्य की पुष्टि करें';
+
+  @override
+  String get selectDestinationFromMapLabel => 'मैप / सूची से गंतव्य चुनें';
+
+  @override
+  String get tapMapDirectlyHint =>
+      'इस स्थान को चुनने के लिए सीधे मैप पर टैप करें।';
+
+  @override
+  String get noRecentSearchesTitle => 'कोई हाल की खोज नहीं';
+
+  @override
+  String get typeAboveToSearchHint =>
+      'वास्तविक स्थान खोजने के लिए ऊपर टाइप करें या मैप पर टैप करें।';
+
+  @override
+  String get missingBookingDetails => 'बुकिंग विवरण गुम है।';
+
+  @override
+  String get confirmYourRide => 'अपनी सवारी की पुष्टि करें';
+
+  @override
+  String seatsCount(int count) {
+    return '$count सीटें';
+  }
+
+  @override
+  String get acLabel => 'एसी';
+
+  @override
+  String tripDistanceValue(String value) {
+    return 'यात्रा दूरी: $value किमी';
+  }
+
+  @override
+  String estTimeValue(String value) {
+    return 'अनु. समय: $value मिनट';
+  }
+
+  @override
+  String get paymentMethodLabel => 'भुगतान विधि';
+
+  @override
+  String get upiTitle => 'UPI (GPay, PhonePe, Paytm)';
+
+  @override
+  String get upiSubtitle => 'किसी भी UPI ऐप / QR कोड से सीधे भुगतान करें';
+
+  @override
+  String get cashPaymentTitle => 'नकद भुगतान';
+
+  @override
+  String get cashPaymentSubtitle =>
+      'यात्रा पूरी होने के बाद सीधे ड्राइवर को भुगतान करें';
+
+  @override
+  String get cardPaymentTitle => 'क्रेडिट / डेबिट कार्ड';
+
+  @override
+  String get cardPaymentSubtitle => 'Visa, MasterCard, RuPay, कॉर्पोरेट कार्ड';
+
+  @override
+  String confirmBookingLabel(String value) {
+    return 'बुकिंग की पुष्टि करें — $value';
+  }
+
+  @override
+  String get bookingFailedTitle => 'बुकिंग विफल';
+
+  @override
+  String get bookingFailedMessage =>
+      'अभी बुकिंग पूरी नहीं हो सकी। कृपया पुनः प्रयास करें।';
+
+  @override
+  String get changeVehicleLabel => 'वाहन बदलें';
+
+  @override
+  String get cancelRideTitle => 'सवारी रद्द करें?';
+
+  @override
+  String get cancelRideBody =>
+      'क्या आप वाकई इस सवारी को रद्द करना चाहते हैं? 5 मिनट के भीतर कोई रद्दीकरण शुल्क नहीं लगता।';
+
+  @override
+  String get keepRideLabel => 'सवारी रखें';
+
+  @override
+  String get cancelRideLabel => 'सवारी रद्द करें';
+
+  @override
+  String get bookingConfirmedTitle => 'बुकिंग की पुष्टि हो गई';
+
+  @override
+  String get noActiveBookingLabel => 'कोई सक्रिय बुकिंग नहीं।';
+
+  @override
+  String get yourBookingConfirmedHeading => 'आपकी बुकिंग की पुष्टि हो गई है!';
+
+  @override
+  String get driverAllocatedSubtitle => 'ड्राइवर आवंटित कर दिया गया है';
+
+  @override
+  String get driverMayCallTitle => 'ड्राइवर आपको कॉल कर सकता है';
+
+  @override
+  String get keepPhoneReachableSubtitle => 'कृपया अपना फ़ोन सुलभ रखें';
+
+  @override
+  String get liveTrackDriverLabel => 'ड्राइवर को लाइव ट्रैक करें';
+
+  @override
+  String reviewCountSuffix(int count) {
+    return '($count यात्राएं)';
+  }
+
+  @override
+  String get verifiedDriverLabel => 'सत्यापित ड्राइवर';
+
+  @override
+  String get connectingCallTitle => 'कॉल जोड़ी जा रही है';
+
+  @override
+  String callingDriverMessage(String name) {
+    return '$name को कॉल किया जा रहा है (+91 98765 00000)...';
+  }
+
+  @override
+  String get driverOnWayHeading => 'ड्राइवर रास्ते में है';
+
+  @override
+  String get driverArrivedLabel => 'ड्राइवर पहुंच गया है!';
+
+  @override
+  String kmAwaySuffix(String value) {
+    return '$value किमी दूर';
+  }
+
+  @override
+  String get arrivingInLabel => 'आगमन में';
+
+  @override
+  String get dropLabel => 'ड्रॉप';
+
+  @override
+  String get findingDriverHeading => 'उपयुक्त ड्राइवर खोजा जा रहा है...';
+
+  @override
+  String get findingDriverSubtitle => 'इसमें आमतौर पर कुछ सेकंड लगते हैं।';
+
+  @override
+  String get cancelRequestLabel => 'अनुरोध रद्द करें';
 }

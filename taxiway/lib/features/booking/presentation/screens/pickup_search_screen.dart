@@ -11,6 +11,7 @@ import '../../../../core/utils/geo_utils.dart';
 import '../../../../core/widgets/app_scaffold.dart';
 import '../../../../core/widgets/buttons.dart';
 import '../../../../core/widgets/location_picker_map.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 class PickupSearchScreen extends ConsumerStatefulWidget {
   const PickupSearchScreen({super.key});
@@ -107,10 +108,11 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final currentLocation = ref.read(placeRepositoryProvider).currentLocation;
 
     return AppScaffold(
-      appBar: AppBar(title: const Text('Pickup Location')),
+      appBar: AppBar(title: Text(l10n.pickupLocationTitle)),
       padHorizontal: false,
       body: Column(
         children: [
@@ -129,8 +131,8 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
             child: Text(
-              'Drag the map to move the pin, or search pickup location below.',
-              style: AppTypography.caption.copyWith(color: AppColors.mutedText),
+              l10n.dragMapPickupHint,
+              style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).mutedText),
             ),
           ),
           Expanded(
@@ -143,11 +145,11 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
                     controller: _controller,
                     onChanged: _onQueryChanged,
                     decoration: InputDecoration(
-                      hintText: 'Search pickup location on real map...',
-                      prefixIcon: const Icon(BootstrapIcons.search, size: 18, color: AppColors.primary),
+                      hintText: l10n.searchPickupMapHint,
+                      prefixIcon: Icon(BootstrapIcons.search, size: 18, color: AppColors.of(context).primary),
                       suffixIcon: _controller.text.isNotEmpty
                           ? IconButton(
-                              icon: const Icon(Icons.close_rounded, size: 20, color: AppColors.mutedText),
+                              icon: Icon(Icons.close_rounded, size: 20, color: AppColors.of(context).mutedText),
                               onPressed: () {
                                 _controller.clear();
                                 _onQueryChanged('');
@@ -155,19 +157,19 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
                             )
                           : null,
                       filled: true,
-                      fillColor: AppColors.surface,
+                      fillColor: AppColors.of(context).surface,
                       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(AppRadius.input),
-                        borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+                        borderSide: BorderSide(color: AppColors.of(context).primary, width: 1.5),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(AppRadius.input),
-                        borderSide: const BorderSide(color: AppColors.border, width: 1),
+                        borderSide: BorderSide(color: AppColors.of(context).border, width: 1),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(AppRadius.input),
-                        borderSide: const BorderSide(color: AppColors.primary, width: 1.8),
+                        borderSide: BorderSide(color: AppColors.of(context).primary, width: 1.8),
                       ),
                     ),
                   ),
@@ -176,30 +178,30 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
                     contentPadding: EdgeInsets.zero,
                     leading: Container(
                       padding: const EdgeInsets.all(8),
-                      decoration: const BoxDecoration(
-                        color: AppColors.primaryBackground,
+                      decoration: BoxDecoration(
+                        color: AppColors.of(context).primaryBackground,
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(BootstrapIcons.crosshair, color: AppColors.primary, size: 16),
+                      child: Icon(BootstrapIcons.crosshair, color: AppColors.of(context).primary, size: 16),
                     ),
-                    title: Text('Use current GPS location', style: AppTypography.label.copyWith(fontWeight: FontWeight.w600)),
-                    subtitle: Text('Detect location automatically', style: AppTypography.caption),
+                    title: Text(l10n.useCurrentGpsLocation, style: AppTypography.of(context).label.copyWith(fontWeight: FontWeight.w600)),
+                    subtitle: Text(l10n.detectLocationAutomatically, style: AppTypography.of(context).caption),
                     onTap: () {
                       FocusScope.of(context).unfocus();
                       _mapKey.currentState?.useCurrentLocation();
                     },
                   ),
-                  const Divider(height: 1, color: AppColors.border),
+                  Divider(height: 1, color: AppColors.of(context).border),
                   const SizedBox(height: 6),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         _searching
-                            ? 'Closest Results (${_results.length})'
-                            : 'Recent Pickups',
-                        style: AppTypography.label.copyWith(
-                          color: AppColors.secondaryText,
+                            ? l10n.closestResultsLabel(_results.length)
+                            : l10n.recentPickupsLabel,
+                        style: AppTypography.of(context).label.copyWith(
+                          color: AppColors.of(context).secondaryText,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -210,8 +212,8 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
                             setState(() => _recent.clear());
                           },
                           child: Text(
-                            'Clear all',
-                            style: AppTypography.caption.copyWith(color: AppColors.error),
+                            l10n.clearAllLabel,
+                            style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).error),
                           ),
                         ),
                     ],
@@ -227,7 +229,7 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     child: PrimaryButton(
-                      label: _selected != null ? 'Confirm Pickup' : 'Select Pickup Location',
+                      label: _selected != null ? l10n.confirmPickupLabel : l10n.selectPickupLocationLabel,
                       onPressed: _selected != null ? _confirmSelection : null,
                     ),
                   ),
@@ -241,6 +243,7 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
   }
 
   Widget _buildSearchResults(PlaceLocation origin) {
+    final l10n = AppLocalizations.of(context);
     if (_results.isEmpty) {
       return Center(
         child: Padding(
@@ -248,11 +251,11 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(BootstrapIcons.geo_alt, size: 36, color: AppColors.mutedText),
+              Icon(BootstrapIcons.geo_alt, size: 36, color: AppColors.of(context).mutedText),
               const SizedBox(height: 8),
-              Text('No exact match found on map.', style: AppTypography.label),
+              Text(l10n.noExactMatchTitle, style: AppTypography.of(context).label),
               const SizedBox(height: 4),
-              Text('Drag the map pin to select this location directly.', style: AppTypography.caption),
+              Text(l10n.dragPinToSelectHint, style: AppTypography.of(context).caption),
             ],
           ),
         ),
@@ -261,7 +264,7 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
 
     return ListView.separated(
       itemCount: _results.length,
-      separatorBuilder: (context, index) => const Divider(height: 1, color: AppColors.border),
+      separatorBuilder: (context, index) => Divider(height: 1, color: AppColors.of(context).border),
       itemBuilder: (context, i) {
         final place = _results[i];
         final isSelected = _selected?.address == place.address;
@@ -272,12 +275,12 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
           leading: Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: isSelected ? AppColors.primaryBackground : AppColors.surface,
+              color: isSelected ? AppColors.of(context).primaryBackground : AppColors.of(context).surface,
               shape: BoxShape.circle,
             ),
             child: Icon(
               BootstrapIcons.geo_alt_fill,
-              color: isSelected ? AppColors.primary : AppColors.secondaryText,
+              color: isSelected ? AppColors.of(context).primary : AppColors.of(context).secondaryText,
               size: 16,
             ),
           ),
@@ -286,23 +289,23 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
               Expanded(
                 child: Text(
                   place.shortName,
-                  style: AppTypography.label.copyWith(
+                  style: AppTypography.of(context).label.copyWith(
                     fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
-                    color: isSelected ? AppColors.primaryDark : AppColors.navy,
+                    color: isSelected ? AppColors.of(context).primaryDark : AppColors.of(context).navy,
                   ),
                 ),
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
-                  color: AppColors.surface,
+                  color: AppColors.of(context).surface,
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
                   '${distanceKm.toStringAsFixed(1)} km',
-                  style: AppTypography.caption.copyWith(
+                  style: AppTypography.of(context).caption.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: AppColors.primaryDark,
+                    color: AppColors.of(context).primaryDark,
                   ),
                 ),
               ),
@@ -310,7 +313,7 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
           ),
           subtitle: Text(
             place.address,
-            style: AppTypography.caption.copyWith(color: AppColors.bodyText),
+            style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).bodyText),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
@@ -323,6 +326,7 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
   }
 
   Widget _buildRecentHistory(PlaceLocation origin) {
+    final l10n = AppLocalizations.of(context);
     if (_recent.isEmpty) {
       return Center(
         child: Padding(
@@ -330,13 +334,13 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(BootstrapIcons.clock_history, size: 36, color: AppColors.mutedText),
+              Icon(BootstrapIcons.clock_history, size: 36, color: AppColors.of(context).mutedText),
               const SizedBox(height: 8),
-              Text('No recent pickups', style: AppTypography.label.copyWith(color: AppColors.secondaryText)),
+              Text(l10n.noRecentPickupsTitle, style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).secondaryText)),
               const SizedBox(height: 4),
               Text(
-                'Search pickup above or drag the pin on map.',
-                style: AppTypography.caption,
+                l10n.searchPickupAboveHint,
+                style: AppTypography.of(context).caption,
                 textAlign: TextAlign.center,
               ),
             ],
@@ -347,7 +351,7 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
 
     return ListView.separated(
       itemCount: _recent.length,
-      separatorBuilder: (context, index) => const Divider(height: 1, color: AppColors.border),
+      separatorBuilder: (context, index) => Divider(height: 1, color: AppColors.of(context).border),
       itemBuilder: (context, i) {
         final place = _recent[i];
         final isSelected = _selected?.address == place.address;
@@ -357,21 +361,21 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
           contentPadding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
           leading: Container(
             padding: const EdgeInsets.all(8),
-            decoration: const BoxDecoration(
-              color: AppColors.surface,
+            decoration: BoxDecoration(
+              color: AppColors.of(context).surface,
               shape: BoxShape.circle,
             ),
-            child: const Icon(
+            child: Icon(
               BootstrapIcons.clock_history,
-              color: AppColors.secondaryText,
+              color: AppColors.of(context).secondaryText,
               size: 16,
             ),
           ),
           title: Text(
             place.shortName,
-            style: AppTypography.label.copyWith(
+            style: AppTypography.of(context).label.copyWith(
               fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
-              color: isSelected ? AppColors.primaryDark : AppColors.navy,
+              color: isSelected ? AppColors.of(context).primaryDark : AppColors.of(context).navy,
             ),
           ),
           subtitle: Row(
@@ -379,7 +383,7 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
               Expanded(
                 child: Text(
                   place.address,
-                  style: AppTypography.caption.copyWith(color: AppColors.bodyText),
+                  style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).bodyText),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -387,13 +391,13 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
               const SizedBox(width: 8),
               Text(
                 '${distanceKm.toStringAsFixed(1)} km',
-                style: AppTypography.caption.copyWith(color: AppColors.mutedText),
+                style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).mutedText),
               ),
             ],
           ),
           trailing: IconButton(
-            icon: const Icon(Icons.close_rounded, size: 18, color: AppColors.mutedText),
-            tooltip: 'Remove from history',
+            icon: Icon(Icons.close_rounded, size: 18, color: AppColors.of(context).mutedText),
+            tooltip: l10n.removeFromHistoryTooltip,
             onPressed: () => _deleteRecent(place),
           ),
           selected: isSelected,

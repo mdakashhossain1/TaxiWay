@@ -32,10 +32,10 @@ class FullDriverProfileScreen extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(driver.name, style: AppTypography.h2),
+                    Text(driver.name, style: AppTypography.of(context).h2),
                     const SizedBox(height: 4),
-                    Text('${driver.languages.join(', ')} · ${driver.operatingArea}', style: AppTypography.caption),
-                    Text('Member since ${driver.memberSince}', style: AppTypography.caption),
+                    Text('${driver.languages.join(', ')} · ${driver.operatingArea}', style: AppTypography.of(context).caption),
+                    Text('Member since ${driver.memberSince}', style: AppTypography.of(context).caption),
                   ],
                 ),
               ),
@@ -50,14 +50,14 @@ class FullDriverProfileScreen extends ConsumerWidget {
             ],
           ),
           const SizedBox(height: 20),
-          Text('About Driver', style: AppTypography.h3),
+          Text('About Driver', style: AppTypography.of(context).h3),
           const SizedBox(height: 10),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.of(context).card,
               borderRadius: BorderRadius.circular(AppRadius.card),
-              border: Border.all(color: const Color(0xFFE2E8F0)),
+              border: Border.all(color: AppColors.of(context).border),
             ),
             child: Column(
               children: [
@@ -72,7 +72,7 @@ class FullDriverProfileScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 20),
-          Text('Rating Distribution', style: AppTypography.h3),
+          Text('Rating Distribution', style: AppTypography.of(context).h3),
           const SizedBox(height: 12),
           Column(
             children: [
@@ -81,31 +81,31 @@ class FullDriverProfileScreen extends ConsumerWidget {
             ],
           ),
           const SizedBox(height: 20),
-          Text('Reviews', style: AppTypography.h3),
+          Text('Reviews', style: AppTypography.of(context).h3),
           const SizedBox(height: 10),
           if (reviews.isEmpty)
-            Text("No reviews yet.", style: AppTypography.body.copyWith(color: AppColors.mutedText))
+            Text("No reviews yet.", style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).mutedText))
           else
             Column(
               children: reviews.map((r) {
                 return Container(
                   margin: const EdgeInsets.only(bottom: 12),
                   padding: const EdgeInsets.all(14),
-                  decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(AppRadius.medium)),
+                  decoration: BoxDecoration(color: AppColors.of(context).surface, borderRadius: BorderRadius.circular(AppRadius.medium)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(r.reviewerName, style: AppTypography.label),
-                          Text(r.relativeDate, style: AppTypography.caption),
+                          Text(r.reviewerName, style: AppTypography.of(context).label),
+                          Text(r.relativeDate, style: AppTypography.of(context).caption),
                         ],
                       ),
                       const SizedBox(height: 4),
                       RatingStars(rating: r.rating, size: 14),
                       const SizedBox(height: 8),
-                      Text(r.comment, style: AppTypography.body),
+                      Text(r.comment, style: AppTypography.of(context).body),
                     ],
                   ),
                 );
@@ -128,8 +128,8 @@ class _AboutStat extends StatelessWidget {
     return Expanded(
       child: Column(
         children: [
-          Text(value, style: AppTypography.h2),
-          Text(label, style: AppTypography.caption),
+          Text(value, style: AppTypography.of(context).h2),
+          Text(label, style: AppTypography.of(context).caption),
         ],
       ),
     );
@@ -150,18 +150,18 @@ class _InfoRow extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(label, style: AppTypography.caption.copyWith(color: AppColors.mutedText)),
+              Text(label, style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).mutedText)),
               Flexible(
                 child: Text(
                   value,
-                  style: AppTypography.label.copyWith(color: AppColors.navy, fontWeight: FontWeight.w600),
+                  style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).navy, fontWeight: FontWeight.w600),
                   textAlign: TextAlign.right,
                 ),
               ),
             ],
           ),
         ),
-        const Divider(height: 1, color: Color(0xFFF1F5F9)),
+        Divider(height: 1, color: AppColors.of(context).border),
       ],
     );
   }
@@ -179,18 +179,18 @@ class _VerifyRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: AppTypography.caption.copyWith(color: AppColors.mutedText)),
+          Text(label, style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).mutedText)),
           Row(
             children: [
               Icon(
                 verified ? BootstrapIcons.check_circle_fill : BootstrapIcons.x_circle_fill,
                 size: 14,
-                color: verified ? AppColors.success : AppColors.warningText,
+                color: verified ? AppColors.of(context).success : AppColors.of(context).warningText,
               ),
               const SizedBox(width: 4),
               Text(
                 verified ? 'Verified' : 'Pending',
-                style: AppTypography.label.copyWith(color: verified ? AppColors.success : AppColors.warningText, fontWeight: FontWeight.w600),
+                style: AppTypography.of(context).label.copyWith(color: verified ? AppColors.of(context).success : AppColors.of(context).warningText, fontWeight: FontWeight.w600),
               ),
             ],
           ),
@@ -211,7 +211,7 @@ class _RatingBar extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         children: [
-          SizedBox(width: 26, child: Text('$stars★', style: AppTypography.caption)),
+          SizedBox(width: 26, child: Text('$stars★', style: AppTypography.of(context).caption)),
           const SizedBox(width: 8),
           Expanded(
             child: ClipRRect(
@@ -223,14 +223,14 @@ class _RatingBar extends StatelessWidget {
                 builder: (context, value, _) => LinearProgressIndicator(
                   value: value,
                   minHeight: 8,
-                  backgroundColor: AppColors.surface,
+                  backgroundColor: AppColors.of(context).surface,
                   valueColor: const AlwaysStoppedAnimation(Color(0xFFF59E0B)),
                 ),
               ),
             ),
           ),
           const SizedBox(width: 8),
-          SizedBox(width: 34, child: Text('$percent%', style: AppTypography.caption)),
+          SizedBox(width: 34, child: Text('$percent%', style: AppTypography.of(context).caption)),
         ],
       ),
     );

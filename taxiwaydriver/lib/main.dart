@@ -3,12 +3,14 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toastification/toastification.dart';
 import 'core/api/native_secrets.dart';
 import 'core/router/app_router.dart';
 import 'core/services/push_notification_service.dart';
 import 'core/state/locale_controller.dart';
+import 'core/state/theme_controller.dart';
 import 'core/theme/app_theme.dart';
 import 'l10n/generated/app_localizations.dart';
 
@@ -39,16 +41,31 @@ class DriverApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locale = ref.watch(localeControllerProvider).locale;
+    final themeState = ref.watch(themeControllerProvider);
 
-    return ToastificationWrapper(
-      child: MaterialApp.router(
-        title: 'Taxiway Driver',
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.light,
-        routerConfig: appRouter,
-        locale: locale,
-        supportedLocales: AppLocalizations.supportedLocales,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
+    // Gates the very first frame until the persisted theme preference has
+    // loaded — ThemeProvider only reads initTheme once, in initState, so a
+    // late-arriving "dark" preference would otherwise never actually apply.
+    if (themeState.loading) {
+      return const MaterialApp(debugShowCheckedModeBanner: false, home: SizedBox.shrink());
+    }
+
+    return ThemeProvider(
+      initTheme: themeState.isDark ? AppTheme.dark : AppTheme.light,
+      // Longer than the package default (300ms) — a full-screen circular
+      // wipe needs a bit more time to read as smooth rather than snappy.
+      duration: const Duration(milliseconds: 450),
+      builder: (context, theme) => ToastificationWrapper(
+        child: MaterialApp.router(
+          title: 'Taxiway Driver',
+          debugShowCheckedModeBanner: false,
+          theme: theme,
+          routerConfig: appRouter,
+          locale: locale,
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          builder: (context, child) => ThemeSwitchingArea(child: child!),
+        ),
       ),
     );
   }

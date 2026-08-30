@@ -405,6 +405,492 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancel;
+
+  /// No description provided for @seatsCountShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} seats'**
+  String seatsCountShort(int count);
+
+  /// No description provided for @couldNotLoadVehicles.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load vehicles.'**
+  String get couldNotLoadVehicles;
+
+  /// No description provided for @seaterCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Seater'**
+  String seaterCount(int count);
+
+  /// No description provided for @minutesShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} min'**
+  String minutesShort(int count);
+
+  /// No description provided for @kmShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} km'**
+  String kmShort(String value);
+
+  /// No description provided for @pickupLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup'**
+  String get pickupLabel;
+
+  /// No description provided for @destinationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Destination'**
+  String get destinationLabel;
+
+  /// No description provided for @driverLocationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Driver Location'**
+  String get driverLocationLabel;
+
+  /// No description provided for @expandMapLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Screen'**
+  String get expandMapLabel;
+
+  /// No description provided for @collapseMapLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse'**
+  String get collapseMapLabel;
+
+  /// No description provided for @fromPickupLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'From (Pickup)'**
+  String get fromPickupLabel;
+
+  /// No description provided for @toDestinationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'To (Destination)'**
+  String get toDestinationLabel;
+
+  /// No description provided for @whereDoYouWantToGo.
+  ///
+  /// In en, this message translates to:
+  /// **'Where do you want to go?'**
+  String get whereDoYouWantToGo;
+
+  /// No description provided for @baseFareLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Base Fare'**
+  String get baseFareLabel;
+
+  /// No description provided for @timeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get timeLabel;
+
+  /// No description provided for @tollsParkingNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Tolls & parking extra'**
+  String get tollsParkingNote;
+
+  /// No description provided for @pickupLocationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup Location'**
+  String get pickupLocationTitle;
+
+  /// No description provided for @dragMapPickupHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag the map to move the pin, or search pickup location below.'**
+  String get dragMapPickupHint;
+
+  /// No description provided for @searchPickupMapHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search pickup location on real map...'**
+  String get searchPickupMapHint;
+
+  /// No description provided for @useCurrentGpsLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Use current GPS location'**
+  String get useCurrentGpsLocation;
+
+  /// No description provided for @detectLocationAutomatically.
+  ///
+  /// In en, this message translates to:
+  /// **'Detect location automatically'**
+  String get detectLocationAutomatically;
+
+  /// No description provided for @closestResultsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Closest Results ({count})'**
+  String closestResultsLabel(int count);
+
+  /// No description provided for @recentPickupsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Pickups'**
+  String get recentPickupsLabel;
+
+  /// No description provided for @clearAllLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear all'**
+  String get clearAllLabel;
+
+  /// No description provided for @confirmPickupLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Pickup'**
+  String get confirmPickupLabel;
+
+  /// No description provided for @selectPickupLocationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Pickup Location'**
+  String get selectPickupLocationLabel;
+
+  /// No description provided for @noExactMatchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No exact match found on map.'**
+  String get noExactMatchTitle;
+
+  /// No description provided for @dragPinToSelectHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag the map pin to select this location directly.'**
+  String get dragPinToSelectHint;
+
+  /// No description provided for @noRecentPickupsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No recent pickups'**
+  String get noRecentPickupsTitle;
+
+  /// No description provided for @searchPickupAboveHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search pickup above or drag the pin on map.'**
+  String get searchPickupAboveHint;
+
+  /// No description provided for @removeFromHistoryTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from history'**
+  String get removeFromHistoryTooltip;
+
+  /// No description provided for @liveRouteShowingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Showing live road route to selected destination. Tap map or search to change.'**
+  String get liveRouteShowingHint;
+
+  /// No description provided for @tapMapToSeeRouteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap on map or search below to see live road route.'**
+  String get tapMapToSeeRouteHint;
+
+  /// No description provided for @searchDestinationMapHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search destination on real map...'**
+  String get searchDestinationMapHint;
+
+  /// No description provided for @closestMatchesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Closest Matches ({count})'**
+  String closestMatchesLabel(int count);
+
+  /// No description provided for @recentSearchHistoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Search History'**
+  String get recentSearchHistoryLabel;
+
+  /// No description provided for @confirmDestinationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Destination'**
+  String get confirmDestinationLabel;
+
+  /// No description provided for @selectDestinationFromMapLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Destination from Map / List'**
+  String get selectDestinationFromMapLabel;
+
+  /// No description provided for @tapMapDirectlyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap on the map directly to select this spot.'**
+  String get tapMapDirectlyHint;
+
+  /// No description provided for @noRecentSearchesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No recent searches'**
+  String get noRecentSearchesTitle;
+
+  /// No description provided for @typeAboveToSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type above to search real places or tap on the map.'**
+  String get typeAboveToSearchHint;
+
+  /// No description provided for @missingBookingDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Missing booking details.'**
+  String get missingBookingDetails;
+
+  /// No description provided for @confirmYourRide.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm your ride'**
+  String get confirmYourRide;
+
+  /// No description provided for @seatsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Seats'**
+  String seatsCount(int count);
+
+  /// No description provided for @acLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'AC'**
+  String get acLabel;
+
+  /// No description provided for @tripDistanceValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Trip Distance: {value} km'**
+  String tripDistanceValue(String value);
+
+  /// No description provided for @estTimeValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Est. Time: {value} min'**
+  String estTimeValue(String value);
+
+  /// No description provided for @paymentMethodLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Method'**
+  String get paymentMethodLabel;
+
+  /// No description provided for @upiTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'UPI (GPay, PhonePe, Paytm)'**
+  String get upiTitle;
+
+  /// No description provided for @upiSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay directly via any UPI app / QR code'**
+  String get upiSubtitle;
+
+  /// No description provided for @cashPaymentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash Payment'**
+  String get cashPaymentTitle;
+
+  /// No description provided for @cashPaymentSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay driver directly after completing the trip'**
+  String get cashPaymentSubtitle;
+
+  /// No description provided for @cardPaymentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit / Debit Card'**
+  String get cardPaymentTitle;
+
+  /// No description provided for @cardPaymentSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Visa, MasterCard, RuPay, Corporate cards'**
+  String get cardPaymentSubtitle;
+
+  /// No description provided for @confirmBookingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Booking — {value}'**
+  String confirmBookingLabel(String value);
+
+  /// No description provided for @bookingFailedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking Failed'**
+  String get bookingFailedTitle;
+
+  /// No description provided for @bookingFailedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t complete booking right now. Please try again.'**
+  String get bookingFailedMessage;
+
+  /// No description provided for @changeVehicleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Vehicle'**
+  String get changeVehicleLabel;
+
+  /// No description provided for @cancelRideTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel Ride?'**
+  String get cancelRideTitle;
+
+  /// No description provided for @cancelRideBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to cancel this ride? No cancellation fee applies within 5 minutes.'**
+  String get cancelRideBody;
+
+  /// No description provided for @keepRideLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep Ride'**
+  String get keepRideLabel;
+
+  /// No description provided for @cancelRideLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel Ride'**
+  String get cancelRideLabel;
+
+  /// No description provided for @bookingConfirmedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking Confirmed'**
+  String get bookingConfirmedTitle;
+
+  /// No description provided for @noActiveBookingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'No active booking.'**
+  String get noActiveBookingLabel;
+
+  /// No description provided for @yourBookingConfirmedHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Your booking is confirmed!'**
+  String get yourBookingConfirmedHeading;
+
+  /// No description provided for @driverAllocatedSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Driver has been allocated'**
+  String get driverAllocatedSubtitle;
+
+  /// No description provided for @driverMayCallTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Driver may call you'**
+  String get driverMayCallTitle;
+
+  /// No description provided for @keepPhoneReachableSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Please keep your phone reachable'**
+  String get keepPhoneReachableSubtitle;
+
+  /// No description provided for @liveTrackDriverLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Live Track Driver'**
+  String get liveTrackDriverLabel;
+
+  /// No description provided for @reviewCountSuffix.
+  ///
+  /// In en, this message translates to:
+  /// **'({count} trips)'**
+  String reviewCountSuffix(int count);
+
+  /// No description provided for @verifiedDriverLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified Driver'**
+  String get verifiedDriverLabel;
+
+  /// No description provided for @connectingCallTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting Call'**
+  String get connectingCallTitle;
+
+  /// No description provided for @callingDriverMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Calling {name} (+91 98765 00000)...'**
+  String callingDriverMessage(String name);
+
+  /// No description provided for @driverOnWayHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Driver is on the way'**
+  String get driverOnWayHeading;
+
+  /// No description provided for @driverArrivedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Driver has arrived!'**
+  String get driverArrivedLabel;
+
+  /// No description provided for @kmAwaySuffix.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} km away'**
+  String kmAwaySuffix(String value);
+
+  /// No description provided for @arrivingInLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Arriving in'**
+  String get arrivingInLabel;
+
+  /// No description provided for @dropLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Drop'**
+  String get dropLabel;
+
+  /// No description provided for @findingDriverHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Finding a suitable driver...'**
+  String get findingDriverHeading;
+
+  /// No description provided for @findingDriverSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This usually takes a few seconds.'**
+  String get findingDriverSubtitle;
+
+  /// No description provided for @cancelRequestLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel Request'**
+  String get cancelRequestLabel;
 }
 
 class _AppLocalizationsDelegate

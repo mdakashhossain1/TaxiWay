@@ -26,7 +26,7 @@ class DriverVehicleProfileScreen extends ConsumerWidget {
 
     return AppScaffold(
       appBar: AppBar(
-        title: Text('Driver & Vehicle', style: AppTypography.h2.copyWith(fontSize: 18, color: AppColors.navy)),
+        title: Text('Driver & Vehicle', style: AppTypography.of(context).h2.copyWith(fontSize: 18, color: AppColors.of(context).navy)),
       ),
       scrollable: true,
       body: Column(
@@ -37,21 +37,24 @@ class DriverVehicleProfileScreen extends ConsumerWidget {
             width: double.infinity,
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: AppColors.navy,
+              // Intentionally fixed dark navy in both themes — the hero
+              // card's white text is designed for a dark backdrop, unlike
+              // AppColors.navy which flips to near-white in dark mode.
+              color: const Color(0xFF0F172A),
               borderRadius: BorderRadius.circular(AppRadius.card),
             ),
             child: Column(
               children: [
                 const DriverAvatar(size: 76),
                 const SizedBox(height: 12),
-                Text(driver.name, style: AppTypography.h2.copyWith(color: Colors.white, fontSize: 20)),
+                Text(driver.name, style: AppTypography.of(context).h2.copyWith(color: Colors.white, fontSize: 20)),
                 const SizedBox(height: 4),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(BootstrapIcons.patch_check_fill, size: 15, color: AppColors.success),
+                    Icon(BootstrapIcons.patch_check_fill, size: 15, color: AppColors.of(context).success),
                     const SizedBox(width: 4),
-                    Text('Verified Driver · Online', style: AppTypography.caption.copyWith(color: Colors.white70)),
+                    Text('Verified Driver · Online', style: AppTypography.of(context).caption.copyWith(color: Colors.white70)),
                   ],
                 ),
                 const SizedBox(height: 16),
@@ -70,21 +73,21 @@ class DriverVehicleProfileScreen extends ConsumerWidget {
 
           const SizedBox(height: 20),
 
-          Text('Verification', style: AppTypography.h3.copyWith(fontSize: 16, color: AppColors.navy)),
+          Text('Verification', style: AppTypography.of(context).h3.copyWith(fontSize: 16, color: AppColors.of(context).navy)),
           const SizedBox(height: 10),
           Container(
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.of(context).card,
               borderRadius: BorderRadius.circular(AppRadius.card),
-              border: Border.all(color: const Color(0xFFE2E8F0)),
+              border: Border.all(color: AppColors.of(context).border),
             ),
             child: Column(
               children: [
                 _VerificationRow(label: 'Identity Verified', verified: driver.identityVerified),
-                const Divider(height: 14, color: Color(0xFFF1F5F9)),
+                Divider(height: 14, color: AppColors.of(context).border),
                 _VerificationRow(label: 'Driving Licence Verified', verified: driver.licenceVerified),
-                const Divider(height: 14, color: Color(0xFFF1F5F9)),
+                Divider(height: 14, color: AppColors.of(context).border),
                 _VerificationRow(label: 'Background Checked', verified: driver.backgroundChecked),
               ],
             ),
@@ -92,14 +95,14 @@ class DriverVehicleProfileScreen extends ConsumerWidget {
 
           const SizedBox(height: 20),
 
-          Text('Assigned Vehicle', style: AppTypography.h3.copyWith(fontSize: 16, color: AppColors.navy)),
+          Text('Assigned Vehicle', style: AppTypography.of(context).h3.copyWith(fontSize: 16, color: AppColors.of(context).navy)),
           const SizedBox(height: 10),
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.of(context).card,
               borderRadius: BorderRadius.circular(AppRadius.card),
-              border: Border.all(color: const Color(0xFFE2E8F0)),
+              border: Border.all(color: AppColors.of(context).border),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,17 +128,17 @@ class DriverVehicleProfileScreen extends ConsumerWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(vehicle.model, style: AppTypography.h3.copyWith(fontSize: 16, color: AppColors.navy)),
+                          Text(vehicle.model, style: AppTypography.of(context).h3.copyWith(fontSize: 16, color: AppColors.of(context).navy)),
                           const SizedBox(height: 2),
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                             decoration: BoxDecoration(
-                              color: AppColors.primaryBackground,
+                              color: AppColors.of(context).primaryBackground,
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Text(
                               vehicle.registrationNumber,
-                              style: AppTypography.label.copyWith(color: AppColors.primaryDark, fontSize: 11, fontWeight: FontWeight.w700),
+                              style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).primaryDark, fontSize: 11, fontWeight: FontWeight.w700),
                             ),
                           ),
                         ],
@@ -165,10 +168,10 @@ class DriverVehicleProfileScreen extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Vehicle Photos', style: AppTypography.h3.copyWith(fontSize: 16, color: AppColors.navy)),
+              Text('Vehicle Photos', style: AppTypography.of(context).h3.copyWith(fontSize: 16, color: AppColors.of(context).navy)),
               TextButton(
                 onPressed: () => context.push(AppRoutes.vehicleGallery),
-                child: Text('View All', style: AppTypography.label.copyWith(color: AppColors.primaryDark)),
+                child: Text('View All', style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).primaryDark)),
               ),
             ],
           ),
@@ -190,15 +193,15 @@ class DriverVehicleProfileScreen extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Passenger Reviews', style: AppTypography.h3.copyWith(fontSize: 16, color: AppColors.navy)),
+              Text('Passenger Reviews', style: AppTypography.of(context).h3.copyWith(fontSize: 16, color: AppColors.of(context).navy)),
               TextButton(
                 onPressed: () => context.push(AppRoutes.fullDriverProfile),
-                child: Text('View All', style: AppTypography.label.copyWith(color: AppColors.primaryDark)),
+                child: Text('View All', style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).primaryDark)),
               ),
             ],
           ),
           if (reviews.isEmpty)
-            Text("No reviews yet.", style: AppTypography.body.copyWith(color: AppColors.mutedText))
+            Text("No reviews yet.", style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).mutedText))
           else
             Column(
               children: reviews.take(2).map((r) {
@@ -207,9 +210,9 @@ class DriverVehicleProfileScreen extends ConsumerWidget {
                   child: Container(
                     padding: const EdgeInsets.all(14),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.of(context).card,
                       borderRadius: BorderRadius.circular(AppRadius.medium),
-                      border: Border.all(color: const Color(0xFFE2E8F0)),
+                      border: Border.all(color: AppColors.of(context).border),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -217,12 +220,12 @@ class DriverVehicleProfileScreen extends ConsumerWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(r.reviewerName, style: AppTypography.label.copyWith(color: AppColors.navy, fontWeight: FontWeight.w600)),
+                            Text(r.reviewerName, style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).navy, fontWeight: FontWeight.w600)),
                             RatingStars(rating: r.rating, size: 14),
                           ],
                         ),
                         const SizedBox(height: 6),
-                        Text(r.comment, style: AppTypography.body.copyWith(color: AppColors.bodyText, fontSize: 13)),
+                        Text(r.comment, style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).bodyText, fontSize: 13)),
                       ],
                     ),
                   ),
@@ -272,11 +275,11 @@ class _StatColumn extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             if (icon != null) ...[Icon(icon, size: 14, color: const Color(0xFFF59E0B)), const SizedBox(width: 3)],
-            Text(value, style: AppTypography.h3.copyWith(color: Colors.white)),
+            Text(value, style: AppTypography.of(context).h3.copyWith(color: Colors.white)),
           ],
         ),
         const SizedBox(height: 2),
-        Text(label, style: AppTypography.caption.copyWith(color: Colors.white60)),
+        Text(label, style: AppTypography.of(context).caption.copyWith(color: Colors.white60)),
       ],
     );
   }
@@ -296,10 +299,10 @@ class _VerificationRow extends StatelessWidget {
           Icon(
             verified ? BootstrapIcons.check_circle_fill : BootstrapIcons.x_circle_fill,
             size: 18,
-            color: verified ? AppColors.success : AppColors.error,
+            color: verified ? AppColors.of(context).success : AppColors.of(context).error,
           ),
           const SizedBox(width: 10),
-          Text(label, style: AppTypography.body.copyWith(color: AppColors.navy, fontWeight: FontWeight.w500)),
+          Text(label, style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).navy, fontWeight: FontWeight.w500)),
         ],
       ),
     );
@@ -315,13 +318,13 @@ class _Chip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: AppColors.primaryBackground,
+        color: AppColors.of(context).primaryBackground,
         borderRadius: BorderRadius.circular(AppRadius.pill),
-        border: Border.all(color: AppColors.primaryBorder),
+        border: Border.all(color: AppColors.of(context).primaryBorder),
       ),
       child: Text(
         label,
-        style: AppTypography.caption.copyWith(fontWeight: FontWeight.w600, color: AppColors.primaryDark, fontSize: 11),
+        style: AppTypography.of(context).caption.copyWith(fontWeight: FontWeight.w600, color: AppColors.of(context).primaryDark, fontSize: 11),
       ),
     );
   }

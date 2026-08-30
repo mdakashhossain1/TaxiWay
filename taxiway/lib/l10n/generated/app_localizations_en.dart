@@ -171,4 +171,284 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cancel => 'Cancel';
+
+  @override
+  String seatsCountShort(int count) {
+    return '$count seats';
+  }
+
+  @override
+  String get couldNotLoadVehicles => 'Couldn\'t load vehicles.';
+
+  @override
+  String seaterCount(int count) {
+    return '$count Seater';
+  }
+
+  @override
+  String minutesShort(int count) {
+    return '$count min';
+  }
+
+  @override
+  String kmShort(String value) {
+    return '$value km';
+  }
+
+  @override
+  String get pickupLabel => 'Pickup';
+
+  @override
+  String get destinationLabel => 'Destination';
+
+  @override
+  String get driverLocationLabel => 'Driver Location';
+
+  @override
+  String get expandMapLabel => 'Full Screen';
+
+  @override
+  String get collapseMapLabel => 'Collapse';
+
+  @override
+  String get fromPickupLabel => 'From (Pickup)';
+
+  @override
+  String get toDestinationLabel => 'To (Destination)';
+
+  @override
+  String get whereDoYouWantToGo => 'Where do you want to go?';
+
+  @override
+  String get baseFareLabel => 'Base Fare';
+
+  @override
+  String get timeLabel => 'Time';
+
+  @override
+  String get tollsParkingNote => 'Tolls & parking extra';
+
+  @override
+  String get pickupLocationTitle => 'Pickup Location';
+
+  @override
+  String get dragMapPickupHint =>
+      'Drag the map to move the pin, or search pickup location below.';
+
+  @override
+  String get searchPickupMapHint => 'Search pickup location on real map...';
+
+  @override
+  String get useCurrentGpsLocation => 'Use current GPS location';
+
+  @override
+  String get detectLocationAutomatically => 'Detect location automatically';
+
+  @override
+  String closestResultsLabel(int count) {
+    return 'Closest Results ($count)';
+  }
+
+  @override
+  String get recentPickupsLabel => 'Recent Pickups';
+
+  @override
+  String get clearAllLabel => 'Clear all';
+
+  @override
+  String get confirmPickupLabel => 'Confirm Pickup';
+
+  @override
+  String get selectPickupLocationLabel => 'Select Pickup Location';
+
+  @override
+  String get noExactMatchTitle => 'No exact match found on map.';
+
+  @override
+  String get dragPinToSelectHint =>
+      'Drag the map pin to select this location directly.';
+
+  @override
+  String get noRecentPickupsTitle => 'No recent pickups';
+
+  @override
+  String get searchPickupAboveHint =>
+      'Search pickup above or drag the pin on map.';
+
+  @override
+  String get removeFromHistoryTooltip => 'Remove from history';
+
+  @override
+  String get liveRouteShowingHint =>
+      'Showing live road route to selected destination. Tap map or search to change.';
+
+  @override
+  String get tapMapToSeeRouteHint =>
+      'Tap on map or search below to see live road route.';
+
+  @override
+  String get searchDestinationMapHint => 'Search destination on real map...';
+
+  @override
+  String closestMatchesLabel(int count) {
+    return 'Closest Matches ($count)';
+  }
+
+  @override
+  String get recentSearchHistoryLabel => 'Recent Search History';
+
+  @override
+  String get confirmDestinationLabel => 'Confirm Destination';
+
+  @override
+  String get selectDestinationFromMapLabel =>
+      'Select Destination from Map / List';
+
+  @override
+  String get tapMapDirectlyHint =>
+      'Tap on the map directly to select this spot.';
+
+  @override
+  String get noRecentSearchesTitle => 'No recent searches';
+
+  @override
+  String get typeAboveToSearchHint =>
+      'Type above to search real places or tap on the map.';
+
+  @override
+  String get missingBookingDetails => 'Missing booking details.';
+
+  @override
+  String get confirmYourRide => 'Confirm your ride';
+
+  @override
+  String seatsCount(int count) {
+    return '$count Seats';
+  }
+
+  @override
+  String get acLabel => 'AC';
+
+  @override
+  String tripDistanceValue(String value) {
+    return 'Trip Distance: $value km';
+  }
+
+  @override
+  String estTimeValue(String value) {
+    return 'Est. Time: $value min';
+  }
+
+  @override
+  String get paymentMethodLabel => 'Payment Method';
+
+  @override
+  String get upiTitle => 'UPI (GPay, PhonePe, Paytm)';
+
+  @override
+  String get upiSubtitle => 'Pay directly via any UPI app / QR code';
+
+  @override
+  String get cashPaymentTitle => 'Cash Payment';
+
+  @override
+  String get cashPaymentSubtitle =>
+      'Pay driver directly after completing the trip';
+
+  @override
+  String get cardPaymentTitle => 'Credit / Debit Card';
+
+  @override
+  String get cardPaymentSubtitle => 'Visa, MasterCard, RuPay, Corporate cards';
+
+  @override
+  String confirmBookingLabel(String value) {
+    return 'Confirm Booking — $value';
+  }
+
+  @override
+  String get bookingFailedTitle => 'Booking Failed';
+
+  @override
+  String get bookingFailedMessage =>
+      'Couldn\'t complete booking right now. Please try again.';
+
+  @override
+  String get changeVehicleLabel => 'Change Vehicle';
+
+  @override
+  String get cancelRideTitle => 'Cancel Ride?';
+
+  @override
+  String get cancelRideBody =>
+      'Are you sure you want to cancel this ride? No cancellation fee applies within 5 minutes.';
+
+  @override
+  String get keepRideLabel => 'Keep Ride';
+
+  @override
+  String get cancelRideLabel => 'Cancel Ride';
+
+  @override
+  String get bookingConfirmedTitle => 'Booking Confirmed';
+
+  @override
+  String get noActiveBookingLabel => 'No active booking.';
+
+  @override
+  String get yourBookingConfirmedHeading => 'Your booking is confirmed!';
+
+  @override
+  String get driverAllocatedSubtitle => 'Driver has been allocated';
+
+  @override
+  String get driverMayCallTitle => 'Driver may call you';
+
+  @override
+  String get keepPhoneReachableSubtitle => 'Please keep your phone reachable';
+
+  @override
+  String get liveTrackDriverLabel => 'Live Track Driver';
+
+  @override
+  String reviewCountSuffix(int count) {
+    return '($count trips)';
+  }
+
+  @override
+  String get verifiedDriverLabel => 'Verified Driver';
+
+  @override
+  String get connectingCallTitle => 'Connecting Call';
+
+  @override
+  String callingDriverMessage(String name) {
+    return 'Calling $name (+91 98765 00000)...';
+  }
+
+  @override
+  String get driverOnWayHeading => 'Driver is on the way';
+
+  @override
+  String get driverArrivedLabel => 'Driver has arrived!';
+
+  @override
+  String kmAwaySuffix(String value) {
+    return '$value km away';
+  }
+
+  @override
+  String get arrivingInLabel => 'Arriving in';
+
+  @override
+  String get dropLabel => 'Drop';
+
+  @override
+  String get findingDriverHeading => 'Finding a suitable driver...';
+
+  @override
+  String get findingDriverSubtitle => 'This usually takes a few seconds.';
+
+  @override
+  String get cancelRequestLabel => 'Cancel Request';
 }

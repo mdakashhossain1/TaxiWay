@@ -169,7 +169,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.of(context).appBackground,
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -193,10 +193,10 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                             child: Center(
                               child: Text(
                                 'OTP Verification',
-                                style: AppTypography.h3.copyWith(
+                                style: AppTypography.of(context).h3.copyWith(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w700,
-                                  color: AppColors.navy,
+                                  color: AppColors.of(context).navy,
                                 ),
                               ),
                             ),
@@ -226,7 +226,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
 
                       const SizedBox(height: 24),
 
-                      Text(l10n.verifyMobileNumber, style: AppTypography.h1)
+                      Text(l10n.verifyMobileNumber, style: AppTypography.of(context).h1)
                           .animate()
                           .fadeIn(delay: 150.ms, duration: 350.ms)
                           .slideY(begin: 0.2, end: 0),
@@ -235,9 +235,9 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
 
                       Text(
                         l10n.otpSentTo(''),
-                        style: AppTypography.body.copyWith(
+                        style: AppTypography.of(context).body.copyWith(
                           fontSize: 15,
-                          color: AppColors.bodyText,
+                          color: AppColors.of(context).bodyText,
                         ),
                       )
                           .animate()
@@ -252,18 +252,18 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                         decoration: BoxDecoration(
                           color: const Color(0xFFF8FAFC),
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: const Color(0xFFE2E8F0)),
+                          border: Border.all(color: AppColors.of(context).border),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Icon(BootstrapIcons.phone_fill, size: 14, color: AppColors.primary),
+                            Icon(BootstrapIcons.phone_fill, size: 14, color: AppColors.of(context).primary),
                             const SizedBox(width: 8),
                             Text(
                               '+91 $displayPhone',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontWeight: FontWeight.w700,
-                                color: AppColors.navy,
+                                color: AppColors.of(context).navy,
                                 fontSize: 15,
                                 letterSpacing: 0.3,
                               ),
@@ -275,19 +275,19 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                               child: Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                 decoration: BoxDecoration(
-                                  color: AppColors.primary.withValues(alpha: 0.12),
+                                  color: AppColors.of(context).primary.withValues(alpha: 0.12),
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
-                                  children: const [
-                                    Icon(BootstrapIcons.pencil_square, size: 12, color: AppColors.primary),
-                                    SizedBox(width: 4),
+                                  children: [
+                                    Icon(BootstrapIcons.pencil_square, size: 12, color: AppColors.of(context).primary),
+                                    const SizedBox(width: 4),
                                     Text(
                                       'Change',
                                       style: TextStyle(
                                         fontWeight: FontWeight.w700,
-                                        color: AppColors.primary,
+                                        color: AppColors.of(context).primary,
                                         fontSize: 12,
                                       ),
                                     ),
@@ -313,7 +313,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                       if (_error != null) ...[
                         const SizedBox(height: 12),
                         Center(
-                          child: Text(_error!, style: AppTypography.body.copyWith(color: AppColors.error, fontWeight: FontWeight.w500)),
+                          child: Text(_error!, style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).error, fontWeight: FontWeight.w500)),
                         ),
                       ],
 
@@ -326,12 +326,12 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
                           decoration: BoxDecoration(
                             color: _secondsLeft == 0
-                                ? AppColors.primary.withValues(alpha: 0.08)
+                                ? AppColors.of(context).primary.withValues(alpha: 0.08)
                                 : const Color(0xFFF1F5F9),
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
                               color: _secondsLeft == 0
-                                  ? AppColors.primary.withValues(alpha: 0.35)
+                                  ? AppColors.of(context).primary.withValues(alpha: 0.35)
                                   : const Color(0xFFE2E8F0),
                               width: 1,
                             ),
@@ -340,20 +340,20 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                               ? Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    const Icon(BootstrapIcons.clock_history, size: 13, color: AppColors.secondaryText),
+                                    Icon(BootstrapIcons.clock_history, size: 13, color: AppColors.of(context).secondaryText),
                                     const SizedBox(width: 6),
                                     Text(
                                       '${l10n.resendOtp} in ',
-                                      style: AppTypography.caption.copyWith(
-                                        color: AppColors.bodyText,
+                                      style: AppTypography.of(context).caption.copyWith(
+                                        color: AppColors.of(context).bodyText,
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
                                     Text(
                                       '00:${_secondsLeft.toString().padLeft(2, '0')}',
-                                      style: const TextStyle(
-                                        color: AppColors.primaryDark,
+                                      style: TextStyle(
+                                        color: AppColors.of(context).primaryDark,
                                         fontWeight: FontWeight.w700,
                                         fontSize: 14,
                                       ),
@@ -366,20 +366,20 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      const Icon(BootstrapIcons.arrow_clockwise, size: 14, color: AppColors.primary),
+                                      Icon(BootstrapIcons.arrow_clockwise, size: 14, color: AppColors.of(context).primary),
                                       const SizedBox(width: 6),
                                       Text(
                                         "Didn't receive code? ",
-                                        style: AppTypography.caption.copyWith(
-                                          color: AppColors.bodyText,
+                                        style: AppTypography.of(context).caption.copyWith(
+                                          color: AppColors.of(context).bodyText,
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
                                       Text(
                                         l10n.resendOtp,
-                                        style: const TextStyle(
-                                          color: AppColors.primary,
+                                        style: TextStyle(
+                                          color: AppColors.of(context).primary,
                                           fontWeight: FontWeight.w700,
                                           fontSize: 14,
                                           decoration: TextDecoration.underline,

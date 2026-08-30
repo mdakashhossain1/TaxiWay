@@ -53,7 +53,7 @@ class HelpSupportScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(
           'Help & Support',
-          style: AppTypography.h2.copyWith(fontSize: 18, color: AppColors.navy),
+          style: AppTypography.of(context).h2.copyWith(fontSize: 18, color: AppColors.of(context).navy),
         ),
       ),
       scrollable: true,
@@ -63,36 +63,36 @@ class HelpSupportScreen extends ConsumerWidget {
           const SizedBox(height: 6),
           Text(
             'How can we help you?',
-            style: AppTypography.h2.copyWith(fontSize: 20, color: AppColors.navy),
+            style: AppTypography.of(context).h2.copyWith(fontSize: 20, color: AppColors.of(context).navy),
           ),
           const SizedBox(height: 4),
           Text(
             'Browse popular topics or connect directly with our support team.',
-            style: AppTypography.body.copyWith(color: AppColors.bodyText),
+            style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).bodyText),
           ),
           const SizedBox(height: 16),
           ..._topics.map(
             (t) => Container(
               margin: const EdgeInsets.only(bottom: 10),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.of(context).card,
                 borderRadius: BorderRadius.circular(AppRadius.card),
-                border: Border.all(color: const Color(0xFFE2E8F0)),
+                border: Border.all(color: AppColors.of(context).border),
               ),
               child: ListTile(
                 leading: Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: AppColors.primaryBackground,
+                    color: AppColors.of(context).primaryBackground,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Icon(t.$1, color: AppColors.primaryDark, size: 18),
+                  child: Icon(t.$1, color: AppColors.of(context).primaryDark, size: 18),
                 ),
                 title: Text(
                   t.$2,
-                  style: AppTypography.label.copyWith(fontSize: 14, color: AppColors.navy, fontWeight: FontWeight.w600),
+                  style: AppTypography.of(context).label.copyWith(fontSize: 14, color: AppColors.of(context).navy, fontWeight: FontWeight.w600),
                 ),
-                trailing: const Icon(BootstrapIcons.chevron_right, size: 14, color: AppColors.mutedText),
+                trailing: Icon(BootstrapIcons.chevron_right, size: 14, color: AppColors.of(context).mutedText),
                 onTap: () => AppToast.info(
                   context,
                   'Opening guide and FAQs for "${t.$2}"...',
@@ -106,21 +106,21 @@ class HelpSupportScreen extends ConsumerWidget {
             width: double.infinity,
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: AppColors.primaryBackground,
+              color: AppColors.of(context).primaryBackground,
               borderRadius: BorderRadius.circular(AppRadius.card),
-              border: Border.all(color: AppColors.primaryBorder),
+              border: Border.all(color: AppColors.of(context).primaryBorder),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Still need help?',
-                  style: AppTypography.h3.copyWith(fontSize: 15, color: AppColors.navy),
+                  style: AppTypography.of(context).h3.copyWith(fontSize: 15, color: AppColors.of(context).navy),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   "We're here for you.",
-                  style: AppTypography.caption.copyWith(color: AppColors.bodyText),
+                  style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).bodyText),
                 ),
                 const SizedBox(height: 12),
                 Row(

@@ -61,9 +61,9 @@ class TripCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         margin: const EdgeInsets.only(bottom: 12),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.of(context).card,
           borderRadius: BorderRadius.circular(AppRadius.card),
-          border: Border.all(color: const Color(0xFFE2E8F0), width: 1.2),
+          border: Border.all(color: AppColors.of(context).border, width: 1.2),
           boxShadow: [
             BoxShadow(
               color: const Color(0xFF0F172A).withValues(alpha: 0.04),
@@ -99,11 +99,11 @@ class TripCard extends StatelessWidget {
                       children: [
                         Text(
                           booking.vehicleCategory.name,
-                          style: AppTypography.label.copyWith(fontWeight: FontWeight.w700, color: AppColors.navy),
+                          style: AppTypography.of(context).label.copyWith(fontWeight: FontWeight.w700, color: AppColors.of(context).navy),
                         ),
                         Text(
                           DateFormat('dd MMM, hh:mm a').format(booking.createdAt),
-                          style: AppTypography.caption.copyWith(color: AppColors.mutedText, fontSize: 11),
+                          style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).mutedText, fontSize: 11),
                         ),
                       ],
                     ),
@@ -113,12 +113,12 @@ class TripCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
-            _RoutePoint(color: AppColors.success, text: booking.pickup.shortName),
-            const Padding(
-              padding: EdgeInsets.only(left: 4),
-              child: SizedBox(height: 14, child: VerticalDivider(width: 1, thickness: 1.5, color: Color(0xFFCBD5E1))),
+            _RoutePoint(color: AppColors.of(context).success, text: booking.pickup.shortName),
+            Padding(
+              padding: const EdgeInsets.only(left: 4),
+              child: SizedBox(height: 14, child: VerticalDivider(width: 1, thickness: 1.5, color: AppColors.of(context).borderStrong)),
             ),
-            _RoutePoint(color: AppColors.primary, text: booking.destination.shortName),
+            _RoutePoint(color: AppColors.of(context).primary, text: booking.destination.shortName),
             const SizedBox(height: 12),
             Container(height: 1, color: const Color(0xFFE2E8F0)),
             const SizedBox(height: 10),
@@ -127,12 +127,12 @@ class TripCard extends StatelessWidget {
               children: [
                 Text(
                   '${booking.distanceKm.toStringAsFixed(1)} km · ${booking.etaMinutes} min',
-                  style: AppTypography.caption.copyWith(color: AppColors.bodyText),
+                  style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).bodyText),
                 ),
                 Text(
                   formatRupees(booking.fare.total),
-                  style: AppTypography.h3.copyWith(
-                    color: AppColors.primaryDark,
+                  style: AppTypography.of(context).h3.copyWith(
+                    color: AppColors.of(context).primaryDark,
                     fontWeight: FontWeight.w700,
                     fontSize: 16,
                   ),
@@ -161,7 +161,7 @@ class _RoutePoint extends StatelessWidget {
         Expanded(
           child: Text(
             text,
-            style: AppTypography.body.copyWith(color: AppColors.navy, fontWeight: FontWeight.w600, fontSize: 13),
+            style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).navy, fontWeight: FontWeight.w600, fontSize: 13),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),

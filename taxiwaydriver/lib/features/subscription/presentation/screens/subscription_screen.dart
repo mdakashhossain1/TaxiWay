@@ -33,12 +33,12 @@ class SubscriptionScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: AppColors.appBackground,
+      backgroundColor: AppColors.of(context).appBackground,
       appBar: AppBar(
-        title: Text(l10n.subscriptionTitle, style: AppTypography.h2),
+        title: Text(l10n.subscriptionTitle, style: AppTypography.of(context).h2),
         automaticallyImplyLeading: false,
         leading: IconButton(
-          icon: const Icon(BootstrapIcons.house_fill, color: AppColors.navy),
+          icon: Icon(BootstrapIcons.house_fill, color: AppColors.of(context).navy),
           onPressed: () => context.go(AppRoutes.dashboard),
         ),
       ),
@@ -63,29 +63,29 @@ class SubscriptionScreen extends ConsumerWidget {
                     width: double.infinity,
                     padding: const EdgeInsets.all(18),
                     decoration: BoxDecoration(
-                      color: AppColors.primaryBackground,
+                      color: AppColors.of(context).primaryBackground,
                       borderRadius: BorderRadius.circular(AppRadius.card),
-                      border: Border.all(color: AppColors.primaryBorder),
+                      border: Border.all(color: AppColors.of(context).primaryBorder),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(l10n.currentPlan, style: AppTypography.label.copyWith(color: AppColors.primaryDark)),
+                        Text(l10n.currentPlan, style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).primaryDark)),
                         const SizedBox(height: 4),
-                        Text('${formatRupees(plan.pricePerMonth)} / month', style: AppTypography.priceLarge),
-                        Text(l10n.ridesIncluded(plan.totalRides), style: AppTypography.body),
+                        Text('${formatRupees(plan.pricePerMonth)} / month', style: AppTypography.of(context).priceLarge),
+                        Text(l10n.ridesIncluded(plan.totalRides), style: AppTypography.of(context).body),
                         const SizedBox(height: 14),
                         UsageProgressBar(fraction: plan.usageFraction),
                         const SizedBox(height: 14),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('${plan.usedRides}/${plan.totalRides} ${l10n.ridesUsed}', style: AppTypography.body),
-                            Text('${plan.remainingRides} ${l10n.ridesRemaining}', style: AppTypography.body),
+                            Text('${plan.usedRides}/${plan.totalRides} ${l10n.ridesUsed}', style: AppTypography.of(context).body),
+                            Text('${plan.remainingRides} ${l10n.ridesRemaining}', style: AppTypography.of(context).body),
                           ],
                         ),
                         const SizedBox(height: 10),
-                        Text('${l10n.validUntil}: ${_formatNullableDate(plan.renewalDate)}', style: AppTypography.caption),
+                        Text('${l10n.validUntil}: ${_formatNullableDate(plan.renewalDate)}', style: AppTypography.of(context).caption),
                       ],
                     ),
                   ),
@@ -115,9 +115,9 @@ class SubscriptionScreen extends ConsumerWidget {
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.of(context).card,
                       borderRadius: BorderRadius.circular(AppRadius.card),
-                      border: Border.all(color: AppColors.border),
+                      border: Border.all(color: AppColors.of(context).border),
                     ),
                     child: Column(
                       children: [
@@ -172,8 +172,8 @@ class _HistoryRow extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(label, style: AppTypography.caption),
-              Text(value, style: AppTypography.label.copyWith(fontWeight: FontWeight.w600)),
+              Text(label, style: AppTypography.of(context).caption),
+              Text(value, style: AppTypography.of(context).label.copyWith(fontWeight: FontWeight.w600)),
             ],
           ),
         ),

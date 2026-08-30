@@ -64,9 +64,9 @@ class DriverCompactCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.of(context).card,
         borderRadius: BorderRadius.circular(AppRadius.card),
-        border: Border.all(color: const Color(0xFFE2E8F0), width: 1.2),
+        border: Border.all(color: AppColors.of(context).border, width: 1.2),
         boxShadow: [
           BoxShadow(
             color: const Color(0xFF0F172A).withValues(alpha: 0.04),
@@ -88,10 +88,10 @@ class DriverCompactCard extends StatelessWidget {
                   children: [
                     Text(
                       driver.name,
-                      style: AppTypography.h3.copyWith(
+                      style: AppTypography.of(context).h3.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.navy,
+                        color: AppColors.of(context).navy,
                       ),
                     ),
                     const SizedBox(height: 3),
@@ -101,9 +101,9 @@ class DriverCompactCard extends StatelessWidget {
                         const SizedBox(width: 6),
                         Text(
                           driver.rating.toStringAsFixed(1),
-                          style: AppTypography.caption.copyWith(
+                          style: AppTypography.of(context).caption.copyWith(
                             fontWeight: FontWeight.w600,
-                            color: AppColors.navy,
+                            color: AppColors.of(context).navy,
                           ),
                         ),
                       ],
@@ -144,17 +144,17 @@ class DriverCompactCard extends StatelessWidget {
                   children: [
                     Text(
                       vehicle.model,
-                      style: AppTypography.bodyLarge.copyWith(
+                      style: AppTypography.of(context).bodyLarge.copyWith(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.navy,
+                        color: AppColors.of(context).navy,
                       ),
                     ),
                     Text(
                       vehicle.registrationNumber,
-                      style: AppTypography.caption.copyWith(
+                      style: AppTypography.of(context).caption.copyWith(
                         fontWeight: FontWeight.w700,
-                        color: AppColors.primaryDark,
+                        color: AppColors.of(context).primaryDark,
                         letterSpacing: 0.5,
                       ),
                     ),
@@ -171,13 +171,13 @@ class DriverCompactCard extends StatelessWidget {
                   Expanded(
                     child: OutlinedButton.icon(
                       onPressed: onViewProfile,
-                      icon: const Icon(BootstrapIcons.person, size: 16, color: AppColors.navy),
+                      icon: Icon(BootstrapIcons.person, size: 16, color: AppColors.of(context).navy),
                       label: Text(
                         'Profile',
-                        style: AppTypography.label.copyWith(color: AppColors.navy),
+                        style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).navy),
                       ),
                       style: OutlinedButton.styleFrom(
-                        side: const BorderSide(color: Color(0xFFCBD5E1)),
+                        side: BorderSide(color: AppColors.of(context).borderStrong),
                         minimumSize: const Size.fromHeight(42),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(AppRadius.button),
@@ -193,8 +193,8 @@ class DriverCompactCard extends StatelessWidget {
                     child: CircleIconButton(
                       icon: BootstrapIcons.chat_dots_fill,
                       onPressed: onMessage!,
-                      background: AppColors.surface,
-                      foreground: AppColors.navy,
+                      background: AppColors.of(context).surface,
+                      foreground: AppColors.of(context).navy,
                     ),
                   ),
                 if (onCall != null && (onViewProfile != null || onMessage != null)) const SizedBox(width: 10),
@@ -205,10 +205,10 @@ class DriverCompactCard extends StatelessWidget {
                       icon: const Icon(BootstrapIcons.telephone_fill, size: 16, color: Colors.white),
                       label: Text(
                         'Call',
-                        style: AppTypography.button.copyWith(color: Colors.white, fontSize: 14),
+                        style: AppTypography.of(context).button.copyWith(color: Colors.white, fontSize: 14),
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
+                        backgroundColor: AppColors.of(context).primary,
                         foregroundColor: Colors.white,
                         elevation: 0,
                         minimumSize: const Size.fromHeight(42),

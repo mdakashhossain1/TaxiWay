@@ -31,24 +31,24 @@ class LanguageTile extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
         decoration: BoxDecoration(
-          color: selected ? AppColors.primaryBackground : Colors.white,
+          color: selected ? AppColors.of(context).primaryBackground : Colors.white,
           borderRadius: BorderRadius.circular(AppRadius.card),
-          border: Border.all(color: selected ? AppColors.primary : AppColors.border, width: selected ? 1.5 : 1),
+          border: Border.all(color: selected ? AppColors.of(context).primary : AppColors.of(context).border, width: selected ? 1.5 : 1),
         ),
         child: Row(
           children: [
             Expanded(
               child: Text(
                 label,
-                style: AppTypography.bodyLarge.copyWith(
+                style: AppTypography.of(context).bodyLarge.copyWith(
                   fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-                  color: selected ? AppColors.primaryDark : AppColors.navy,
+                  color: selected ? AppColors.of(context).primaryDark : AppColors.of(context).navy,
                 ),
               ),
             ),
             Icon(
               selected ? BootstrapIcons.check_circle_fill : BootstrapIcons.circle,
-              color: selected ? AppColors.primary : AppColors.border,
+              color: selected ? AppColors.of(context).primary : AppColors.of(context).border,
               size: 22,
             ),
           ],

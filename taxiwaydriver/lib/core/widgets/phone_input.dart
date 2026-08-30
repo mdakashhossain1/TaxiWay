@@ -22,9 +22,9 @@ class PhoneInput extends StatelessWidget {
     return Container(
       height: 54,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.of(context).card,
         borderRadius: BorderRadius.circular(AppRadius.input),
-        border: Border.all(color: AppColors.border, width: 1.2),
+        border: Border.all(color: AppColors.of(context).border, width: 1.2),
         boxShadow: [
           BoxShadow(
             color: const Color(0xFF0F172A).withValues(alpha: 0.03),
@@ -40,15 +40,15 @@ class PhoneInput extends StatelessWidget {
           const SizedBox(width: 6),
           Text(
             '+91',
-            style: AppTypography.bodyLarge.copyWith(
+            style: AppTypography.of(context).bodyLarge.copyWith(
               fontWeight: FontWeight.w600,
-              color: AppColors.navy,
+              color: AppColors.of(context).navy,
             ),
           ),
           const SizedBox(width: 4),
-          const Icon(BootstrapIcons.chevron_down, size: 12, color: AppColors.mutedText),
+          Icon(BootstrapIcons.chevron_down, size: 12, color: AppColors.of(context).mutedText),
           const SizedBox(width: 12),
-          Container(width: 1, height: 26, color: AppColors.border),
+          Container(width: 1, height: 26, color: AppColors.of(context).border),
           const SizedBox(width: 4),
           Expanded(
             child: TextField(
@@ -56,15 +56,15 @@ class PhoneInput extends StatelessWidget {
               onChanged: onChanged,
               keyboardType: TextInputType.phone,
               maxLength: 10,
-              style: AppTypography.bodyLarge.copyWith(
+              style: AppTypography.of(context).bodyLarge.copyWith(
                 fontWeight: FontWeight.w600,
-                color: AppColors.navy,
+                color: AppColors.of(context).navy,
                 letterSpacing: 0.5,
               ),
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               decoration: InputDecoration(
                 hintText: 'Enter mobile number',
-                hintStyle: AppTypography.body.copyWith(color: AppColors.mutedText),
+                hintStyle: AppTypography.of(context).body.copyWith(color: AppColors.of(context).mutedText),
                 counterText: '',
                 border: InputBorder.none,
                 enabledBorder: InputBorder.none,
@@ -87,7 +87,7 @@ class PhoneInput extends StatelessWidget {
                       Icon(
                         BootstrapIcons.sim_fill,
                         size: 16,
-                        color: AppColors.primary.withValues(alpha: 0.85),
+                        color: AppColors.of(context).primary.withValues(alpha: 0.85),
                       ),
                       const SizedBox(width: 4),
                       Text(
@@ -95,7 +95,7 @@ class PhoneInput extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.primary.withValues(alpha: 0.9),
+                          color: AppColors.of(context).primary.withValues(alpha: 0.9),
                         ),
                       ),
                     ],

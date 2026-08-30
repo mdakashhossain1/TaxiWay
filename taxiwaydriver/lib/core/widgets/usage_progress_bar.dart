@@ -5,14 +5,14 @@ import '../theme/app_colors.dart';
 class UsageProgressBar extends StatelessWidget {
   final double fraction;
   final Color trackColor;
-  final Color fillColor;
+  final Color? fillColor;
   final double height;
 
   const UsageProgressBar({
     super.key,
     required this.fraction,
     this.trackColor = Colors.white,
-    this.fillColor = AppColors.primary,
+    this.fillColor,
     this.height = 10,
   });
 
@@ -24,7 +24,7 @@ class UsageProgressBar extends StatelessWidget {
         value: fraction.clamp(0.0, 1.0),
         minHeight: height,
         backgroundColor: trackColor,
-        valueColor: AlwaysStoppedAnimation(fillColor),
+        valueColor: AlwaysStoppedAnimation(fillColor ?? AppColors.of(context).primary),
       ),
     );
   }

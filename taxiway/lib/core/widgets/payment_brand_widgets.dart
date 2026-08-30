@@ -144,16 +144,16 @@ class ModernPaymentOptionTile extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         decoration: BoxDecoration(
-          color: selected ? AppColors.primaryBackground : Colors.white,
+          color: selected ? AppColors.of(context).primaryBackground : AppColors.of(context).card,
           borderRadius: BorderRadius.circular(AppRadius.card),
           border: Border.all(
-            color: selected ? AppColors.primary : const Color(0xFFE2E8F0),
+            color: selected ? AppColors.of(context).primary : AppColors.of(context).border,
             width: selected ? 1.8 : 1.2,
           ),
           boxShadow: [
             BoxShadow(
               color: selected
-                  ? AppColors.primary.withValues(alpha: 0.10)
+                  ? AppColors.of(context).primary.withValues(alpha: 0.10)
                   : const Color(0xFF0F172A).withValues(alpha: 0.03),
               blurRadius: selected ? 8 : 4,
               offset: const Offset(0, 2),
@@ -183,17 +183,17 @@ class ModernPaymentOptionTile extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: AppTypography.label.copyWith(
+                    style: AppTypography.of(context).label.copyWith(
                       fontWeight: FontWeight.w700,
-                      color: selected ? AppColors.primaryDark : AppColors.navy,
+                      color: selected ? AppColors.of(context).primaryDark : AppColors.of(context).navy,
                       fontSize: 14,
                     ),
                   ),
                   const SizedBox(height: 2),
                   Text(
                     subtitle,
-                    style: AppTypography.caption.copyWith(
-                      color: AppColors.bodyText,
+                    style: AppTypography.of(context).caption.copyWith(
+                      color: AppColors.of(context).bodyText,
                       fontSize: 11,
                     ),
                   ),
@@ -208,10 +208,10 @@ class ModernPaymentOptionTile extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: selected ? AppColors.primary : const Color(0xFFCBD5E1),
+                  color: selected ? AppColors.of(context).primary : AppColors.of(context).borderStrong,
                   width: 2,
                 ),
-                color: selected ? AppColors.primary : Colors.transparent,
+                color: selected ? AppColors.of(context).primary : Colors.transparent,
               ),
               child: selected
                   ? const Icon(Icons.check, size: 13, color: Colors.white)

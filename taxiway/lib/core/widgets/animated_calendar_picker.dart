@@ -112,9 +112,9 @@ class _CenteredAnimatedCalendarDialogState extends State<_CenteredAnimatedCalend
           width: 380,
           margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.of(context).card,
             borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: const Color(0xFFE2E8F0)),
+            border: Border.all(color: AppColors.of(context).border),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.25),
@@ -140,26 +140,26 @@ class _CenteredAnimatedCalendarDialogState extends State<_CenteredAnimatedCalend
                           Text(
                             'Select Date & Time',
                             textAlign: TextAlign.center,
-                            style: AppTypography.h2.copyWith(
+                            style: AppTypography.of(context).h2.copyWith(
                               fontSize: 19,
                               fontWeight: FontWeight.w800,
-                              color: AppColors.navy,
+                              color: AppColors.of(context).navy,
                             ),
                           ),
                           const SizedBox(height: 3),
                           Text(
                             'Choose your travel schedule',
                             textAlign: TextAlign.center,
-                            style: AppTypography.caption.copyWith(
+                            style: AppTypography.of(context).caption.copyWith(
                               fontSize: 13,
-                              color: AppColors.secondaryText,
+                              color: AppColors.of(context).secondaryText,
                             ),
                           ),
                         ],
                       ),
                     ),
                     IconButton(
-                      icon: const Icon(Icons.close_rounded, color: AppColors.mutedText, size: 22),
+                      icon: Icon(Icons.close_rounded, color: AppColors.of(context).mutedText, size: 22),
                       onPressed: () => Navigator.of(context).pop(),
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
@@ -198,27 +198,27 @@ class _CenteredAnimatedCalendarDialogState extends State<_CenteredAnimatedCalend
                   decoration: BoxDecoration(
                     color: const Color(0xFFF8FAFC),
                     borderRadius: BorderRadius.circular(AppRadius.medium),
-                    border: Border.all(color: const Color(0xFFE2E8F0)),
+                    border: Border.all(color: AppColors.of(context).border),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
-                        icon: const Icon(Icons.chevron_left_rounded, color: AppColors.navy, size: 24),
+                        icon: Icon(Icons.chevron_left_rounded, color: AppColors.of(context).navy, size: 24),
                         onPressed: _prevMonth,
                         padding: EdgeInsets.zero,
                         constraints: const BoxConstraints(),
                       ),
                       Text(
                         _formatMonthYear(_displayedMonth),
-                        style: AppTypography.h3.copyWith(
+                        style: AppTypography.of(context).h3.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.navy,
+                          color: AppColors.of(context).navy,
                         ),
                       ),
                       IconButton(
-                        icon: const Icon(Icons.chevron_right_rounded, color: AppColors.navy, size: 24),
+                        icon: Icon(Icons.chevron_right_rounded, color: AppColors.of(context).navy, size: 24),
                         onPressed: _nextMonth,
                         padding: EdgeInsets.zero,
                         constraints: const BoxConstraints(),
@@ -257,9 +257,9 @@ class _CenteredAnimatedCalendarDialogState extends State<_CenteredAnimatedCalend
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Pickup Time Slot',
-                    style: AppTypography.label.copyWith(
+                    style: AppTypography.of(context).label.copyWith(
                       fontWeight: FontWeight.w700,
-                      color: AppColors.navy,
+                      color: AppColors.of(context).navy,
                       fontSize: 13.5,
                     ),
                   ),
@@ -279,10 +279,10 @@ class _CenteredAnimatedCalendarDialogState extends State<_CenteredAnimatedCalend
                             duration: const Duration(milliseconds: 180),
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
                             decoration: BoxDecoration(
-                              color: isSelected ? AppColors.primaryBackground : const Color(0xFFF8FAFC),
+                              color: isSelected ? AppColors.of(context).primaryBackground : const Color(0xFFF8FAFC),
                               borderRadius: BorderRadius.circular(AppRadius.pill),
                               border: Border.all(
-                                color: isSelected ? AppColors.primary : const Color(0xFFE2E8F0),
+                                color: isSelected ? AppColors.of(context).primary : AppColors.of(context).border,
                                 width: isSelected ? 1.5 : 1,
                               ),
                             ),
@@ -291,7 +291,7 @@ class _CenteredAnimatedCalendarDialogState extends State<_CenteredAnimatedCalend
                               style: TextStyle(
                                 fontSize: 12.5,
                                 fontWeight: isSelected ? FontWeight.w800 : FontWeight.w500,
-                                color: isSelected ? AppColors.primaryDark : AppColors.navy,
+                                color: isSelected ? AppColors.of(context).primaryDark : AppColors.of(context).navy,
                               ),
                             ),
                           ),
@@ -350,15 +350,15 @@ class _CenteredAnimatedCalendarDialogState extends State<_CenteredAnimatedCalend
             duration: const Duration(milliseconds: 200),
             decoration: BoxDecoration(
               color: isSelected
-                  ? AppColors.primary
+                  ? AppColors.of(context).primary
                   : isToday
-                      ? AppColors.primaryBackground
+                      ? AppColors.of(context).primaryBackground
                       : Colors.transparent,
               shape: BoxShape.circle,
               boxShadow: isSelected
                   ? [
                       BoxShadow(
-                        color: AppColors.primary.withValues(alpha: 0.35),
+                        color: AppColors.of(context).primary.withValues(alpha: 0.35),
                         blurRadius: 8,
                         offset: const Offset(0, 2),
                       ),
@@ -376,7 +376,7 @@ class _CenteredAnimatedCalendarDialogState extends State<_CenteredAnimatedCalend
                       : isPast
                           ? const Color(0xFFCBD5E1)
                           : isToday
-                              ? AppColors.primaryDark
+                              ? AppColors.of(context).primaryDark
                               : const Color(0xFF0F172A),
                 ),
               ),
@@ -419,10 +419,10 @@ class _QuickDateChip extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 8),
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: selected ? AppColors.primaryBackground : const Color(0xFFF8FAFC),
+            color: selected ? AppColors.of(context).primaryBackground : const Color(0xFFF8FAFC),
             borderRadius: BorderRadius.circular(AppRadius.medium),
             border: Border.all(
-              color: selected ? AppColors.primary : const Color(0xFFE2E8F0),
+              color: selected ? AppColors.of(context).primary : AppColors.of(context).border,
               width: selected ? 1.5 : 1,
             ),
           ),
@@ -431,7 +431,7 @@ class _QuickDateChip extends StatelessWidget {
             style: TextStyle(
               fontSize: 12.5,
               fontWeight: selected ? FontWeight.w800 : FontWeight.w600,
-              color: selected ? AppColors.primaryDark : AppColors.navy,
+              color: selected ? AppColors.of(context).primaryDark : AppColors.of(context).navy,
             ),
           ),
         ),

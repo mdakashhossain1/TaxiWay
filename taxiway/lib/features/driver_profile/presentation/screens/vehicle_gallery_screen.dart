@@ -59,18 +59,18 @@ class VehicleGalleryScreen extends ConsumerWidget {
         appBar: AppBar(
           leading: const AppBackButton(),
           title: const Text('Vehicle Gallery'),
-          bottom: const TabBar(
-            labelColor: AppColors.primary,
-            unselectedLabelColor: AppColors.mutedText,
-            indicatorColor: AppColors.primary,
-            tabs: [Tab(text: 'Photos'), Tab(text: 'Videos')],
+          bottom: TabBar(
+            labelColor: AppColors.of(context).primary,
+            unselectedLabelColor: AppColors.of(context).mutedText,
+            indicatorColor: AppColors.of(context).primary,
+            tabs: const [Tab(text: 'Photos'), Tab(text: 'Videos')],
           ),
         ),
         body: TabBarView(
           children: [
             _MediaGrid(media: photos, onTap: (m) => _openViewer(context, m)),
             videos.isEmpty
-                ? Center(child: Text('No videos yet.', style: AppTypography.body))
+                ? Center(child: Text('No videos yet.', style: AppTypography.of(context).body))
                 : _MediaGrid(media: videos, onTap: (m) => _openViewer(context, m)),
           ],
         ),

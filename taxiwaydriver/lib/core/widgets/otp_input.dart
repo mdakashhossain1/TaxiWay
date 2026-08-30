@@ -211,37 +211,37 @@ class OtpInputState extends State<OtpInput> with TickerProviderStateMixin {
               double scale = 1.0;
 
               if (_hasError) {
-                borderColor = AppColors.error;
+                borderColor = AppColors.of(context).error;
                 borderWidth = 2.2;
-                backgroundColor = AppColors.errorBackground;
+                backgroundColor = AppColors.of(context).errorBackground;
                 boxShadows = [
                   BoxShadow(
-                    color: AppColors.error.withValues(alpha: 0.28),
+                    color: AppColors.of(context).error.withValues(alpha: 0.28),
                     blurRadius: 10,
                     spreadRadius: 1.5,
                     offset: const Offset(0, 2),
                   ),
                 ];
               } else if (isFocused) {
-                borderColor = AppColors.primary;
+                borderColor = AppColors.of(context).primary;
                 borderWidth = 2.2;
                 backgroundColor = Colors.white;
                 scale = 1.04;
                 boxShadows = [
                   BoxShadow(
-                    color: AppColors.primary.withValues(alpha: 0.25),
+                    color: AppColors.of(context).primary.withValues(alpha: 0.25),
                     blurRadius: 12,
                     spreadRadius: 1.5,
                     offset: const Offset(0, 3),
                   ),
                   BoxShadow(
-                    color: AppColors.primary.withValues(alpha: 0.10),
+                    color: AppColors.of(context).primary.withValues(alpha: 0.10),
                     blurRadius: 4,
                     offset: const Offset(0, 1),
                   ),
                 ];
               } else if (hasValue) {
-                borderColor = AppColors.navySecondary.withValues(alpha: 0.85);
+                borderColor = AppColors.of(context).navySecondary.withValues(alpha: 0.85);
                 borderWidth = 1.8;
                 backgroundColor = Colors.white;
                 boxShadows = [
@@ -252,7 +252,7 @@ class OtpInputState extends State<OtpInput> with TickerProviderStateMixin {
                   ),
                 ];
               } else {
-                borderColor = AppColors.border;
+                borderColor = AppColors.of(context).border;
                 borderWidth = 1.5;
                 backgroundColor = const Color(0xFFF8FAFC);
                 boxShadows = [
@@ -310,7 +310,7 @@ class OtpInputState extends State<OtpInput> with TickerProviderStateMixin {
                                     width: 2.5,
                                     height: 24,
                                     decoration: BoxDecoration(
-                                      color: AppColors.primary,
+                                      color: AppColors.of(context).primary,
                                       borderRadius: BorderRadius.circular(2),
                                     ),
                                   ),
@@ -327,12 +327,12 @@ class OtpInputState extends State<OtpInput> with TickerProviderStateMixin {
                             keyboardType: TextInputType.number,
                             maxLength: i == 0 ? widget.length : 1,
                             showCursor: false,
-                            style: AppTypography.h2.copyWith(
-                              color: _hasError ? AppColors.error : AppColors.navy,
+                            style: AppTypography.of(context).h2.copyWith(
+                              color: _hasError ? AppColors.of(context).error : AppColors.of(context).navy,
                               fontWeight: FontWeight.w800,
                               fontSize: 24,
                             ),
-                            cursorColor: AppColors.primary,
+                            cursorColor: AppColors.of(context).primary,
                             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                             onChanged: (v) => _onCellChanged(i, v),
                             decoration: const InputDecoration(

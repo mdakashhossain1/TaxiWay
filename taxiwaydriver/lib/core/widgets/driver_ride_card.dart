@@ -46,11 +46,11 @@ class DriverRideCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         margin: const EdgeInsets.only(bottom: 12),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.of(context).card,
           borderRadius: BorderRadius.circular(AppRadius.card),
-          border: Border.all(color: AppColors.border, width: 1.2),
+          border: Border.all(color: AppColors.of(context).border, width: 1.2),
           boxShadow: [
-            BoxShadow(color: AppColors.navy.withValues(alpha: 0.04), blurRadius: 8, offset: const Offset(0, 2)),
+            BoxShadow(color: AppColors.of(context).navy.withValues(alpha: 0.04), blurRadius: 8, offset: const Offset(0, 2)),
           ],
         ),
         child: Row(
@@ -61,18 +61,18 @@ class DriverRideCard extends StatelessWidget {
               width: 56,
               padding: const EdgeInsets.symmetric(vertical: 10),
               decoration: BoxDecoration(
-                color: AppColors.primaryBackground,
+                color: AppColors.of(context).primaryBackground,
                 borderRadius: BorderRadius.circular(AppRadius.medium),
               ),
               child: Column(
                 children: [
                   Text(
                     formatRideDate(ride.dateTime).split(' ').first,
-                    style: AppTypography.h2.copyWith(color: AppColors.primaryDark, fontSize: 20),
+                    style: AppTypography.of(context).h2.copyWith(color: AppColors.of(context).primaryDark, fontSize: 20),
                   ),
                   Text(
                     formatRideDate(ride.dateTime).split(' ').last,
-                    style: AppTypography.caption.copyWith(color: AppColors.primaryDark, fontWeight: FontWeight.w600),
+                    style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).primaryDark, fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
@@ -85,19 +85,19 @@ class DriverRideCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(formatRideTime(ride.dateTime), style: AppTypography.label.copyWith(fontWeight: FontWeight.w700)),
+                      Text(formatRideTime(ride.dateTime), style: AppTypography.of(context).label.copyWith(fontWeight: FontWeight.w700)),
                       StatusBadge(label: _statusLabel, variant: _variant),
                     ],
                   ),
                   const SizedBox(height: 8),
-                  _RoutePoint(color: AppColors.success, text: ride.pickup),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 4),
-                    child: SizedBox(height: 12, child: VerticalDivider(width: 1, thickness: 1.5, color: AppColors.borderStrong)),
+                  _RoutePoint(color: AppColors.of(context).success, text: ride.pickup),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4),
+                    child: SizedBox(height: 12, child: VerticalDivider(width: 1, thickness: 1.5, color: AppColors.of(context).borderStrong)),
                   ),
-                  _RoutePoint(color: AppColors.primary, text: ride.destination),
+                  _RoutePoint(color: AppColors.of(context).primary, text: ride.destination),
                   const SizedBox(height: 10),
-                  Text(formatRupees(ride.fare), style: AppTypography.h3.copyWith(color: AppColors.primaryDark)),
+                  Text(formatRupees(ride.fare), style: AppTypography.of(context).h3.copyWith(color: AppColors.of(context).primaryDark)),
                 ],
               ),
             ),
@@ -123,7 +123,7 @@ class _RoutePoint extends StatelessWidget {
         Expanded(
           child: Text(
             text,
-            style: AppTypography.body.copyWith(fontWeight: FontWeight.w600),
+            style: AppTypography.of(context).body.copyWith(fontWeight: FontWeight.w600),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),

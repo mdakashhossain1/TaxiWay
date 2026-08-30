@@ -42,6 +42,14 @@ class HomeScreen extends ConsumerWidget {
     notifier.setDestination(pickup);
   }
 
+  Future<void> _refresh(WidgetRef ref) async {
+    ref.invalidate(vehicleCategoriesProvider);
+    await Future.wait([
+      ref.read(vehicleCategoriesProvider.future),
+      ref.read(bookingDraftControllerProvider.notifier).refreshCurrentGpsLocation(),
+    ]);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
@@ -56,6 +64,7 @@ class HomeScreen extends ConsumerWidget {
 
     return AppScaffold(
       scrollable: true,
+      onRefresh: () => _refresh(ref),
       body: Padding(
         padding: const EdgeInsets.only(bottom: 24),
         child: Column(
@@ -95,14 +104,14 @@ class HomeScreen extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Select Vehicle',
-                  style: AppTypography.h2.copyWith(fontSize: 18, color: AppColors.navy),
+                  l10n.selectVehicle,
+                  style: AppTypography.of(context).h2.copyWith(fontSize: 18, color: AppColors.of(context).navy),
                 ),
                 if (draft.selectedCategory != null)
                   Text(
-                    '${draft.selectedCategory!.seats} seats',
-                    style: AppTypography.caption.copyWith(
-                      color: AppColors.primaryDark,
+                    l10n.seatsCountShort(draft.selectedCategory!.seats),
+                    style: AppTypography.of(context).caption.copyWith(
+                      color: AppColors.of(context).primaryDark,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -120,7 +129,7 @@ class HomeScreen extends ConsumerWidget {
                   separatorBuilder: (_, _) => const SizedBox(width: 12),
                   itemBuilder: (_, _) => const VehicleCardSkeleton(),
                 ),
-                error: (_, _) => const Text("Couldn't load vehicles."),
+                error: (_, _) => Text(l10n.couldNotLoadVehicles),
                 data: (categories) => ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemCount: categories.length,
@@ -172,19 +181,19 @@ class HomeScreen extends ConsumerWidget {
                       ? () => context.push(AppRoutes.bookingReview)
                       : null,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
+                    backgroundColor: AppColors.of(context).primary,
                     foregroundColor: Colors.white,
                     elevation: 2,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(AppRadius.button),
                     ),
-                    textStyle: AppTypography.button.copyWith(fontSize: 16),
+                    textStyle: AppTypography.of(context).button.copyWith(fontSize: 16),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        fare != null ? 'Book Ride ${formatRupees(fare.total)}' : 'Select a Vehicle',
+                        fare != null ? '${l10n.bookRide} ${formatRupees(fare.total)}' : l10n.selectAVehicle,
                       ),
                       const SizedBox(width: 8),
                       const Icon(BootstrapIcons.arrow_right, size: 18),
@@ -207,9 +216,9 @@ class HomeScreen extends ConsumerWidget {
               child: Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.of(context).card,
                   borderRadius: BorderRadius.circular(AppRadius.card),
-                  border: Border.all(color: const Color(0xFFE2E8F0), width: 1.2),
+                  border: Border.all(color: AppColors.of(context).border, width: 1.2),
                   boxShadow: [
                     BoxShadow(
                       color: const Color(0xFF0F172A).withValues(alpha: 0.04),
@@ -223,23 +232,23 @@ class HomeScreen extends ConsumerWidget {
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: AppColors.primaryBackground,
+                        color: AppColors.of(context).primaryBackground,
                         borderRadius: BorderRadius.circular(AppRadius.medium),
                       ),
-                      child: const Icon(BootstrapIcons.people_fill, color: AppColors.primary, size: 22),
+                      child: Icon(BootstrapIcons.people_fill, color: AppColors.of(context).primary, size: 22),
                     ),
                     const SizedBox(width: 14),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(l10n.bulkBookingTitle, style: AppTypography.h3.copyWith(color: AppColors.navy)),
+                          Text(l10n.bulkBookingTitle, style: AppTypography.of(context).h3.copyWith(color: AppColors.of(context).navy)),
                           const SizedBox(height: 2),
-                          Text(l10n.bulkBookingSubtitle, style: AppTypography.caption.copyWith(color: AppColors.bodyText)),
+                          Text(l10n.bulkBookingSubtitle, style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).bodyText)),
                         ],
                       ),
                     ),
-                    const Icon(BootstrapIcons.chevron_right, color: AppColors.mutedText, size: 18),
+                    Icon(BootstrapIcons.chevron_right, color: AppColors.of(context).mutedText, size: 18),
                   ],
                 ),
               ),

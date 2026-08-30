@@ -6,11 +6,13 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../l10n/generated/app_localizations.dart';
 import '../models/place_location.dart';
 import '../services/road_route_service.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_radius.dart';
 import '../theme/app_typography.dart';
+import '../theme/dark_map_style.dart';
 import '../utils/geo_utils.dart';
 
 const kMapFallbackCenter = LatLng(25.5980, 85.1280);
@@ -211,6 +213,7 @@ class _RideMapViewState extends State<RideMapView> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final driver = _driverLatLng;
     final destination = widget.showDestination ? _destinationLatLng : null;
     final route = _routePoints;
@@ -220,14 +223,14 @@ class _RideMapViewState extends State<RideMapView> {
         markerId: const MarkerId('pickup'),
         position: _pickupLatLng,
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-        infoWindow: InfoWindow(title: widget.pickup?.shortName ?? 'Pickup'),
+        infoWindow: InfoWindow(title: widget.pickup?.shortName ?? l10n.pickupLabel),
       ),
       if (destination != null)
         Marker(
           markerId: const MarkerId('destination'),
           position: destination,
           icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
-          infoWindow: InfoWindow(title: widget.destination?.shortName ?? 'Destination'),
+          infoWindow: InfoWindow(title: widget.destination?.shortName ?? l10n.destinationLabel),
         ),
       if (driver != null)
         Marker(
@@ -235,7 +238,7 @@ class _RideMapViewState extends State<RideMapView> {
           position: driver,
           icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
           zIndexInt: 3,
-          infoWindow: const InfoWindow(title: 'Driver Location'),
+          infoWindow: InfoWindow(title: l10n.driverLocationLabel),
         ),
     };
 
@@ -263,7 +266,7 @@ class _RideMapViewState extends State<RideMapView> {
         Polyline(
           polylineId: const PolylineId('route_main'),
           points: route,
-          color: AppColors.primary,
+          color: AppColors.of(context).primary,
           width: 5,
           jointType: JointType.round,
           startCap: Cap.roundCap,
@@ -297,6 +300,7 @@ class _RideMapViewState extends State<RideMapView> {
               ignoring: !widget.interactive,
               child: GoogleMap(
                 initialCameraPosition: CameraPosition(target: _pickupLatLng, zoom: 15.5),
+                style: Theme.of(context).brightness == Brightness.dark ? kDarkMapStyle : null,
                 onMapCreated: (controller) {
                   _controller = controller;
                   if (!_fitted) {
@@ -332,9 +336,9 @@ class _RideMapViewState extends State<RideMapView> {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.of(context).card,
                     borderRadius: BorderRadius.circular(AppRadius.pill),
-                    border: Border.all(color: const Color(0xFFE2E8F0), width: 1.2),
+                    border: Border.all(color: AppColors.of(context).border, width: 1.2),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withValues(alpha: 0.12),
@@ -346,13 +350,13 @@ class _RideMapViewState extends State<RideMapView> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(BootstrapIcons.car_front_fill, size: 14, color: AppColors.primary),
+                      Icon(BootstrapIcons.car_front_fill, size: 14, color: AppColors.of(context).primary),
                       const SizedBox(width: 6),
                       Text(
-                        '${widget.distanceKm!.toStringAsFixed(1)} km • ${widget.etaMinutes} min',
-                        style: AppTypography.caption.copyWith(
+                        '${l10n.kmShort(widget.distanceKm!.toStringAsFixed(1))} • ${l10n.minutesShort(widget.etaMinutes!)}',
+                        style: AppTypography.of(context).caption.copyWith(
                           fontWeight: FontWeight.w700,
-                          color: AppColors.navy,
+                          color: AppColors.of(context).navy,
                           fontSize: 12,
                         ),
                       ),
@@ -366,7 +370,7 @@ class _RideMapViewState extends State<RideMapView> {
                 top: 14,
                 left: 14,
                 child: Material(
-                  color: Colors.white,
+                  color: AppColors.of(context).card,
                   borderRadius: BorderRadius.circular(AppRadius.pill),
                   elevation: 3,
                   shadowColor: Colors.black38,
@@ -381,15 +385,15 @@ class _RideMapViewState extends State<RideMapView> {
                           Icon(
                             _isExpanded ? BootstrapIcons.fullscreen_exit : BootstrapIcons.arrows_fullscreen,
                             size: 15,
-                            color: AppColors.navy,
+                            color: AppColors.of(context).navy,
                           ),
                           const SizedBox(width: 6),
                           Text(
-                            _isExpanded ? 'Collapse' : 'Full Screen',
-                            style: AppTypography.caption.copyWith(
+                            _isExpanded ? l10n.collapseMapLabel : l10n.expandMapLabel,
+                            style: AppTypography.of(context).caption.copyWith(
                               fontWeight: FontWeight.w700,
                               fontSize: 11,
-                              color: AppColors.navy,
+                              color: AppColors.of(context).navy,
                             ),
                           ),
                         ],
@@ -421,16 +425,16 @@ class _RecenterButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.white,
+      color: AppColors.of(context).card,
       shape: const CircleBorder(),
       elevation: 3,
       shadowColor: Colors.black38,
       child: InkWell(
         customBorder: const CircleBorder(),
         onTap: onTap,
-        child: const Padding(
+        child: Padding(
           padding: EdgeInsets.all(10),
-          child: Icon(BootstrapIcons.crosshair, size: 18, color: AppColors.navy),
+          child: Icon(BootstrapIcons.crosshair, size: 18, color: AppColors.of(context).navy),
         ),
       ),
     );

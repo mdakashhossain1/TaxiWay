@@ -20,7 +20,7 @@ class RatingStars extends StatelessWidget {
         return Icon(
           half ? BootstrapIcons.star_half : (filled ? BootstrapIcons.star_fill : BootstrapIcons.star),
           size: size,
-          color: filled || half ? color : AppColors.borderStrong,
+          color: filled || half ? color : AppColors.of(context).borderStrong,
         );
       }),
     );
@@ -50,7 +50,7 @@ class InteractiveRatingStars extends StatelessWidget {
             child: Icon(
               selected ? BootstrapIcons.star_fill : BootstrapIcons.star,
               size: 40,
-              color: selected ? const Color(0xFFF59E0B) : AppColors.borderStrong,
+              color: selected ? const Color(0xFFF59E0B) : AppColors.of(context).borderStrong,
             ),
           ),
         )
