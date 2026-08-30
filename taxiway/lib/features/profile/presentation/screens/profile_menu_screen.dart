@@ -2,9 +2,9 @@ import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/providers.dart';
 import '../../../../core/router/app_router.dart';
+import '../../../../core/state/locale_controller.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_typography.dart';
@@ -48,7 +48,7 @@ class ProfileMenuScreen extends ConsumerWidget {
     }
   }
 
-  Future<void> _deleteAccount(BuildContext context) async {
+  Future<void> _deleteAccount(BuildContext context, WidgetRef ref) async {
     final l10n = AppLocalizations.of(context);
     final confirmed = await showDialog<bool>(
       context: context,
@@ -75,7 +75,8 @@ class ProfileMenuScreen extends ConsumerWidget {
       ),
     );
     if (confirmed == true) {
-      await launchUrl(Uri.parse(kAccountDeletionUrl), mode: LaunchMode.inAppBrowserView);
+      final code = ref.read(localeControllerProvider).locale?.languageCode ?? 'en';
+      await openInAppBrowser('$kAccountDeletionUrl?lang=$code');
     }
   }
 
@@ -206,7 +207,7 @@ class ProfileMenuScreen extends ConsumerWidget {
                 icon: BootstrapIcons.trash,
                 label: l10n.deleteMyAccount,
                 destructive: true,
-                onTap: () => _deleteAccount(context),
+                onTap: () => _deleteAccount(context, ref),
               ),
             ],
           ),

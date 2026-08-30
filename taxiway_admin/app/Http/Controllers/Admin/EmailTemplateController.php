@@ -14,6 +14,8 @@ class EmailTemplateController extends Controller
     /** Human-friendly labels for each system template key — extend this alongside new Mailables. */
     private const LABELS = [
         'driver_verified' => 'Driver Verified',
+        'account_deleted' => 'Account Deleted',
+        'account_deletion_confirm' => 'Account Deletion Confirmation',
     ];
 
     public function index(): View
