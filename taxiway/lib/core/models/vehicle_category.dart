@@ -9,6 +9,7 @@ class VehicleCategory {
   final double perKmRate;
   final double minimumFare;
   final int etaMinutes;
+  final String? imageUrl;
 
   /// The backend's numeric primary key — only present for categories loaded
   /// from the real API, needed when creating a booking. Null for anything
@@ -26,16 +27,21 @@ class VehicleCategory {
     required this.perKmRate,
     required this.minimumFare,
     required this.etaMinutes,
+    this.imageUrl,
     this.categoryId,
   });
 
   factory VehicleCategory.fromJson(Map<String, dynamic> json) {
     final name = json['name'] as String;
+    final description = json['description'] as String?;
     return VehicleCategory(
       id: name.toLowerCase(),
       name: name,
       seats: json['seats'] as int,
-      useCase: _useCaseFor(name),
+      // Prefer the admin-managed, locale-aware description; only categories
+      // an admin hasn't filled one in for yet fall back to the hardcoded
+      // English switch below.
+      useCase: (description != null && description.trim().isNotEmpty) ? description : _useCaseFor(name),
       ac: json['ac'] as bool,
       baseFare: double.parse(json['base_fare'].toString()),
       perKmRate: double.parse(json['per_km_rate'].toString()),
@@ -43,6 +49,7 @@ class VehicleCategory {
       // already acts as one in practice.
       minimumFare: double.parse(json['base_fare'].toString()),
       etaMinutes: _etaFor(name),
+      imageUrl: json['image_url'] as String?,
       categoryId: json['id'] as int,
     );
   }

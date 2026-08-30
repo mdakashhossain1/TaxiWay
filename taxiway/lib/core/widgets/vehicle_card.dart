@@ -75,17 +75,29 @@ class VehicleCard extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(AppRadius.medium),
-                child: Image.asset(
-                  _imageAsset,
-                  fit: BoxFit.contain,
-                  errorBuilder: (context, error, stackTrace) => Center(
-                    child: Icon(
-                      BootstrapIcons.car_front_fill,
-                      color: selected ? AppColors.primary : AppColors.navy,
-                      size: 26,
-                    ),
-                  ),
-                ),
+                child: (category.imageUrl != null && category.imageUrl!.isNotEmpty)
+                    ? Image.network(
+                        category.imageUrl!,
+                        fit: BoxFit.contain,
+                        errorBuilder: (context, error, stackTrace) => Center(
+                          child: Icon(
+                            BootstrapIcons.car_front_fill,
+                            color: selected ? AppColors.primary : AppColors.navy,
+                            size: 26,
+                          ),
+                        ),
+                      )
+                    : Image.asset(
+                        _imageAsset,
+                        fit: BoxFit.contain,
+                        errorBuilder: (context, error, stackTrace) => Center(
+                          child: Icon(
+                            BootstrapIcons.car_front_fill,
+                            color: selected ? AppColors.primary : AppColors.navy,
+                            size: 26,
+                          ),
+                        ),
+                      ),
               ),
             ),
             const SizedBox(height: 6),

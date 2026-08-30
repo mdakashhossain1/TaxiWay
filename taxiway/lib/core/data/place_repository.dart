@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:geocoding/geocoding.dart' as geocoding;
 import '../models/place_location.dart';
 import '../utils/geo_utils.dart';
+import 'nominatim_client.dart';
 
 abstract class PlaceRepository {
   PlaceLocation get currentLocation;
@@ -19,8 +18,9 @@ abstract class PlaceRepository {
 class MockPlaceRepository implements PlaceRepository {
   static const _storage = FlutterSecureStorage();
   static const _historyKey = 'user_places_search_history';
+  static const _localeKey = 'app_locale_code';
 
-  final _geocoding = geocoding.Geocoding();
+  Future<String> _currentLocaleCode() async => (await _storage.read(key: _localeKey)) ?? 'en';
 
   PlaceLocation _currentLocation = const PlaceLocation(
     latitude: 25.5980,
@@ -66,91 +66,44 @@ class MockPlaceRepository implements PlaceRepository {
       }
     }
 
+    final localeCode = await _currentLocaleCode();
+
     // 1. First priority: Search within user's local city/state bounding box via Nominatim
     try {
-      final client = HttpClient();
-      client.connectionTimeout = const Duration(seconds: 4);
-
       // Define local bounding box around user's current GPS position (+/- 0.8 deg ~ 90km radius)
       final minLon = origin.longitude - 0.9;
       final maxLon = origin.longitude + 0.9;
       final minLat = origin.latitude - 0.8;
       final maxLat = origin.latitude + 0.8;
 
-      // Query 1A: Search with local city/state appended & bounded to India
-      final localQuery = Uri.encodeComponent('$trimmed, Bihar, India');
-      final url = Uri.parse(
-        'https://nominatim.openstreetmap.org/search?q=$localQuery&format=json&addressdetails=1&limit=8&countrycodes=in&viewbox=$minLon,$maxLat,$maxLon,$minLat&bounded=0',
+      final boundedResults = await nominatimForwardGeocode(
+        '$trimmed, Bihar, India',
+        localeCode,
+        viewbox: '$minLon,$maxLat,$maxLon,$minLat',
+        countryCodes: 'in',
+        limit: 8,
       );
 
-      final request = await client.getUrl(url);
-      request.headers.set('User-Agent', 'TaxiwayCabApp/1.0');
-      final response = await request.close().timeout(const Duration(seconds: 4));
-
-      if (response.statusCode == 200) {
-        final body = await response.transform(utf8.decoder).join();
-        final jsonList = jsonDecode(body) as List<dynamic>;
-
-        for (final item in jsonList) {
-          final lat = double.tryParse(item['lat']?.toString() ?? '') ?? 0.0;
-          final lon = double.tryParse(item['lon']?.toString() ?? '') ?? 0.0;
-          final displayName = item['display_name'] as String? ?? '';
-
-          if (lat != 0.0 && lon != 0.0 && displayName.isNotEmpty) {
-            // Clean up long address strings to keep them clean
-            final cleanedAddress = _cleanDisplayName(displayName);
-            addResultIfValid(PlaceLocation(
-              latitude: lat,
-              longitude: lon,
-              address: cleanedAddress,
-            ));
-          }
-        }
+      for (final r in boundedResults) {
+        addResultIfValid(PlaceLocation(latitude: r.lat, longitude: r.lon, address: r.displayName));
       }
-      client.close();
     } catch (_) {
       // Continue to next provider
     }
 
-    // 2. Query platform Google Geocoding with local state/city bias
+    // 2. Second priority: broader Nominatim search with local state/city bias
     try {
       final searchQuery = lower.contains('bihar') || lower.contains('patna')
           ? trimmed
           : '$trimmed, Patna, Bihar, India';
 
-      final locations = await _geocoding.locationFromAddress(searchQuery).timeout(
-        const Duration(seconds: 3),
-        onTimeout: () => [],
-      );
+      final broaderResults = await nominatimForwardGeocode(searchQuery, localeCode, limit: 4);
 
-      for (final loc in locations.take(4)) {
-        String formattedAddress = '$trimmed, Patna, Bihar';
-        try {
-          final placemarks = await _geocoding.placemarkFromCoordinates(loc.latitude, loc.longitude);
-          if (placemarks.isNotEmpty) {
-            final p = placemarks.first;
-            final isPlus = p.name != null && p.name!.contains('+');
-            final parts = <String>{
-              if (p.name != null && p.name!.isNotEmpty && !isPlus) p.name!,
-              if (p.street != null && p.street!.isNotEmpty && p.street != p.name && !p.street!.contains('+')) p.street!,
-              if (p.subLocality != null && p.subLocality!.isNotEmpty) p.subLocality!,
-              if (p.locality != null && p.locality!.isNotEmpty) p.locality!,
-              if (p.administrativeArea != null && p.administrativeArea!.isNotEmpty) p.administrativeArea!,
-            }.toList();
-            if (parts.isNotEmpty) {
-              formattedAddress = parts.join(', ');
-            }
-          }
-        } catch (_) {}
-
-        addResultIfValid(PlaceLocation(
-          latitude: loc.latitude,
-          longitude: loc.longitude,
-          address: formattedAddress,
-        ));
+      for (final r in broaderResults) {
+        addResultIfValid(PlaceLocation(latitude: r.lat, longitude: r.lon, address: r.displayName));
       }
     } catch (_) {
-      // Device geocoder offline / fallback
+      // Provider offline / fallback
     }
 
     // 3. Filter out far-flung international locations (> 500 km away) for local cab service
@@ -178,17 +131,6 @@ class MockPlaceRepository implements PlaceRepository {
     });
 
     return finalResults;
-  }
-
-  /// Clean up redundant country/code noise from display names for a clean UI
-  String _cleanDisplayName(String raw) {
-    final parts = raw.split(',').map((e) => e.trim()).where((e) => e.isNotEmpty).toList();
-    // Filter out plus codes or postal codes if needed
-    final filtered = parts.where((p) => !p.contains('+')).toList();
-    if (filtered.length > 4) {
-      return '${filtered.take(4).join(', ')}, Bihar';
-    }
-    return filtered.join(', ');
   }
 
   @override

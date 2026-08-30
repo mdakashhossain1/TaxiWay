@@ -5,8 +5,7 @@ import '../theme/app_colors.dart';
 import '../theme/app_typography.dart';
 import 'language_picker_sheet.dart';
 
-/// "Ride" in navy + "Go" in orange, per Design Instructions §19.
-/// Pass [lightMode] = true to render on dark backgrounds (white "Ride" text).
+/// Pass [lightMode] = true to render on dark backgrounds (white text).
 class TaxiwayWordmark extends StatelessWidget {
   final double fontSize;
   final bool lightMode;
@@ -14,16 +13,11 @@ class TaxiwayWordmark extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RichText(
-      text: TextSpan(
-        style: AppTypography.h2.copyWith(fontSize: fontSize),
-        children: [
-          TextSpan(
-            text: 'Ride',
-            style: TextStyle(color: lightMode ? Colors.white : AppColors.navy),
-          ),
-          const TextSpan(text: 'Go', style: TextStyle(color: AppColors.primary)),
-        ],
+    return Text(
+      'Taxiway',
+      style: AppTypography.h2.copyWith(
+        fontSize: fontSize,
+        color: lightMode ? Colors.white : AppColors.navy,
       ),
     );
   }

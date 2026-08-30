@@ -1,10 +1,14 @@
 import 'dart:math';
-import 'package:geocoding/geocoding.dart' as geocoding;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
+import '../data/nominatim_client.dart';
 import '../models/place_location.dart';
 
-final _geocoding = geocoding.Geocoding();
+const _storage = FlutterSecureStorage();
+const _localeKey = 'app_locale_code';
+
+Future<String> _currentLocaleCode() async => (await _storage.read(key: _localeKey)) ?? 'en';
 
 /// Requests high-accuracy location permissions and returns the device's exact
 /// GPS position from the hardware sensor. Uses highest precision settings
@@ -55,26 +59,10 @@ Future<PlaceLocation> resolveExactPlaceLocation({
   String resolvedAddress = fallbackAddress ?? '${latitude.toStringAsFixed(5)}, ${longitude.toStringAsFixed(5)}';
 
   try {
-    final placemarks = await _geocoding.placemarkFromCoordinates(latitude, longitude).timeout(
-      const Duration(seconds: 5),
-      onTimeout: () => [],
-    );
-
-    if (placemarks.isNotEmpty) {
-      final p = placemarks.first;
-      final isPlusCode = p.name != null && p.name!.contains('+');
-
-      final parts = <String>{
-        if (p.name != null && p.name!.isNotEmpty && !isPlusCode) p.name!,
-        if (p.street != null && p.street!.isNotEmpty && p.street != p.name && !p.street!.contains('+')) p.street!,
-        if (p.subLocality != null && p.subLocality!.isNotEmpty) p.subLocality!,
-        if (p.locality != null && p.locality!.isNotEmpty) p.locality!,
-        if (p.administrativeArea != null && p.administrativeArea!.isNotEmpty) p.administrativeArea!,
-      }.toList();
-
-      if (parts.isNotEmpty) {
-        resolvedAddress = parts.join(', ');
-      }
+    final localeCode = await _currentLocaleCode();
+    final displayName = await nominatimReverseGeocode(latitude, longitude, localeCode);
+    if (displayName != null) {
+      resolvedAddress = displayName;
     }
   } catch (_) {}
 

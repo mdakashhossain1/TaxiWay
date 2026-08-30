@@ -2,9 +2,10 @@ import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart' as geocoding;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../data/nominatim_client.dart';
 import '../models/place_location.dart';
 import '../theme/app_colors.dart';
 import '../utils/geo_utils.dart';
@@ -34,10 +35,14 @@ class LocationPickerMap extends StatefulWidget {
 }
 
 class LocationPickerMapState extends State<LocationPickerMap> {
+  static const _storage = FlutterSecureStorage();
+  static const _localeKey = 'app_locale_code';
+
   GoogleMapController? _controller;
-  final _geocoding = geocoding.Geocoding();
   late LatLng _center;
   bool _moving = false;
+
+  Future<String> _currentLocaleCode() async => (await _storage.read(key: _localeKey)) ?? 'en';
 
   @override
   void initState() {
@@ -70,21 +75,9 @@ class LocationPickerMapState extends State<LocationPickerMap> {
     final at = _center;
     String address;
     try {
-      final placemarks = await _geocoding.placemarkFromCoordinates(at.latitude, at.longitude);
-      if (placemarks.isEmpty) {
-        address = '${at.latitude.toStringAsFixed(5)}, ${at.longitude.toStringAsFixed(5)}';
-      } else {
-        final p = placemarks.first;
-        final isPlusCode = p.name != null && p.name!.contains('+');
-        final parts = <String>{
-          if (p.name != null && p.name!.isNotEmpty && !isPlusCode) p.name!,
-          if (p.street != null && p.street!.isNotEmpty && p.street != p.name && !p.street!.contains('+')) p.street!,
-          if (p.subLocality != null && p.subLocality!.isNotEmpty) p.subLocality!,
-          if (p.locality != null && p.locality!.isNotEmpty) p.locality!,
-          if (p.administrativeArea != null && p.administrativeArea!.isNotEmpty) p.administrativeArea!,
-        }.toList();
-        address = parts.isNotEmpty ? parts.join(', ') : '${at.latitude.toStringAsFixed(5)}, ${at.longitude.toStringAsFixed(5)}';
-      }
+      final localeCode = await _currentLocaleCode();
+      final displayName = await nominatimReverseGeocode(at.latitude, at.longitude, localeCode);
+      address = displayName ?? '${at.latitude.toStringAsFixed(5)}, ${at.longitude.toStringAsFixed(5)}';
     } catch (_) {
       // Geocoding API unavailable/offline — fall back to raw coordinates.
       address = '${at.latitude.toStringAsFixed(5)}, ${at.longitude.toStringAsFixed(5)}';
