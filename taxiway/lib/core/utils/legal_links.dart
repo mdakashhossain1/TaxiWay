@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 /// URLs use IANA's reserved example.com domain, safe to ship until then.
 const String kTermsAndConditionsUrl = 'https://example.com/taxiway/terms';
 const String kPrivacyPolicyUrl = 'https://example.com/taxiway/privacy';
+const String kAccountDeletionUrl = 'https://cornflowerblue-stingray-110031.hostingersite.com/account/delete';
 
 /// Opens [url] in an in-app browser — Chrome Custom Tabs on Android,
 /// SFSafariViewController on iOS — so the page stays presented within the

@@ -173,6 +173,19 @@ class AppLocalizationsBn extends AppLocalizations {
   String get cancel => 'বাতিল করুন';
 
   @override
+  String get deleteMyAccount => 'আমার অ্যাকাউন্ট মুছুন';
+
+  @override
+  String get deleteAccountDialogTitle => 'অ্যাকাউন্ট মুছুন';
+
+  @override
+  String get deleteAccountDialogBody =>
+      'এটি আপনার ব্রাউজারে একটি নিরাপদ পৃষ্ঠা খুলবে যেখানে আপনি আপনার অ্যাকাউন্ট এবং সমস্ত সম্পর্কিত ডেটা স্থায়ীভাবে মুছে ফেলতে পারবেন। এটি পূর্বাবস্থায় ফেরানো যাবে না।';
+
+  @override
+  String get continueWord => 'চালিয়ে যান';
+
+  @override
   String seatsCountShort(int count) {
     return '$count সিট';
   }

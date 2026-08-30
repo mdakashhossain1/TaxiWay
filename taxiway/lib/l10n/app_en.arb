@@ -65,6 +65,10 @@
   "guest": "Guest",
   "logoutConfirmBody": "Are you sure you want to logout?",
   "cancel": "Cancel",
+  "deleteMyAccount": "Delete my account",
+  "deleteAccountDialogTitle": "Delete Account",
+  "deleteAccountDialogBody": "This opens a secure page in your browser where you can permanently delete your account and all associated data. This cannot be undone.",
+  "continueWord": "Continue",
 
   "seatsCountShort": "{count} seats",
   "@seatsCountShort": { "placeholders": { "count": { "type": "int" } } },

@@ -173,6 +173,19 @@ class AppLocalizationsHi extends AppLocalizations {
   String get cancel => 'रद्द करें';
 
   @override
+  String get deleteMyAccount => 'मेरा खाता हटाएं';
+
+  @override
+  String get deleteAccountDialogTitle => 'खाता हटाएं';
+
+  @override
+  String get deleteAccountDialogBody =>
+      'यह आपके ब्राउज़र में एक सुरक्षित पेज खोलेगा जहां आप अपना खाता और सभी संबंधित डेटा स्थायी रूप से हटा सकते हैं। इसे पूर्ववत नहीं किया जा सकता।';
+
+  @override
+  String get continueWord => 'जारी रखें';
+
+  @override
   String seatsCountShort(int count) {
     return '$count सीटें';
   }

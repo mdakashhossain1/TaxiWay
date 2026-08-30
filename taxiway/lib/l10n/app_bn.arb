@@ -65,6 +65,10 @@
   "guest": "অতিথি",
   "logoutConfirmBody": "আপনি কি নিশ্চিত যে আপনি লগআউট করতে চান?",
   "cancel": "বাতিল করুন",
+  "deleteMyAccount": "আমার অ্যাকাউন্ট মুছুন",
+  "deleteAccountDialogTitle": "অ্যাকাউন্ট মুছুন",
+  "deleteAccountDialogBody": "এটি আপনার ব্রাউজারে একটি নিরাপদ পৃষ্ঠা খুলবে যেখানে আপনি আপনার অ্যাকাউন্ট এবং সমস্ত সম্পর্কিত ডেটা স্থায়ীভাবে মুছে ফেলতে পারবেন। এটি পূর্বাবস্থায় ফেরানো যাবে না।",
+  "continueWord": "চালিয়ে যান",
 
   "seatsCountShort": "{count} সিট",
   "couldNotLoadVehicles": "গাড়ি লোড করা যায়নি।",

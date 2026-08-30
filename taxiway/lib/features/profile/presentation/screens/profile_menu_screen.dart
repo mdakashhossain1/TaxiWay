@@ -2,6 +2,7 @@ import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/providers.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -44,6 +45,37 @@ class ProfileMenuScreen extends ConsumerWidget {
     if (confirmed == true) {
       await ref.read(authControllerProvider.notifier).logout();
       if (context.mounted) context.go(AppRoutes.login);
+    }
+  }
+
+  Future<void> _deleteAccount(BuildContext context) async {
+    final l10n = AppLocalizations.of(context);
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.card)),
+        title: Text(l10n.deleteAccountDialogTitle, style: AppTypography.of(context).h3.copyWith(color: AppColors.of(context).navy)),
+        content: Text(l10n.deleteAccountDialogBody, style: AppTypography.of(context).body),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(l10n.cancel, style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).mutedText)),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.of(context).error,
+              foregroundColor: Colors.white,
+              elevation: 0,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.button)),
+            ),
+            child: Text(l10n.continueWord),
+          ),
+        ],
+      ),
+    );
+    if (confirmed == true) {
+      await launchUrl(Uri.parse(kAccountDeletionUrl), mode: LaunchMode.inAppBrowserView);
     }
   }
 
@@ -169,6 +201,12 @@ class ProfileMenuScreen extends ConsumerWidget {
                 label: l10n.logout,
                 destructive: true,
                 onTap: () => _logout(context, ref),
+              ),
+              _MenuTile(
+                icon: BootstrapIcons.trash,
+                label: l10n.deleteMyAccount,
+                destructive: true,
+                onTap: () => _deleteAccount(context),
               ),
             ],
           ),

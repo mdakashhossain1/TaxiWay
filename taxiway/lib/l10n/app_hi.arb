@@ -65,6 +65,10 @@
   "guest": "अतिथि",
   "logoutConfirmBody": "क्या आप वाकई लॉगआउट करना चाहते हैं?",
   "cancel": "रद्द करें",
+  "deleteMyAccount": "मेरा खाता हटाएं",
+  "deleteAccountDialogTitle": "खाता हटाएं",
+  "deleteAccountDialogBody": "यह आपके ब्राउज़र में एक सुरक्षित पेज खोलेगा जहां आप अपना खाता और सभी संबंधित डेटा स्थायी रूप से हटा सकते हैं। इसे पूर्ववत नहीं किया जा सकता।",
+  "continueWord": "जारी रखें",
 
   "seatsCountShort": "{count} सीटें",
   "couldNotLoadVehicles": "वाहन लोड नहीं हो सके।",

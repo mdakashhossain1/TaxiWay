@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountDeletionController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\BulkBookingController as AdminBulkBookingController;
 use App\Http\Controllers\Admin\CalendarController as AdminCalendarController;
@@ -25,6 +26,13 @@ use Illuminate\Support\Facades\Route;
 // session, just the CRON_SECRET token. See CronController for why a bad
 // token 404s instead of 403.
 Route::get('/cron/run', [CronController::class, 'run'])->name('cron.run');
+
+// Public, unauthenticated account-deletion page linked from the taxiway app's
+// profile menu. No login/OTP step by design — see AccountDeletionController.
+Route::get('/account/delete', [AccountDeletionController::class, 'show'])->name('account.delete.form');
+Route::post('/account/delete', [AccountDeletionController::class, 'destroy'])
+    ->middleware('throttle:6,1')
+    ->name('account.delete.destroy');
 
 // guest-only authentication pages
 Route::middleware('guest')->group(function () {

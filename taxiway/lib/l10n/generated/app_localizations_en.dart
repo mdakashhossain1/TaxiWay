@@ -173,6 +173,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cancel => 'Cancel';
 
   @override
+  String get deleteMyAccount => 'Delete my account';
+
+  @override
+  String get deleteAccountDialogTitle => 'Delete Account';
+
+  @override
+  String get deleteAccountDialogBody =>
+      'This opens a secure page in your browser where you can permanently delete your account and all associated data. This cannot be undone.';
+
+  @override
+  String get continueWord => 'Continue';
+
+  @override
   String seatsCountShort(int count) {
     return '$count seats';
   }
