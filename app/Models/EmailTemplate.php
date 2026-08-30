@@ -31,7 +31,7 @@ class EmailTemplate extends Model
     }
 
     /** Replaces {placeholder} tokens (e.g. {driver_name}, {app_name}) with the given values. */
-    public static function fill(string $text, array $values): string
+    public static function applyPlaceholders(string $text, array $values): string
     {
         $replacements = [];
         foreach ($values as $key => $value) {

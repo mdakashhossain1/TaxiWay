@@ -25,9 +25,9 @@ class DriverVerifiedMail extends Mailable implements ShouldQueue
         $values = ['driver_name' => $this->driver->name, 'app_name' => config('app.name')];
 
         if ($template) {
-            $subject = EmailTemplate::fill($template->subjectFor($locale), $values);
-            $heading = EmailTemplate::fill($template->headingFor($locale), $values);
-            $body = EmailTemplate::fill($template->bodyFor($locale), $values);
+            $subject = EmailTemplate::applyPlaceholders($template->subjectFor($locale), $values);
+            $heading = EmailTemplate::applyPlaceholders($template->headingFor($locale), $values);
+            $body = EmailTemplate::applyPlaceholders($template->bodyFor($locale), $values);
         } else {
             // Falls back to sensible defaults if the driver_verified row was somehow removed.
             $subject = 'Your driver account is verified — start accepting rides';
