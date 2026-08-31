@@ -107,10 +107,16 @@ class OtpService
             '{entity_id}' => (string) ($profile['entity_id'] ?? ''),
         ]), true, flags: JSON_THROW_ON_ERROR);
 
-        return Http::withHeaders([
+        $request = Http::withHeaders([
             'Authorization' => config('services.sms.api_key'),
             'accept' => 'application/json',
-        ])->post($profile['payload_url'] ?? '', $payload);
+        ]);
+
+        $url = $profile['payload_url'] ?? '';
+
+        return strtolower($profile['method'] ?? 'post') === 'get'
+            ? $request->get($url, $payload)
+            : $request->post($url, $payload);
     }
 
     private function resolveMode(?string $mode): string

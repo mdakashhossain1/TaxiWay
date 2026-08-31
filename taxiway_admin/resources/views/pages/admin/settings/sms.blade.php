@@ -34,15 +34,23 @@
                 <h4 class="mb-4 text-base font-medium text-gray-800 dark:text-white/90">Non-DLT (quick OTP route)</h4>
 
                 <div class="space-y-5">
-                    <x-form.input name="otp_payload_url" label="Payload URL" placeholder="https://www.fast2sms.com/dev/bulkV2" value="{{ old('otp_payload_url', $otpPayloadUrl) }}" />
+                    <div class="grid gap-5 sm:grid-cols-3">
+                        <div class="sm:col-span-2">
+                            <x-form.input name="otp_payload_url" label="Payload URL" placeholder="https://www.fast2sms.com/dev/otp/send" value="{{ old('otp_payload_url', $otpPayloadUrl) }}" />
+                        </div>
+                        <x-form.select name="otp_method" label="Request Method">
+                            <option value="post" @selected(old('otp_method', $otpMethod) === 'post')>POST (JSON body)</option>
+                            <option value="get" @selected(old('otp_method', $otpMethod) === 'get')>GET (query string)</option>
+                        </x-form.select>
+                    </div>
 
-                    <x-form.input name="otp_template_id" label="Message Template ID" placeholder="Only if your provider needs one for this route — Fast2SMS's OTP route doesn't" value="{{ old('otp_template_id', $otpTemplateId) }}" />
+                    <x-form.input name="otp_template_id" label="OTP Template ID" placeholder="Fast2SMS: your Smart OTP Template ID (otp_id)" value="{{ old('otp_template_id', $otpTemplateId) }}" />
 
                     <div>
                         <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Payload Template (JSON)</label>
                         <textarea name="otp_payload_template" rows="4" class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 font-mono text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-gray-400">{{ old('otp_payload_template', $otpPayloadTemplate) }}</textarea>
                         <p class="text-theme-xs text-gray-400 mt-1.5">
-                            Placeholders <code>{otp}</code>, <code>{phone}</code>, and <code>{template_id}</code> are substituted before sending. Must be valid JSON.
+                            Placeholders <code>{otp}</code>, <code>{phone}</code>, and <code>{template_id}</code> are substituted before sending. <code>{otp}</code> must be included somewhere in the payload — otherwise the provider generates its own code and it won't match what was texted. Must be valid JSON.
                         </p>
                         @error('otp_payload_template')
                             <p class="text-theme-xs text-error-500 mt-1.5">{{ $message }}</p>
@@ -55,7 +63,15 @@
                 <h4 class="mb-4 text-base font-medium text-gray-800 dark:text-white/90">DLT (registered template route)</h4>
 
                 <div class="space-y-5">
-                    <x-form.input name="dlt_payload_url" label="Payload URL" placeholder="https://www.fast2sms.com/bulkV2" value="{{ old('dlt_payload_url', $dltPayloadUrl) }}" />
+                    <div class="grid gap-5 sm:grid-cols-3">
+                        <div class="sm:col-span-2">
+                            <x-form.input name="dlt_payload_url" label="Payload URL" placeholder="https://www.fast2sms.com/dev/bulkV2" value="{{ old('dlt_payload_url', $dltPayloadUrl) }}" />
+                        </div>
+                        <x-form.select name="dlt_method" label="Request Method">
+                            <option value="get" @selected(old('dlt_method', $dltMethod) === 'get')>GET (query string)</option>
+                            <option value="post" @selected(old('dlt_method', $dltMethod) === 'post')>POST (JSON body)</option>
+                        </x-form.select>
+                    </div>
 
                     <div class="grid gap-5 sm:grid-cols-3">
                         <x-form.input name="dlt_template_id" label="DLT Template ID" placeholder="Your TRAI DLT-approved template/message ID" value="{{ old('dlt_template_id', $dltTemplateId) }}" />
