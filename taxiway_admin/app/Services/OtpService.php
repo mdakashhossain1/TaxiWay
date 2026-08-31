@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -37,10 +38,12 @@ class OtpService
 
         if ($enabled) {
             try {
-                $this->callGateway($phone, $code)->throw();
+                $response = $this->callGateway($phone, $code);
+
+                if (! $this->gatewaySucceeded($response)) {
+                    Log::warning("SMS gateway rejected send for {$scope}:{$phone}: {$response->body()}");
+                }
             } catch (\Throwable $e) {
-                // The code is already cached and verifiable even if delivery failed —
-                // surface the failure in logs rather than breaking the OTP flow.
                 Log::warning("SMS gateway failed for {$scope}:{$phone}: {$e->getMessage()}");
             }
         } else {
@@ -83,7 +86,7 @@ class OtpService
             $response = $this->callGateway($phone, $code, $mode);
 
             return [
-                'success' => $response->successful(),
+                'success' => $this->gatewaySucceeded($response),
                 'status' => $response->status(),
                 'body' => $response->body(),
                 'code' => $code,
@@ -94,7 +97,7 @@ class OtpService
         }
     }
 
-    private function callGateway(string $phone, string $code, ?string $mode = null): \Illuminate\Http\Client\Response
+    private function callGateway(string $phone, string $code, ?string $mode = null): Response
     {
         $mode = $this->resolveMode($mode);
         $profile = (array) config("services.sms.{$mode}");
@@ -117,6 +120,18 @@ class OtpService
         return strtolower($profile['method'] ?? 'post') === 'get'
             ? $request->get($url, $payload)
             : $request->post($url, $payload);
+    }
+
+    /** Some gateways (e.g. Fast2SMS) return HTTP 200 with {"return": false} on rejection. */
+    private function gatewaySucceeded(Response $response): bool
+    {
+        if ($response->failed()) {
+            return false;
+        }
+
+        $return = $response->json('return');
+
+        return $return === null || $return === true;
     }
 
     private function resolveMode(?string $mode): string
