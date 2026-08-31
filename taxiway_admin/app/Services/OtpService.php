@@ -70,37 +70,54 @@ class OtpService
      * regardless of the live/debug toggle — used by Settings > SMS Gateway's
      * "Send Test SMS" action so an admin can verify credentials/payload shape
      * before flipping Live Mode on for real users.
+     *
+     * @param string|null $mode 'otp' or 'dlt' to test that profile specifically,
+     *                          or null to use the currently active mode.
      */
-    public function sendTest(string $phone): array
+    public function sendTest(string $phone, ?string $mode = null): array
     {
         $code = (string) random_int(100000, 999999);
+        $mode = $this->resolveMode($mode);
 
         try {
-            $response = $this->callGateway($phone, $code);
+            $response = $this->callGateway($phone, $code, $mode);
 
             return [
                 'success' => $response->successful(),
                 'status' => $response->status(),
                 'body' => $response->body(),
                 'code' => $code,
+                'mode' => $mode,
             ];
         } catch (\Throwable $e) {
-            return ['success' => false, 'status' => null, 'body' => $e->getMessage(), 'code' => $code];
+            return ['success' => false, 'status' => null, 'body' => $e->getMessage(), 'code' => $code, 'mode' => $mode];
         }
     }
 
-    private function callGateway(string $phone, string $code): \Illuminate\Http\Client\Response
+    private function callGateway(string $phone, string $code, ?string $mode = null): \Illuminate\Http\Client\Response
     {
-        $payload = json_decode(strtr(config('services.sms.payload_template'), [
+        $mode = $this->resolveMode($mode);
+        $profile = (array) config("services.sms.{$mode}");
+
+        $payload = json_decode(strtr($profile['payload_template'] ?? '', [
             '{otp}' => $code,
             '{phone}' => $phone,
-            '{template_id}' => (string) config('services.sms.template_id'),
+            '{template_id}' => (string) ($profile['template_id'] ?? ''),
+            '{sender_id}' => (string) ($profile['sender_id'] ?? ''),
+            '{entity_id}' => (string) ($profile['entity_id'] ?? ''),
         ]), true, flags: JSON_THROW_ON_ERROR);
 
         return Http::withHeaders([
             'Authorization' => config('services.sms.api_key'),
             'accept' => 'application/json',
-        ])->post(config('services.sms.payload_url'), $payload);
+        ])->post($profile['payload_url'] ?? '', $payload);
+    }
+
+    private function resolveMode(?string $mode): string
+    {
+        $mode = $mode ?? config('services.sms.mode', 'otp');
+
+        return in_array($mode, ['otp', 'dlt'], true) ? $mode : 'otp';
     }
 
     private function key(string $scope, string $phone): string

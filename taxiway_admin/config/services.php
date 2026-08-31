@@ -49,13 +49,31 @@ return [
     | SMS OTP gateway. When disabled, OtpService skips the HTTP call and the
     | generated code is instead returned straight in the API response so the
     | app can display it — no real SMS is sent (debug mode).
+    |
+    | Two independent gateway profiles are kept side by side: "otp" (a
+    | provider's quick/non-DLT OTP route) and "dlt" (a TRAI DLT-registered
+    | template route). `mode` picks which profile OtpService actually sends
+    | through — the other stays configured so switching later doesn't lose
+    | its settings.
     */
     'sms' => [
         'enabled' => env('SMS_GATEWAY_ENABLED', false),
+        'mode' => env('SMS_GATEWAY_MODE', 'otp'), // 'otp' or 'dlt'
         'api_key' => env('SMS_GATEWAY_API_KEY'),
-        'payload_url' => env('SMS_GATEWAY_PAYLOAD_URL'),
-        'template_id' => env('SMS_GATEWAY_TEMPLATE_ID'),
-        'payload_template' => env('SMS_GATEWAY_PAYLOAD_TEMPLATE', '{"mobile":"{phone}","otp_id":"{template_id}","otp":"{otp}"}'),
+
+        'otp' => [
+            'payload_url' => env('SMS_GATEWAY_OTP_PAYLOAD_URL', 'https://www.fast2sms.com/dev/bulkV2'),
+            'template_id' => env('SMS_GATEWAY_OTP_TEMPLATE_ID'),
+            'payload_template' => env('SMS_GATEWAY_OTP_PAYLOAD_TEMPLATE', '{"route":"otp","variables_values":"{otp}","numbers":"{phone}","flash":0}'),
+        ],
+
+        'dlt' => [
+            'payload_url' => env('SMS_GATEWAY_DLT_PAYLOAD_URL', 'https://www.fast2sms.com/bulkV2'),
+            'template_id' => env('SMS_GATEWAY_DLT_TEMPLATE_ID'),
+            'sender_id' => env('SMS_GATEWAY_DLT_SENDER_ID'),
+            'entity_id' => env('SMS_GATEWAY_DLT_ENTITY_ID'),
+            'payload_template' => env('SMS_GATEWAY_DLT_PAYLOAD_TEMPLATE', '{"route":"dlt","sender_id":"{sender_id}","message":"{template_id}","variables_values":"{otp}","flash":0,"numbers":"{phone}"}'),
+        ],
     ],
 
     /*
