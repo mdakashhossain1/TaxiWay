@@ -105,14 +105,27 @@
 
             @if (session('smsTestResult'))
                 @php $result = session('smsTestResult'); @endphp
-                <div class="mb-5 rounded-lg border p-4 {{ $result['success'] ? 'border-success-200 bg-success-50 dark:border-success-800 dark:bg-success-500/10' : 'border-error-200 bg-error-50 dark:border-error-800 dark:bg-error-500/10' }}">
-                    <p class="text-theme-sm font-medium {{ $result['success'] ? 'text-success-700 dark:text-success-400' : 'text-error-700 dark:text-error-400' }}">
-                        {{ $result['success'] ? 'Sent successfully' : 'Failed to send' }} via {{ strtoupper($result['mode'] ?? $smsMode) }} route
-                        @if ($result['status']) — HTTP {{ $result['status'] }} @endif
-                    </p>
-                    @if ($result['body'])
-                        <pre class="mt-2 max-h-40 overflow-auto rounded bg-white/60 p-2 text-theme-xs text-gray-600 dark:bg-black/20 dark:text-gray-300">{{ $result['body'] }}</pre>
-                    @endif
+                <div class="mb-5 flex items-start gap-3 rounded-lg border p-4 {{ $result['success'] ? 'border-success-300 bg-success-50 dark:border-success-500/30 dark:bg-success-500/15' : 'border-error-300 bg-error-50 dark:border-error-500/30 dark:bg-error-500/15' }}">
+                    <span class="mt-0.5 shrink-0 {{ $result['success'] ? 'text-success-600 dark:text-success-400' : 'text-error-600 dark:text-error-400' }}">
+                        @if ($result['success'])
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M10 1.667a8.333 8.333 0 1 0 0 16.666 8.333 8.333 0 0 0 0-16.666Zm3.795 6.362a.625.625 0 1 0-.923-.843l-3.98 4.363-1.71-1.71a.625.625 0 1 0-.884.884l2.171 2.171a.625.625 0 0 0 .903-.02l4.423-4.845Z" fill="currentColor"/>
+                            </svg>
+                        @else
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M10 1.667a8.333 8.333 0 1 0 0 16.666 8.333 8.333 0 0 0 0-16.666ZM10 6.25a.625.625 0 0 1 .625.625v3.75a.625.625 0 1 1-1.25 0v-3.75A.625.625 0 0 1 10 6.25Zm0 6.667a.833.833 0 1 1 0 1.666.833.833 0 0 1 0-1.666Z" fill="currentColor"/>
+                            </svg>
+                        @endif
+                    </span>
+                    <div class="min-w-0 flex-1">
+                        <p class="text-theme-sm font-medium {{ $result['success'] ? 'text-success-700 dark:text-success-400' : 'text-error-700 dark:text-error-400' }}">
+                            {{ $result['success'] ? 'Sent successfully' : 'Failed to send' }} via {{ strtoupper($result['mode'] ?? $smsMode) }} route
+                            @if ($result['status']) — HTTP {{ $result['status'] }} @endif
+                        </p>
+                        @if ($result['body'])
+                            <pre class="mt-2 max-h-40 overflow-auto rounded bg-white/60 p-2 text-theme-xs text-gray-600 dark:bg-black/20 dark:text-gray-300">{{ $result['body'] }}</pre>
+                        @endif
+                    </div>
                 </div>
             @endif
 
