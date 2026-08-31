@@ -19,6 +19,8 @@ class DriverRideCard extends StatelessWidget {
         return BadgeVariant.verified;
       case DriverRideStatus.cancelled:
         return BadgeVariant.cancelled;
+      case DriverRideStatus.scheduledOpen:
+        return BadgeVariant.info;
       case DriverRideStatus.upcoming:
       case DriverRideStatus.offered:
         return BadgeVariant.pending;
@@ -33,6 +35,8 @@ class DriverRideCard extends StatelessWidget {
         return 'Cancelled';
       case DriverRideStatus.offered:
         return 'Offered';
+      case DriverRideStatus.scheduledOpen:
+        return 'Open';
       case DriverRideStatus.upcoming:
         return 'Upcoming';
     }

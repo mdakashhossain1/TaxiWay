@@ -81,5 +81,20 @@
   "nextRenewal": "Next Renewal",
   "paymentMethodLabel": "Payment Method",
   "renewSubscription": "Renew Subscription",
-  "renewedToast": "Subscription renewed successfully!"
+  "renewedToast": "Subscription renewed successfully!",
+
+  "scheduledTab": "Scheduled",
+  "noScheduledRidesTitle": "No scheduled rides",
+  "scheduledRideDetailTitle": "Scheduled Ride",
+  "openToAllDriversLabel": "Open to all eligible drivers — accept before someone else does.",
+  "acceptRideLabel": "Accept Ride",
+  "declineLabel": "Decline",
+  "scheduledRideAcceptedToast": "Ride confirmed! It's on your upcoming rides.",
+  "scheduledRideUnavailableTitle": "Too Late",
+  "scheduledRideAcceptFailedMessage": "Couldn't accept this ride. Please try again.",
+  "scheduledRideDeclineFailedMessage": "Couldn't decline this ride. Please try again.",
+  "scheduledRidesAvailableTitle": "Scheduled rides available",
+  "scheduledRidesAvailableCount": "{count} ride(s) waiting for a driver",
+  "@scheduledRidesAvailableCount": { "placeholders": { "count": { "type": "int" } } },
+  "viewAllLabel": "View All"
 }

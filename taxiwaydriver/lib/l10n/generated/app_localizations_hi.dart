@@ -228,4 +228,49 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get renewedToast => 'सदस्यता सफलतापूर्वक नवीनीकृत हुई!';
+
+  @override
+  String get scheduledTab => 'शेड्यूल्ड';
+
+  @override
+  String get noScheduledRidesTitle => 'कोई शेड्यूल्ड राइड नहीं';
+
+  @override
+  String get scheduledRideDetailTitle => 'शेड्यूल्ड राइड';
+
+  @override
+  String get openToAllDriversLabel =>
+      'सभी योग्य ड्राइवरों के लिए खुला है — किसी और से पहले स्वीकार करें।';
+
+  @override
+  String get acceptRideLabel => 'राइड स्वीकार करें';
+
+  @override
+  String get declineLabel => 'अस्वीकार करें';
+
+  @override
+  String get scheduledRideAcceptedToast =>
+      'राइड की पुष्टि हो गई! यह आपकी आगामी राइड्स में है।';
+
+  @override
+  String get scheduledRideUnavailableTitle => 'बहुत देर हो गई';
+
+  @override
+  String get scheduledRideAcceptFailedMessage =>
+      'यह राइड स्वीकार नहीं की जा सकी। कृपया पुनः प्रयास करें।';
+
+  @override
+  String get scheduledRideDeclineFailedMessage =>
+      'यह राइड अस्वीकार नहीं की जा सकी। कृपया पुनः प्रयास करें।';
+
+  @override
+  String get scheduledRidesAvailableTitle => 'शेड्यूल्ड राइड उपलब्ध हैं';
+
+  @override
+  String scheduledRidesAvailableCount(int count) {
+    return '$count राइड ड्राइवर की प्रतीक्षा में';
+  }
+
+  @override
+  String get viewAllLabel => 'सभी देखें';
 }

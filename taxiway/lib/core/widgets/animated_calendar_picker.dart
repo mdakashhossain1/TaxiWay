@@ -196,7 +196,7 @@ class _CenteredAnimatedCalendarDialogState extends State<_CenteredAnimatedCalend
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF8FAFC),
+                    color: AppColors.of(context).surface,
                     borderRadius: BorderRadius.circular(AppRadius.medium),
                     border: Border.all(color: AppColors.of(context).border),
                   ),
@@ -279,7 +279,7 @@ class _CenteredAnimatedCalendarDialogState extends State<_CenteredAnimatedCalend
                             duration: const Duration(milliseconds: 180),
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
                             decoration: BoxDecoration(
-                              color: isSelected ? AppColors.of(context).primaryBackground : const Color(0xFFF8FAFC),
+                              color: isSelected ? AppColors.of(context).primaryBackground : AppColors.of(context).surface,
                               borderRadius: BorderRadius.circular(AppRadius.pill),
                               border: Border.all(
                                 color: isSelected ? AppColors.of(context).primary : AppColors.of(context).border,
@@ -377,7 +377,7 @@ class _CenteredAnimatedCalendarDialogState extends State<_CenteredAnimatedCalend
                           ? const Color(0xFFCBD5E1)
                           : isToday
                               ? AppColors.of(context).primaryDark
-                              : const Color(0xFF0F172A),
+                              : AppColors.of(context).navy,
                 ),
               ),
             ),
@@ -419,7 +419,7 @@ class _QuickDateChip extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 8),
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: selected ? AppColors.of(context).primaryBackground : const Color(0xFFF8FAFC),
+            color: selected ? AppColors.of(context).primaryBackground : AppColors.of(context).surface,
             borderRadius: BorderRadius.circular(AppRadius.medium),
             border: Border.all(
               color: selected ? AppColors.of(context).primary : AppColors.of(context).border,

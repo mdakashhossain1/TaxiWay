@@ -22,10 +22,17 @@ class BookingProcessingScreen extends ConsumerWidget {
     final booking = ref.watch(bookingControllerProvider);
 
     ref.listen(bookingControllerProvider, (previous, next) {
+      // scheduledOpen isn't "confirmed" — it means the ride was broadcast to
+      // eligible drivers and nobody has accepted yet, which can take a long
+      // time by design (see RebroadcastScheduledRides). In practice this
+      // screen is skipped entirely for scheduled bookings (see
+      // booking_review_screen.dart), but this guard keeps the check correct
+      // regardless of how the screen is reached.
       if (next != null &&
           next.status != BookingStatus.requested &&
           next.status != BookingStatus.allocating &&
-          next.status != BookingStatus.driverOffered) {
+          next.status != BookingStatus.driverOffered &&
+          next.status != BookingStatus.scheduledOpen) {
         if (next.status == BookingStatus.cancelled) {
           context.go(AppRoutes.home);
         } else {

@@ -9,6 +9,7 @@ enum BookingStatus {
   draft,
   requested,
   allocating,
+  scheduledOpen,
   driverOffered,
   driverAssigned,
   driverEnRoute,
@@ -33,6 +34,8 @@ BookingStatus _statusFromApi(String status) {
       return BookingStatus.requested;
     case 'allocating':
       return BookingStatus.allocating;
+    case 'scheduled_open':
+      return BookingStatus.scheduledOpen;
     case 'driver_offered':
       return BookingStatus.driverOffered;
     case 'driver_assigned':
@@ -68,6 +71,14 @@ class Booking {
   final String paymentMethod;
   final String paymentStatus;
 
+  /// 'instant' (book now) or 'scheduled' (booked ahead of time via
+  /// [scheduledAt]). Scheduled rides skip the client-side driver-approach
+  /// simulation on assignment — see BookingController.applyDriverAccepted.
+  final String type;
+  final DateTime? scheduledAt;
+
+  bool get isScheduled => type == 'scheduled';
+
   /// The real driver/vehicle allocated to this booking by the backend —
   /// null only in the brief window (or edge case) before/if allocation
   /// hasn't happened yet.
@@ -94,6 +105,8 @@ class Booking {
     required this.createdAt,
     this.paymentMethod = 'Cash / UPI',
     this.paymentStatus = 'Paid',
+    this.type = 'instant',
+    this.scheduledAt,
     this.driver,
     this.vehicle,
     this.driverDistanceKm = 0,
@@ -128,6 +141,8 @@ class Booking {
       createdAt: DateTime.parse(json['created_at'] as String).toLocal(),
       paymentMethod: (json['payment_method'] as String).toUpperCase(),
       paymentStatus: json['payment_status'] == 'paid' ? 'Paid' : 'Pending',
+      type: json['type'] as String? ?? 'instant',
+      scheduledAt: json['scheduled_at'] != null ? DateTime.parse(json['scheduled_at'] as String).toLocal() : null,
       driver: driverJson != null ? Driver.fromJson(driverJson) : null,
       vehicle: vehicleJson != null ? Vehicle.fromJson(vehicleJson, categoryName: categoryName, seats: categoryJson['seats'] as int, ac: categoryJson['ac'] as bool) : null,
     );
@@ -155,6 +170,8 @@ class Booking {
       createdAt: createdAt,
       paymentMethod: paymentMethod,
       paymentStatus: paymentStatus ?? this.paymentStatus,
+      type: type,
+      scheduledAt: scheduledAt,
       driver: driver ?? this.driver,
       vehicle: vehicle ?? this.vehicle,
       driverDistanceKm: driverDistanceKm ?? this.driverDistanceKm,

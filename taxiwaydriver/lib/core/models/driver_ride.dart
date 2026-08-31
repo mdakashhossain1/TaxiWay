@@ -1,4 +1,4 @@
-enum DriverRideStatus { offered, upcoming, completed, cancelled }
+enum DriverRideStatus { offered, scheduledOpen, upcoming, completed, cancelled }
 
 enum RidePaymentStatus { paid, pending }
 
@@ -22,6 +22,10 @@ class DriverRide {
   /// countdown (server-enforced by `ExpireRideOffer`) runs out.
   final DateTime? offerExpiresAt;
 
+  /// Only set for scheduled rides — when the customer asked to be picked up,
+  /// as opposed to [dateTime] (when the booking was created).
+  final DateTime? scheduledAt;
+
   const DriverRide({
     required this.id,
     required this.dateTime,
@@ -38,6 +42,7 @@ class DriverRide {
     required this.paymentStatus,
     required this.status,
     this.offerExpiresAt,
+    this.scheduledAt,
   });
 
   factory DriverRide.fromJson(Map<String, dynamic> json) {
@@ -48,6 +53,9 @@ class DriverRide {
     switch (json['status'] as String) {
       case 'driver_offered':
         status = DriverRideStatus.offered;
+        break;
+      case 'scheduled_open':
+        status = DriverRideStatus.scheduledOpen;
         break;
       case 'completed':
         status = DriverRideStatus.completed;
@@ -61,6 +69,7 @@ class DriverRide {
 
     return DriverRide(
       offerExpiresAt: json['offer_expires_at'] != null ? DateTime.parse(json['offer_expires_at'] as String).toLocal() : null,
+      scheduledAt: json['scheduled_at'] != null ? DateTime.parse(json['scheduled_at'] as String).toLocal() : null,
       id: json['id'].toString(),
       dateTime: DateTime.parse(json['created_at'] as String).toLocal(),
       pickup: json['pickup_address'] as String,
@@ -94,6 +103,8 @@ class DriverRide {
       fare: fare,
       paymentStatus: paymentStatus ?? this.paymentStatus,
       status: status ?? this.status,
+      offerExpiresAt: offerExpiresAt,
+      scheduledAt: scheduledAt,
     );
   }
 }

@@ -228,4 +228,49 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get renewedToast => 'সাবস্ক্রিপশন সফলভাবে নবায়ন হয়েছে!';
+
+  @override
+  String get scheduledTab => 'শিডিউল করা';
+
+  @override
+  String get noScheduledRidesTitle => 'কোনো শিডিউল করা রাইড নেই';
+
+  @override
+  String get scheduledRideDetailTitle => 'শিডিউল করা রাইড';
+
+  @override
+  String get openToAllDriversLabel =>
+      'সকল যোগ্য ড্রাইভারের জন্য উন্মুক্ত — অন্য কারো আগে গ্রহণ করুন।';
+
+  @override
+  String get acceptRideLabel => 'রাইড গ্রহণ করুন';
+
+  @override
+  String get declineLabel => 'প্রত্যাখ্যান করুন';
+
+  @override
+  String get scheduledRideAcceptedToast =>
+      'রাইড নিশ্চিত হয়েছে! এটি আপনার আসন্ন রাইডে যুক্ত হয়েছে।';
+
+  @override
+  String get scheduledRideUnavailableTitle => 'খুব দেরি হয়ে গেছে';
+
+  @override
+  String get scheduledRideAcceptFailedMessage =>
+      'এই রাইড গ্রহণ করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।';
+
+  @override
+  String get scheduledRideDeclineFailedMessage =>
+      'এই রাইড প্রত্যাখ্যান করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।';
+
+  @override
+  String get scheduledRidesAvailableTitle => 'শিডিউল করা রাইড উপলব্ধ';
+
+  @override
+  String scheduledRidesAvailableCount(int count) {
+    return '$countটি রাইড ড্রাইভারের অপেক্ষায়';
+  }
+
+  @override
+  String get viewAllLabel => 'সব দেখুন';
 }

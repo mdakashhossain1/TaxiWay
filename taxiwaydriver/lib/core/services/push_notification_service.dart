@@ -65,6 +65,13 @@ class PushNotificationService {
       ref.invalidate(nextRideProvider);
     }
 
+    // Not auto-navigated like ride_offer — this can fire repeatedly (see
+    // RebroadcastScheduledRides) and isn't addressed to this driver alone,
+    // so it just refreshes the list quietly and surfaces the toast below.
+    if (type == 'scheduled_ride_available') {
+      ref.invalidate(scheduledRidesProvider);
+    }
+
     final context = rootNavigatorKey.currentContext;
     if (context == null) return;
 

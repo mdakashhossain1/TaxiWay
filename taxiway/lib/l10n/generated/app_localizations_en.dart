@@ -464,4 +464,61 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cancelRequestLabel => 'Cancel Request';
+
+  @override
+  String get bookNow => 'Book Now';
+
+  @override
+  String get scheduleForLater => 'Schedule for Later';
+
+  @override
+  String get scheduleRide => 'Schedule Ride';
+
+  @override
+  String get scheduleTooSoonError =>
+      'Please choose a time at least 30 minutes from now.';
+
+  @override
+  String get scheduleTooFarError =>
+      'Scheduling is only available up to 7 days ahead.';
+
+  @override
+  String get noVehiclesMatchFilter => 'No vehicles match this filter.';
+
+  @override
+  String get seatsFilterAny => 'Any';
+
+  @override
+  String seatsFilterPlus(int count) {
+    return '$count+ Seats';
+  }
+
+  @override
+  String get upcomingScheduledRideTitle => 'Upcoming Scheduled Ride';
+
+  @override
+  String get waitingForDriverLabel => 'Waiting for a driver...';
+
+  @override
+  String driverAssignedNameLabel(String name) {
+    return 'Driver: $name';
+  }
+
+  @override
+  String scheduledForLabel(String value) {
+    return 'Scheduled for $value';
+  }
+
+  @override
+  String get addEmailForReceiptLabel => 'Add your email for a booking receipt';
+
+  @override
+  String get emailOptionalHint => 'you@example.com (optional)';
+
+  @override
+  String get validationEmailInvalid => 'Please enter a valid email address.';
+
+  @override
+  String get scheduledRideConfirmationToast =>
+      'Your ride has been scheduled! We\'ll notify you once a driver accepts.';
 }

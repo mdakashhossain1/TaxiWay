@@ -158,5 +158,24 @@
 
   "findingDriverHeading": "उपयुक्त ड्राइवर खोजा जा रहा है...",
   "findingDriverSubtitle": "इसमें आमतौर पर कुछ सेकंड लगते हैं।",
-  "cancelRequestLabel": "अनुरोध रद्द करें"
+  "cancelRequestLabel": "अनुरोध रद्द करें",
+  "bookNow": "अभी बुक करें",
+  "scheduleForLater": "बाद के लिए शेड्यूल करें",
+  "scheduleRide": "राइड शेड्यूल करें",
+  "scheduleTooSoonError": "कृपया अभी से कम से कम 30 मिनट बाद का समय चुनें।",
+  "scheduleTooFarError": "शेड्यूलिंग केवल 7 दिन आगे तक ही उपलब्ध है।",
+  "noVehiclesMatchFilter": "इस फ़िल्टर से कोई वाहन मेल नहीं खाता।",
+  "seatsFilterAny": "कोई भी",
+  "seatsFilterPlus": "{count}+ सीट",
+  "@seatsFilterPlus": { "placeholders": { "count": { "type": "int" } } },
+  "upcomingScheduledRideTitle": "आगामी शेड्यूल्ड राइड",
+  "waitingForDriverLabel": "ड्राइवर की प्रतीक्षा है...",
+  "driverAssignedNameLabel": "ड्राइवर: {name}",
+  "@driverAssignedNameLabel": { "placeholders": { "name": { "type": "String" } } },
+  "scheduledForLabel": "{value} के लिए शेड्यूल्ड",
+  "@scheduledForLabel": { "placeholders": { "value": { "type": "String" } } },
+  "addEmailForReceiptLabel": "बुकिंग रसीद के लिए अपना ईमेल जोड़ें",
+  "emailOptionalHint": "you@example.com (वैकल्पिक)",
+  "validationEmailInvalid": "कृपया एक मान्य ईमेल पता दर्ज करें।",
+  "scheduledRideConfirmationToast": "आपकी राइड शेड्यूल हो गई है! ड्राइवर के स्वीकार करते ही हम आपको सूचित करेंगे।"
 }

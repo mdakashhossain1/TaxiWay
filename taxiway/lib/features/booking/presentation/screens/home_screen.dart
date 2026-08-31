@@ -13,8 +13,11 @@ import '../../../../core/widgets/app_scaffold.dart';
 import '../../../../core/widgets/fare_card.dart';
 import '../../../../core/widgets/location_card.dart';
 import '../../../../core/widgets/ride_map_view.dart';
+import '../../../../core/widgets/schedule_toggle_card.dart';
+import '../../../../core/widgets/seat_filter_chips.dart';
 import '../../../../core/widgets/taxiway_header.dart';
 import '../../../../core/widgets/skeleton_loaders.dart';
+import '../../../../core/widgets/upcoming_scheduled_ride_card.dart';
 import '../../../../core/widgets/vehicle_card.dart';
 import '../../../../core/utils/geo_utils.dart';
 import '../../../../l10n/generated/app_localizations.dart';
@@ -44,8 +47,10 @@ class HomeScreen extends ConsumerWidget {
 
   Future<void> _refresh(WidgetRef ref) async {
     ref.invalidate(vehicleCategoriesProvider);
+    ref.invalidate(tripHistoryControllerProvider);
     await Future.wait([
       ref.read(vehicleCategoriesProvider.future),
+      ref.read(tripHistoryControllerProvider.future),
       ref.read(bookingDraftControllerProvider.notifier).refreshCurrentGpsLocation(),
     ]);
   }
@@ -74,6 +79,8 @@ class HomeScreen extends ConsumerWidget {
             TaxiwayHeader(onProfileTap: () => context.push(AppRoutes.profileMenu)),
             const SizedBox(height: 8),
 
+            const UpcomingScheduledRideCard(),
+
             // Hero Interactive Map with Expand/Zoom Mode & Floating Metrics
             RideMapView(
               pickup: draft.pickup,
@@ -97,6 +104,9 @@ class HomeScreen extends ConsumerWidget {
               onSwap: draft.hasRoute ? () => _swap(ref, draft.pickup!, draft.destination!) : null,
             ),
 
+            const SizedBox(height: 14),
+            const ScheduleToggleCard(),
+
             const SizedBox(height: 20),
 
             // Section Header: Select Vehicle
@@ -117,6 +127,9 @@ class HomeScreen extends ConsumerWidget {
                   ),
               ],
             ),
+            const SizedBox(height: 10),
+
+            const SeatFilterChips(),
             const SizedBox(height: 12),
 
             // Horizontal Vehicle Carousel matching Figma design
@@ -130,29 +143,40 @@ class HomeScreen extends ConsumerWidget {
                   itemBuilder: (_, _) => const VehicleCardSkeleton(),
                 ),
                 error: (_, _) => Text(l10n.couldNotLoadVehicles),
-                data: (categories) => ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: categories.length,
-                  separatorBuilder: (_, _) => const SizedBox(width: 12),
-                  itemBuilder: (context, i) {
-                    final category = categories[i];
-                    final categoryFare = ref.read(bookingDraftControllerProvider.notifier).fareFor(category);
-                    return VehicleCard(
-                      category: category,
-                      fare: categoryFare?.total ?? category.minimumFare,
-                      selected: draft.selectedCategory?.id == category.id,
-                      onTap: () {
-                        ref.read(bookingDraftControllerProvider.notifier).selectCategory(category);
-                        if (!draft.hasRoute) {
-                          _pickDestination(context, ref);
-                        }
-                      },
-                    )
-                        .animate()
-                        .fadeIn(delay: (40 * i).ms, duration: 220.ms)
-                        .slideX(begin: 0.12, end: 0, delay: (40 * i).ms, duration: 220.ms, curve: Curves.easeOutCubic);
-                  },
-                ),
+                data: (allCategories) {
+                  final minSeats = ref.watch(selectedMinSeatsProvider);
+                  final categories = minSeats == null
+                      ? allCategories
+                      : allCategories.where((c) => c.seats >= minSeats).toList();
+
+                  if (categories.isEmpty) {
+                    return Center(child: Text(l10n.noVehiclesMatchFilter, style: AppTypography.of(context).body));
+                  }
+
+                  return ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: categories.length,
+                    separatorBuilder: (_, _) => const SizedBox(width: 12),
+                    itemBuilder: (context, i) {
+                      final category = categories[i];
+                      final categoryFare = ref.read(bookingDraftControllerProvider.notifier).fareFor(category);
+                      return VehicleCard(
+                        category: category,
+                        fare: categoryFare?.total ?? category.minimumFare,
+                        selected: draft.selectedCategory?.id == category.id,
+                        onTap: () {
+                          ref.read(bookingDraftControllerProvider.notifier).selectCategory(category);
+                          if (!draft.hasRoute) {
+                            _pickDestination(context, ref);
+                          }
+                        },
+                      )
+                          .animate()
+                          .fadeIn(delay: (40 * i).ms, duration: 220.ms)
+                          .slideX(begin: 0.12, end: 0, delay: (40 * i).ms, duration: 220.ms, curve: Curves.easeOutCubic);
+                    },
+                  );
+                },
               ),
             ),
 
@@ -193,7 +217,9 @@ class HomeScreen extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        fare != null ? '${l10n.bookRide} ${formatRupees(fare.total)}' : l10n.selectAVehicle,
+                        fare != null
+                            ? '${draft.isScheduled ? l10n.scheduleRide : l10n.bookRide} ${formatRupees(fare.total)}'
+                            : l10n.selectAVehicle,
                       ),
                       const SizedBox(width: 8),
                       const Icon(BootstrapIcons.arrow_right, size: 18),

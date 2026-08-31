@@ -228,4 +228,49 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get renewedToast => 'Subscription renewed successfully!';
+
+  @override
+  String get scheduledTab => 'Scheduled';
+
+  @override
+  String get noScheduledRidesTitle => 'No scheduled rides';
+
+  @override
+  String get scheduledRideDetailTitle => 'Scheduled Ride';
+
+  @override
+  String get openToAllDriversLabel =>
+      'Open to all eligible drivers — accept before someone else does.';
+
+  @override
+  String get acceptRideLabel => 'Accept Ride';
+
+  @override
+  String get declineLabel => 'Decline';
+
+  @override
+  String get scheduledRideAcceptedToast =>
+      'Ride confirmed! It\'s on your upcoming rides.';
+
+  @override
+  String get scheduledRideUnavailableTitle => 'Too Late';
+
+  @override
+  String get scheduledRideAcceptFailedMessage =>
+      'Couldn\'t accept this ride. Please try again.';
+
+  @override
+  String get scheduledRideDeclineFailedMessage =>
+      'Couldn\'t decline this ride. Please try again.';
+
+  @override
+  String get scheduledRidesAvailableTitle => 'Scheduled rides available';
+
+  @override
+  String scheduledRidesAvailableCount(int count) {
+    return '$count ride(s) waiting for a driver';
+  }
+
+  @override
+  String get viewAllLabel => 'View All';
 }

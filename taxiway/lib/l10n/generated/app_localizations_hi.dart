@@ -462,4 +462,61 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get cancelRequestLabel => 'अनुरोध रद्द करें';
+
+  @override
+  String get bookNow => 'अभी बुक करें';
+
+  @override
+  String get scheduleForLater => 'बाद के लिए शेड्यूल करें';
+
+  @override
+  String get scheduleRide => 'राइड शेड्यूल करें';
+
+  @override
+  String get scheduleTooSoonError =>
+      'कृपया अभी से कम से कम 30 मिनट बाद का समय चुनें।';
+
+  @override
+  String get scheduleTooFarError =>
+      'शेड्यूलिंग केवल 7 दिन आगे तक ही उपलब्ध है।';
+
+  @override
+  String get noVehiclesMatchFilter => 'इस फ़िल्टर से कोई वाहन मेल नहीं खाता।';
+
+  @override
+  String get seatsFilterAny => 'कोई भी';
+
+  @override
+  String seatsFilterPlus(int count) {
+    return '$count+ सीट';
+  }
+
+  @override
+  String get upcomingScheduledRideTitle => 'आगामी शेड्यूल्ड राइड';
+
+  @override
+  String get waitingForDriverLabel => 'ड्राइवर की प्रतीक्षा है...';
+
+  @override
+  String driverAssignedNameLabel(String name) {
+    return 'ड्राइवर: $name';
+  }
+
+  @override
+  String scheduledForLabel(String value) {
+    return '$value के लिए शेड्यूल्ड';
+  }
+
+  @override
+  String get addEmailForReceiptLabel => 'बुकिंग रसीद के लिए अपना ईमेल जोड़ें';
+
+  @override
+  String get emailOptionalHint => 'you@example.com (वैकल्पिक)';
+
+  @override
+  String get validationEmailInvalid => 'कृपया एक मान्य ईमेल पता दर्ज करें।';
+
+  @override
+  String get scheduledRideConfirmationToast =>
+      'आपकी राइड शेड्यूल हो गई है! ड्राइवर के स्वीकार करते ही हम आपको सूचित करेंगे।';
 }

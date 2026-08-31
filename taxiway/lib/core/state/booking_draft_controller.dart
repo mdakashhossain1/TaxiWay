@@ -16,6 +16,7 @@ class BookingDraft {
   final VehicleCategory? selectedCategory;
   final double distanceKm;
   final int etaMinutes;
+  final DateTime? scheduledAt;
 
   const BookingDraft({
     this.pickup,
@@ -23,9 +24,11 @@ class BookingDraft {
     this.selectedCategory,
     this.distanceKm = 0,
     this.etaMinutes = 0,
+    this.scheduledAt,
   });
 
   bool get hasRoute => pickup != null && destination != null;
+  bool get isScheduled => scheduledAt != null;
 
   BookingDraft copyWith({
     PlaceLocation? pickup,
@@ -40,6 +43,20 @@ class BookingDraft {
       selectedCategory: selectedCategory ?? this.selectedCategory,
       distanceKm: distanceKm ?? this.distanceKm,
       etaMinutes: etaMinutes ?? this.etaMinutes,
+      scheduledAt: scheduledAt,
+    );
+  }
+
+  /// Separate from copyWith because `scheduledAt` needs to be explicitly
+  /// clearable back to null (a plain `??`-based copyWith can never do that).
+  BookingDraft withScheduledAt(DateTime? value) {
+    return BookingDraft(
+      pickup: pickup,
+      destination: destination,
+      selectedCategory: selectedCategory,
+      distanceKm: distanceKm,
+      etaMinutes: etaMinutes,
+      scheduledAt: value,
     );
   }
 }
@@ -76,6 +93,11 @@ class BookingDraftController extends Notifier<BookingDraft> {
 
   void selectCategory(VehicleCategory category) {
     state = state.copyWith(selectedCategory: category);
+  }
+
+  /// Pass null to switch back to "Book Now".
+  void setScheduledAt(DateTime? value) {
+    state = state.withScheduledAt(value);
   }
 
   void _recalculateRoute() {

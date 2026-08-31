@@ -15,14 +15,22 @@ import '../../../../core/widgets/page_state_builder.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 
 class MyRidesScreen extends ConsumerStatefulWidget {
-  const MyRidesScreen({super.key});
+  /// Which tab to open on — 0 Upcoming, 1 Scheduled, 2 Completed. Used by the
+  /// dashboard's scheduled-rides banner to deep-link straight to that tab.
+  final int? initialTabIndex;
+
+  const MyRidesScreen({super.key, this.initialTabIndex});
 
   @override
   ConsumerState<MyRidesScreen> createState() => _MyRidesScreenState();
 }
 
 class _MyRidesScreenState extends ConsumerState<MyRidesScreen> with SingleTickerProviderStateMixin {
-  late final TabController _tabController = TabController(length: 2, vsync: this);
+  late final TabController _tabController = TabController(
+    length: 3,
+    initialIndex: (widget.initialTabIndex ?? 0).clamp(0, 2),
+    vsync: this,
+  );
 
   @override
   void dispose() {
@@ -53,7 +61,7 @@ class _MyRidesScreenState extends ConsumerState<MyRidesScreen> with SingleTicker
           unselectedLabelColor: AppColors.of(context).mutedText,
           labelStyle: AppTypography.of(context).label,
           indicatorColor: AppColors.of(context).primary,
-          tabs: [Tab(text: l10n.upcomingTab), Tab(text: l10n.completedTab)],
+          tabs: [Tab(text: l10n.upcomingTab), Tab(text: l10n.scheduledTab), Tab(text: l10n.completedTab)],
         ),
       ),
       bottomNavigationBar: DriverBottomNav(selected: DriverNavTab.rides, onSelect: _goToTab),
@@ -61,6 +69,7 @@ class _MyRidesScreenState extends ConsumerState<MyRidesScreen> with SingleTicker
         controller: _tabController,
         children: [
           _RideList(showCompleted: false, emptyTitle: l10n.noUpcomingRidesTitle, ascending: true),
+          const _ScheduledRideList(),
           _RideList(showCompleted: true, emptyTitle: l10n.noCompletedRidesTitle, ascending: false),
         ],
       ),
@@ -99,6 +108,37 @@ class _RideList extends ConsumerWidget {
           itemBuilder: (context, index) {
             final ride = sorted[index];
             return DriverRideCard(ride: ride, onTap: () => context.push(AppRoutes.rideDetails, extra: ride));
+          },
+        );
+      },
+    );
+  }
+}
+
+/// Open scheduled-ride broadcasts, soonest pickup first — tapping one opens
+/// [ScheduledRideDetailScreen] where the driver can accept or decline.
+class _ScheduledRideList extends ConsumerWidget {
+  const _ScheduledRideList();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final ridesAsync = ref.watch(scheduledRidesProvider);
+
+    return PageStateBuilder<List<DriverRide>>(
+      asyncValue: ridesAsync,
+      shimmer: const RideListShimmer(itemCount: 4),
+      isEmpty: (rides) => rides.isEmpty,
+      emptyWidget: EmptyState(icon: BootstrapIcons.calendar3, title: l10n.noScheduledRidesTitle, message: ''),
+      onRetry: () async => ref.invalidate(scheduledRidesProvider),
+      builder: (context, rides) {
+        final sorted = [...rides]..sort((a, b) => (a.scheduledAt ?? a.dateTime).compareTo(b.scheduledAt ?? b.dateTime));
+        return ListView.builder(
+          padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+          itemCount: sorted.length,
+          itemBuilder: (context, index) {
+            final ride = sorted[index];
+            return DriverRideCard(ride: ride, onTap: () => context.push(AppRoutes.scheduledRideDetail, extra: ride));
           },
         );
       },

@@ -519,6 +519,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Subscription renewed successfully!'**
   String get renewedToast;
+
+  /// No description provided for @scheduledTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled'**
+  String get scheduledTab;
+
+  /// No description provided for @noScheduledRidesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No scheduled rides'**
+  String get noScheduledRidesTitle;
+
+  /// No description provided for @scheduledRideDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled Ride'**
+  String get scheduledRideDetailTitle;
+
+  /// No description provided for @openToAllDriversLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Open to all eligible drivers — accept before someone else does.'**
+  String get openToAllDriversLabel;
+
+  /// No description provided for @acceptRideLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept Ride'**
+  String get acceptRideLabel;
+
+  /// No description provided for @declineLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Decline'**
+  String get declineLabel;
+
+  /// No description provided for @scheduledRideAcceptedToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Ride confirmed! It\'s on your upcoming rides.'**
+  String get scheduledRideAcceptedToast;
+
+  /// No description provided for @scheduledRideUnavailableTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Too Late'**
+  String get scheduledRideUnavailableTitle;
+
+  /// No description provided for @scheduledRideAcceptFailedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t accept this ride. Please try again.'**
+  String get scheduledRideAcceptFailedMessage;
+
+  /// No description provided for @scheduledRideDeclineFailedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t decline this ride. Please try again.'**
+  String get scheduledRideDeclineFailedMessage;
+
+  /// No description provided for @scheduledRidesAvailableTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled rides available'**
+  String get scheduledRidesAvailableTitle;
+
+  /// No description provided for @scheduledRidesAvailableCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} ride(s) waiting for a driver'**
+  String scheduledRidesAvailableCount(int count);
+
+  /// No description provided for @viewAllLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'View All'**
+  String get viewAllLabel;
 }
 
 class _AppLocalizationsDelegate

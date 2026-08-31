@@ -78,5 +78,20 @@
   "nextRenewal": "अगला नवीनीकरण",
   "paymentMethodLabel": "भुगतान का तरीका",
   "renewSubscription": "सदस्यता नवीनीकृत करें",
-  "renewedToast": "सदस्यता सफलतापूर्वक नवीनीकृत हुई!"
+  "renewedToast": "सदस्यता सफलतापूर्वक नवीनीकृत हुई!",
+
+  "scheduledTab": "शेड्यूल्ड",
+  "noScheduledRidesTitle": "कोई शेड्यूल्ड राइड नहीं",
+  "scheduledRideDetailTitle": "शेड्यूल्ड राइड",
+  "openToAllDriversLabel": "सभी योग्य ड्राइवरों के लिए खुला है — किसी और से पहले स्वीकार करें।",
+  "acceptRideLabel": "राइड स्वीकार करें",
+  "declineLabel": "अस्वीकार करें",
+  "scheduledRideAcceptedToast": "राइड की पुष्टि हो गई! यह आपकी आगामी राइड्स में है।",
+  "scheduledRideUnavailableTitle": "बहुत देर हो गई",
+  "scheduledRideAcceptFailedMessage": "यह राइड स्वीकार नहीं की जा सकी। कृपया पुनः प्रयास करें।",
+  "scheduledRideDeclineFailedMessage": "यह राइड अस्वीकार नहीं की जा सकी। कृपया पुनः प्रयास करें।",
+  "scheduledRidesAvailableTitle": "शेड्यूल्ड राइड उपलब्ध हैं",
+  "scheduledRidesAvailableCount": "{count} राइड ड्राइवर की प्रतीक्षा में",
+  "@scheduledRidesAvailableCount": { "placeholders": { "count": { "type": "int" } } },
+  "viewAllLabel": "सभी देखें"
 }

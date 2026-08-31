@@ -36,6 +36,8 @@ class BookingController extends Notifier<Booking?> {
     required double distanceKm,
     required int etaMinutes,
     required FareBreakdown fare,
+    DateTime? scheduledAt,
+    String? email,
   }) async {
     _cancelAllTimers();
 
@@ -50,6 +52,9 @@ class BookingController extends Notifier<Booking?> {
       'distance_km': distanceKm,
       'eta_minutes': etaMinutes,
       'payment_method': 'cash',
+      if (scheduledAt != null) 'type': 'scheduled',
+      if (scheduledAt != null) 'scheduled_at': scheduledAt.toUtc().toIso8601String(),
+      if (email != null && email.isNotEmpty) 'email': email,
     });
 
     var booking = Booking.fromJson(response['data'] as Map<String, dynamic>).copyWith(
@@ -88,7 +93,11 @@ class BookingController extends Notifier<Booking?> {
 
       state = booking;
 
-      if (booking.status == BookingStatus.driverAssigned) {
+      // Scheduled rides can be accepted hours or days ahead of pickup, so
+      // the "driver en route" countdown simulation (built for instant rides,
+      // where acceptance means the driver is leaving right now) would be
+      // wrong here — a scheduled ride just shows "confirmed" until pickup.
+      if (booking.status == BookingStatus.driverAssigned && !booking.isScheduled) {
         _runAfter(const Duration(milliseconds: 900), _toDriverEnRoute);
       }
     } on ApiException {

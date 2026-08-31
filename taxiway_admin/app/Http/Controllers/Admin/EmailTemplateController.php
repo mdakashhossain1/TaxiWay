@@ -16,6 +16,7 @@ class EmailTemplateController extends Controller
         'driver_verified' => 'Driver Verified',
         'account_deleted' => 'Account Deleted',
         'account_deletion_confirm' => 'Account Deletion Confirmation',
+        'scheduled_ride_confirmed' => 'Scheduled Ride Confirmed',
     ];
 
     public function index(): View

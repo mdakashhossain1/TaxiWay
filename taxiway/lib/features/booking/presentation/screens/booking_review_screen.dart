@@ -2,6 +2,7 @@ import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import '../../../../core/providers.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -25,6 +26,13 @@ class BookingReviewScreen extends ConsumerStatefulWidget {
 
 class _BookingReviewScreenState extends ConsumerState<BookingReviewScreen> {
   String _selectedPaymentMethod = 'cash';
+  final _emailController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
 
   String _imageForCategory(String id) {
     switch (id) {
@@ -47,6 +55,8 @@ class _BookingReviewScreenState extends ConsumerState<BookingReviewScreen> {
     final draft = ref.watch(bookingDraftControllerProvider);
     final category = draft.selectedCategory;
     final fare = category != null ? ref.read(bookingDraftControllerProvider.notifier).fareFor(category) : null;
+    final customer = ref.watch(authControllerProvider).customer;
+    final needsEmail = draft.isScheduled && (customer?.email == null || customer!.email!.isEmpty);
 
     if (!draft.hasRoute || category == null || fare == null) {
       return AppScaffold(appBar: AppBar(), body: Center(child: Text(l10n.missingBookingDetails)));
@@ -74,6 +84,34 @@ class _BookingReviewScreenState extends ConsumerState<BookingReviewScreen> {
             ),
           ),
           const SizedBox(height: 18),
+
+          if (draft.isScheduled && draft.scheduledAt != null) ...[
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              decoration: BoxDecoration(
+                color: AppColors.of(context).primaryBackground,
+                borderRadius: BorderRadius.circular(AppRadius.card),
+                border: Border.all(color: AppColors.of(context).primary.withValues(alpha: 0.4)),
+              ),
+              child: Row(
+                children: [
+                  Icon(BootstrapIcons.calendar_event, size: 16, color: AppColors.of(context).primary),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      l10n.scheduledForLabel(DateFormat('d MMM, h:mm a').format(draft.scheduledAt!)),
+                      style: AppTypography.of(context).caption.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.of(context).primaryDark,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+          ],
 
           // Selected Vehicle Hero Card
           Container(
@@ -249,13 +287,52 @@ class _BookingReviewScreenState extends ConsumerState<BookingReviewScreen> {
             ],
           ),
 
+          if (needsEmail) ...[
+            const SizedBox(height: 18),
+            Text(
+              l10n.addEmailForReceiptLabel,
+              style: AppTypography.of(context).h3.copyWith(fontSize: 15, color: AppColors.of(context).navy),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              controller: _emailController,
+              keyboardType: TextInputType.emailAddress,
+              style: AppTypography.of(context).body,
+              decoration: InputDecoration(
+                hintText: l10n.emailOptionalHint,
+                prefixIcon: Icon(BootstrapIcons.envelope, size: 18, color: AppColors.of(context).mutedText),
+                filled: true,
+                fillColor: AppColors.of(context).card,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(AppRadius.medium),
+                  borderSide: BorderSide(color: AppColors.of(context).border),
+                ),
+              ),
+            ),
+          ],
+
           const SizedBox(height: 24),
 
           // Confirm Booking Primary CTA Button
           PrimaryButton(
             label: l10n.confirmBookingLabel(formatRupees(fare.total)),
             onPressed: () async {
-              context.push(AppRoutes.bookingProcessing);
+              final email = _emailController.text.trim();
+              if (email.isNotEmpty && !email.contains('@')) {
+                AppToast.error(context, l10n.validationEmailInvalid);
+                return;
+              }
+
+              // Instant bookings show the "finding a driver" spinner screen,
+              // which then redirects itself once a driver is assigned.
+              // Scheduled bookings have no such moment — createBooking
+              // returns immediately with a still-open, not-yet-accepted
+              // booking, so there's nothing to "process" client-side; that
+              // screen's listener would otherwise misread scheduledOpen as
+              // already confirmed (see booking_processing_screen.dart).
+              final isScheduled = draft.isScheduled;
+              if (!isScheduled) context.push(AppRoutes.bookingProcessing);
+
               try {
                 await ref.read(bookingControllerProvider.notifier).createBooking(
                       pickup: draft.pickup!,
@@ -264,10 +341,30 @@ class _BookingReviewScreenState extends ConsumerState<BookingReviewScreen> {
                       distanceKm: draft.distanceKm,
                       etaMinutes: draft.etaMinutes,
                       fare: fare,
+                      scheduledAt: isScheduled ? draft.scheduledAt : null,
+                      email: email.isNotEmpty ? email : null,
                     );
+
+                // The backend already persisted this email on the customer
+                // record (it only accepts one if none was on file yet); keep
+                // local state in sync so this field doesn't ask again.
+                if (email.isNotEmpty && needsEmail && customer != null) {
+                  await ref.read(authControllerProvider.notifier).completeProfile(name: customer.name, email: email);
+                }
+
+                if (!isScheduled) return;
+
+                if (!context.mounted) return;
+                ref.read(bookingDraftControllerProvider.notifier).setScheduledAt(null);
+                // Otherwise the home screen's "Upcoming Scheduled Ride" card
+                // stays on stale (pre-booking) trip history until the user
+                // manually pulls to refresh.
+                ref.invalidate(tripHistoryControllerProvider);
+                AppToast.success(context, l10n.scheduledRideConfirmationToast);
+                context.go(AppRoutes.home);
               } catch (_) {
                 if (!context.mounted) return;
-                context.pop();
+                if (!isScheduled) context.pop();
                 AppToast.error(context, l10n.bookingFailedMessage, title: l10n.bookingFailedTitle);
               }
             },

@@ -78,5 +78,20 @@
   "nextRenewal": "পরবর্তী নবায়ন",
   "paymentMethodLabel": "পেমেন্ট পদ্ধতি",
   "renewSubscription": "সাবস্ক্রিপশন নবায়ন করুন",
-  "renewedToast": "সাবস্ক্রিপশন সফলভাবে নবায়ন হয়েছে!"
+  "renewedToast": "সাবস্ক্রিপশন সফলভাবে নবায়ন হয়েছে!",
+
+  "scheduledTab": "শিডিউল করা",
+  "noScheduledRidesTitle": "কোনো শিডিউল করা রাইড নেই",
+  "scheduledRideDetailTitle": "শিডিউল করা রাইড",
+  "openToAllDriversLabel": "সকল যোগ্য ড্রাইভারের জন্য উন্মুক্ত — অন্য কারো আগে গ্রহণ করুন।",
+  "acceptRideLabel": "রাইড গ্রহণ করুন",
+  "declineLabel": "প্রত্যাখ্যান করুন",
+  "scheduledRideAcceptedToast": "রাইড নিশ্চিত হয়েছে! এটি আপনার আসন্ন রাইডে যুক্ত হয়েছে।",
+  "scheduledRideUnavailableTitle": "খুব দেরি হয়ে গেছে",
+  "scheduledRideAcceptFailedMessage": "এই রাইড গ্রহণ করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।",
+  "scheduledRideDeclineFailedMessage": "এই রাইড প্রত্যাখ্যান করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।",
+  "scheduledRidesAvailableTitle": "শিডিউল করা রাইড উপলব্ধ",
+  "scheduledRidesAvailableCount": "{count}টি রাইড ড্রাইভারের অপেক্ষায়",
+  "@scheduledRidesAvailableCount": { "placeholders": { "count": { "type": "int" } } },
+  "viewAllLabel": "সব দেখুন"
 }

@@ -10,6 +10,7 @@ import '../../features/dashboard/presentation/screens/dashboard_screen.dart';
 import '../../features/rides/presentation/screens/incoming_ride_offer_screen.dart';
 import '../../features/rides/presentation/screens/my_rides_screen.dart';
 import '../../features/rides/presentation/screens/ride_details_screen.dart';
+import '../../features/rides/presentation/screens/scheduled_ride_detail_screen.dart';
 import '../../features/subscription/presentation/screens/subscription_screen.dart';
 import '../models/driver_ride.dart';
 
@@ -29,6 +30,7 @@ abstract class AppRoutes {
   static const myRides = '/my-rides';
   static const rideDetails = '/ride-details';
   static const rideOffer = '/ride-offer';
+  static const scheduledRideDetail = '/scheduled-ride-detail';
   static const subscription = '/subscription';
   static const chat = '/chat';
 }
@@ -50,7 +52,10 @@ final GoRouter appRouter = GoRouter(
       pageBuilder: (context, state) => _page(state, const VerificationStatusScreen()),
     ),
     GoRoute(path: AppRoutes.dashboard, pageBuilder: (context, state) => _page(state, const DashboardScreen())),
-    GoRoute(path: AppRoutes.myRides, pageBuilder: (context, state) => _page(state, const MyRidesScreen())),
+    GoRoute(
+      path: AppRoutes.myRides,
+      pageBuilder: (context, state) => _page(state, MyRidesScreen(initialTabIndex: state.extra as int?)),
+    ),
     GoRoute(
       path: AppRoutes.rideDetails,
       pageBuilder: (context, state) => _page(state, RideDetailsScreen(ride: state.extra as DriverRide)),
@@ -58,6 +63,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.rideOffer,
       pageBuilder: (context, state) => _page(state, IncomingRideOfferScreen(ride: state.extra as DriverRide)),
+    ),
+    GoRoute(
+      path: AppRoutes.scheduledRideDetail,
+      pageBuilder: (context, state) => _page(state, ScheduledRideDetailScreen(ride: state.extra as DriverRide)),
     ),
     GoRoute(path: AppRoutes.subscription, pageBuilder: (context, state) => _page(state, const SubscriptionScreen())),
     GoRoute(

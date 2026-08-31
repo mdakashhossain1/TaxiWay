@@ -22,6 +22,12 @@ final completedRidesProvider = FutureProvider.autoDispose<List<DriverRide>>((ref
   return ref.watch(rideRepositoryProvider).getRides(status: 'completed');
 });
 
+/// Open scheduled-ride broadcasts this driver is eligible for — any of them
+/// can be accepted by any eligible driver, first to accept wins.
+final scheduledRidesProvider = FutureProvider.autoDispose<List<DriverRide>>((ref) {
+  return ref.watch(rideRepositoryProvider).getScheduledRides();
+});
+
 /// Mutating actions live on their own notifier so the read-only list
 /// providers above can stay simple FutureProviders that just refetch
 /// whenever this invalidates them.
@@ -48,6 +54,21 @@ class RideActionsController extends Notifier<void> {
   Future<void> rejectRide(String rideId) async {
     await ref.read(rideRepositoryProvider).rejectRide(rideId);
     ref.invalidate(pendingOfferProvider);
+  }
+
+  /// Can throw ApiException(422, ...) if another driver won the race first —
+  /// callers should show that message as-is, not swallow it.
+  Future<DriverRide> acceptScheduledRide(String rideId) async {
+    final updated = await ref.read(rideRepositoryProvider).acceptScheduledRide(rideId);
+    ref.invalidate(scheduledRidesProvider);
+    ref.invalidate(nextRideProvider);
+    ref.invalidate(upcomingRidesProvider);
+    return updated;
+  }
+
+  Future<void> declineScheduledRide(String rideId) async {
+    await ref.read(rideRepositoryProvider).declineScheduledRide(rideId);
+    ref.invalidate(scheduledRidesProvider);
   }
 }
 

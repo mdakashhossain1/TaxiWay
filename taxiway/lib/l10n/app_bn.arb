@@ -158,5 +158,24 @@
 
   "findingDriverHeading": "উপযুক্ত ড্রাইভার খোঁজা হচ্ছে...",
   "findingDriverSubtitle": "এটি সাধারণত কয়েক সেকেন্ড সময় নেয়।",
-  "cancelRequestLabel": "অনুরোধ বাতিল করুন"
+  "cancelRequestLabel": "অনুরোধ বাতিল করুন",
+  "bookNow": "এখনই বুক করুন",
+  "scheduleForLater": "পরে সময় নির্ধারণ করুন",
+  "scheduleRide": "রাইড শিডিউল করুন",
+  "scheduleTooSoonError": "অনুগ্রহ করে এখন থেকে অন্তত ৩০ মিনিট পরের সময় বেছে নিন।",
+  "scheduleTooFarError": "শিডিউলিং শুধুমাত্র ৭ দিন আগে পর্যন্ত করা যায়।",
+  "noVehiclesMatchFilter": "এই ফিল্টারের সাথে কোনো গাড়ি মিলছে না।",
+  "seatsFilterAny": "যেকোনো",
+  "seatsFilterPlus": "{count}+ সিট",
+  "@seatsFilterPlus": { "placeholders": { "count": { "type": "int" } } },
+  "upcomingScheduledRideTitle": "আসন্ন শিডিউল করা রাইড",
+  "waitingForDriverLabel": "ড্রাইভারের জন্য অপেক্ষা করা হচ্ছে...",
+  "driverAssignedNameLabel": "ড্রাইভার: {name}",
+  "@driverAssignedNameLabel": { "placeholders": { "name": { "type": "String" } } },
+  "scheduledForLabel": "{value} এর জন্য শিডিউল করা হয়েছে",
+  "@scheduledForLabel": { "placeholders": { "value": { "type": "String" } } },
+  "addEmailForReceiptLabel": "বুকিং রসিদের জন্য আপনার ইমেইল যোগ করুন",
+  "emailOptionalHint": "you@example.com (ঐচ্ছিক)",
+  "validationEmailInvalid": "অনুগ্রহ করে একটি বৈধ ইমেইল ঠিকানা দিন।",
+  "scheduledRideConfirmationToast": "আপনার রাইড শিডিউল করা হয়েছে! একজন ড্রাইভার গ্রহণ করলেই আমরা আপনাকে জানাব।"
 }

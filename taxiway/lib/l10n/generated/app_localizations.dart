@@ -915,6 +915,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel Request'**
   String get cancelRequestLabel;
+
+  /// No description provided for @bookNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Book Now'**
+  String get bookNow;
+
+  /// No description provided for @scheduleForLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule for Later'**
+  String get scheduleForLater;
+
+  /// No description provided for @scheduleRide.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule Ride'**
+  String get scheduleRide;
+
+  /// No description provided for @scheduleTooSoonError.
+  ///
+  /// In en, this message translates to:
+  /// **'Please choose a time at least 30 minutes from now.'**
+  String get scheduleTooSoonError;
+
+  /// No description provided for @scheduleTooFarError.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduling is only available up to 7 days ahead.'**
+  String get scheduleTooFarError;
+
+  /// No description provided for @noVehiclesMatchFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'No vehicles match this filter.'**
+  String get noVehiclesMatchFilter;
+
+  /// No description provided for @seatsFilterAny.
+  ///
+  /// In en, this message translates to:
+  /// **'Any'**
+  String get seatsFilterAny;
+
+  /// No description provided for @seatsFilterPlus.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}+ Seats'**
+  String seatsFilterPlus(int count);
+
+  /// No description provided for @upcomingScheduledRideTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming Scheduled Ride'**
+  String get upcomingScheduledRideTitle;
+
+  /// No description provided for @waitingForDriverLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for a driver...'**
+  String get waitingForDriverLabel;
+
+  /// No description provided for @driverAssignedNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Driver: {name}'**
+  String driverAssignedNameLabel(String name);
+
+  /// No description provided for @scheduledForLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled for {value}'**
+  String scheduledForLabel(String value);
+
+  /// No description provided for @addEmailForReceiptLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your email for a booking receipt'**
+  String get addEmailForReceiptLabel;
+
+  /// No description provided for @emailOptionalHint.
+  ///
+  /// In en, this message translates to:
+  /// **'you@example.com (optional)'**
+  String get emailOptionalHint;
+
+  /// No description provided for @validationEmailInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address.'**
+  String get validationEmailInvalid;
+
+  /// No description provided for @scheduledRideConfirmationToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Your ride has been scheduled! We\'ll notify you once a driver accepts.'**
+  String get scheduledRideConfirmationToast;
 }
 
 class _AppLocalizationsDelegate

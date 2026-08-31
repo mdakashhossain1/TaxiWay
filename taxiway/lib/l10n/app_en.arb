@@ -171,5 +171,24 @@
 
   "findingDriverHeading": "Finding a suitable driver...",
   "findingDriverSubtitle": "This usually takes a few seconds.",
-  "cancelRequestLabel": "Cancel Request"
+  "cancelRequestLabel": "Cancel Request",
+  "bookNow": "Book Now",
+  "scheduleForLater": "Schedule for Later",
+  "scheduleRide": "Schedule Ride",
+  "scheduleTooSoonError": "Please choose a time at least 30 minutes from now.",
+  "scheduleTooFarError": "Scheduling is only available up to 7 days ahead.",
+  "noVehiclesMatchFilter": "No vehicles match this filter.",
+  "seatsFilterAny": "Any",
+  "seatsFilterPlus": "{count}+ Seats",
+  "@seatsFilterPlus": { "placeholders": { "count": { "type": "int" } } },
+  "upcomingScheduledRideTitle": "Upcoming Scheduled Ride",
+  "waitingForDriverLabel": "Waiting for a driver...",
+  "driverAssignedNameLabel": "Driver: {name}",
+  "@driverAssignedNameLabel": { "placeholders": { "name": { "type": "String" } } },
+  "scheduledForLabel": "Scheduled for {value}",
+  "@scheduledForLabel": { "placeholders": { "value": { "type": "String" } } },
+  "addEmailForReceiptLabel": "Add your email for a booking receipt",
+  "emailOptionalHint": "you@example.com (optional)",
+  "validationEmailInvalid": "Please enter a valid email address.",
+  "scheduledRideConfirmationToast": "Your ride has been scheduled! We'll notify you once a driver accepts."
 }

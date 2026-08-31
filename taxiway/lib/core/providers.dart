@@ -72,6 +72,26 @@ final currentVehicleProvider = Provider<Vehicle>((ref) {
   return ref.watch(bookingControllerProvider)?.vehicle ?? _placeholderVehicle;
 });
 
+/// The soonest scheduled booking that isn't finished/cancelled yet, for the
+/// home screen's "upcoming scheduled ride" card. Derived from trip history
+/// rather than a dedicated endpoint — the data's already fetched there.
+final nextScheduledBookingProvider = Provider<Booking?>((ref) {
+  final trips = ref.watch(tripHistoryControllerProvider).value;
+  if (trips == null) return null;
+
+  final scheduled = trips
+      .map((t) => t.booking)
+      .where((b) =>
+          b.isScheduled &&
+          b.status != BookingStatus.completed &&
+          b.status != BookingStatus.cancelled &&
+          b.status != BookingStatus.failed)
+      .toList()
+    ..sort((a, b) => (a.scheduledAt ?? a.createdAt).compareTo(b.scheduledAt ?? b.createdAt));
+
+  return scheduled.isEmpty ? null : scheduled.first;
+});
+
 final reviewsProvider = Provider<List<Review>>((ref) => ref.watch(currentDriverProvider).reviews);
 
 final ratingDistributionProvider = Provider<RatingDistribution>(

@@ -57,6 +57,7 @@ class DashboardScreen extends ConsumerWidget {
     final subscriptionAsync = ref.watch(subscriptionControllerProvider);
     final nextRideAsync = ref.watch(nextRideProvider);
     final pendingOfferAsync = ref.watch(pendingOfferProvider);
+    final scheduledRidesAsync = ref.watch(scheduledRidesProvider);
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
@@ -158,6 +159,16 @@ class DashboardScreen extends ConsumerWidget {
 
               const SizedBox(height: 20),
 
+              scheduledRidesAsync.maybeWhen(
+                data: (rides) => rides.isEmpty
+                    ? const SizedBox.shrink()
+                    : Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: _ScheduledRidesBanner(count: rides.length),
+                      ),
+                orElse: () => const SizedBox.shrink(),
+              ),
+
               pendingOfferAsync.maybeWhen(
                 data: (offer) => offer == null
                     ? const SizedBox.shrink()
@@ -195,6 +206,48 @@ class DashboardScreen extends ConsumerWidget {
 /// was missed (permission denied, app killed before it arrived, etc.) —
 /// `pendingOfferProvider` is the same authoritative source the push handler
 /// uses, just polled on screen entry instead of pushed.
+/// Points at open scheduled-ride broadcasts matching this driver's category
+/// — deep-links straight into MyRidesScreen's Scheduled tab (index 1).
+class _ScheduledRidesBanner extends StatelessWidget {
+  final int count;
+
+  const _ScheduledRidesBanner({required this.count});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.of(context).card,
+        borderRadius: BorderRadius.circular(AppRadius.card),
+        border: Border.all(color: AppColors.of(context).border),
+      ),
+      child: Row(
+        children: [
+          Icon(BootstrapIcons.calendar_event, color: AppColors.of(context).primary),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(l10n.scheduledRidesAvailableTitle, style: AppTypography.of(context).label.copyWith(fontWeight: FontWeight.w700)),
+                Text(l10n.scheduledRidesAvailableCount(count), style: AppTypography.of(context).caption),
+              ],
+            ),
+          ),
+          const SizedBox(width: 8),
+          ElevatedButton(
+            onPressed: () => context.go(AppRoutes.myRides, extra: 1),
+            child: Text(l10n.viewAllLabel),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _PendingOfferBanner extends StatelessWidget {
   final DriverRide ride;
 
