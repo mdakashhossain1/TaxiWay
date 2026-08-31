@@ -7,14 +7,14 @@
 
     <x-common.component-card title="SMS Gateway">
         <p class="mb-5 text-theme-sm text-gray-500 dark:text-gray-400">
-            Both a non-DLT quick OTP route and a TRAI DLT-registered template route can be configured below at the same
-            time — <strong>Active Route</strong> picks which one OtpService actually sends through, and switching it
-            later doesn't lose the other profile's settings.
+            Choose <strong>DLT</strong> or <strong>Non-DLT</strong> below to switch which route is active — only the
+            selected route's settings are shown and used to send. Both stay saved behind the scenes, so switching back
+            later restores the other route's settings exactly as you left them.
             Switch <strong>Live Mode</strong> off to skip sending real SMS entirely — the OTP is returned directly in the
             API response instead (<code>debug_otp</code>), which is handy for development/testing without spending SMS credits.
         </p>
 
-        <form method="POST" action="{{ route('settings.sms.update') }}" class="space-y-6">
+        <form method="POST" action="{{ route('settings.sms.update') }}" class="space-y-6" x-data="{ mode: '{{ old('sms_mode', $smsMode) }}' }">
             @csrf
 
             <x-form.checkbox name="sms_enabled" :checked="old('sms_enabled', $smsEnabled)">
@@ -22,16 +22,16 @@
             </x-form.checkbox>
 
             <div class="grid gap-5 sm:grid-cols-2">
-                <x-form.select name="sms_mode" label="Active Route">
-                    <option value="otp" @selected(old('sms_mode', $smsMode) === 'otp')>OTP route (non-DLT)</option>
-                    <option value="dlt" @selected(old('sms_mode', $smsMode) === 'dlt')>DLT route (registered template)</option>
+                <x-form.select name="sms_mode" label="Route" x-model="mode">
+                    <option value="otp" @selected(old('sms_mode', $smsMode) === 'otp')>Non-DLT (quick OTP route)</option>
+                    <option value="dlt" @selected(old('sms_mode', $smsMode) === 'dlt')>DLT (registered template route)</option>
                 </x-form.select>
 
                 <x-form.input type="password" name="sms_api_key" label="API Key" placeholder="Leave blank to keep the current key — sent as the Authorization header, shared by both routes" value="{{ old('sms_api_key') }}" />
             </div>
 
-            <div class="rounded-xl border border-gray-200 p-5 dark:border-gray-800">
-                <h4 class="mb-4 text-base font-medium text-gray-800 dark:text-white/90">OTP route (non-DLT)</h4>
+            <div class="rounded-xl border border-gray-200 p-5 dark:border-gray-800" x-show="mode === 'otp'" x-cloak>
+                <h4 class="mb-4 text-base font-medium text-gray-800 dark:text-white/90">Non-DLT (quick OTP route)</h4>
 
                 <div class="space-y-5">
                     <x-form.input name="otp_payload_url" label="Payload URL" placeholder="https://www.fast2sms.com/dev/bulkV2" value="{{ old('otp_payload_url', $otpPayloadUrl) }}" />
@@ -51,8 +51,8 @@
                 </div>
             </div>
 
-            <div class="rounded-xl border border-gray-200 p-5 dark:border-gray-800">
-                <h4 class="mb-4 text-base font-medium text-gray-800 dark:text-white/90">DLT route (registered template)</h4>
+            <div class="rounded-xl border border-gray-200 p-5 dark:border-gray-800" x-show="mode === 'dlt'" x-cloak>
+                <h4 class="mb-4 text-base font-medium text-gray-800 dark:text-white/90">DLT (registered template route)</h4>
 
                 <div class="space-y-5">
                     <x-form.input name="dlt_payload_url" label="Payload URL" placeholder="https://www.fast2sms.com/bulkV2" value="{{ old('dlt_payload_url', $dltPayloadUrl) }}" />
