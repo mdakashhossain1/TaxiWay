@@ -160,10 +160,18 @@ class SettingsController extends Controller
         return view('pages.admin.settings.sms', [
             'title' => 'SMS Gateway',
             'smsEnabled' => (bool) env('SMS_GATEWAY_ENABLED', false),
+            'smsMode' => env('SMS_GATEWAY_MODE', config('services.sms.mode', 'otp')),
             'smsApiKey' => env('SMS_GATEWAY_API_KEY'),
-            'smsPayloadUrl' => env('SMS_GATEWAY_PAYLOAD_URL'),
-            'smsTemplateId' => env('SMS_GATEWAY_TEMPLATE_ID'),
-            'smsPayloadTemplate' => env('SMS_GATEWAY_PAYLOAD_TEMPLATE', config('services.sms.payload_template')),
+
+            'otpPayloadUrl' => env('SMS_GATEWAY_OTP_PAYLOAD_URL', config('services.sms.otp.payload_url')),
+            'otpTemplateId' => env('SMS_GATEWAY_OTP_TEMPLATE_ID'),
+            'otpPayloadTemplate' => env('SMS_GATEWAY_OTP_PAYLOAD_TEMPLATE', config('services.sms.otp.payload_template')),
+
+            'dltPayloadUrl' => env('SMS_GATEWAY_DLT_PAYLOAD_URL', config('services.sms.dlt.payload_url')),
+            'dltTemplateId' => env('SMS_GATEWAY_DLT_TEMPLATE_ID'),
+            'dltSenderId' => env('SMS_GATEWAY_DLT_SENDER_ID'),
+            'dltEntityId' => env('SMS_GATEWAY_DLT_ENTITY_ID'),
+            'dltPayloadTemplate' => env('SMS_GATEWAY_DLT_PAYLOAD_TEMPLATE', config('services.sms.dlt.payload_template')),
         ]);
     }
 
@@ -172,9 +180,10 @@ class SettingsController extends Controller
     {
         $data = $request->validate([
             'test_phone' => ['required', 'digits:10'],
+            'test_mode' => ['nullable', 'in:otp,dlt'],
         ]);
 
-        $result = $this->otp->sendTest($data['test_phone']);
+        $result = $this->otp->sendTest($data['test_phone'], $data['test_mode'] ?? null);
 
         return redirect()->route('settings.sms.edit')->with('smsTestResult', $result);
     }
@@ -183,23 +192,48 @@ class SettingsController extends Controller
     {
         $data = $request->validate([
             'sms_enabled' => ['nullable', 'boolean'],
+            'sms_mode' => ['required', 'in:otp,dlt'],
             'sms_api_key' => ['nullable', 'string', 'max:255'],
-            'sms_payload_url' => ['required', 'url', 'max:500'],
-            'sms_template_id' => ['nullable', 'string', 'max:255'],
-            'sms_payload_template' => ['required', 'string', 'max:2000'],
+
+            'otp_payload_url' => ['nullable', 'url', 'max:500'],
+            'otp_template_id' => ['nullable', 'string', 'max:255'],
+            'otp_payload_template' => ['nullable', 'string', 'max:2000'],
+
+            'dlt_payload_url' => ['nullable', 'url', 'max:500'],
+            'dlt_template_id' => ['nullable', 'string', 'max:255'],
+            'dlt_sender_id' => ['nullable', 'string', 'max:20'],
+            'dlt_entity_id' => ['nullable', 'string', 'max:255'],
+            'dlt_payload_template' => ['nullable', 'string', 'max:2000'],
         ]);
 
-        if (json_decode($data['sms_payload_template']) === null) {
-            return back()->withErrors(['sms_payload_template' => 'That is not valid JSON.'])->withInput();
+        if (filled($data['otp_payload_template'] ?? null) && json_decode($data['otp_payload_template']) === null) {
+            return back()->withErrors(['otp_payload_template' => 'That is not valid JSON.'])->withInput();
+        }
+
+        if (filled($data['dlt_payload_template'] ?? null) && json_decode($data['dlt_payload_template']) === null) {
+            return back()->withErrors(['dlt_payload_template' => 'That is not valid JSON.'])->withInput();
         }
 
         $this->setEnvValue('SMS_GATEWAY_ENABLED', $request->boolean('sms_enabled') ? 'true' : 'false');
-        $this->setEnvValue('SMS_GATEWAY_PAYLOAD_URL', $data['sms_payload_url']);
-        $this->setEnvValue('SMS_GATEWAY_TEMPLATE_ID', $data['sms_template_id'] ?? '');
-        $this->setEnvValue('SMS_GATEWAY_PAYLOAD_TEMPLATE', $data['sms_payload_template']);
+        $this->setEnvValue('SMS_GATEWAY_MODE', $data['sms_mode']);
 
-        if (filled($data['sms_api_key'] ?? null)) {
-            $this->setEnvValue('SMS_GATEWAY_API_KEY', $data['sms_api_key']);
+        foreach ([
+            'SMS_GATEWAY_OTP_PAYLOAD_URL' => $data['otp_payload_url'] ?? null,
+            'SMS_GATEWAY_OTP_TEMPLATE_ID' => $data['otp_template_id'] ?? null,
+            'SMS_GATEWAY_OTP_PAYLOAD_TEMPLATE' => $data['otp_payload_template'] ?? null,
+            'SMS_GATEWAY_DLT_PAYLOAD_URL' => $data['dlt_payload_url'] ?? null,
+            'SMS_GATEWAY_DLT_TEMPLATE_ID' => $data['dlt_template_id'] ?? null,
+            'SMS_GATEWAY_DLT_SENDER_ID' => $data['dlt_sender_id'] ?? null,
+            'SMS_GATEWAY_DLT_ENTITY_ID' => $data['dlt_entity_id'] ?? null,
+            'SMS_GATEWAY_DLT_PAYLOAD_TEMPLATE' => $data['dlt_payload_template'] ?? null,
+            'SMS_GATEWAY_API_KEY' => $data['sms_api_key'] ?? null,
+        ] as $key => $value) {
+            // Blank fields are left untouched rather than overwritten, so an empty
+            // "the other profile's" section on save doesn't wipe out its defaults
+            // or a previously-saved value (e.g. the API key input is always blank).
+            if (filled($value)) {
+                $this->setEnvValue($key, $value);
+            }
         }
 
         Artisan::call('config:clear');
