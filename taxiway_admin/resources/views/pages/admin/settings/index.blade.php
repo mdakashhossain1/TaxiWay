@@ -180,6 +180,42 @@
             >Run Migrations</x-ui.button>
         </div>
 
+        <div class="flex flex-col justify-between rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
+            <div>
+                <div class="flex items-start justify-between">
+                    <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 10a6 6 0 1 1 6 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+                            <path d="M8.5 15.5 10 16.5l1.5-1.5M15 6.5V4.5a1 1 0 0 0-1-1h-2M15 6.5h-2M15 6.5v2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                    <x-ui.badge size="sm" :color="count($missingApiClients) === 0 ? 'success' : 'error'">
+                        {{ count($missingApiClients) === 0 ? 'All registered' : count($missingApiClients).' missing' }}
+                    </x-ui.badge>
+                </div>
+                <h3 class="mt-4 font-semibold text-gray-800 dark:text-white/90">Mobile API Clients</h3>
+                <p class="mt-1 text-theme-sm text-gray-500 dark:text-gray-400">HMAC identities the taxiway/taxiwaydriver apps sign every request with — missing here means every signed API call gets rejected with 401.</p>
+                @if ($missingApiClients)
+                    <ul class="mt-2 space-y-0.5 text-theme-xs text-gray-400">
+                        @foreach ($missingApiClients as $client)
+                            <li class="truncate">{{ $client }}</li>
+                        @endforeach
+                    </ul>
+                @endif
+            </div>
+
+            <form id="ensure-api-clients-form" method="POST" action="{{ route('settings.api-clients') }}" class="mt-4">
+                @csrf
+            </form>
+            <x-ui.button
+                size="sm"
+                variant="outline"
+                type="button"
+                className="mt-4 w-full"
+                @click="$store.confirm.ask('Register mobile API clients?', 'Creates/updates the taxiway and taxiwaydriver client records with the secrets already built into the shipped apps, so existing installs start authenticating without needing a new release.', () => document.getElementById('ensure-api-clients-form').requestSubmit())"
+            >Ensure API Clients</x-ui.button>
+        </div>
+
         @foreach ($cacheActions as $action => [$label, $desc, $command])
             <form method="POST" action="{{ route('settings.cache') }}"
                 class="flex flex-col justify-between rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">

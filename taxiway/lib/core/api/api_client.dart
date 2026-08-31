@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'api_config.dart';
@@ -65,12 +66,19 @@ class ApiClient {
       ..headers.addAll(headers)
       ..body = rawBody;
 
-    final streamed = await request.send();
-    final response = await http.Response.fromStream(streamed);
+    final http.Response response;
+    try {
+      final streamed = await request.send();
+      response = await http.Response.fromStream(streamed);
+    } catch (e) {
+      debugPrint('API $method $endpoint -> transport error: $e');
+      rethrow;
+    }
 
     final decoded = response.body.isEmpty ? <String, dynamic>{} : jsonDecode(response.body) as Map<String, dynamic>;
 
     if (response.statusCode < 200 || response.statusCode >= 300) {
+      debugPrint('API $method $endpoint -> ${response.statusCode}: ${response.body}');
       throw ApiException(response.statusCode, decoded['message'] as String? ?? 'Something went wrong.');
     }
 
