@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_auth/smart_auth.dart';
+import '../widgets/phone_fetch_progress_dialog.dart';
 import '../widgets/sim_phone_picker_sheet.dart';
 
 class PhoneHintService {
@@ -12,12 +13,20 @@ class PhoneHintService {
   static Future<String?> requestPhoneNumber(BuildContext context) async {
     try {
       if (!kIsWeb && Platform.isAndroid) {
-        final res = await _smartAuth.requestPhoneNumberHint();
-        if (res.data != null && res.data!.isNotEmpty) {
-          return _cleanPhoneNumber(res.data!);
+        // Play Services can take a moment to load the picker — show a
+        // processing dialog so the screen never looks blank in that gap.
+        await PhoneFetchProgressDialog.show(context);
+        try {
+          final res = await _smartAuth.requestPhoneNumberHint();
+          if (res.data != null && res.data!.isNotEmpty) {
+            return _cleanPhoneNumber(res.data!);
+          }
+        } finally {
+          if (context.mounted) PhoneFetchProgressDialog.hide(context);
         }
       }
     } catch (_) {
+      if (context.mounted) PhoneFetchProgressDialog.hide(context);
       // Ignored: proceed to fallback bottom sheet
     }
 
