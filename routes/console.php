@@ -17,3 +17,11 @@ Artisan::command('inspire', function () {
 Schedule::command('queue:work --stop-when-empty --max-time=50')
     ->everyMinute()
     ->withoutOverlapping();
+
+// Keeps re-notifying eligible drivers for scheduled rides nobody has
+// accepted yet — see RebroadcastScheduledRides for the per-booking
+// 15-minute throttle. Same "only fires if the external cron pinger keeps
+// hitting /cron/run" dependency as the queue drain above.
+Schedule::command('rides:rebroadcast-scheduled')
+    ->everyFiveMinutes()
+    ->withoutOverlapping();

@@ -3,18 +3,22 @@
 namespace App\Http\Controllers\Api\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ScheduledRideConfirmedMail;
 use App\Models\Booking;
 use App\Models\Customer;
 use App\Models\VehicleCategory;
 use App\Services\PushNotificationService;
 use App\Services\RideAllocationService;
+use App\Services\ScheduledRideAllocationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
 {
     public function __construct(
         private readonly RideAllocationService $allocation,
+        private readonly ScheduledRideAllocationService $scheduledAllocation,
         private readonly PushNotificationService $notifications,
     ) {}
 
@@ -40,6 +44,17 @@ class BookingController extends Controller
             'distance_km' => ['required', 'numeric', 'min:0'],
             'eta_minutes' => ['required', 'integer', 'min:0'],
             'payment_method' => ['required', 'in:upi,cash,card'],
+            'type' => ['sometimes', 'in:instant,scheduled'],
+            // Window agreed with the product owner: at least 30 minutes' notice,
+            // at most 7 days out. Recomputed fresh on every request, not cached.
+            'scheduled_at' => [
+                'required_if:type,scheduled',
+                'nullable',
+                'date',
+                'after_or_equal:'.now()->addMinutes(30)->toDateTimeString(),
+                'before_or_equal:'.now()->addDays(7)->toDateTimeString(),
+            ],
+            'email' => ['nullable', 'email', 'max:255'],
         ]);
 
         // Real road distance can never be shorter than the straight-line distance
@@ -56,6 +71,10 @@ class BookingController extends Controller
         $distanceCharge = (float) $category->per_km_rate * $data['distance_km'];
         $timeCharge = (float) $category->per_min_rate * $data['eta_minutes'];
 
+        $isScheduled = ($data['type'] ?? 'instant') === 'scheduled';
+        $submittedEmail = $data['email'] ?? null;
+        unset($data['email']);
+
         $booking = Booking::create([
             ...$data,
             'customer_id' => $customer->id,
@@ -63,11 +82,24 @@ class BookingController extends Controller
             'distance_charge' => $distanceCharge,
             'time_charge' => $timeCharge,
             'total_fare' => round($baseFare + $distanceCharge + $timeCharge, 2),
-            'status' => 'requested',
+            'status' => $isScheduled ? 'scheduled_open' : 'requested',
             'payment_status' => 'pending',
         ]);
 
-        $this->allocation->offerNextDriver($booking);
+        if ($submittedEmail && ! $customer->email) {
+            $customer->update(['email' => $submittedEmail]);
+        }
+
+        if ($isScheduled) {
+            $this->scheduledAllocation->broadcastToEligibleDrivers($booking);
+
+            $recipientEmail = $submittedEmail ?? $customer->email;
+            if ($recipientEmail) {
+                Mail::to($recipientEmail)->queue(new ScheduledRideConfirmedMail($customer->name, $booking->fresh(['category'])));
+            }
+        } else {
+            $this->allocation->offerNextDriver($booking);
+        }
 
         return response()->json(['data' => $booking->fresh(['driver', 'vehicle', 'category'])], 201);
     }

@@ -15,6 +15,7 @@ class Booking extends Model
         'distance_km', 'eta_minutes',
         'base_fare', 'distance_charge', 'time_charge', 'total_fare',
         'status', 'offer_expires_at', 'rejected_driver_ids', 'payment_method', 'payment_status',
+        'type', 'scheduled_at', 'last_broadcast_at',
     ];
 
     protected function casts(): array
@@ -31,6 +32,8 @@ class Booking extends Model
             'total_fare' => 'decimal:2',
             'offer_expires_at' => 'datetime',
             'rejected_driver_ids' => 'array',
+            'scheduled_at' => 'datetime',
+            'last_broadcast_at' => 'datetime',
         ];
     }
 
@@ -61,7 +64,7 @@ class Booking extends Model
 
     /** Any status that should block a driver from receiving another offer. */
     public const ACTIVE_STATUSES = [
-        'requested', 'allocating', 'driver_offered', 'driver_assigned', 'driver_en_route', 'driver_arrived', 'ride_started', 'ride_in_progress',
+        'requested', 'allocating', 'scheduled_open', 'driver_offered', 'driver_assigned', 'driver_en_route', 'driver_arrived', 'ride_started', 'ride_in_progress',
     ];
 
     /** Statuses meaning a driver has actually accepted — used for "next/upcoming ride" views, as opposed to a still-pending offer. */

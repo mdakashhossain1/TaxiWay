@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\Customer\ReviewController;
 use App\Http\Controllers\Api\Driver\AuthController as DriverAuthController;
 use App\Http\Controllers\Api\Driver\DashboardController;
 use App\Http\Controllers\Api\Driver\RideController;
+use App\Http\Controllers\Api\Driver\ScheduledRideController;
 use App\Http\Controllers\Api\Driver\SubscriptionController;
 use App\Http\Controllers\Api\VehicleCategoryController;
 use Illuminate\Support\Facades\Route;
@@ -80,6 +81,10 @@ Route::middleware('hmac')->group(function () {
             Route::post('/rides/{booking}/accept', [RideController::class, 'accept']);
             Route::post('/rides/{booking}/reject', [RideController::class, 'reject']);
             Route::post('/rides/{booking}/mark-completed', [RideController::class, 'markCompleted']);
+
+            Route::get('/scheduled-rides', [ScheduledRideController::class, 'index']);
+            Route::post('/scheduled-rides/{booking}/accept', [ScheduledRideController::class, 'accept']);
+            Route::post('/scheduled-rides/{booking}/decline', [ScheduledRideController::class, 'decline']);
 
             Route::get('/subscription', [SubscriptionController::class, 'show']);
             Route::post('/subscription/renew', [SubscriptionController::class, 'renew']);
