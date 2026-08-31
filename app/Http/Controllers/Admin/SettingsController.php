@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ApiClient;
 use App\Services\FirestoreService;
 use App\Services\OtpService;
 use Illuminate\Http\RedirectResponse;
@@ -18,6 +19,12 @@ class SettingsController extends Controller
     /** Cache-clearing actions exposed to the UI — never accept an arbitrary artisan command from the request. */
     private const CACHE_ACTIONS = [
         'all' => ['Cache', 'Clears all cached routes, views, config, and application data — run this after deploying code changes, plus PHP OPcache if available.', 'optimize:clear'],
+    ];
+
+    /** Must exactly match the decoded value in each app's android/app/src/main/cpp/native_secrets.cpp — DatabaseSeeder never ran on this deploy, so the mobile apps' actual embedded secrets were never stored here. */
+    private const KNOWN_API_CLIENTS = [
+        'taxiway' => 'AnHSxX9CiTc9TL0diRJznHA0SXSInmzFclWCrGyutPw96yTo3dCnfUwo9hRnqqIS',
+        'taxiwaydriver' => 'W2v5crmw09yggblmPXhzcBIYEwqwHNMD6QPsIF4f2FpqjMAZO3du2t9eILche0jI',
     ];
 
     public function __construct(
@@ -37,6 +44,7 @@ class SettingsController extends Controller
             'cacheActions' => self::CACHE_ACTIONS,
             'opcacheEnabled' => function_exists('opcache_reset'),
             'pendingMigrations' => $this->pendingMigrations(),
+            'missingApiClients' => $this->missingApiClients(),
         ]);
     }
 
@@ -61,6 +69,23 @@ class SettingsController extends Controller
             'status',
             $pendingBefore !== null ? "Ran {$pendingBefore} migration(s)." : 'Migration command ran — check migration status below.'
         );
+    }
+
+    public function ensureApiClients(): RedirectResponse
+    {
+        $created = [];
+
+        foreach (self::KNOWN_API_CLIENTS as $key => $secret) {
+            ApiClient::updateOrCreate(
+                ['client_key' => $key],
+                ['name' => $key, 'client_secret' => $secret, 'is_active' => true],
+            );
+            $created[] = $key;
+        }
+
+        Artisan::call('config:clear');
+
+        return redirect()->route('settings.index')->with('status', 'API clients ensured: '.implode(', ', $created).'.');
     }
 
     public function editMail(): View
@@ -362,6 +387,16 @@ class SettingsController extends Controller
         } catch (\Throwable $e) {
             return null;
         }
+    }
+
+    private function missingApiClients(): array
+    {
+        $existing = ApiClient::whereIn('client_key', array_keys(self::KNOWN_API_CLIENTS))
+            ->where('is_active', true)
+            ->pluck('client_key')
+            ->all();
+
+        return array_values(array_diff(array_keys(self::KNOWN_API_CLIENTS), $existing));
     }
 
     /** Rewrites (or appends) a single KEY=VALUE line in the root .env file. */

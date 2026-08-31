@@ -124,6 +124,7 @@ Route::middleware('auth')->group(function () {
     Route::post('settings/sms/test', [AdminSettingsController::class, 'testSms'])->name('settings.sms.test');
     Route::post('settings/cache', [AdminSettingsController::class, 'clearCache'])->name('settings.cache');
     Route::post('settings/migrate', [AdminSettingsController::class, 'runMigrations'])->name('settings.migrate');
+    Route::post('settings/api-clients', [AdminSettingsController::class, 'ensureApiClients'])->name('settings.api-clients');
 
     Route::get('email-templates', [AdminEmailTemplateController::class, 'index'])->name('email-templates.index');
     Route::get('email-templates/{emailTemplate}/edit', [AdminEmailTemplateController::class, 'edit'])->name('email-templates.edit');
