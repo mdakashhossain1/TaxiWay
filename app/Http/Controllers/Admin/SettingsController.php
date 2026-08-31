@@ -163,10 +163,12 @@ class SettingsController extends Controller
             'smsMode' => env('SMS_GATEWAY_MODE', config('services.sms.mode', 'otp')),
             'smsApiKey' => env('SMS_GATEWAY_API_KEY'),
 
+            'otpMethod' => env('SMS_GATEWAY_OTP_METHOD', config('services.sms.otp.method', 'post')),
             'otpPayloadUrl' => env('SMS_GATEWAY_OTP_PAYLOAD_URL', config('services.sms.otp.payload_url')),
             'otpTemplateId' => env('SMS_GATEWAY_OTP_TEMPLATE_ID'),
             'otpPayloadTemplate' => env('SMS_GATEWAY_OTP_PAYLOAD_TEMPLATE', config('services.sms.otp.payload_template')),
 
+            'dltMethod' => env('SMS_GATEWAY_DLT_METHOD', config('services.sms.dlt.method', 'get')),
             'dltPayloadUrl' => env('SMS_GATEWAY_DLT_PAYLOAD_URL', config('services.sms.dlt.payload_url')),
             'dltTemplateId' => env('SMS_GATEWAY_DLT_TEMPLATE_ID'),
             'dltSenderId' => env('SMS_GATEWAY_DLT_SENDER_ID'),
@@ -195,10 +197,12 @@ class SettingsController extends Controller
             'sms_mode' => ['required', 'in:otp,dlt'],
             'sms_api_key' => ['nullable', 'string', 'max:255'],
 
+            'otp_method' => ['nullable', 'in:get,post'],
             'otp_payload_url' => ['nullable', 'url', 'max:500'],
             'otp_template_id' => ['nullable', 'string', 'max:255'],
             'otp_payload_template' => ['nullable', 'string', 'max:2000'],
 
+            'dlt_method' => ['nullable', 'in:get,post'],
             'dlt_payload_url' => ['nullable', 'url', 'max:500'],
             'dlt_template_id' => ['nullable', 'string', 'max:255'],
             'dlt_sender_id' => ['nullable', 'string', 'max:20'],
@@ -218,9 +222,11 @@ class SettingsController extends Controller
         $this->setEnvValue('SMS_GATEWAY_MODE', $data['sms_mode']);
 
         foreach ([
+            'SMS_GATEWAY_OTP_METHOD' => $data['otp_method'] ?? null,
             'SMS_GATEWAY_OTP_PAYLOAD_URL' => $data['otp_payload_url'] ?? null,
             'SMS_GATEWAY_OTP_TEMPLATE_ID' => $data['otp_template_id'] ?? null,
             'SMS_GATEWAY_OTP_PAYLOAD_TEMPLATE' => $data['otp_payload_template'] ?? null,
+            'SMS_GATEWAY_DLT_METHOD' => $data['dlt_method'] ?? null,
             'SMS_GATEWAY_DLT_PAYLOAD_URL' => $data['dlt_payload_url'] ?? null,
             'SMS_GATEWAY_DLT_TEMPLATE_ID' => $data['dlt_template_id'] ?? null,
             'SMS_GATEWAY_DLT_SENDER_ID' => $data['dlt_sender_id'] ?? null,
