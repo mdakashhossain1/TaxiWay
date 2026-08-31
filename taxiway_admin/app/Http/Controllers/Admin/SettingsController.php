@@ -186,8 +186,13 @@ class SettingsController extends Controller
         ]);
 
         $result = $this->otp->sendTest($data['test_phone'], $data['test_mode'] ?? null);
+        $route = strtoupper($result['mode'] ?? '');
 
-        return redirect()->route('settings.sms.edit')->with('smsTestResult', $result);
+        $flash = $result['success']
+            ? ['status' => "Test SMS sent successfully via {$route} route."]
+            : ['error' => "Test SMS failed via {$route} route".($result['status'] ? " — HTTP {$result['status']}" : '').'.'];
+
+        return redirect()->route('settings.sms.edit')->with('smsTestResult', $result)->with($flash);
     }
 
     public function updateSms(Request $request): RedirectResponse
