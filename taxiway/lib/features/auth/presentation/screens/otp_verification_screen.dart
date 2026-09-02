@@ -30,6 +30,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
   final _otpKey = GlobalKey<OtpInputState>();
   String _code = '';
   bool _verifying = false;
+  bool _verified = false;
   String? _error;
   int _secondsLeft = 180;
   Timer? _timer;
@@ -80,6 +81,8 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
   }
 
   Future<void> _verify(String code) async {
+    if (_verifying || _verified) return;
+    OtpAutoReadService.cancel();
     setState(() {
       _code = code;
       _verifying = true;
@@ -87,6 +90,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
     });
     try {
       await ref.read(authControllerProvider.notifier).verifyOtp(code);
+      _verified = true;
       if (!mounted) return;
       AppToast.success(context, 'Phone verified successfully!', title: 'Welcome');
       PushNotificationService.initialize(ref);
