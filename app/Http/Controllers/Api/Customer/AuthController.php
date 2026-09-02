@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Services\FirebaseTokenVerifier;
 use App\Services\InvalidFirebaseTokenException;
+use App\Services\OtpCooldownException;
 use App\Services\OtpService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -23,12 +24,7 @@ class AuthController extends Controller
             'phone' => ['required', 'digits:10'],
         ]);
 
-        $otp = $this->otp->generateAndSend('customer', $data['phone']);
-
-        return response()->json([
-            'message' => 'OTP sent.',
-            ...($otp['debug'] ? ['debug_otp' => $otp['code']] : []),
-        ]);
+        return $this->respondWithOtp('customer', $data['phone']);
     }
 
     public function verifyOtp(Request $request): JsonResponse
@@ -38,8 +34,9 @@ class AuthController extends Controller
             'code' => ['required', 'digits:6'],
         ]);
 
-        if (! $this->otp->verify('customer', $data['phone'], $data['code'])) {
-            return response()->json(['message' => 'Invalid or expired OTP.'], 422);
+        $result = $this->otp->verify('customer', $data['phone'], $data['code']);
+        if ($response = $this->invalidOtpResponse($result)) {
+            return $response;
         }
 
         $isNewCustomer = ! Customer::where('phone', $data['phone'])->exists();
@@ -118,12 +115,7 @@ class AuthController extends Controller
             'phone' => ['required', 'digits:10'],
         ]);
 
-        $otp = $this->otp->generateAndSend('customer', $data['phone']);
-
-        return response()->json([
-            'message' => 'OTP sent.',
-            ...($otp['debug'] ? ['debug_otp' => $otp['code']] : []),
-        ]);
+        return $this->respondWithOtp('customer', $data['phone']);
     }
 
     /** Verifies the OTP and attaches the phone number to the authenticated customer. */
@@ -134,8 +126,9 @@ class AuthController extends Controller
             'code' => ['required', 'digits:6'],
         ]);
 
-        if (! $this->otp->verify('customer', $data['phone'], $data['code'])) {
-            return response()->json(['message' => 'Invalid or expired OTP.'], 422);
+        $result = $this->otp->verify('customer', $data['phone'], $data['code']);
+        if ($response = $this->invalidOtpResponse($result)) {
+            return $response;
         }
 
         $customer = $request->user();
@@ -163,5 +156,35 @@ class AuthController extends Controller
         $request->user()->update(['fcm_token' => $data['fcm_token']]);
 
         return response()->json(['message' => 'Device token registered.']);
+    }
+
+    /** @param array{success: bool, expired: bool} $result */
+    private function invalidOtpResponse(array $result): ?JsonResponse
+    {
+        if ($result['success']) {
+            return null;
+        }
+
+        return response()->json([
+            'message' => $result['expired'] ? 'OTP expired. Please request a new one.' : 'Invalid OTP. Please try again.',
+            'expired' => $result['expired'],
+        ], 422);
+    }
+
+    private function respondWithOtp(string $scope, string $phone): JsonResponse
+    {
+        try {
+            $otp = $this->otp->generateAndSend($scope, $phone);
+        } catch (OtpCooldownException $e) {
+            return response()->json([
+                'message' => "Please wait {$e->retryAfterSeconds}s before requesting another OTP.",
+                'retry_after' => $e->retryAfterSeconds,
+            ], 429);
+        }
+
+        return response()->json([
+            'message' => 'OTP sent.',
+            ...($otp['debug'] ? ['debug_otp' => $otp['code']] : []),
+        ]);
     }
 }

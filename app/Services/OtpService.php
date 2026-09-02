@@ -26,10 +26,19 @@ use Illuminate\Support\Facades\Log;
 class OtpService
 {
     private const TTL_SECONDS = 300;
+    private const RESEND_COOLDOWN_SECONDS = 180;
 
     /** Returns ['code' => ..., 'debug' => bool] — callers should only expose 'code' in the response when 'debug' is true. */
     public function generateAndSend(string $scope, string $phone): array
     {
+        $cooldownKey = $this->cooldownKey($scope, $phone);
+        $cooldownExpiresAt = time() + self::RESEND_COOLDOWN_SECONDS;
+
+        if (! Cache::add($cooldownKey, $cooldownExpiresAt, self::RESEND_COOLDOWN_SECONDS)) {
+            $expiresAt = Cache::get($cooldownKey) ?? $cooldownExpiresAt;
+            throw new OtpCooldownException(max(1, $expiresAt - time()));
+        }
+
         $code = (string) random_int(100000, 999999);
 
         Cache::put($this->key($scope, $phone), $code, self::TTL_SECONDS);
@@ -55,17 +64,22 @@ class OtpService
         return ['code' => $code, 'debug' => $debugExposureAllowed];
     }
 
-    public function verify(string $scope, string $phone, string $code): bool
+    /** Returns ['success' => bool, 'expired' => bool] — 'expired' means no code was on file (vs. one that just didn't match). */
+    public function verify(string $scope, string $phone, string $code): array
     {
         $expected = Cache::get($this->key($scope, $phone));
 
-        if ($expected === null || ! hash_equals($expected, $code)) {
-            return false;
+        if ($expected === null) {
+            return ['success' => false, 'expired' => true];
+        }
+
+        if (! hash_equals($expected, $code)) {
+            return ['success' => false, 'expired' => false];
         }
 
         Cache::forget($this->key($scope, $phone));
 
-        return true;
+        return ['success' => true, 'expired' => false];
     }
 
     /**
@@ -144,5 +158,10 @@ class OtpService
     private function key(string $scope, string $phone): string
     {
         return "otp:{$scope}:{$phone}";
+    }
+
+    private function cooldownKey(string $scope, string $phone): string
+    {
+        return "otp:cooldown:{$scope}:{$phone}";
     }
 }
