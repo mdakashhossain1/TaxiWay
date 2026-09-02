@@ -3,13 +3,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_auth/smart_auth.dart';
 import '../widgets/phone_fetch_progress_dialog.dart';
-import '../widgets/sim_phone_picker_sheet.dart';
 
 class PhoneHintService {
   static final _smartAuth = SmartAuth.instance;
 
-  /// Requests the user's phone number using Google Play Services Phone Number Hint API,
-  /// falling back gracefully to the in-app SIM selector bottom sheet.
+  /// Requests the user's phone number using Google Play Services Phone Number Hint API.
+  /// Returns null if unavailable/dismissed — the caller falls back to manual entry.
   static Future<String?> requestPhoneNumber(BuildContext context) async {
     try {
       if (!kIsWeb && Platform.isAndroid) {
@@ -27,15 +26,7 @@ class PhoneHintService {
       }
     } catch (_) {
       if (context.mounted) PhoneFetchProgressDialog.hide(context);
-      // Ignored: proceed to fallback bottom sheet
-    }
-
-    // Fallback SIM Picker modal
-    if (context.mounted) {
-      final selected = await SimPhonePickerSheet.show(context);
-      if (selected != null && selected.isNotEmpty) {
-        return _cleanPhoneNumber(selected);
-      }
+      // Ignored: caller falls back to manual entry
     }
 
     return null;
