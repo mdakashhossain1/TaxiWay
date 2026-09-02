@@ -2,11 +2,11 @@
     id="confirm-modal"
     class="fixed inset-0 m-0 h-full max-h-none w-full max-w-none overflow-y-auto bg-transparent p-0 backdrop:bg-transparent"
 >
-    <div class="fixed inset-0 bg-gray-500/75"></div>
+    <div @click="$store.confirm.cancel()" class="fixed inset-0 bg-gray-500/75"></div>
 
     <div class="flex min-h-full items-center justify-center p-5">
         <div
-            @click.outside="$store.confirm.cancel()"
+            @click.stop
             class="relative w-full max-w-md rounded-3xl bg-white p-6 dark:bg-gray-900"
         >
             <div
