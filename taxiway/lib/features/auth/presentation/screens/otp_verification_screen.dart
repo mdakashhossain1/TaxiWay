@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/data/auth_repository.dart';
 import '../../../../core/providers.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/services/otp_autoread_service.dart';
@@ -94,7 +95,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
       } else {
         context.go(AppRoutes.home);
       }
-    } catch (_) {
+    } on InvalidOtpException {
       if (!mounted) return;
       final msg = AppLocalizations.of(context).invalidOtp;
       setState(() => _error = msg);
@@ -102,6 +103,11 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
       await _otpKey.currentState?.shakeAndClear();
       if (!mounted) return;
       setState(() => _code = '');
+    } catch (_) {
+      if (!mounted) return;
+      const msg = "Couldn't verify — check your connection and try again.";
+      setState(() => _error = msg);
+      AppToast.error(context, msg, title: 'Verification Error');
     } finally {
       if (mounted) setState(() => _verifying = false);
     }

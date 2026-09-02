@@ -2,6 +2,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../api/api_client.dart';
 import '../models/customer.dart';
 
+class InvalidOtpException implements Exception {}
+
 class AuthResult {
   final Customer customer;
   final bool isNewCustomer;
@@ -65,8 +67,9 @@ class ApiAuthRepository implements AuthRepository {
       if (!isNew) await saveSession(customer);
 
       return AuthResult(customer: customer, isNewCustomer: isNew);
-    } on ApiException {
-      throw Exception('Invalid OTP. Please try again.');
+    } on ApiException catch (e) {
+      if (e.statusCode == 422) throw InvalidOtpException();
+      rethrow;
     }
   }
 
@@ -118,8 +121,9 @@ class ApiAuthRepository implements AuthRepository {
       );
       await saveSession(customer);
       return customer;
-    } on ApiException {
-      throw Exception('Invalid OTP. Please try again.');
+    } on ApiException catch (e) {
+      if (e.statusCode == 422) throw InvalidOtpException();
+      rethrow;
     }
   }
 
