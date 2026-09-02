@@ -78,10 +78,14 @@
                 title: 'Are you sure?',
                 message: '',
                 onConfirm: null,
-                ask(title, message, onConfirm) {
+                variant: 'danger',
+                confirmLabel: 'Delete',
+                ask(title, message, onConfirm, options = {}) {
                     this.title = title;
                     this.message = message;
                     this.onConfirm = onConfirm;
+                    this.variant = options.variant ?? 'danger';
+                    this.confirmLabel = options.confirmLabel ?? (this.variant === 'danger' ? 'Delete' : 'Confirm');
                     this.open = true;
                 },
                 confirm() {
