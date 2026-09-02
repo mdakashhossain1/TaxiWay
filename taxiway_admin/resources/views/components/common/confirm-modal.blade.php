@@ -1,12 +1,12 @@
 <div
     x-show="$store.confirm.open"
     x-cloak
-    class="fixed inset-0 z-[999999] flex items-center justify-center overflow-y-auto p-5"
+    class="fixed inset-0 z-99999 flex items-center justify-center overflow-y-auto p-5"
     @keydown.escape.window="$store.confirm.cancel()"
 >
     <div
         @click="$store.confirm.cancel()"
-        class="fixed inset-0 h-full w-full bg-gray-900/70 backdrop-blur-[32px] dark:bg-gray-950/80"
+        class="fixed inset-0 h-full w-full bg-gray-400/50 backdrop-blur-[32px]"
         x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
         x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
         x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
