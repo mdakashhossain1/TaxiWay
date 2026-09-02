@@ -74,7 +74,6 @@
             });
 
             Alpine.store('confirm', {
-                open: false,
                 title: 'Are you sure?',
                 message: '',
                 onConfirm: null,
@@ -86,14 +85,14 @@
                     this.onConfirm = onConfirm;
                     this.variant = options.variant ?? 'danger';
                     this.confirmLabel = options.confirmLabel ?? (this.variant === 'danger' ? 'Delete' : 'Confirm');
-                    this.open = true;
+                    document.getElementById('confirm-modal').showModal();
                 },
                 confirm() {
+                    document.getElementById('confirm-modal').close();
                     if (this.onConfirm) this.onConfirm();
-                    this.open = false;
                 },
                 cancel() {
-                    this.open = false;
+                    document.getElementById('confirm-modal').close();
                 }
             });
         });
