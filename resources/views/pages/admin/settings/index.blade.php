@@ -176,7 +176,7 @@
                 variant="outline"
                 type="button"
                 className="mt-4 w-full"
-                @click="$store.confirm.ask('Run database migrations?', 'This applies pending schema changes directly to the live database. Make sure you have backed up before continuing.', () => document.getElementById('run-migrations-form').requestSubmit())"
+                @click="$store.confirm.ask('Run database migrations?', 'This applies pending schema changes directly to the live database. Make sure you have backed up before continuing.', () => document.getElementById('run-migrations-form').requestSubmit(), { variant: 'default', confirmLabel: 'Run Migrations' })"
             >Run Migrations</x-ui.button>
         </div>
 
@@ -212,7 +212,7 @@
                 variant="outline"
                 type="button"
                 className="mt-4 w-full"
-                @click="$store.confirm.ask('Register mobile API clients?', 'Creates/updates the taxiway and taxiwaydriver client records with the secrets already built into the shipped apps, so existing installs start authenticating without needing a new release.', () => document.getElementById('ensure-api-clients-form').requestSubmit())"
+                @click="$store.confirm.ask('Register mobile API clients?', 'Creates/updates the taxiway and taxiwaydriver client records with the secrets already built into the shipped apps, so existing installs start authenticating without needing a new release.', () => document.getElementById('ensure-api-clients-form').requestSubmit(), { variant: 'default', confirmLabel: 'Register' })"
             >Ensure API Clients</x-ui.button>
         </div>
 
