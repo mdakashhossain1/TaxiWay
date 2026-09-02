@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/api/api_client.dart';
 import '../../../../core/data/auth_repository.dart';
 import '../../../../core/providers.dart';
 import '../../../../core/router/app_router.dart';
@@ -30,7 +31,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
   String _code = '';
   bool _verifying = false;
   String? _error;
-  int _secondsLeft = 28;
+  int _secondsLeft = 180;
   Timer? _timer;
 
   @override
@@ -58,7 +59,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
   }
 
   void _startCountdown() {
-    _secondsLeft = 28;
+    _secondsLeft = 180;
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (t) {
       if (!mounted) return;
@@ -95,8 +96,16 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
       } else {
         context.go(AppRoutes.home);
       }
-    } on InvalidOtpException {
+    } on InvalidOtpException catch (e) {
       if (!mounted) return;
+      if (e.expired) {
+        const msg = 'This OTP has expired. Please request a new one.';
+        setState(() => _error = msg);
+        AppToast.error(context, msg, title: 'OTP Expired');
+        _otpKey.currentState?.clear();
+        setState(() => _code = '');
+        return;
+      }
       final msg = AppLocalizations.of(context).invalidOtp;
       setState(() => _error = msg);
       AppToast.error(context, msg, title: 'Incorrect OTP');
@@ -115,15 +124,23 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
 
   Future<void> _resend() async {
     final phone = ref.read(authControllerProvider).phone;
-    final debugOtp = await ref.read(authControllerProvider.notifier).sendOtp(phone);
-    _startCountdown();
-    _listenForOtp();
-    if (!mounted) return;
-    if (debugOtp != null) {
-      _otpKey.currentState?.setCode(debugOtp);
-      AppToast.info(context, 'OTP: $debugOtp', title: 'Dev Mode — No SMS Gateway');
-    } else {
-      AppToast.info(context, AppLocalizations.of(context).otpResent, title: 'Code Resent');
+    try {
+      final debugOtp = await ref.read(authControllerProvider.notifier).sendOtp(phone);
+      _startCountdown();
+      _listenForOtp();
+      if (!mounted) return;
+      if (debugOtp != null) {
+        _otpKey.currentState?.setCode(debugOtp);
+        AppToast.info(context, 'OTP: $debugOtp', title: 'Dev Mode — No SMS Gateway');
+      } else {
+        AppToast.info(context, AppLocalizations.of(context).otpResent, title: 'Code Resent');
+      }
+    } on ApiException catch (e) {
+      if (!mounted) return;
+      AppToast.error(context, e.message, title: 'Couldn\'t Resend');
+    } catch (_) {
+      if (!mounted) return;
+      AppToast.error(context, "Couldn't resend OTP. Please try again.", title: 'Resend Error');
     }
   }
 
@@ -369,7 +386,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                                       ),
                                     ),
                                     Text(
-                                      '00:${_secondsLeft.toString().padLeft(2, '0')}',
+                                      '${(_secondsLeft ~/ 60).toString().padLeft(2, '0')}:${(_secondsLeft % 60).toString().padLeft(2, '0')}',
                                       style: TextStyle(
                                         color: AppColors.of(context).primaryDark,
                                         fontWeight: FontWeight.w700,

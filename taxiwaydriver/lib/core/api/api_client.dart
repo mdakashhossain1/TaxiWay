@@ -8,7 +8,8 @@ import 'hmac_signer.dart';
 class ApiException implements Exception {
   final int statusCode;
   final String message;
-  const ApiException(this.statusCode, this.message);
+  final bool expired;
+  const ApiException(this.statusCode, this.message, {this.expired = false});
 
   @override
   String toString() => 'ApiException($statusCode): $message';
@@ -79,7 +80,11 @@ class ApiClient {
 
     if (response.statusCode < 200 || response.statusCode >= 300) {
       debugPrint('API $method $endpoint -> ${response.statusCode}: ${response.body}');
-      throw ApiException(response.statusCode, decoded['message'] as String? ?? 'Something went wrong.');
+      throw ApiException(
+        response.statusCode,
+        decoded['message'] as String? ?? 'Something went wrong.',
+        expired: decoded['expired'] == true,
+      );
     }
 
     return decoded;

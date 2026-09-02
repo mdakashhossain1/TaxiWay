@@ -1,5 +1,6 @@
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
+import '../api/api_client.dart';
 import '../services/phone_hint_service.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_typography.dart';
@@ -88,6 +89,9 @@ class _EditPhoneBottomSheetState extends State<EditPhoneBottomSheet> {
       await widget.onConfirm(_phone);
       if (!mounted) return;
       Navigator.of(context).pop(_phone);
+    } on ApiException catch (e) {
+      if (!mounted) return;
+      setState(() => _error = e.message);
     } catch (_) {
       if (!mounted) return;
       setState(() => _error = "Couldn't send OTP. Please check the number and try again.");

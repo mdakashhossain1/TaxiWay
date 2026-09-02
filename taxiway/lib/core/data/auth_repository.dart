@@ -2,7 +2,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../api/api_client.dart';
 import '../models/customer.dart';
 
-class InvalidOtpException implements Exception {}
+class InvalidOtpException implements Exception {
+  final bool expired;
+  const InvalidOtpException({this.expired = false});
+}
 
 class AuthResult {
   final Customer customer;
@@ -68,7 +71,7 @@ class ApiAuthRepository implements AuthRepository {
 
       return AuthResult(customer: customer, isNewCustomer: isNew);
     } on ApiException catch (e) {
-      if (e.statusCode == 422) throw InvalidOtpException();
+      if (e.statusCode == 422) throw InvalidOtpException(expired: e.expired);
       rethrow;
     }
   }
@@ -122,7 +125,7 @@ class ApiAuthRepository implements AuthRepository {
       await saveSession(customer);
       return customer;
     } on ApiException catch (e) {
-      if (e.statusCode == 422) throw InvalidOtpException();
+      if (e.statusCode == 422) throw InvalidOtpException(expired: e.expired);
       rethrow;
     }
   }

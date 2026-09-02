@@ -25,3 +25,7 @@ Schedule::command('queue:work --stop-when-empty --max-time=50')
 Schedule::command('rides:rebroadcast-scheduled')
     ->everyFiveMinutes()
     ->withoutOverlapping();
+
+Schedule::command('cache:prune-expired-database')
+    ->hourly()
+    ->withoutOverlapping();

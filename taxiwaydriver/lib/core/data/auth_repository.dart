@@ -2,7 +2,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../api/api_client.dart';
 import '../models/driver_profile.dart';
 
-class InvalidOtpException implements Exception {}
+class InvalidOtpException implements Exception {
+  final bool expired;
+  const InvalidOtpException({this.expired = false});
+}
 
 class GoogleLoginResult {
   final DriverProfile driver;
@@ -40,7 +43,7 @@ class ApiAuthRepositoryImpl implements AuthRepository {
       await ApiClient.instance.saveToken(data['token'] as String);
       return DriverProfile.fromJson(data['driver'] as Map<String, dynamic>);
     } on ApiException catch (e) {
-      if (e.statusCode == 422) throw InvalidOtpException();
+      if (e.statusCode == 422) throw InvalidOtpException(expired: e.expired);
       rethrow;
     }
   }
@@ -74,7 +77,7 @@ class ApiAuthRepositoryImpl implements AuthRepository {
       final data = (response['data'] as Map<String, dynamic>)['driver'] as Map<String, dynamic>;
       return DriverProfile.fromJson(data);
     } on ApiException catch (e) {
-      if (e.statusCode == 422) throw InvalidOtpException();
+      if (e.statusCode == 422) throw InvalidOtpException(expired: e.expired);
       rethrow;
     }
   }
