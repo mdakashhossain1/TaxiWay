@@ -6,6 +6,7 @@ use App\Models\ApiClient;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -38,11 +39,16 @@ class VerifyHmacSignature
         $signature = $request->header('X-Signature');
 
         if (! $clientId || ! $timestamp || ! $nonce || ! $signature) {
-            return $this->reject();
+            return $this->reject($request, 'missing header', $clientId);
         }
 
-        if (! ctype_digit((string) $timestamp) || abs(time() - (int) $timestamp) > self::MAX_SKEW_SECONDS) {
-            return $this->reject();
+        if (! ctype_digit((string) $timestamp)) {
+            return $this->reject($request, 'non-numeric timestamp', $clientId);
+        }
+
+        $skew = time() - (int) $timestamp;
+        if (abs($skew) > self::MAX_SKEW_SECONDS) {
+            return $this->reject($request, "clock skew {$skew}s", $clientId);
         }
 
         $client = Cache::remember(
@@ -51,12 +57,12 @@ class VerifyHmacSignature
             fn () => ApiClient::where('client_key', $clientId)->where('is_active', true)->first(),
         );
         if (! $client) {
-            return $this->reject();
+            return $this->reject($request, 'unknown/inactive client', $clientId);
         }
 
         $nonceKey = "hmac_nonce:{$client->client_key}:{$nonce}";
         if (Cache::has($nonceKey)) {
-            return $this->reject();
+            return $this->reject($request, 'nonce replay', $clientId);
         }
 
         $payload = implode('|', [
@@ -70,7 +76,7 @@ class VerifyHmacSignature
         $expected = hash_hmac('sha256', $payload, $client->client_secret);
 
         if (! hash_equals($expected, (string) $signature)) {
-            return $this->reject();
+            return $this->reject($request, 'signature mismatch', $clientId);
         }
 
         // Only reserve the nonce once the signature has actually verified,
@@ -82,8 +88,11 @@ class VerifyHmacSignature
         return $next($request);
     }
 
-    private function reject(): Response
+    /** The HTTP response stays a generic 401 regardless of $reason (no oracle for forging a signature) — $reason is logged only, never returned to the caller. */
+    private function reject(Request $request, string $reason, ?string $clientId): Response
     {
+        Log::warning("HMAC rejected [{$reason}]: client={$clientId} path={$request->path()} ip={$request->ip()}");
+
         return response()->json(['message' => 'Unauthorized.'], 401);
     }
 }
