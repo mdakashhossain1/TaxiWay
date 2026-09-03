@@ -51,6 +51,10 @@ class LocationPickerMapState extends State<LocationPickerMap> {
     _center = widget.initial != null
         ? LatLng(widget.initial!.latitude, widget.initial!.longitude)
         : kMapFallbackCenter;
+    // Snap to the real hardware GPS fix as soon as the picker opens, instead
+    // of sitting on the initial/fallback coordinate until the user manually
+    // taps recenter.
+    WidgetsBinding.instance.addPostFrameCallback((_) => useCurrentLocation());
   }
 
   /// Moves the pin/camera to a known place (e.g. a tapped search result).

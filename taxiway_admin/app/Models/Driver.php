@@ -16,6 +16,7 @@ class Driver extends Model
         'name', 'phone', 'email', 'google_id', 'fcm_token', 'photo_url', 'rating', 'total_trips', 'completion_rate',
         'years_experience', 'identity_verified', 'licence_verified', 'background_checked',
         'languages', 'operating_area', 'member_since', 'verification_status', 'preferred_locale',
+        'current_latitude', 'current_longitude', 'location_updated_at',
     ];
 
     protected function casts(): array
@@ -28,6 +29,9 @@ class Driver extends Model
             'background_checked' => 'boolean',
             'rating' => 'decimal:2',
             'completion_rate' => 'decimal:2',
+            'current_latitude' => 'decimal:7',
+            'current_longitude' => 'decimal:7',
+            'location_updated_at' => 'datetime',
         ];
     }
 

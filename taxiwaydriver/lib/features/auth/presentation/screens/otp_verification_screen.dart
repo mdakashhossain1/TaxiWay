@@ -8,6 +8,7 @@ import '../../../../core/api/api_client.dart';
 import '../../../../core/data/auth_repository.dart';
 import '../../../../core/models/driver_profile.dart';
 import '../../../../core/router/app_router.dart';
+import '../../../../core/services/driver_location_tracking_service.dart';
 import '../../../../core/services/otp_autoread_service.dart';
 import '../../../../core/services/push_notification_service.dart';
 import '../../../../core/state/auth_controller.dart';
@@ -94,6 +95,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
       if (!mounted) return;
       AppToast.success(context, 'Driver authentication successful!', title: 'Verified');
       PushNotificationService.initialize(ref);
+      DriverLocationTrackingService.start(ref);
       final driver = ref.read(authControllerProvider).driver;
       if (driver?.verificationStatus == VerificationStatus.verified) {
         context.go(AppRoutes.dashboard);

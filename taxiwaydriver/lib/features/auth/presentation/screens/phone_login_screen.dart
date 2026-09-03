@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/models/driver_profile.dart';
 import '../../../../core/router/app_router.dart';
+import '../../../../core/services/driver_location_tracking_service.dart';
 import '../../../../core/services/google_auth_service.dart';
 import '../../../../core/services/phone_hint_service.dart';
 import '../../../../core/services/push_notification_service.dart';
@@ -95,6 +96,7 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
       if (!mounted) return;
       if (phoneLinked) {
         PushNotificationService.initialize(ref);
+        DriverLocationTrackingService.start(ref);
         final driver = ref.read(authControllerProvider).driver;
         if (driver?.verificationStatus == VerificationStatus.verified) {
           context.go(AppRoutes.dashboard);

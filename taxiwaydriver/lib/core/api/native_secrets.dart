@@ -29,7 +29,7 @@ class NativeSecrets {
     // with it — from release builds. Without that guard, the "fallback"
     // string would still get compiled into a release libapp.so on Android
     // too, since Platform.isAndroid can't be const-folded away.
-    if (kDebugMode && !Platform.isAndroid) {
+    if (kDebugMode) {
       // This project doesn't actually ship desktop/web builds — the
       // scaffolding exists, but there's no native implementation for them.
       _secret = _fallbackSecret;

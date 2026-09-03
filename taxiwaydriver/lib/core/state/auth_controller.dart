@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../api/api_client.dart';
 import '../data/auth_repository.dart';
 import '../models/driver_profile.dart';
+import '../services/driver_location_tracking_service.dart';
 
 class AuthState {
   final String phone;
@@ -58,6 +59,7 @@ class AuthController extends Notifier<AuthState> {
 
   void logout() {
     ApiClient.instance.clearToken();
+    DriverLocationTrackingService.stop();
     state = const AuthState();
   }
 }

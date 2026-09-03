@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\Customer\ProfileController;
 use App\Http\Controllers\Api\Customer\ReviewController;
 use App\Http\Controllers\Api\Driver\AuthController as DriverAuthController;
 use App\Http\Controllers\Api\Driver\DashboardController;
+use App\Http\Controllers\Api\Driver\LocationController;
 use App\Http\Controllers\Api\Driver\RideController;
 use App\Http\Controllers\Api\Driver\ScheduledRideController;
 use App\Http\Controllers\Api\Driver\SubscriptionController;
@@ -73,6 +74,8 @@ Route::middleware('hmac')->group(function () {
             Route::post('/device-token', [DriverAuthController::class, 'updateDeviceToken']);
 
             Route::post('/chat-token', [ChatController::class, 'driverToken']);
+
+            Route::post('/location', [LocationController::class, 'update']);
 
             Route::get('/dashboard', [DashboardController::class, 'index']);
 
