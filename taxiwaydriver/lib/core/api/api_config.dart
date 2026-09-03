@@ -1,5 +1,5 @@
 /// Points at the Laravel backend.
-const String kApiBaseUrl = 'http://10.0.2.2:8767/api';
+const String kApiBaseUrl = 'https://cornflowerblue-stingray-110031.hostingersite.com/api';
 
 /// This app's HMAC identity, matching the `api_clients` row seeded by the
 /// Laravel backend's DatabaseSeeder. The matching secret lives in
