@@ -93,7 +93,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
       _verified = true;
       if (!mounted) return;
       AppToast.success(context, 'Phone verified successfully!', title: 'Welcome');
-      PushNotificationService.initialize(ref);
+      PushNotificationService.initialize(ProviderScope.containerOf(context, listen: false));
       final authState = ref.read(authControllerProvider);
       if (authState.isNewCustomer) {
         context.go(AppRoutes.profileSetup);

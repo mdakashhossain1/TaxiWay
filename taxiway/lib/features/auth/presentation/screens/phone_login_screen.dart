@@ -89,7 +89,7 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
       final phoneLinked = await ref.read(authControllerProvider.notifier).loginWithGoogle(idToken);
       if (!mounted) return;
       if (phoneLinked) {
-        PushNotificationService.initialize(ref);
+        PushNotificationService.initialize(ProviderScope.containerOf(context, listen: false));
         context.go(AppRoutes.home);
       } else {
         AppToast.info(context, 'Add your phone number to finish setting up your account.', title: 'Almost there');

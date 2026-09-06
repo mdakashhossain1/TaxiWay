@@ -95,8 +95,9 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
       final phoneLinked = await ref.read(authControllerProvider.notifier).loginWithGoogle(idToken);
       if (!mounted) return;
       if (phoneLinked) {
-        PushNotificationService.initialize(ref);
-        DriverLocationTrackingService.start(ref);
+        final container = ProviderScope.containerOf(context, listen: false);
+        PushNotificationService.initialize(container);
+        DriverLocationTrackingService.start(container);
         final driver = ref.read(authControllerProvider).driver;
         if (driver?.verificationStatus == VerificationStatus.verified) {
           context.go(AppRoutes.dashboard);

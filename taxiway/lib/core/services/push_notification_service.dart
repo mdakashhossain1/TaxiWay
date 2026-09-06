@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers.dart';
@@ -20,8 +22,14 @@ class PushNotificationService {
   PushNotificationService._();
 
   static bool _initialized = false;
+  static StreamSubscription<String>? _tokenRefreshSub;
+  static StreamSubscription<RemoteMessage>? _onMessageSub;
+  static StreamSubscription<RemoteMessage>? _onMessageOpenedSub;
 
-  static Future<void> initialize(WidgetRef ref) async {
+  /// Takes the root [ProviderContainer] rather than the caller's `WidgetRef`
+  /// — this runs for the app's lifetime (listeners, `onTokenRefresh`), well
+  /// past the screen that triggers it, which gets disposed on navigation.
+  static Future<void> initialize(ProviderContainer container) async {
     if (_initialized) return;
     _initialized = true;
 
@@ -30,24 +38,37 @@ class PushNotificationService {
 
     final token = await messaging.getToken();
     if (token != null) {
-      await ref.read(authRepositoryProvider).registerDeviceToken(token);
+      await container.read(authRepositoryProvider).registerDeviceToken(token);
     }
-    messaging.onTokenRefresh.listen((newToken) {
-      ref.read(authRepositoryProvider).registerDeviceToken(newToken);
+    _tokenRefreshSub = messaging.onTokenRefresh.listen((newToken) {
+      container.read(authRepositoryProvider).registerDeviceToken(newToken);
     });
 
-    FirebaseMessaging.onMessage.listen((message) => _handle(ref, message));
-    FirebaseMessaging.onMessageOpenedApp.listen((message) => _handle(ref, message));
+    _onMessageSub = FirebaseMessaging.onMessage.listen((message) => _handle(container, message));
+    _onMessageOpenedSub = FirebaseMessaging.onMessageOpenedApp.listen((message) => _handle(container, message));
 
     final initialMessage = await messaging.getInitialMessage();
-    if (initialMessage != null) _handle(ref, initialMessage);
+    if (initialMessage != null) _handle(container, initialMessage);
   }
 
-  static void _handle(WidgetRef ref, RemoteMessage message) {
+  /// Call on logout so a different rider logging in on the same device gets
+  /// their own token registration and push listeners instead of `initialize`
+  /// silently no-op'ing and leaving the previous rider's wired up.
+  static void reset() {
+    _initialized = false;
+    _tokenRefreshSub?.cancel();
+    _onMessageSub?.cancel();
+    _onMessageOpenedSub?.cancel();
+    _tokenRefreshSub = null;
+    _onMessageSub = null;
+    _onMessageOpenedSub = null;
+  }
+
+  static void _handle(ProviderContainer container, RemoteMessage message) {
     final type = message.data['type'];
 
     if (type == 'driver_accepted') {
-      ref.read(bookingControllerProvider.notifier).applyDriverAccepted();
+      container.read(bookingControllerProvider.notifier).applyDriverAccepted();
     }
 
     final context = rootNavigatorKey.currentContext;

@@ -15,10 +15,13 @@ class DriverLocationTrackingService {
   static const _interval = Duration(seconds: 25);
   static Timer? _timer;
 
-  static void start(WidgetRef ref) {
+  /// Takes the root [ProviderContainer] rather than the caller's `WidgetRef`
+  /// — the timer keeps firing long after the login screen that starts it is
+  /// disposed, so a widget-scoped ref would throw on every later tick.
+  static void start(ProviderContainer container) {
     if (_timer != null) return;
-    _sendUpdate(ref);
-    _timer = Timer.periodic(_interval, (_) => _sendUpdate(ref));
+    _sendUpdate(container);
+    _timer = Timer.periodic(_interval, (_) => _sendUpdate(container));
   }
 
   static void stop() {
@@ -26,11 +29,11 @@ class DriverLocationTrackingService {
     _timer = null;
   }
 
-  static Future<void> _sendUpdate(WidgetRef ref) async {
+  static Future<void> _sendUpdate(ProviderContainer container) async {
     final position = await determineCurrentPosition();
     if (position == null) return;
     try {
-      await ref.read(locationRepositoryProvider).updateLocation(
+      await container.read(locationRepositoryProvider).updateLocation(
             latitude: position.latitude,
             longitude: position.longitude,
           );

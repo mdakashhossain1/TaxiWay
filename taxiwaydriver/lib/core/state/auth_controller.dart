@@ -3,6 +3,7 @@ import '../api/api_client.dart';
 import '../data/auth_repository.dart';
 import '../models/driver_profile.dart';
 import '../services/driver_location_tracking_service.dart';
+import '../services/push_notification_service.dart';
 
 class AuthState {
   final String phone;
@@ -60,6 +61,7 @@ class AuthController extends Notifier<AuthState> {
   void logout() {
     ApiClient.instance.clearToken();
     DriverLocationTrackingService.stop();
+    PushNotificationService.reset();
     state = const AuthState();
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../data/auth_repository.dart';
@@ -22,8 +24,14 @@ class PushNotificationService {
   PushNotificationService._();
 
   static bool _initialized = false;
+  static StreamSubscription<String>? _tokenRefreshSub;
+  static StreamSubscription<RemoteMessage>? _onMessageSub;
+  static StreamSubscription<RemoteMessage>? _onMessageOpenedSub;
 
-  static Future<void> initialize(WidgetRef ref) async {
+  /// Takes the root [ProviderContainer] rather than the caller's `WidgetRef`
+  /// — this runs for the app's lifetime (listeners, `onTokenRefresh`), well
+  /// past the screen that triggers it, which gets disposed on navigation.
+  static Future<void> initialize(ProviderContainer container) async {
     if (_initialized) return;
     _initialized = true;
 
@@ -32,27 +40,40 @@ class PushNotificationService {
 
     final token = await messaging.getToken();
     if (token != null) {
-      await ref.read(authRepositoryProvider).registerDeviceToken(token);
+      await container.read(authRepositoryProvider).registerDeviceToken(token);
     }
-    messaging.onTokenRefresh.listen((newToken) {
-      ref.read(authRepositoryProvider).registerDeviceToken(newToken);
+    _tokenRefreshSub = messaging.onTokenRefresh.listen((newToken) {
+      container.read(authRepositoryProvider).registerDeviceToken(newToken);
     });
 
-    FirebaseMessaging.onMessage.listen((message) => _handle(ref, message));
-    FirebaseMessaging.onMessageOpenedApp.listen((message) => _handle(ref, message));
+    _onMessageSub = FirebaseMessaging.onMessage.listen((message) => _handle(container, message));
+    _onMessageOpenedSub = FirebaseMessaging.onMessageOpenedApp.listen((message) => _handle(container, message));
 
     final initialMessage = await messaging.getInitialMessage();
-    if (initialMessage != null) _handle(ref, initialMessage);
+    if (initialMessage != null) _handle(container, initialMessage);
   }
 
-  static Future<void> _handle(WidgetRef ref, RemoteMessage message) async {
+  /// Call on logout so a different driver logging in on the same device gets
+  /// their own token registration and push listeners instead of `initialize`
+  /// silently no-op'ing and leaving the previous driver's wired up.
+  static void reset() {
+    _initialized = false;
+    _tokenRefreshSub?.cancel();
+    _onMessageSub?.cancel();
+    _onMessageOpenedSub?.cancel();
+    _tokenRefreshSub = null;
+    _onMessageSub = null;
+    _onMessageOpenedSub = null;
+  }
+
+  static Future<void> _handle(ProviderContainer container, RemoteMessage message) async {
     final type = message.data['type'];
     final bookingId = message.data['booking_id'] as String?;
 
     if (type == 'ride_offer' && bookingId != null) {
-      ref.invalidate(pendingOfferProvider);
+      container.invalidate(pendingOfferProvider);
       try {
-        final ride = await ref.read(rideRepositoryProvider).getRide(bookingId);
+        final ride = await container.read(rideRepositoryProvider).getRide(bookingId);
         appRouter.push(AppRoutes.rideOffer, extra: ride);
         return;
       } catch (_) {
@@ -62,14 +83,14 @@ class PushNotificationService {
     }
 
     if (type == 'ride_assigned') {
-      ref.invalidate(nextRideProvider);
+      container.invalidate(nextRideProvider);
     }
 
     // Not auto-navigated like ride_offer — this can fire repeatedly (see
     // RebroadcastScheduledRides) and isn't addressed to this driver alone,
     // so it just refreshes the list quietly and surfaces the toast below.
     if (type == 'scheduled_ride_available') {
-      ref.invalidate(scheduledRidesProvider);
+      container.invalidate(scheduledRidesProvider);
     }
 
     final context = rootNavigatorKey.currentContext;

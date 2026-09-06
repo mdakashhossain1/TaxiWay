@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../data/auth_repository.dart';
 import '../models/customer.dart';
+import '../services/push_notification_service.dart';
 
 enum AuthStatus { checking, unauthenticated, otpSent, authenticated }
 
@@ -108,6 +109,7 @@ class AuthController extends Notifier<AuthState> {
 
   Future<void> logout() async {
     await _repo.clearSession();
+    PushNotificationService.reset();
     state = const AuthState(status: AuthStatus.unauthenticated);
   }
 }

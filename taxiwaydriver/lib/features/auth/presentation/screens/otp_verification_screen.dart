@@ -94,8 +94,9 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
       _verified = true;
       if (!mounted) return;
       AppToast.success(context, 'Driver authentication successful!', title: 'Verified');
-      PushNotificationService.initialize(ref);
-      DriverLocationTrackingService.start(ref);
+      final container = ProviderScope.containerOf(context, listen: false);
+      PushNotificationService.initialize(container);
+      DriverLocationTrackingService.start(container);
       final driver = ref.read(authControllerProvider).driver;
       if (driver?.verificationStatus == VerificationStatus.verified) {
         context.go(AppRoutes.dashboard);
