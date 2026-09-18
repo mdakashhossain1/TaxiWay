@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'dart:ui' as ui;
 
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/foundation.dart';
@@ -59,6 +60,8 @@ class _RideMapViewState extends State<RideMapView> {
   GoogleMapController? _controller;
   bool _fitted = false;
   bool _isExpanded = false;
+  BitmapDescriptor? _carIcon;
+  bool _carIconRequested = false;
 
   LatLng get _pickupLatLng => widget.pickup != null
       ? LatLng(widget.pickup!.latitude, widget.pickup!.longitude)
@@ -74,6 +77,56 @@ class _RideMapViewState extends State<RideMapView> {
   void initState() {
     super.initState();
     _loadLiveRoadRoute();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_carIconRequested) {
+      _carIconRequested = true;
+      final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
+      _buildCarIcon(devicePixelRatio).then((icon) {
+        if (mounted) setState(() => _carIcon = icon);
+      });
+    }
+  }
+
+  /// Draws a simple top-down car marker (colored body + windshield, on a
+  /// white halo for contrast against any map style) pointing north — the
+  /// marker's own `rotation` then turns it to face the direction of travel.
+  Future<BitmapDescriptor> _buildCarIcon(double devicePixelRatio) async {
+    const logicalSize = 44.0;
+    final size = logicalSize * devicePixelRatio;
+    final recorder = ui.PictureRecorder();
+    final canvas = Canvas(recorder, Rect.fromLTWH(0, 0, size, size));
+    final center = Offset(size / 2, size / 2);
+
+    final shadowPaint = Paint()
+      ..color = Colors.black.withValues(alpha: 0.18)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3);
+    canvas.drawCircle(center + const Offset(0, 1.5), size * 0.44, shadowPaint);
+    canvas.drawCircle(center, size * 0.44, Paint()..color = Colors.white);
+
+    final bodyRect = Rect.fromCenter(center: center, width: size * 0.34, height: size * 0.52);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(bodyRect, Radius.circular(size * 0.1)),
+      Paint()..color = const Color(0xFF6366F1),
+    );
+
+    final windshieldRect = Rect.fromCenter(
+      center: center - Offset(0, size * 0.1),
+      width: size * 0.22,
+      height: size * 0.16,
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(windshieldRect, Radius.circular(size * 0.03)),
+      Paint()..color = Colors.white.withValues(alpha: 0.85),
+    );
+
+    final picture = recorder.endRecording();
+    final image = await picture.toImage(size.round(), size.round());
+    final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    return BitmapDescriptor.bytes(byteData!.buffer.asUint8List(), width: logicalSize, height: logicalSize);
   }
 
   void _loadLiveRoadRoute() {
@@ -99,16 +152,35 @@ class _RideMapViewState extends State<RideMapView> {
       ? _liveRoutePoints!.take((_liveRoutePoints!.length * 0.4).round()).toList()
       : [_pickupLatLng];
 
-  LatLng? get _driverLatLng {
-    if (!widget.showDriver) return null;
+  LatLng _positionAtProgress(double progress) {
     if (widget.driverPhase == MapDriverPhase.approachingPickup) {
       final approach = _driverApproachPoints;
       if (approach.isEmpty) return _pickupLatLng;
-      return RoadRouteService.instance.interpolateAlongPath(approach, 1 - widget.driverProgress);
+      return RoadRouteService.instance.interpolateAlongPath(approach, 1 - progress);
     }
     final route = _routePoints;
     if (route.isEmpty) return _pickupLatLng;
-    return RoadRouteService.instance.interpolateAlongPath(route, widget.driverProgress);
+    return RoadRouteService.instance.interpolateAlongPath(route, progress);
+  }
+
+  LatLng? get _driverLatLng {
+    if (!widget.showDriver) return null;
+    return _positionAtProgress(widget.driverProgress);
+  }
+
+  /// Compass bearing the car icon should point in, sampled just behind/ahead
+  /// of the current progress so it stays correct through both map-view
+  /// phases (the approach phase runs its progress backwards over the path).
+  double? get _driverHeading {
+    if (!widget.showDriver) return null;
+    const delta = 0.02;
+    final behind = (widget.driverProgress - delta).clamp(0.0, 1.0);
+    final ahead = (widget.driverProgress + delta).clamp(0.0, 1.0);
+    if (behind == ahead) return null;
+    final p1 = _positionAtProgress(behind);
+    final p2 = _positionAtProgress(ahead);
+    if (p1.latitude == p2.latitude && p1.longitude == p2.longitude) return null;
+    return RoadRouteService.instance.calculateBearing(p1, p2);
   }
 
   @override
@@ -236,7 +308,10 @@ class _RideMapViewState extends State<RideMapView> {
         Marker(
           markerId: const MarkerId('driver'),
           position: driver,
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+          icon: _carIcon ?? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+          anchor: const Offset(0.5, 0.5),
+          rotation: _driverHeading ?? 0,
+          flat: true,
           zIndexInt: 3,
           infoWindow: InfoWindow(title: l10n.driverLocationLabel),
         ),
