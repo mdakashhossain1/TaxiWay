@@ -1,7 +1,9 @@
 <?php
 
-test('the application returns a successful response', function () {
-    $response = $this->get('/');
+test('the admin dashboard sends guests to the sign-in page', function () {
+    $this->get('/')->assertRedirect(route('signin'));
+});
 
-    $response->assertStatus(200);
+test('the sign-in page is reachable by guests', function () {
+    $this->get('/signin')->assertOk();
 });
