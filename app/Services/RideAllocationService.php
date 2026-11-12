@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Jobs\ExpireRideOffer;
 use App\Models\Booking;
+use App\Models\Driver;
 use App\Models\Vehicle;
 
 /**
@@ -30,15 +31,21 @@ class RideAllocationService
     {
         $excluded = $booking->rejected_driver_ids ?? [];
 
-        $vehicle = Vehicle::where('vehicle_category_id', $booking->vehicle_category_id)
+        $eligible = Vehicle::query()
+            ->where('vehicle_category_id', $booking->vehicle_category_id)
             ->whereHas('driver', fn ($q) => $q->where('verification_status', 'verified'))
             ->whereNotIn('driver_id', $excluded)
             ->whereDoesntHave(
                 'driver.bookings',
                 fn ($q) => $q->whereIn('status', Booking::ACTIVE_STATUSES)->where('id', '!=', $booking->id)
             )
-            ->with('driver')
-            ->first();
+            ->with('driver');
+
+        $vehicle = $this->nearestInPickupCells($booking, $eligible)
+            // Fall back to any eligible driver when no one is in the pickup's
+            // H3 cells (or the rider app didn't send cells) — same best-effort
+            // behavior as before H3 ranking existed.
+            ?? $eligible->first();
 
         if (! $vehicle) {
             $booking->update(['status' => 'allocating', 'driver_id' => null, 'vehicle_id' => null, 'offer_expires_at' => null]);
@@ -64,5 +71,42 @@ class RideAllocationService
         );
 
         ExpireRideOffer::dispatch($booking->id)->delay($expiresAt);
+    }
+
+    /**
+     * Shortlists eligible vehicles whose driver is currently in one of the
+     * pickup's H3 cells, then returns the one whose driver is physically
+     * closest to the pickup. Returns null when the booking carries no pickup
+     * cells or none of the shortlisted drivers are usable.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder<Vehicle>  $eligible
+     */
+    private function nearestInPickupCells(Booking $booking, $eligible): ?Vehicle
+    {
+        $cells = $booking->pickup_h3_cells;
+        if (empty($cells)) {
+            return null;
+        }
+
+        return (clone $eligible)
+            ->whereHas('driver', fn ($q) => $q->whereIn('current_h3_r8', $cells))
+            ->get()
+            ->sortBy(fn (Vehicle $vehicle) => $this->distanceToPickupKm($booking, $vehicle->driver))
+            ->first();
+    }
+
+    private function distanceToPickupKm(Booking $booking, ?Driver $driver): float
+    {
+        if (! $driver || $driver->current_latitude === null || $driver->current_longitude === null) {
+            return PHP_FLOAT_MAX;
+        }
+
+        $earthRadiusKm = 6371.0;
+        $dLat = deg2rad((float) $driver->current_latitude - (float) $booking->pickup_lat);
+        $dLng = deg2rad((float) $driver->current_longitude - (float) $booking->pickup_lng);
+        $a = sin($dLat / 2) ** 2
+            + cos(deg2rad((float) $booking->pickup_lat)) * cos(deg2rad((float) $driver->current_latitude)) * sin($dLng / 2) ** 2;
+
+        return $earthRadiusKm * 2 * atan2(sqrt($a), sqrt(1 - $a));
     }
 }

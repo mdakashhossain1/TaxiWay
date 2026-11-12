@@ -18,11 +18,13 @@ class LocationController extends Controller
         $validated = $request->validate([
             'latitude' => ['required', 'numeric', 'between:-90,90'],
             'longitude' => ['required', 'numeric', 'between:-180,180'],
+            'h3_r8' => ['nullable', 'string', 'max:16'],
         ]);
 
         $driver->update([
             'current_latitude' => $validated['latitude'],
             'current_longitude' => $validated['longitude'],
+            'current_h3_r8' => $validated['h3_r8'] ?? null,
             'location_updated_at' => now(),
         ]);
 
