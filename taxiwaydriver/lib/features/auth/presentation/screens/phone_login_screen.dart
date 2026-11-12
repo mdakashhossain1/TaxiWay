@@ -164,7 +164,7 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
                       // Top Section Image
                       Center(
                         child: Image.asset(
-                          'assets/images/login_home.png',
+                          'assets/images/login_home.webp',
                           height: 180,
                           fit: BoxFit.contain,
                         )

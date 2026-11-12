@@ -119,7 +119,7 @@ class _NetworkErrorViewState extends State<NetworkErrorView> {
                 maxHeight: widget.isCompact ? 170 : 250,
               ),
               child: Image.asset(
-                'assets/images/network_error.png',
+                'assets/images/network_error.webp',
                 fit: BoxFit.contain,
               )
                   .animate()

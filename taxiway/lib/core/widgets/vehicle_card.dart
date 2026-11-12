@@ -6,6 +6,7 @@ import '../theme/app_colors.dart';
 import '../theme/app_radius.dart';
 import '../theme/app_typography.dart';
 import '../utils/geo_utils.dart';
+import 'app_network_image.dart';
 
 class VehicleCard extends StatelessWidget {
   final VehicleCategory category;
@@ -24,16 +25,16 @@ class VehicleCard extends StatelessWidget {
   String get _imageAsset {
     switch (category.id) {
       case 'hatchback':
-        return 'assets/images/car_hatchback.jpg';
+        return 'assets/images/car_hatchback.webp';
       case 'suv':
-        return 'assets/images/car_suv.jpg';
+        return 'assets/images/car_suv.webp';
       case 'traveller':
-        return 'assets/images/car_traveller.jpg';
+        return 'assets/images/car_traveller.webp';
       case 'tempo':
-        return 'assets/images/car_traveller.jpg';
+        return 'assets/images/car_traveller.webp';
       case 'sedan':
       default:
-        return 'assets/images/car_sedan.jpg';
+        return 'assets/images/car_sedan.webp';
     }
   }
 
@@ -78,10 +79,9 @@ class VehicleCard extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(AppRadius.medium),
                 child: (category.imageUrl != null && category.imageUrl!.isNotEmpty)
-                    ? Image.network(
-                        category.imageUrl!,
-                        fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) => Center(
+                    ? AppNetworkImage(
+                        url: category.imageUrl!,
+                        fallback: Center(
                           child: Icon(
                             BootstrapIcons.car_front_fill,
                             color: selected ? AppColors.of(context).primary : AppColors.of(context).navy,

@@ -120,7 +120,7 @@ class DriverVehicleProfileScreen extends ConsumerWidget {
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(4),
-                        child: Image.asset('assets/images/car_sedan.jpg', fit: BoxFit.contain),
+                        child: Image.asset('assets/images/car_sedan.webp', fit: BoxFit.contain),
                       ),
                     ),
                     const SizedBox(width: 12),

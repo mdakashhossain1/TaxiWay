@@ -97,8 +97,8 @@ class _MediaGrid extends StatelessWidget {
       ),
       itemBuilder: (context, i) => VehicleMediaTile(media: media[i], onTap: () => onTap(media[i]))
           .animate()
-          .fadeIn(delay: (40 * i).ms, duration: 260.ms)
-          .scale(delay: (40 * i).ms, duration: 260.ms, begin: const Offset(0.92, 0.92), end: const Offset(1, 1)),
+          .fadeIn(delay: (40 * (i < 6 ? i : 6)).ms, duration: 260.ms)
+          .scale(delay: (40 * (i < 6 ? i : 6)).ms, duration: 260.ms, begin: const Offset(0.92, 0.92), end: const Offset(1, 1)),
     );
   }
 }

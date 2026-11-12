@@ -62,6 +62,7 @@ class FirebaseChatRepository extends ChatRepository {
           .doc(conversationId)
           .collection('messages')
           .orderBy('createdAt')
+          .limitToLast(200)
           .snapshots()
           .map((snap) => snap.docs.map(_toMessage).toList())
           .transform(StreamTransformer<List<ChatMessage>, List<ChatMessage>>.fromHandlers(
