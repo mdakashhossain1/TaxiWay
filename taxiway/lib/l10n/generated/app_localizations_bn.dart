@@ -524,4 +524,156 @@ class AppLocalizationsBn extends AppLocalizations {
   @override
   String get scheduledRideConfirmationToast =>
       'আপনার রাইড শিডিউল করা হয়েছে! একজন ড্রাইভার গ্রহণ করলেই আমরা আপনাকে জানাব।';
+
+  @override
+  String get profileSetupTitle => 'আপনার সম্পর্কে বলুন';
+
+  @override
+  String get profileSetupSubtitle =>
+      'শুধু প্রয়োজনীয় তথ্য। আপনি যেকোনো সময় বদলাতে পারবেন।';
+
+  @override
+  String get fullNameLabel => 'পূর্ণ নাম';
+
+  @override
+  String get fullNameHint => 'আপনার পূর্ণ নাম লিখুন';
+
+  @override
+  String get emailOptionalLabel => 'ইমেইল (ঐচ্ছিক)';
+
+  @override
+  String get emailHint => 'আপনার ইমেইল লিখুন';
+
+  @override
+  String profileSavedTitle(String name) {
+    return 'সব প্রস্তুত, $name';
+  }
+
+  @override
+  String get profileSavedMessage => 'আপনার অ্যাকাউন্ট প্রস্তুত।';
+
+  @override
+  String get startRidingButton => 'যাত্রা শুরু করুন';
+
+  @override
+  String get profileSaveError =>
+      'আপনার প্রোফাইল সংরক্ষণ করা যায়নি। আবার চেষ্টা করুন।';
+
+  @override
+  String get connectionOfflineTitle => 'ইন্টারনেট সংযোগ নেই';
+
+  @override
+  String get connectionSlowTitle => 'সংযোগ ধীর';
+
+  @override
+  String get connectionRestoredTitle => 'আবার অনলাইনে';
+
+  @override
+  String get connectionServerTroubleTitle =>
+      'আমাদের সার্ভারে পৌঁছাতে সমস্যা হচ্ছে';
+
+  @override
+  String get connectionRetryAction => 'আবার চেষ্টা করুন';
+
+  @override
+  String get connectionCheckingAction => 'যাচাই করা হচ্ছে…';
+
+  @override
+  String get errorOfflineTitle => 'আপনি অফলাইনে আছেন';
+
+  @override
+  String get errorOfflineMessage =>
+      'আপনার ওয়াই-ফাই বা মোবাইল ডেটা পরীক্ষা করে আবার চেষ্টা করুন।';
+
+  @override
+  String get errorTimeoutTitle => 'এতে বেশি সময় লাগছে';
+
+  @override
+  String get errorTimeoutMessage =>
+      'আপনার সংযোগ ধীর মনে হচ্ছে। একটু পরে আবার চেষ্টা করুন।';
+
+  @override
+  String get errorServerTitle => 'আমাদের দিক থেকে সমস্যা হচ্ছে';
+
+  @override
+  String get errorServerMessage =>
+      'এটি আপনার সংযোগের কারণে নয়। অনুগ্রহ করে কিছুক্ষণ পরে আবার চেষ্টা করুন।';
+
+  @override
+  String get errorMaintenanceTitle => 'শীঘ্রই ফিরে আসছি';
+
+  @override
+  String get errorMaintenanceMessage =>
+      'আরও ভালো সেবা দিতে Taxiway আপডেট করা হচ্ছে।';
+
+  @override
+  String get errorGenericTitle => 'কিছু ভুল হয়েছে';
+
+  @override
+  String get errorGenericMessage =>
+      'আমরা এটি লোড করতে পারিনি। অনুগ্রহ করে আবার চেষ্টা করুন।';
+
+  @override
+  String get tryAgainLabel => 'আবার চেষ্টা করুন';
+
+  @override
+  String get tryingAgainLabel => 'আবার চেষ্টা করা হচ্ছে…';
+
+  @override
+  String get goBackLabel => 'ফিরে যান';
+
+  @override
+  String get bookARideAction => 'রাইড বুক করুন';
+
+  @override
+  String get emptyDefaultTitle => 'এখানে এখনও কিছু নেই';
+
+  @override
+  String get emptyDefaultMessage => 'আইটেমগুলো এখানে দেখা যাবে।';
+
+  @override
+  String get tripsEmptyTitle => 'এখনও কোনো ট্রিপ নেই';
+
+  @override
+  String get tripsEmptyMessage => 'আপনার বুকিংগুলো এখানে দেখা যাবে।';
+
+  @override
+  String get chatEmptyTitle => 'এখনও কোনো বার্তা নেই';
+
+  @override
+  String get chatEmptyMessage => 'হ্যালো বলুন!';
+
+  @override
+  String get chatLoadFailed => 'বার্তা লোড করা যায়নি';
+
+  @override
+  String get messageSendFailed =>
+      'বার্তা পাঠানো যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।';
+
+  @override
+  String get otpSendFailed =>
+      'OTP পাঠানো যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।';
+
+  @override
+  String get otpResendFailed =>
+      'OTP আবার পাঠানো যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।';
+
+  @override
+  String get otpVerifyFailed =>
+      'কোড যাচাই করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।';
+
+  @override
+  String get otpExpired =>
+      'এই কোডের মেয়াদ শেষ হয়েছে। অনুগ্রহ করে নতুন কোড চান।';
+
+  @override
+  String get googleSignInFailed =>
+      'Google দিয়ে সাইন ইন করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।';
+
+  @override
+  String get supportNumberMissing => 'সাপোর্ট নম্বর এখনও সেট করা হয়নি।';
+
+  @override
+  String get supportUnreachable =>
+      'এখন সাপোর্টে যোগাযোগ করা যাচ্ছে না। অনুগ্রহ করে আবার চেষ্টা করুন।';
 }

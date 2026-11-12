@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,7 +39,10 @@ class FirebaseChatRepositoryImpl extends ChatRepository {
 
   @override
   Future<String> ensureSignedIn() {
-    return _signInFuture ??= _signIn();
+    return _signInFuture ??= _signIn().catchError((Object error) {
+      _signInFuture = null;
+      throw error;
+    });
   }
 
   Future<String> _signIn() async {
@@ -61,6 +65,12 @@ class FirebaseChatRepositoryImpl extends ChatRepository {
           .orderBy('createdAt')
           .snapshots()
           .map((snap) => snap.docs.map(_toMessage).toList())
+          .transform(StreamTransformer<List<ChatMessage>, List<ChatMessage>>.fromHandlers(
+            handleError: (error, stackTrace, sink) {
+              _messageStreams.remove(conversationId);
+              sink.addError(error, stackTrace);
+            },
+          ))
           .asBroadcastStream(),
     );
   }

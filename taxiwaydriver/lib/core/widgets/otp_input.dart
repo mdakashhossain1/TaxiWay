@@ -111,6 +111,7 @@ class OtpInputState extends State<OtpInput> with TickerProviderStateMixin {
   /// Shakes the boxes to signal a rejected code, flashes error stroke, then clears them.
   Future<void> shakeAndClear() async {
     setState(() => _hasError = true);
+    HapticFeedback.heavyImpact();
     await _shakeController.forward(from: 0);
     if (!mounted) return;
     for (final c in _controllers) {
@@ -161,6 +162,7 @@ class OtpInputState extends State<OtpInput> with TickerProviderStateMixin {
     }
 
     if (value.isNotEmpty) {
+      HapticFeedback.selectionClick();
       _popTicks[index]++;
       if (index < widget.length - 1) {
         _nodes[index + 1].requestFocus();

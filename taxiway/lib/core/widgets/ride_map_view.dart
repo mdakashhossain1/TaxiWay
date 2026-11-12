@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../l10n/generated/app_localizations.dart';
+import '../models/booking.dart';
 import '../models/place_location.dart';
 import '../services/road_route_service.dart';
 import '../theme/app_colors.dart';
@@ -25,6 +26,12 @@ class RideMapView extends StatefulWidget {
   final bool showDriver;
   final MapDriverPhase driverPhase;
   final double driverProgress;
+
+  /// The driver's real GPS position from the live trip channel. When set, the
+  /// marker glides between these real coordinates (heading taken from the
+  /// direction of travel); [driverProgress] is only the fallback used to
+  /// interpolate along the route before the first fix or in the simulation.
+  final LatLng? driverPosition;
   final VoidCallback? onRecenter;
   final double height;
   final BorderRadiusGeometry borderRadius;
@@ -34,6 +41,11 @@ class RideMapView extends StatefulWidget {
   final ValueChanged<LatLng>? onMapTap;
   final bool interactive;
 
+  /// Ambient nearby available drivers to show as car markers (e.g. the home
+  /// screen's "cars near you"). Independent of [showDriver], which tracks the
+  /// one assigned driver on an active trip.
+  final List<LatLng> nearbyDrivers;
+
   const RideMapView({
     super.key,
     this.pickup,
@@ -42,6 +54,7 @@ class RideMapView extends StatefulWidget {
     this.showDriver = false,
     this.driverPhase = MapDriverPhase.approachingPickup,
     this.driverProgress = 0,
+    this.driverPosition,
     this.onRecenter,
     this.height = 240,
     this.borderRadius = const BorderRadius.all(Radius.circular(20)),
@@ -50,18 +63,70 @@ class RideMapView extends StatefulWidget {
     this.enableExpand = true,
     this.onMapTap,
     this.interactive = true,
+    this.nearbyDrivers = const [],
   });
 
   @override
   State<RideMapView> createState() => _RideMapViewState();
 }
 
-class _RideMapViewState extends State<RideMapView> {
+class _RideMapViewState extends State<RideMapView> with SingleTickerProviderStateMixin {
   GoogleMapController? _controller;
   bool _fitted = false;
   bool _isExpanded = false;
   BitmapDescriptor? _carIcon;
   bool _carIconRequested = false;
+
+  // Driver-marker smoothing: the `driverProgress` prop updates in coarse steps
+  // (a live GPS fix every few seconds, or a 1 Hz simulation tick), which makes
+  // the car jump. Instead of drawing the prop value directly, we tween a
+  // _displayedProgress toward it at 60fps so the car glides — the same reason
+  // Uber's car feels alive.
+  late final AnimationController _driverAnimation = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 1000),
+  )..addListener(() => setState(() {}));
+  double _animFrom = 0;
+  double _animTo = 0;
+
+  double get _driverProgress =>
+      _animFrom + (_animTo - _animFrom) * _driverAnimation.value;
+
+  void _animateDriverTo(double target) {
+    _animFrom = _driverProgress;
+    _animTo = target.clamp(0.0, 1.0);
+    _driverAnimation.forward(from: 0);
+  }
+
+  LatLng? _liveFrom;
+  LatLng? _liveTo;
+  double _liveBearing = 0;
+
+  LatLng? get _livePosition {
+    final to = _liveTo;
+    if (to == null) return null;
+    final from = _liveFrom ?? to;
+    final t = _driverAnimation.value;
+    return LatLng(
+      from.latitude + (to.latitude - from.latitude) * t,
+      from.longitude + (to.longitude - from.longitude) * t,
+    );
+  }
+
+  void _animateLiveTo(LatLng target) {
+    final current = _livePosition;
+    _liveFrom = current ?? target;
+    _liveTo = target;
+    final from = _liveFrom!;
+    final movedMeters = math.sqrt(
+          math.pow(target.latitude - from.latitude, 2) + math.pow(target.longitude - from.longitude, 2),
+        ) *
+        111000;
+    if (movedMeters > 3) {
+      _liveBearing = RoadRouteService.instance.calculateBearing(from, target);
+    }
+    _driverAnimation.forward(from: 0);
+  }
 
   LatLng get _pickupLatLng => widget.pickup != null
       ? LatLng(widget.pickup!.latitude, widget.pickup!.longitude)
@@ -76,7 +141,15 @@ class _RideMapViewState extends State<RideMapView> {
   @override
   void initState() {
     super.initState();
+    _animFrom = _animTo = widget.driverProgress;
+    _liveFrom = _liveTo = widget.driverPosition;
     _loadLiveRoadRoute();
+  }
+
+  @override
+  void dispose() {
+    _driverAnimation.dispose();
+    super.dispose();
   }
 
   @override
@@ -95,33 +168,71 @@ class _RideMapViewState extends State<RideMapView> {
   /// white halo for contrast against any map style) pointing north — the
   /// marker's own `rotation` then turns it to face the direction of travel.
   Future<BitmapDescriptor> _buildCarIcon(double devicePixelRatio) async {
-    const logicalSize = 44.0;
+    const logicalSize = 52.0;
     final size = logicalSize * devicePixelRatio;
     final recorder = ui.PictureRecorder();
     final canvas = Canvas(recorder, Rect.fromLTWH(0, 0, size, size));
-    final center = Offset(size / 2, size / 2);
+    final cx = size / 2;
+    final cy = size / 2;
+    final w = size * 0.38;
+    final h = size * 0.78;
+    final top = cy - h / 2;
+    final bottom = cy + h / 2;
+    final left = cx - w / 2;
+    final right = cx + w / 2;
 
-    final shadowPaint = Paint()
-      ..color = Colors.black.withValues(alpha: 0.18)
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3);
-    canvas.drawCircle(center + const Offset(0, 1.5), size * 0.44, shadowPaint);
-    canvas.drawCircle(center, size * 0.44, Paint()..color = Colors.white);
+    final body = Path()
+      ..moveTo(cx, top)
+      ..cubicTo(right - w * 0.05, top, right, top + h * 0.10, right, top + h * 0.24)
+      ..lineTo(right, bottom - h * 0.20)
+      ..cubicTo(right, bottom - h * 0.04, right - w * 0.12, bottom, cx, bottom)
+      ..cubicTo(left + w * 0.12, bottom, left, bottom - h * 0.04, left, bottom - h * 0.20)
+      ..lineTo(left, top + h * 0.24)
+      ..cubicTo(left, top + h * 0.10, left + w * 0.05, top, cx, top)
+      ..close();
 
-    final bodyRect = Rect.fromCenter(center: center, width: size * 0.34, height: size * 0.52);
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(bodyRect, Radius.circular(size * 0.1)),
-      Paint()..color = const Color(0xFF6366F1),
+    canvas.drawPath(
+      body.shift(Offset(0, size * 0.025)),
+      Paint()
+        ..color = Colors.black.withValues(alpha: 0.30)
+        ..maskFilter = MaskFilter.blur(BlurStyle.normal, size * 0.045),
+    );
+    canvas.drawPath(
+      body,
+      Paint()
+        ..color = Colors.white
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = size * 0.05
+        ..strokeJoin = StrokeJoin.round,
+    );
+    canvas.drawPath(
+      body,
+      Paint()
+        ..shader = const LinearGradient(
+          colors: [Color(0xFF273449), Color(0xFF0B1220)],
+        ).createShader(Rect.fromLTRB(left, top, right, bottom)),
     );
 
-    final windshieldRect = Rect.fromCenter(
-      center: center - Offset(0, size * 0.1),
-      width: size * 0.22,
-      height: size * 0.16,
-    );
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(windshieldRect, Radius.circular(size * 0.03)),
-      Paint()..color = Colors.white.withValues(alpha: 0.85),
-    );
+    void glass(double centerY, double widthFactor, double heightFactor, Color color) {
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(
+          Rect.fromCenter(center: Offset(cx, centerY), width: w * widthFactor, height: h * heightFactor),
+          Radius.circular(w * 0.14),
+        ),
+        Paint()..color = color,
+      );
+    }
+
+    glass(cy - h * 0.12, 0.80, 0.19, const Color(0xFF9DB4D3));
+    glass(cy + h * 0.08, 0.74, 0.25, const Color(0xFF3B4A63));
+    glass(cy + h * 0.29, 0.72, 0.10, const Color(0xFF7F95B5));
+
+    final headlight = Paint()..color = const Color(0xFFFDE68A);
+    final taillight = Paint()..color = const Color(0xFFEF4444);
+    for (final dx in [-w * 0.27, w * 0.27]) {
+      canvas.drawCircle(Offset(cx + dx, top + h * 0.075), w * 0.075, headlight);
+      canvas.drawCircle(Offset(cx + dx, bottom - h * 0.055), w * 0.07, taillight);
+    }
 
     final picture = recorder.endRecording();
     final image = await picture.toImage(size.round(), size.round());
@@ -165,7 +276,7 @@ class _RideMapViewState extends State<RideMapView> {
 
   LatLng? get _driverLatLng {
     if (!widget.showDriver) return null;
-    return _positionAtProgress(widget.driverProgress);
+    return _livePosition ?? _positionAtProgress(_driverProgress);
   }
 
   /// Compass bearing the car icon should point in, sampled just behind/ahead
@@ -173,9 +284,10 @@ class _RideMapViewState extends State<RideMapView> {
   /// phases (the approach phase runs its progress backwards over the path).
   double? get _driverHeading {
     if (!widget.showDriver) return null;
+    if (_liveTo != null) return _liveBearing;
     const delta = 0.02;
-    final behind = (widget.driverProgress - delta).clamp(0.0, 1.0);
-    final ahead = (widget.driverProgress + delta).clamp(0.0, 1.0);
+    final behind = (_driverProgress - delta).clamp(0.0, 1.0);
+    final ahead = (_driverProgress + delta).clamp(0.0, 1.0);
     if (behind == ahead) return null;
     final p1 = _positionAtProgress(behind);
     final p2 = _positionAtProgress(ahead);
@@ -195,7 +307,14 @@ class _RideMapViewState extends State<RideMapView> {
       _fitCamera();
       return;
     }
-    if (widget.showDriver && (oldWidget.driverProgress - widget.driverProgress).abs() > 0.001) {
+    final newPosition = widget.driverPosition;
+    if (widget.showDriver && newPosition != null && newPosition != oldWidget.driverPosition) {
+      _animateLiveTo(newPosition);
+      _followDriver();
+    } else if (widget.showDriver &&
+        newPosition == null &&
+        (oldWidget.driverProgress - widget.driverProgress).abs() > 0.001) {
+      _animateDriverTo(widget.driverProgress);
       _followDriver();
     }
   }
@@ -205,8 +324,10 @@ class _RideMapViewState extends State<RideMapView> {
 
   Future<void> _followDriver() async {
     final controller = _controller;
-    final driver = _driverLatLng;
-    if (controller == null || driver == null) return;
+    if (controller == null || !widget.showDriver) return;
+    // Lead the camera to where the car is heading (the target) while the marker
+    // glides there, so the two settle together instead of the camera lagging.
+    final driver = widget.driverPosition ?? _positionAtProgress(widget.driverProgress);
     final target = widget.driverPhase == MapDriverPhase.approachingPickup
         ? _pickupLatLng
         : (_destinationLatLng ?? _pickupLatLng);
@@ -314,6 +435,15 @@ class _RideMapViewState extends State<RideMapView> {
           flat: true,
           zIndexInt: 3,
           infoWindow: InfoWindow(title: l10n.driverLocationLabel),
+        ),
+      for (var i = 0; i < widget.nearbyDrivers.length; i++)
+        Marker(
+          markerId: MarkerId('nearby_$i'),
+          position: widget.nearbyDrivers[i],
+          icon: _carIcon ?? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+          anchor: const Offset(0.5, 0.5),
+          flat: true,
+          zIndexInt: 2,
         ),
     };
 
@@ -492,6 +622,14 @@ class _RideMapViewState extends State<RideMapView> {
 }
 
 enum MapDriverPhase { approachingPickup, headingToDestination }
+
+/// The booking's live driver coordinate as a map position, or null before the
+/// first GPS fix arrives from the trip channel.
+LatLng? driverPositionOf(Booking booking) {
+  final lat = booking.driverLat;
+  final lng = booking.driverLng;
+  return lat == null || lng == null ? null : LatLng(lat, lng);
+}
 
 class _RecenterButton extends StatelessWidget {
   final VoidCallback onTap;

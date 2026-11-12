@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../api/network_failure.dart';
 import '../models/place_location.dart';
 import '../utils/geo_utils.dart';
 import 'nominatim_client.dart';
@@ -67,6 +68,8 @@ class MockPlaceRepository implements PlaceRepository {
     }
 
     final localeCode = await _currentLocaleCode();
+    var unreachableProviders = 0;
+    NetworkFailure? lastFailure;
 
     // 1. First priority: Search within user's local city/state bounding box via Nominatim
     try {
@@ -87,6 +90,9 @@ class MockPlaceRepository implements PlaceRepository {
       for (final r in boundedResults) {
         addResultIfValid(PlaceLocation(latitude: r.lat, longitude: r.lon, address: r.displayName));
       }
+    } on NetworkFailure catch (failure) {
+      unreachableProviders++;
+      lastFailure = failure;
     } catch (_) {
       // Continue to next provider
     }
@@ -102,9 +108,14 @@ class MockPlaceRepository implements PlaceRepository {
       for (final r in broaderResults) {
         addResultIfValid(PlaceLocation(latitude: r.lat, longitude: r.lon, address: r.displayName));
       }
+    } on NetworkFailure catch (failure) {
+      unreachableProviders++;
+      lastFailure = failure;
     } catch (_) {
-      // Provider offline / fallback
+      // Provider answered badly; use what the other one found
     }
+
+    if (results.isEmpty && unreachableProviders == 2) throw lastFailure!;
 
     // 3. Filter out far-flung international locations (> 500 km away) for local cab service
     final localResults = results.where((loc) {
@@ -113,15 +124,6 @@ class MockPlaceRepository implements PlaceRepository {
     }).toList();
 
     final finalResults = localResults.isNotEmpty ? localResults : results;
-
-    // If still empty, provide a localized pinpoint fallback
-    if (finalResults.isEmpty) {
-      finalResults.add(PlaceLocation(
-        latitude: origin.latitude,
-        longitude: origin.longitude,
-        address: '$trimmed, Patna, Bihar',
-      ));
-    }
 
     // 4. Sort strictly by nearest distance from current user GPS position first
     finalResults.sort((a, b) {

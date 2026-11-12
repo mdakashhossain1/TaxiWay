@@ -83,3 +83,36 @@ test('driver location update rejects out-of-range coordinates', function () {
 
     $response->assertStatus(422);
 });
+
+test('driver location update stores the H3 cell used for dispatch', function () {
+    $driver = Driver::create([
+        'name' => 'Test Driver',
+        'phone' => '6666666666',
+        'verification_status' => 'verified',
+    ]);
+    $token = $driver->createToken('test')->plainTextToken;
+
+    $body = json_encode(['latitude' => 25.6127, 'longitude' => 85.1618, 'h3_r8' => '883e9a4d07fffff']);
+    $headers = signedDriverHeaders('POST', 'api/driver/location', $body, $token);
+
+    $this->call('POST', '/api/driver/location', [], [], [], $this->transformHeadersToServerVars($headers), $body)->assertOk();
+
+    expect($driver->refresh()->current_h3_r8)->toBe('883e9a4d07fffff');
+});
+
+test('driver location update clears a stale H3 cell when none is sent', function () {
+    $driver = Driver::create([
+        'name' => 'Test Driver',
+        'phone' => '5555555555',
+        'verification_status' => 'verified',
+        'current_h3_r8' => 'stale-cell',
+    ]);
+    $token = $driver->createToken('test')->plainTextToken;
+
+    $body = json_encode(['latitude' => 25.6127, 'longitude' => 85.1618]);
+    $headers = signedDriverHeaders('POST', 'api/driver/location', $body, $token);
+
+    $this->call('POST', '/api/driver/location', [], [], [], $this->transformHeadersToServerVars($headers), $body)->assertOk();
+
+    expect($driver->refresh()->current_h3_r8)->toBeNull();
+});

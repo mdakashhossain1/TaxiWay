@@ -71,6 +71,7 @@ class LiveTrackingScreen extends ConsumerWidget {
                   showDestination: true,
                   showDriver: true,
                   driverProgress: progress,
+                  driverPosition: driverPositionOf(booking),
                   height: double.infinity,
                   borderRadius: BorderRadius.zero,
                 ),

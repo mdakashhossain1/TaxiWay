@@ -15,6 +15,38 @@ rules_version = '2';
 // `participants` array to snoop on someone else's ride or support thread.
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Live trip tracking: the driver app publishes its position and status to
+    // `live_trips/{bookingId}`; the rider app subscribes. Access is gated on
+    // the SAME participants list the Laravel backend already writes onto the
+    // ride's conversation (`conversations/ride_{bookingId}`), so no extra
+    // backend seeding is needed — both rider and driver are participants of a
+    // ride the moment it exists. Writes are restricted to the known telemetry
+    // fields. (To lock writes to the driver alone, add a `driverUid` to the
+    // conversation doc and require request.auth.uid == that here.)
+    match /live_trips/{bookingId} {
+      function rideParticipants() {
+        return get(/databases/$(database)/documents/conversations/ride_$(bookingId)).data.participants;
+      }
+
+      allow read: if request.auth != null && request.auth.uid in rideParticipants();
+
+      allow write: if request.auth != null
+        && request.auth.uid in rideParticipants()
+        && request.resource.data.keys().hasOnly(
+             ['status', 'driverLat', 'driverLng', 'driverHeading', 'routeProgress', 'updatedAt']);
+    }
+
+    // Driver live positions for the rider app's nearby-driver search (indexed
+    // by H3 cell in `h3r8`). A driver writes only their own document, keyed by
+    // their Firebase uid; any signed-in user may read (riders need to see the
+    // cars around them, the same approximate visibility Uber shows pre-booking).
+    match /driver_locations/{driverUid} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null
+        && request.auth.uid == driverUid
+        && request.resource.data.keys().hasOnly(['lat', 'lng', 'h3r8', 'available', 'updatedAt']);
+    }
+
     match /conversations/{conversationId} {
       allow read: if request.auth != null && request.auth.uid in resource.data.participants;
       allow write: if false;

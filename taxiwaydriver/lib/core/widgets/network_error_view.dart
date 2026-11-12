@@ -1,6 +1,9 @@
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import '../../l10n/generated/app_localizations.dart';
+import '../api/api_client.dart';
+import '../api/network_failure.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_typography.dart';
 import 'buttons.dart';
@@ -11,6 +14,19 @@ enum NetworkErrorType {
   timeout,
   maintenance,
   generic,
+}
+
+NetworkErrorType networkErrorTypeFor(Object error) {
+  if (error is NetworkFailure) {
+    return error.kind == NetworkFailureKind.timeout ? NetworkErrorType.timeout : NetworkErrorType.noInternet;
+  }
+  if (error is ApiException) {
+    return error.statusCode >= 500 ? NetworkErrorType.serverError : NetworkErrorType.generic;
+  }
+  final text = error.toString().toLowerCase();
+  if (text.contains('socket') || text.contains('connection')) return NetworkErrorType.noInternet;
+  if (text.contains('timeout')) return NetworkErrorType.timeout;
+  return NetworkErrorType.generic;
 }
 
 /// A premium, animated Error & Offline state view using the 3D illustration.
@@ -41,33 +57,33 @@ class NetworkErrorView extends StatefulWidget {
 class _NetworkErrorViewState extends State<NetworkErrorView> {
   bool _isRetrying = false;
 
-  String get _defaultTitle {
+  String _titleFor(AppLocalizations l10n) {
     switch (widget.type) {
       case NetworkErrorType.noInternet:
-        return 'No Internet Connection';
+        return l10n.errorOfflineTitle;
       case NetworkErrorType.serverError:
-        return 'Server Unavailable';
+        return l10n.errorServerTitle;
       case NetworkErrorType.timeout:
-        return 'Connection Timed Out';
+        return l10n.errorTimeoutTitle;
       case NetworkErrorType.maintenance:
-        return 'Under Scheduled Maintenance';
+        return l10n.errorMaintenanceTitle;
       case NetworkErrorType.generic:
-        return 'Something Went Wrong';
+        return l10n.errorGenericTitle;
     }
   }
 
-  String get _defaultMessage {
+  String _messageFor(AppLocalizations l10n) {
     switch (widget.type) {
       case NetworkErrorType.noInternet:
-        return 'Please check your Wi-Fi or mobile data connection and try again.';
+        return l10n.errorOfflineMessage;
       case NetworkErrorType.serverError:
-        return 'Our servers are experiencing heavy traffic or temporary downtime. We are working on it.';
+        return l10n.errorServerMessage;
       case NetworkErrorType.timeout:
-        return 'The request took too long to complete. Please check your signal strength.';
+        return l10n.errorTimeoutMessage;
       case NetworkErrorType.maintenance:
-        return 'Taxiway is undergoing regular maintenance to serve you better. Back shortly!';
+        return l10n.errorMaintenanceMessage;
       case NetworkErrorType.generic:
-        return 'An unexpected issue occurred while fetching data. Tap below to retry.';
+        return l10n.errorGenericMessage;
     }
   }
 
@@ -83,8 +99,9 @@ class _NetworkErrorViewState extends State<NetworkErrorView> {
 
   @override
   Widget build(BuildContext context) {
-    final titleText = widget.title ?? _defaultTitle;
-    final messageText = widget.message ?? _defaultMessage;
+    final l10n = AppLocalizations.of(context);
+    final titleText = widget.title ?? _titleFor(l10n);
+    final messageText = widget.message ?? _messageFor(l10n);
 
     return Center(
       child: SingleChildScrollView(
@@ -156,7 +173,7 @@ class _NetworkErrorViewState extends State<NetworkErrorView> {
               SizedBox(
                 width: widget.isCompact ? 160 : 200,
                 child: PrimaryButton(
-                  label: _isRetrying ? 'Connecting...' : 'Try Again',
+                  label: _isRetrying ? l10n.tryingAgainLabel : l10n.tryAgainLabel,
                   icon: _isRetrying ? null : BootstrapIcons.arrow_clockwise,
                   onPressed: _isRetrying ? null : _handleRetry,
                 ),
@@ -170,7 +187,7 @@ class _NetworkErrorViewState extends State<NetworkErrorView> {
               SizedBox(
                 width: widget.isCompact ? 160 : 200,
                 child: AppOutlineButton(
-                  label: widget.secondaryActionLabel ?? 'Go Back',
+                  label: widget.secondaryActionLabel ?? l10n.goBackLabel,
                   onPressed: widget.onSecondaryAction,
                 ),
               ),

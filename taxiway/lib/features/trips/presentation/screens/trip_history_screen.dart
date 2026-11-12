@@ -11,6 +11,7 @@ import '../../../../core/widgets/app_shimmer.dart';
 import '../../../../core/widgets/empty_state.dart';
 import '../../../../core/widgets/page_state_builder.dart';
 import '../../../../core/widgets/trip_card.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 class TripHistoryScreen extends ConsumerStatefulWidget {
   const TripHistoryScreen({super.key});
@@ -59,10 +60,13 @@ class _TripHistoryScreenState extends ConsumerState<TripHistoryScreen> with Sing
           children: List.generate(4, (index) {
             final list = _filtered(trips, index);
             if (list.isEmpty) {
-              return const EmptyState(
+              final l10n = AppLocalizations.of(context);
+              return EmptyState(
                 icon: BootstrapIcons.receipt,
-                title: 'No trips yet',
-                message: 'Your bookings will appear here.',
+                title: l10n.tripsEmptyTitle,
+                message: l10n.tripsEmptyMessage,
+                actionLabel: l10n.bookARideAction,
+                onAction: () => context.go(AppRoutes.home),
               );
             }
             return ListView.builder(

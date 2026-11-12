@@ -73,9 +73,9 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
         AppToast.info(context, 'OTP: $debugOtp', title: 'Dev Mode — No SMS Gateway');
       }
       context.push(AppRoutes.otp);
-    } catch (_) {
+    } catch (error) {
       if (!mounted) return;
-      AppToast.error(context, "Couldn't send OTP. Please check your network and try again.", title: 'SMS Error');
+      AppToast.failure(context, error, fallback: AppLocalizations.of(context).otpSendFailed);
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -96,9 +96,9 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
       }
     } on GoogleSignInCancelledException {
       // User dismissed the picker — nothing to report.
-    } catch (_) {
+    } catch (error) {
       if (!mounted) return;
-      AppToast.error(context, "Couldn't sign in with Google. Please try again.", title: 'Sign-In Error');
+      AppToast.failure(context, error, fallback: AppLocalizations.of(context).googleSignInFailed);
     } finally {
       if (mounted) setState(() => _googleLoading = false);
     }

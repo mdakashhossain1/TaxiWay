@@ -3,6 +3,7 @@ import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/api/api_client.dart';
 import '../../../../core/models/driver_ride.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/state/driver_rides_controller.dart';
@@ -13,6 +14,7 @@ import '../../../../core/utils/format_utils.dart';
 import '../../../../core/widgets/app_scaffold.dart';
 import '../../../../core/widgets/app_toast.dart';
 import '../../../../core/widgets/buttons.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 /// Shown when a new ride offer arrives (push tap, or found via
 /// `pendingOfferProvider` on app open). A 20-second, server-enforced window
@@ -65,10 +67,16 @@ class _IncomingRideOfferScreenState extends ConsumerState<IncomingRideOfferScree
       if (!mounted) return;
       AppToast.success(context, 'Ride confirmed! Head to pickup.', title: 'Accepted');
       context.go(AppRoutes.dashboard);
-    } catch (_) {
+    } catch (error) {
       if (!mounted) return;
-      AppToast.error(context, 'This offer is no longer available.', title: 'Too Late');
-      context.go(AppRoutes.dashboard);
+      final l10n = AppLocalizations.of(context);
+      final offerGone = error is ApiException && error.statusCode < 500;
+      if (offerGone) {
+        AppToast.error(context, l10n.offerUnavailable);
+        context.go(AppRoutes.dashboard);
+      } else {
+        AppToast.failure(context, error, fallback: l10n.offerAcceptFailed);
+      }
     } finally {
       if (mounted) setState(() => _acting = false);
     }
@@ -81,9 +89,9 @@ class _IncomingRideOfferScreenState extends ConsumerState<IncomingRideOfferScree
       await ref.read(rideActionsProvider.notifier).rejectRide(widget.ride.id);
       if (!mounted) return;
       context.go(AppRoutes.dashboard);
-    } catch (_) {
+    } catch (error) {
       if (!mounted) return;
-      AppToast.error(context, "Couldn't decline this offer. Please try again.");
+      AppToast.failure(context, error, fallback: AppLocalizations.of(context).offerDeclineFailed);
       setState(() => _acting = false);
     }
   }

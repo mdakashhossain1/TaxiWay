@@ -1,170 +1,108 @@
 import 'dart:async';
-import 'package:bootstrap_icons/bootstrap_icons.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
-import '../theme/app_typography.dart';
-import '../widgets/app_toast.dart';
-
-enum NetworkStatus {
-  online,
-  offline,
-  serverError,
-  slowConnection,
-}
+import '../api/api_connectivity.dart';
 
 class NetworkState {
   final NetworkStatus status;
   final bool isRetrying;
-  final String? errorMessage;
+  final bool justRecovered;
   final DateTime lastChecked;
 
   const NetworkState({
     this.status = NetworkStatus.online,
     this.isRetrying = false,
-    this.errorMessage,
+    this.justRecovered = false,
     required this.lastChecked,
   });
 
   bool get isOnline => status == NetworkStatus.online;
   bool get isOffline => status == NetworkStatus.offline;
   bool get isServerError => status == NetworkStatus.serverError;
+  bool get isSlow => status == NetworkStatus.slowConnection;
 
   NetworkState copyWith({
     NetworkStatus? status,
     bool? isRetrying,
-    String? errorMessage,
+    bool? justRecovered,
     DateTime? lastChecked,
   }) {
     return NetworkState(
       status: status ?? this.status,
       isRetrying: isRetrying ?? this.isRetrying,
-      errorMessage: errorMessage ?? this.errorMessage,
+      justRecovered: justRecovered ?? this.justRecovered,
       lastChecked: lastChecked ?? this.lastChecked,
     );
   }
 }
 
 class NetworkStateNotifier extends Notifier<NetworkState> {
+  static const _recheckInterval = Duration(seconds: 6);
+  static const _slowDecay = Duration(seconds: 6);
+  static const _recoveredFlash = Duration(milliseconds: 2500);
+  static const _probeUrl = 'https://clients3.google.com/generate_204';
+
+  Timer? _recheck;
+  Timer? _slowTimer;
+  Timer? _flashTimer;
+
   @override
-  NetworkState build() => NetworkState(lastChecked: DateTime.now());
+  NetworkState build() {
+    ApiConnectivity.status.addListener(_onStatusChanged);
+    ref.onDispose(() {
+      ApiConnectivity.status.removeListener(_onStatusChanged);
+      _recheck?.cancel();
+      _slowTimer?.cancel();
+      _flashTimer?.cancel();
+    });
+    return NetworkState(status: ApiConnectivity.status.value, lastChecked: DateTime.now());
+  }
 
-  /// Pings Google DNS or backend health check endpoint to determine live status.
-  Future<bool> checkConnection({BuildContext? context}) async {
-    state = state.copyWith(isRetrying: true);
-    try {
-      final response = await http
-          .get(Uri.parse('https://clients3.google.com/generate_204'))
-          .timeout(const Duration(seconds: 4));
+  void _onStatusChanged() {
+    final next = ApiConnectivity.status.value;
+    final previous = state.status;
+    if (next == previous) return;
 
-      final success = response.statusCode == 204 || response.statusCode == 200;
-      final prevStatus = state.status;
+    final recovered = next == NetworkStatus.online &&
+        (previous == NetworkStatus.offline || previous == NetworkStatus.serverError);
+    state = state.copyWith(status: next, justRecovered: recovered, lastChecked: DateTime.now());
 
-      state = state.copyWith(
-        status: success ? NetworkStatus.online : NetworkStatus.offline,
-        isRetrying: false,
-        lastChecked: DateTime.now(),
-        errorMessage: success ? null : 'No active internet connection',
-      );
-
-      if (context != null && context.mounted) {
-        if (prevStatus == NetworkStatus.offline && success) {
-          AppToast.success(context, 'Internet connection restored!', title: 'Online');
-        } else if (!success) {
-          AppToast.error(context, 'No active internet connection found.', title: 'Offline');
-        }
-      }
-
-      return success;
-    } catch (_) {
-      state = state.copyWith(
-        status: NetworkStatus.offline,
-        isRetrying: false,
-        lastChecked: DateTime.now(),
-        errorMessage: 'Unable to reach the network',
-      );
-      if (context != null && context.mounted) {
-        AppToast.error(context, 'No active internet connection found.', title: 'Offline');
-      }
-      return false;
+    _flashTimer?.cancel();
+    if (recovered) {
+      _flashTimer = Timer(_recoveredFlash, () => state = state.copyWith(justRecovered: false));
     }
+
+    _slowTimer?.cancel();
+    if (next == NetworkStatus.slowConnection) {
+      _slowTimer = Timer(_slowDecay, () {
+        if (ApiConnectivity.status.value == NetworkStatus.slowConnection) {
+          ApiConnectivity.status.value = NetworkStatus.online;
+        }
+      });
+    }
+
+    _recheck?.cancel();
+    _recheck = next == NetworkStatus.offline
+        ? Timer.periodic(_recheckInterval, (_) => checkConnection())
+        : null;
   }
 
-  void setOffline(bool offline) {
-    state = state.copyWith(
-      status: offline ? NetworkStatus.offline : NetworkStatus.online,
-      lastChecked: DateTime.now(),
-    );
-  }
+  Future<bool> checkConnection() async {
+    if (state.isRetrying) return state.isOnline;
+    state = state.copyWith(isRetrying: true);
 
-  void setServerError(String message) {
-    state = state.copyWith(
-      status: NetworkStatus.serverError,
-      errorMessage: message,
-      lastChecked: DateTime.now(),
-    );
+    var reachable = false;
+    try {
+      final response = await http.get(Uri.parse(_probeUrl)).timeout(const Duration(seconds: 4));
+      reachable = response.statusCode == 204 || response.statusCode == 200;
+    } catch (_) {
+      reachable = false;
+    }
+
+    state = state.copyWith(isRetrying: false);
+    ApiConnectivity.status.value = reachable ? NetworkStatus.online : NetworkStatus.offline;
+    return reachable;
   }
 }
 
 final networkStateProvider = NotifierProvider<NetworkStateNotifier, NetworkState>(NetworkStateNotifier.new);
-
-/// A subtle, animated top banner displayed when the device is offline.
-class OfflineBannerWidget extends ConsumerWidget {
-  const OfflineBannerWidget({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final networkState = ref.watch(networkStateProvider);
-
-    if (networkState.isOnline) {
-      return const SizedBox.shrink();
-    }
-
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      color: networkState.isServerError ? const Color(0xFFDC2626) : const Color(0xFFE11D48),
-      child: SafeArea(
-        bottom: false,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              networkState.isServerError ? BootstrapIcons.hdd_network_fill : BootstrapIcons.wifi_off,
-              size: 14,
-              color: Colors.white,
-            ),
-            const SizedBox(width: 8),
-            Text(
-              networkState.isServerError ? 'Server Unreachable — Showing cached data' : 'You are offline — Check connection',
-              style: AppTypography.of(context).caption.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
-                fontSize: 12,
-              ),
-            ),
-            const SizedBox(width: 8),
-            GestureDetector(
-              onTap: () => ref.read(networkStateProvider.notifier).checkConnection(context: context),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: Text(
-                  networkState.isRetrying ? 'Checking...' : 'Retry',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}

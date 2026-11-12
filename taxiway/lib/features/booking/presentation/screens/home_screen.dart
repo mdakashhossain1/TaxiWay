@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '../../../../core/geo/nearby_drivers.dart';
 import '../../../../core/models/place_location.dart';
 import '../../../../core/providers.dart';
 import '../../../../core/router/app_router.dart';
@@ -11,6 +13,7 @@ import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/widgets/app_scaffold.dart';
 import '../../../../core/widgets/fare_card.dart';
+import '../../../../core/widgets/inline_retry.dart';
 import '../../../../core/widgets/location_card.dart';
 import '../../../../core/widgets/ride_map_view.dart';
 import '../../../../core/widgets/schedule_toggle_card.dart';
@@ -67,6 +70,13 @@ class HomeScreen extends ConsumerWidget {
 
     final mapHeight = draft.hasRoute ? 270.0 : 330.0;
 
+    // Live "cars near you" around the pickup, via H3 cell search.
+    final nearbyDrivers = draft.pickup == null
+        ? const <LatLng>[]
+        : (ref.watch(nearbyDriversProvider(draft.pickup!)).asData?.value ?? const [])
+            .map((d) => LatLng(d.lat, d.lng))
+            .toList();
+
     return AppScaffold(
       scrollable: true,
       onRefresh: () => _refresh(ref),
@@ -89,6 +99,7 @@ class HomeScreen extends ConsumerWidget {
               distanceKm: draft.hasRoute ? draft.distanceKm : null,
               etaMinutes: draft.hasRoute ? draft.etaMinutes : null,
               height: mapHeight,
+              nearbyDrivers: nearbyDrivers,
               onRecenter: () {
                 ref.read(bookingDraftControllerProvider.notifier).refreshCurrentGpsLocation();
               },
@@ -136,13 +147,18 @@ class HomeScreen extends ConsumerWidget {
             SizedBox(
               height: 180,
               child: categoriesAsync.when(
+                skipLoadingOnReload: true,
+                skipError: true,
                 loading: () => ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemCount: 4,
                   separatorBuilder: (_, _) => const SizedBox(width: 12),
                   itemBuilder: (_, _) => const VehicleCardSkeleton(),
                 ),
-                error: (_, _) => Text(l10n.couldNotLoadVehicles),
+                error: (_, _) => InlineRetry(
+                  message: l10n.couldNotLoadVehicles,
+                  onRetry: () => ref.invalidate(vehicleCategoriesProvider),
+                ),
                 data: (allCategories) {
                   final minSeats = ref.watch(selectedMinSeatsProvider);
                   final categories = minSeats == null

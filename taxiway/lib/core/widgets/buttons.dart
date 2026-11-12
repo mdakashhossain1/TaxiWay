@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_radius.dart';
 import '../theme/app_typography.dart';
+import 'pressable_scale.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String label;
@@ -19,25 +21,35 @@ class PrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 52,
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: loading ? null : onPressed,
-        child: loading
-            ? const SizedBox(
-                height: 22,
-                width: 22,
-                child: CircularProgressIndicator(strokeWidth: 2.4, color: Colors.white),
-              )
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (icon != null) ...[Icon(icon, size: 20), const SizedBox(width: 8)],
-                  Text(label),
-                ],
-              ),
+    final action = loading ? null : onPressed;
+
+    return PressableScale(
+      enabled: action != null,
+      child: SizedBox(
+        height: 52,
+        width: double.infinity,
+        child: ElevatedButton(
+          onPressed: action == null
+              ? null
+              : () {
+                  HapticFeedback.selectionClick();
+                  action();
+                },
+          child: loading
+              ? const SizedBox(
+                  height: 22,
+                  width: 22,
+                  child: CircularProgressIndicator(strokeWidth: 2.4, color: Colors.white),
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (icon != null) ...[Icon(icon, size: 20), const SizedBox(width: 8)],
+                    Flexible(child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis)),
+                  ],
+                ),
+        ),
       ),
     );
   }
@@ -52,26 +64,29 @@ class SecondaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 52,
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.of(context).primaryBackground,
-          foregroundColor: AppColors.of(context).primaryDark,
-          elevation: 0,
-          side: BorderSide(color: AppColors.of(context).primaryBorder),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.button)),
-          textStyle: AppTypography.of(context).button,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (icon != null) ...[Icon(icon, size: 20), const SizedBox(width: 8)],
-            Text(label),
-          ],
+    return PressableScale(
+      enabled: onPressed != null,
+      child: SizedBox(
+        height: 52,
+        width: double.infinity,
+        child: ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.of(context).primaryBackground,
+            foregroundColor: AppColors.of(context).primaryDark,
+            elevation: 0,
+            side: BorderSide(color: AppColors.of(context).primaryBorder),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.button)),
+            textStyle: AppTypography.of(context).button,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (icon != null) ...[Icon(icon, size: 20), const SizedBox(width: 8)],
+              Flexible(child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis)),
+            ],
+          ),
         ),
       ),
     );
@@ -87,18 +102,21 @@ class AppOutlineButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 52,
-      width: double.infinity,
-      child: OutlinedButton(
-        onPressed: onPressed,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (icon != null) ...[Icon(icon, size: 20), const SizedBox(width: 8)],
-            Text(label),
-          ],
+    return PressableScale(
+      enabled: onPressed != null,
+      child: SizedBox(
+        height: 52,
+        width: double.infinity,
+        child: OutlinedButton(
+          onPressed: onPressed,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (icon != null) ...[Icon(icon, size: 20), const SizedBox(width: 8)],
+              Flexible(child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis)),
+            ],
+          ),
         ),
       ),
     );
@@ -114,20 +132,23 @@ class DestructiveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 52,
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: filled ? AppColors.of(context).error : AppColors.of(context).card,
-          foregroundColor: filled ? Colors.white : AppColors.of(context).error,
-          elevation: 0,
-          side: filled ? BorderSide.none : BorderSide(color: AppColors.of(context).errorBorder),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.button)),
-          textStyle: AppTypography.of(context).button,
+    return PressableScale(
+      enabled: onPressed != null,
+      child: SizedBox(
+        height: 52,
+        width: double.infinity,
+        child: ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: filled ? AppColors.of(context).error : AppColors.of(context).card,
+            foregroundColor: filled ? Colors.white : AppColors.of(context).error,
+            elevation: 0,
+            side: filled ? BorderSide.none : BorderSide(color: AppColors.of(context).errorBorder),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.button)),
+            textStyle: AppTypography.of(context).button,
+          ),
+          child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis),
         ),
-        child: Text(label),
       ),
     );
   }
@@ -150,17 +171,20 @@ class CircleIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final background = this.background ?? AppColors.of(context).primaryBackground;
-    final foreground = this.foreground ?? AppColors.of(context).primary;
-    return Material(
-      color: background,
-      shape: const CircleBorder(),
-      child: InkWell(
-        customBorder: const CircleBorder(),
-        onTap: onPressed,
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Icon(icon, color: foreground, size: 22),
+    final resolvedBackground = background ?? AppColors.of(context).primaryBackground;
+    final resolvedForeground = foreground ?? AppColors.of(context).primary;
+    return PressableScale(
+      pressedScale: 0.92,
+      child: Material(
+        color: resolvedBackground,
+        shape: const CircleBorder(),
+        child: InkWell(
+          customBorder: const CircleBorder(),
+          onTap: onPressed,
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Icon(icon, color: resolvedForeground, size: 22),
+          ),
         ),
       ),
     );

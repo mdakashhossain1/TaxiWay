@@ -11,6 +11,7 @@ import '../../features/rides/presentation/screens/incoming_ride_offer_screen.dar
 import '../../features/rides/presentation/screens/my_rides_screen.dart';
 import '../../features/rides/presentation/screens/ride_details_screen.dart';
 import '../../features/rides/presentation/screens/scheduled_ride_detail_screen.dart';
+import '../../features/subscription/presentation/screens/payment_success_screen.dart';
 import '../../features/subscription/presentation/screens/subscription_screen.dart';
 import '../models/driver_ride.dart';
 
@@ -32,6 +33,7 @@ abstract class AppRoutes {
   static const rideOffer = '/ride-offer';
   static const scheduledRideDetail = '/scheduled-ride-detail';
   static const subscription = '/subscription';
+  static const subscriptionSuccess = '/subscription/success';
   static const chat = '/chat';
 }
 
@@ -69,6 +71,15 @@ final GoRouter appRouter = GoRouter(
       pageBuilder: (context, state) => _page(state, ScheduledRideDetailScreen(ride: state.extra as DriverRide)),
     ),
     GoRoute(path: AppRoutes.subscription, pageBuilder: (context, state) => _page(state, const SubscriptionScreen())),
+    GoRoute(
+      path: AppRoutes.subscriptionSuccess,
+      pageBuilder: (context, state) => CustomTransitionPage<void>(
+        key: state.pageKey,
+        child: const PaymentSuccessScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            FadeTransition(opacity: animation, child: child),
+      ),
+    ),
     GoRoute(
       path: AppRoutes.chat,
       pageBuilder: (context, state) {

@@ -10,3 +10,5 @@ final _timeFormat = DateFormat('hh:mm a');
 String formatRideDate(DateTime dt) => _dateFormat.format(dt).toUpperCase();
 
 String formatRideTime(DateTime dt) => _timeFormat.format(dt);
+
+String formatDateWithYear(DateTime? dt) => dt == null ? '—' : '${formatRideDate(dt)} ${dt.year}';

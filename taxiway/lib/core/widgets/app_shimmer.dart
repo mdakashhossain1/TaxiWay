@@ -360,3 +360,29 @@ class GeneralPageShimmer extends StatelessWidget {
     );
   }
 }
+
+class ChatShimmer extends StatelessWidget {
+  const ChatShimmer({super.key});
+
+  static const _rows = [(false, 0.55), (true, 0.4), (false, 0.7), (true, 0.5), (false, 0.45)];
+
+  @override
+  Widget build(BuildContext context) {
+    return AppShimmer(
+      child: ListView(
+        physics: const NeverScrollableScrollPhysics(),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        children: [
+          for (final (mine, factor) in _rows)
+            Align(
+              alignment: mine ? Alignment.centerRight : Alignment.centerLeft,
+              child: FractionallySizedBox(
+                widthFactor: factor,
+                child: const ShimmerBox(height: 44, borderRadius: 16, margin: EdgeInsets.symmetric(vertical: 6)),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}

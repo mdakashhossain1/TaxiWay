@@ -13,6 +13,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/widgets/app_back_button.dart';
+import '../../../../core/utils/failure_message.dart';
 import '../../../../core/widgets/app_toast.dart';
 import '../../../../core/widgets/google_sign_in_button.dart';
 import '../../../../core/widgets/phone_input.dart';
@@ -77,11 +78,11 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
         AppToast.info(context, 'OTP: $debugOtp', title: 'Dev Mode — No SMS Gateway');
       }
       context.push(AppRoutes.otp);
-    } catch (_) {
+    } catch (error) {
       if (!mounted) return;
-      const msg = "Couldn't send OTP. Please try again.";
-      setState(() => _error = msg);
-      AppToast.error(context, msg, title: 'SMS Error');
+      final l10n = AppLocalizations.of(context);
+      setState(() => _error = describeFailure(l10n, error, fallback: l10n.otpSendFailed).message);
+      AppToast.failure(context, error, fallback: l10n.otpSendFailed);
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -109,9 +110,9 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
       }
     } on GoogleSignInCancelledException {
       // User dismissed the picker — nothing to report.
-    } catch (_) {
+    } catch (error) {
       if (!mounted) return;
-      AppToast.error(context, "Couldn't sign in with Google. Please try again.", title: 'Sign-In Error');
+      AppToast.failure(context, error, fallback: AppLocalizations.of(context).googleSignInFailed);
     } finally {
       if (mounted) setState(() => _googleLoading = false);
     }

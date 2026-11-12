@@ -12,6 +12,7 @@ import '../../../../core/widgets/app_scaffold.dart';
 import '../../../../core/widgets/buttons.dart';
 import '../../../../core/widgets/ride_map_view.dart';
 import '../../../../l10n/generated/app_localizations.dart';
+import '../../../../core/widgets/network_error_view.dart';
 
 class DestinationSearchScreen extends ConsumerStatefulWidget {
   const DestinationSearchScreen({super.key});
@@ -28,6 +29,8 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
   bool _loading = false;
   bool _searching = false;
   Timer? _debounceTimer;
+  Object? _failure;
+  int _searchToken = 0;
 
   @override
   void initState() {
@@ -62,11 +65,13 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
   void _onQueryChanged(String query) {
     _debounceTimer?.cancel();
     final trimmed = query.trim();
+    final token = ++_searchToken;
     if (trimmed.isEmpty) {
       setState(() {
         _searching = false;
         _results = [];
         _loading = false;
+        _failure = null;
       });
       _loadRecent();
       return;
@@ -75,18 +80,28 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
     setState(() {
       _searching = true;
       _loading = true;
+      _failure = null;
     });
 
     _debounceTimer = Timer(const Duration(milliseconds: 350), () async {
       final origin = ref.read(bookingDraftControllerProvider).pickup ??
           ref.read(placeRepositoryProvider).currentLocation;
       final repo = ref.read(placeRepositoryProvider);
-      final results = await repo.search(trimmed, proximityOrigin: origin);
-      if (!mounted) return;
-      setState(() {
-        _results = results;
-        _loading = false;
-      });
+      try {
+        final results = await repo.search(trimmed, proximityOrigin: origin);
+        if (!mounted || token != _searchToken) return;
+        setState(() {
+          _results = results;
+          _loading = false;
+        });
+      } catch (error) {
+        if (!mounted || token != _searchToken) return;
+        setState(() {
+          _results = [];
+          _failure = error;
+          _loading = false;
+        });
+      }
     });
   }
 
@@ -262,6 +277,13 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
 
   Widget _buildSearchResults(PlaceLocation origin) {
     final l10n = AppLocalizations.of(context);
+    if (_failure != null) {
+      return NetworkErrorView(
+        type: networkErrorTypeFor(_failure!),
+        isCompact: true,
+        onRetry: () async => _onQueryChanged(_controller.text),
+      );
+    }
     if (_results.isEmpty) {
       return Center(
         child: Padding(

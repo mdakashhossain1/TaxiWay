@@ -273,4 +273,145 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get viewAllLabel => 'सभी देखें';
+
+  @override
+  String get paymentSuccessfulTitle => 'भुगतान सफल रहा';
+
+  @override
+  String get subscriptionRenewedMessage => 'आपका प्लान रीन्यू हो गया है।';
+
+  @override
+  String get amountPaidLabel => 'भुगतान की गई राशि';
+
+  @override
+  String get doneLabel => 'हो गया';
+
+  @override
+  String get renewFailedToast =>
+      'अभी रीन्यू नहीं हो सका। कृपया फिर से कोशिश करें।';
+
+  @override
+  String get connectionOfflineTitle => 'इंटरनेट कनेक्शन नहीं है';
+
+  @override
+  String get connectionSlowTitle => 'कनेक्शन धीमा है';
+
+  @override
+  String get connectionRestoredTitle => 'वापस ऑनलाइन';
+
+  @override
+  String get connectionServerTroubleTitle =>
+      'हमारे सर्वर तक पहुँचने में दिक्कत हो रही है';
+
+  @override
+  String get connectionRetryAction => 'फिर कोशिश करें';
+
+  @override
+  String get connectionCheckingAction => 'जाँच रहे हैं…';
+
+  @override
+  String get errorOfflineTitle => 'आप ऑफ़लाइन हैं';
+
+  @override
+  String get errorOfflineMessage =>
+      'अपना वाई-फ़ाई या मोबाइल डेटा जाँचें और फिर कोशिश करें।';
+
+  @override
+  String get errorTimeoutTitle => 'इसमें ज़्यादा समय लग रहा है';
+
+  @override
+  String get errorTimeoutMessage =>
+      'आपका कनेक्शन धीमा लग रहा है। थोड़ी देर बाद फिर कोशिश करें।';
+
+  @override
+  String get errorServerTitle => 'हमारी तरफ़ कुछ दिक्कत है';
+
+  @override
+  String get errorServerMessage =>
+      'यह आपके कनेक्शन की वजह से नहीं है। कृपया थोड़ी देर में फिर कोशिश करें।';
+
+  @override
+  String get errorMaintenanceTitle => 'जल्द ही वापस आएँगे';
+
+  @override
+  String get errorMaintenanceMessage =>
+      'बेहतर सेवा देने के लिए Taxiway को अपडेट किया जा रहा है।';
+
+  @override
+  String get errorGenericTitle => 'कुछ गड़बड़ हो गई';
+
+  @override
+  String get errorGenericMessage =>
+      'हम इसे लोड नहीं कर सके। कृपया फिर कोशिश करें।';
+
+  @override
+  String get tryAgainLabel => 'फिर कोशिश करें';
+
+  @override
+  String get tryingAgainLabel => 'फिर कोशिश हो रही है…';
+
+  @override
+  String get goBackLabel => 'वापस जाएँ';
+
+  @override
+  String get emptyDefaultTitle => 'अभी यहाँ कुछ नहीं है';
+
+  @override
+  String get emptyDefaultMessage => 'आइटम यहाँ दिखाई देंगे।';
+
+  @override
+  String get chatEmptyTitle => 'अभी कोई संदेश नहीं';
+
+  @override
+  String get chatEmptyMessage => 'नमस्ते कहें!';
+
+  @override
+  String get chatLoadFailed => 'संदेश लोड नहीं हो सके';
+
+  @override
+  String get messageSendFailed =>
+      'संदेश नहीं भेजा जा सका। कृपया फिर कोशिश करें।';
+
+  @override
+  String get otpSendFailed => 'OTP नहीं भेजा जा सका। कृपया फिर कोशिश करें।';
+
+  @override
+  String get otpResendFailed =>
+      'OTP दोबारा नहीं भेजा जा सका। कृपया फिर कोशिश करें।';
+
+  @override
+  String get otpVerifyFailed =>
+      'कोड सत्यापित नहीं हो सका। कृपया फिर कोशिश करें।';
+
+  @override
+  String get otpExpired => 'यह कोड समाप्त हो गया है। कृपया नया कोड माँगें।';
+
+  @override
+  String get googleSignInFailed =>
+      'Google से साइन इन नहीं हो सका। कृपया फिर कोशिश करें।';
+
+  @override
+  String get supportNumberMissing => 'सपोर्ट नंबर अभी सेट नहीं है।';
+
+  @override
+  String get supportUnreachable =>
+      'अभी सपोर्ट से संपर्क नहीं हो सका। कृपया फिर कोशिश करें।';
+
+  @override
+  String get offerUnavailable => 'यह ऑफ़र अब उपलब्ध नहीं है।';
+
+  @override
+  String get offerDeclineFailed =>
+      'यह ऑफ़र अस्वीकार नहीं हो सका। कृपया फिर कोशिश करें।';
+
+  @override
+  String get offerAcceptFailed =>
+      'यह ऑफ़र स्वीकार नहीं हो सका। कृपया फिर कोशिश करें।';
+
+  @override
+  String get rideCompleteFailed =>
+      'यह राइड पूरी के रूप में चिह्नित नहीं हो सकी। कृपया फिर कोशिश करें।';
+
+  @override
+  String get offerCheckFailed => 'नए राइड ऑफ़र की जाँच नहीं हो सकी';
 }

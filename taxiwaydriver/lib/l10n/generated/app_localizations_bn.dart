@@ -273,4 +273,146 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get viewAllLabel => 'সব দেখুন';
+
+  @override
+  String get paymentSuccessfulTitle => 'পেমেন্ট সফল হয়েছে';
+
+  @override
+  String get subscriptionRenewedMessage => 'আপনার প্ল্যান নবায়ন করা হয়েছে।';
+
+  @override
+  String get amountPaidLabel => 'পরিশোধিত পরিমাণ';
+
+  @override
+  String get doneLabel => 'সম্পন্ন';
+
+  @override
+  String get renewFailedToast => 'এখন নবায়ন করা যায়নি। আবার চেষ্টা করুন।';
+
+  @override
+  String get connectionOfflineTitle => 'ইন্টারনেট সংযোগ নেই';
+
+  @override
+  String get connectionSlowTitle => 'সংযোগ ধীর';
+
+  @override
+  String get connectionRestoredTitle => 'আবার অনলাইনে';
+
+  @override
+  String get connectionServerTroubleTitle =>
+      'আমাদের সার্ভারে পৌঁছাতে সমস্যা হচ্ছে';
+
+  @override
+  String get connectionRetryAction => 'আবার চেষ্টা করুন';
+
+  @override
+  String get connectionCheckingAction => 'যাচাই করা হচ্ছে…';
+
+  @override
+  String get errorOfflineTitle => 'আপনি অফলাইনে আছেন';
+
+  @override
+  String get errorOfflineMessage =>
+      'আপনার ওয়াই-ফাই বা মোবাইল ডেটা পরীক্ষা করে আবার চেষ্টা করুন।';
+
+  @override
+  String get errorTimeoutTitle => 'এতে বেশি সময় লাগছে';
+
+  @override
+  String get errorTimeoutMessage =>
+      'আপনার সংযোগ ধীর মনে হচ্ছে। একটু পরে আবার চেষ্টা করুন।';
+
+  @override
+  String get errorServerTitle => 'আমাদের দিক থেকে সমস্যা হচ্ছে';
+
+  @override
+  String get errorServerMessage =>
+      'এটি আপনার সংযোগের কারণে নয়। অনুগ্রহ করে কিছুক্ষণ পরে আবার চেষ্টা করুন।';
+
+  @override
+  String get errorMaintenanceTitle => 'শীঘ্রই ফিরে আসছি';
+
+  @override
+  String get errorMaintenanceMessage =>
+      'আরও ভালো সেবা দিতে Taxiway আপডেট করা হচ্ছে।';
+
+  @override
+  String get errorGenericTitle => 'কিছু ভুল হয়েছে';
+
+  @override
+  String get errorGenericMessage =>
+      'আমরা এটি লোড করতে পারিনি। অনুগ্রহ করে আবার চেষ্টা করুন।';
+
+  @override
+  String get tryAgainLabel => 'আবার চেষ্টা করুন';
+
+  @override
+  String get tryingAgainLabel => 'আবার চেষ্টা করা হচ্ছে…';
+
+  @override
+  String get goBackLabel => 'ফিরে যান';
+
+  @override
+  String get emptyDefaultTitle => 'এখানে এখনও কিছু নেই';
+
+  @override
+  String get emptyDefaultMessage => 'আইটেমগুলো এখানে দেখা যাবে।';
+
+  @override
+  String get chatEmptyTitle => 'এখনও কোনো বার্তা নেই';
+
+  @override
+  String get chatEmptyMessage => 'হ্যালো বলুন!';
+
+  @override
+  String get chatLoadFailed => 'বার্তা লোড করা যায়নি';
+
+  @override
+  String get messageSendFailed =>
+      'বার্তা পাঠানো যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।';
+
+  @override
+  String get otpSendFailed =>
+      'OTP পাঠানো যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।';
+
+  @override
+  String get otpResendFailed =>
+      'OTP আবার পাঠানো যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।';
+
+  @override
+  String get otpVerifyFailed =>
+      'কোড যাচাই করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।';
+
+  @override
+  String get otpExpired =>
+      'এই কোডের মেয়াদ শেষ হয়েছে। অনুগ্রহ করে নতুন কোড চান।';
+
+  @override
+  String get googleSignInFailed =>
+      'Google দিয়ে সাইন ইন করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।';
+
+  @override
+  String get supportNumberMissing => 'সাপোর্ট নম্বর এখনও সেট করা হয়নি।';
+
+  @override
+  String get supportUnreachable =>
+      'এখন সাপোর্টে যোগাযোগ করা যাচ্ছে না। অনুগ্রহ করে আবার চেষ্টা করুন।';
+
+  @override
+  String get offerUnavailable => 'এই অফারটি আর উপলব্ধ নেই।';
+
+  @override
+  String get offerDeclineFailed =>
+      'এই অফারটি প্রত্যাখ্যান করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।';
+
+  @override
+  String get offerAcceptFailed =>
+      'এই অফারটি গ্রহণ করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।';
+
+  @override
+  String get rideCompleteFailed =>
+      'এই রাইডটি সম্পন্ন হিসেবে চিহ্নিত করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।';
+
+  @override
+  String get offerCheckFailed => 'নতুন রাইড অফার যাচাই করা যায়নি';
 }
