@@ -1,13 +1,27 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:taxiwaydriver/main.dart';
 
 void main() {
-  testWidgets('App boots to the driver login screen', (WidgetTester tester) async {
+  GoogleFonts.config.allowRuntimeFetching = false;
+
+  setUp(() => FlutterSecureStorage.setMockInitialValues({}));
+
+  testWidgets('App boots past the theme gate to the driver login screen', (WidgetTester tester) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+
     await tester.pumpWidget(const ProviderScope(child: DriverApp()));
-    await tester.pumpAndSettle();
+    await tester.pump(const Duration(milliseconds: 500));
 
     expect(find.text('Driver Login'), findsOneWidget);
+
+    await tester.pumpWidget(const SizedBox());
+    await tester.pump(const Duration(seconds: 3));
   });
 }

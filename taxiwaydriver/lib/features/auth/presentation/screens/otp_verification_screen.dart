@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/api/api_client.dart';
 import '../../../../core/data/auth_repository.dart';
 import '../../../../core/models/driver_profile.dart';
 import '../../../../core/router/app_router.dart';
@@ -15,6 +14,7 @@ import '../../../../core/state/auth_controller.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/widgets/app_back_button.dart';
+import '../../../../core/utils/failure_message.dart';
 import '../../../../core/widgets/app_toast.dart';
 import '../../../../core/widgets/edit_phone_bottom_sheet.dart';
 import '../../../../core/widgets/otp_input.dart';
@@ -106,24 +106,24 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
     } on InvalidOtpException catch (e) {
       if (!mounted) return;
       if (e.expired) {
-        const msg = 'This OTP has expired. Please request a new one.';
+        final msg = AppLocalizations.of(context).otpExpired;
         setState(() => _error = msg);
-        AppToast.error(context, msg, title: 'OTP Expired');
+        AppToast.error(context, msg);
         _otpKey.currentState?.clear();
         setState(() => _code = '');
         return;
       }
       final msg = AppLocalizations.of(context).invalidOtp;
       setState(() => _error = msg);
-      AppToast.error(context, msg, title: 'Invalid OTP');
+      AppToast.error(context, msg);
       await _otpKey.currentState?.shakeAndClear();
       if (!mounted) return;
       setState(() => _code = '');
-    } catch (_) {
+    } catch (error) {
       if (!mounted) return;
-      const msg = "Couldn't verify — check your connection and try again.";
-      setState(() => _error = msg);
-      AppToast.error(context, msg, title: 'Verification Error');
+      final l10n = AppLocalizations.of(context);
+      setState(() => _error = describeFailure(l10n, error, fallback: l10n.otpVerifyFailed).message);
+      AppToast.failure(context, error, fallback: l10n.otpVerifyFailed);
     } finally {
       if (mounted) setState(() => _verifying = false);
     }
@@ -142,12 +142,9 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
       } else {
         AppToast.info(context, 'New OTP sent to +91 $phone', title: 'Code Resent');
       }
-    } on ApiException catch (e) {
+    } catch (error) {
       if (!mounted) return;
-      AppToast.error(context, e.message, title: 'Couldn\'t Resend');
-    } catch (_) {
-      if (!mounted) return;
-      AppToast.error(context, "Couldn't resend OTP. Please try again.", title: 'Resend Error');
+      AppToast.failure(context, error, fallback: AppLocalizations.of(context).otpResendFailed);
     }
   }
 

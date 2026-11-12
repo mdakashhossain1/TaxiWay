@@ -117,9 +117,9 @@ class RideDetailsScreen extends ConsumerWidget {
                   if (!context.mounted) return;
                   AppToast.success(context, l10n.markedCompletedToast);
                   context.pop();
-                } catch (_) {
+                } catch (error) {
                   if (!context.mounted) return;
-                  AppToast.error(context, "Couldn't mark this ride completed. Please try again.");
+                  AppToast.failure(context, error, fallback: l10n.rideCompleteFailed);
                 }
               },
             ),

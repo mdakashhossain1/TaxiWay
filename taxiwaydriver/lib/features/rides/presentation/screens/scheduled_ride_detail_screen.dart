@@ -43,11 +43,11 @@ class _ScheduledRideDetailScreenState extends ConsumerState<ScheduledRideDetailS
       context.go(AppRoutes.dashboard);
     } on ApiException catch (e) {
       if (!mounted) return;
-      AppToast.error(context, e.message, title: l10n.scheduledRideUnavailableTitle);
-      context.go(AppRoutes.myRides, extra: 1);
-    } catch (_) {
+      AppToast.failure(context, e, fallback: l10n.scheduledRideAcceptFailedMessage, title: l10n.scheduledRideUnavailableTitle);
+      if (e.statusCode < 500) context.go(AppRoutes.myRides, extra: 1);
+    } catch (error) {
       if (!mounted) return;
-      AppToast.error(context, l10n.scheduledRideAcceptFailedMessage);
+      AppToast.failure(context, error, fallback: l10n.scheduledRideAcceptFailedMessage);
     } finally {
       if (mounted) setState(() => _acting = false);
     }
@@ -60,9 +60,9 @@ class _ScheduledRideDetailScreenState extends ConsumerState<ScheduledRideDetailS
       await ref.read(rideActionsProvider.notifier).declineScheduledRide(widget.ride.id);
       if (!mounted) return;
       context.pop();
-    } catch (_) {
+    } catch (error) {
       if (!mounted) return;
-      AppToast.error(context, AppLocalizations.of(context).scheduledRideDeclineFailedMessage);
+      AppToast.failure(context, error, fallback: AppLocalizations.of(context).scheduledRideDeclineFailedMessage);
       setState(() => _acting = false);
     }
   }

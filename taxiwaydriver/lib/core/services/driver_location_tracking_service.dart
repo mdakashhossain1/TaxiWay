@@ -1,6 +1,10 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../data/chat_repository.dart';
 import '../data/location_repository.dart';
+import '../geo/geo_index.dart';
+import '../realtime/trip_publisher.dart';
 import '../utils/geo_utils.dart';
 
 /// Captures the driver's real hardware GPS position and reports it to the
@@ -32,13 +36,45 @@ class DriverLocationTrackingService {
   static Future<void> _sendUpdate(ProviderContainer container) async {
     final position = await determineCurrentPosition();
     if (position == null) return;
+
+    String? cell;
+    try {
+      cell = (await GeoIndex.instance()).cell(position.latitude, position.longitude);
+    } catch (_) {
+      // H3 native library unavailable — fall back to location-only reporting.
+    }
+
+    // Authoritative store the backend's driver allocation reads from.
     try {
       await container.read(locationRepositoryProvider).updateLocation(
             latitude: position.latitude,
             longitude: position.longitude,
+            h3Index: cell,
           );
     } catch (_) {
       // Non-fatal — the next tick retries; a missed update shouldn't disrupt the app.
+    }
+
+    // Live feed the rider app's nearby-driver search subscribes to. Only
+    // published while H3 is available (the cell is the query key) and the
+    // driver is signed in to Firebase. A driver already on a trip is marked
+    // unavailable so they don't show as bookable.
+    if (cell == null) return;
+    try {
+      final chat = container.read(chatRepositoryProvider);
+      await chat.ensureSignedIn();
+      final uid = chat.myUid;
+      if (uid == null) return;
+      await FirebaseFirestore.instance.collection('driver_locations').doc(uid).set({
+        'lat': position.latitude,
+        'lng': position.longitude,
+        'h3r8': cell,
+        'available': !TripPublisher.instance.isPublishing,
+        'updatedAt': FieldValue.serverTimestamp(),
+      }, SetOptions(merge: true));
+    } catch (_) {
+      // Non-fatal — nearby display is best-effort; the REST update above is the
+      // source of truth.
     }
   }
 }

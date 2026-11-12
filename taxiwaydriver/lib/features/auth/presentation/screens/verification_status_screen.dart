@@ -23,14 +23,14 @@ class VerificationStatusScreen extends ConsumerWidget {
       final number = await ref.read(appConfigRepositoryProvider).getSupportContactNumber();
       if (number == null || number.isEmpty) {
         if (context.mounted) {
-          AppToast.error(context, 'Support number is not configured yet.', title: 'Unavailable');
+          AppToast.error(context, AppLocalizations.of(context).supportNumberMissing);
         }
         return;
       }
       await launchPhoneCall(number);
-    } catch (_) {
+    } catch (error) {
       if (context.mounted) {
-        AppToast.error(context, 'Could not reach support right now. Please try again.', title: 'Something went wrong');
+        AppToast.failure(context, error, fallback: AppLocalizations.of(context).supportUnreachable);
       }
     }
   }

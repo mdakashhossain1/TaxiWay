@@ -273,4 +273,140 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get viewAllLabel => 'View All';
+
+  @override
+  String get paymentSuccessfulTitle => 'Payment successful';
+
+  @override
+  String get subscriptionRenewedMessage => 'Your plan has been renewed.';
+
+  @override
+  String get amountPaidLabel => 'Amount paid';
+
+  @override
+  String get doneLabel => 'Done';
+
+  @override
+  String get renewFailedToast => 'Couldn\'t renew right now. Please try again.';
+
+  @override
+  String get connectionOfflineTitle => 'No internet connection';
+
+  @override
+  String get connectionSlowTitle => 'Slow connection';
+
+  @override
+  String get connectionRestoredTitle => 'Back online';
+
+  @override
+  String get connectionServerTroubleTitle =>
+      'We\'re having trouble reaching our servers';
+
+  @override
+  String get connectionRetryAction => 'Retry';
+
+  @override
+  String get connectionCheckingAction => 'Checking…';
+
+  @override
+  String get errorOfflineTitle => 'You\'re offline';
+
+  @override
+  String get errorOfflineMessage =>
+      'Check your Wi-Fi or mobile data and try again.';
+
+  @override
+  String get errorTimeoutTitle => 'This is taking too long';
+
+  @override
+  String get errorTimeoutMessage =>
+      'Your connection seems slow. Try again in a moment.';
+
+  @override
+  String get errorServerTitle => 'We\'re having trouble on our end';
+
+  @override
+  String get errorServerMessage =>
+      'This isn\'t your connection. Please try again shortly.';
+
+  @override
+  String get errorMaintenanceTitle => 'Back shortly';
+
+  @override
+  String get errorMaintenanceMessage =>
+      'Taxiway is being updated to serve you better.';
+
+  @override
+  String get errorGenericTitle => 'Something went wrong';
+
+  @override
+  String get errorGenericMessage => 'We couldn\'t load this. Please try again.';
+
+  @override
+  String get tryAgainLabel => 'Try again';
+
+  @override
+  String get tryingAgainLabel => 'Trying again…';
+
+  @override
+  String get goBackLabel => 'Go back';
+
+  @override
+  String get emptyDefaultTitle => 'Nothing here yet';
+
+  @override
+  String get emptyDefaultMessage => 'Items will show up here.';
+
+  @override
+  String get chatEmptyTitle => 'No messages yet';
+
+  @override
+  String get chatEmptyMessage => 'Say hello!';
+
+  @override
+  String get chatLoadFailed => 'Couldn\'t load messages';
+
+  @override
+  String get messageSendFailed => 'Message didn\'t send. Please try again.';
+
+  @override
+  String get otpSendFailed => 'Couldn\'t send the OTP. Please try again.';
+
+  @override
+  String get otpResendFailed => 'Couldn\'t resend the OTP. Please try again.';
+
+  @override
+  String get otpVerifyFailed => 'Couldn\'t verify the code. Please try again.';
+
+  @override
+  String get otpExpired => 'This code has expired. Please request a new one.';
+
+  @override
+  String get googleSignInFailed =>
+      'Couldn\'t sign in with Google. Please try again.';
+
+  @override
+  String get supportNumberMissing => 'Support number isn\'t set up yet.';
+
+  @override
+  String get supportUnreachable =>
+      'Couldn\'t reach support right now. Please try again.';
+
+  @override
+  String get offerUnavailable => 'This offer is no longer available.';
+
+  @override
+  String get offerDeclineFailed =>
+      'Couldn\'t decline this offer. Please try again.';
+
+  @override
+  String get offerAcceptFailed =>
+      'Couldn\'t accept this offer. Please try again.';
+
+  @override
+  String get rideCompleteFailed =>
+      'Couldn\'t mark this ride as completed. Please try again.';
+
+  @override
+  String get offerCheckFailed => 'Couldn\'t check for new ride offers';
 }

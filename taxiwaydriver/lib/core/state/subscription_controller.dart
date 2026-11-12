@@ -7,9 +7,11 @@ class SubscriptionController extends AsyncNotifier<SubscriptionSnapshot> {
     return ref.read(subscriptionRepositoryProvider).getSnapshot();
   }
 
-  Future<void> renewSubscription() async {
-    state = const AsyncLoading();
-    state = await AsyncValue.guard(() => ref.read(subscriptionRepositoryProvider).renew());
+  Future<bool> renewSubscription() async {
+    final renewed = await AsyncValue.guard(() => ref.read(subscriptionRepositoryProvider).renew());
+    if (renewed.hasError) return false;
+    state = renewed;
+    return true;
   }
 }
 

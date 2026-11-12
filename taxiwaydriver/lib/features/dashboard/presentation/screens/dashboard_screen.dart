@@ -8,6 +8,7 @@ import '../../../chat/presentation/screens/chat_screen.dart';
 import '../../../../core/state/auth_controller.dart';
 import '../../../../core/state/driver_rides_controller.dart';
 import '../../../../core/state/subscription_controller.dart';
+import '../../../../core/realtime/trip_publisher.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_typography.dart';
@@ -21,6 +22,11 @@ import '../../../../core/widgets/taxiway_header.dart';
 import '../../../../core/widgets/status_badge.dart';
 import '../../../../core/widgets/usage_progress_bar.dart';
 import '../../../../l10n/generated/app_localizations.dart';
+import '../../../../core/data/subscription_repository.dart';
+import '../../../../core/utils/failure_message.dart';
+import '../../../../core/widgets/app_shimmer.dart';
+import '../../../../core/widgets/inline_retry.dart';
+import '../../../../core/widgets/page_state_builder.dart';
 
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
@@ -59,6 +65,16 @@ class DashboardScreen extends ConsumerWidget {
     final pendingOfferAsync = ref.watch(pendingOfferProvider);
     final scheduledRidesAsync = ref.watch(scheduledRidesProvider);
     final l10n = AppLocalizations.of(context);
+
+    // Resume live tracking if the app was reopened while a ride is active.
+    ref.listen(nextRideProvider, (_, next) {
+      final ride = next.value;
+      if (ride != null &&
+          ride.status == DriverRideStatus.upcoming &&
+          !TripPublisher.instance.isPublishing) {
+        ref.read(rideActionsProvider.notifier).resumeLive(ride);
+      }
+    });
 
     return Scaffold(
       backgroundColor: AppColors.of(context).appBackground,
@@ -101,13 +117,15 @@ class DashboardScreen extends ConsumerWidget {
               const SizedBox(height: 20),
 
               // Subscription summary card.
-              subscriptionAsync.when(
-                loading: () => const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 24),
-                  child: Center(child: CircularProgressIndicator()),
+              PageStateBuilder<SubscriptionSnapshot>(
+                asyncValue: subscriptionAsync,
+                shimmer: const ShimmerBox(height: 170, borderRadius: AppRadius.card),
+                onRetry: () async => ref.invalidate(subscriptionControllerProvider),
+                errorBuilder: (context, error, _) => InlineRetry(
+                  message: describeFailure(l10n, error, fallback: l10n.errorGenericTitle).headline,
+                  onRetry: () => ref.invalidate(subscriptionControllerProvider),
                 ),
-                error: (error, _) => ErrorState(onRetry: () => ref.invalidate(subscriptionControllerProvider)),
-                data: (snapshot) {
+                builder: (context, snapshot) {
                   final plan = snapshot.plan;
                   return Container(
                     width: double.infinity,
@@ -159,36 +177,47 @@ class DashboardScreen extends ConsumerWidget {
 
               const SizedBox(height: 20),
 
-              scheduledRidesAsync.maybeWhen(
-                data: (rides) => rides.isEmpty
-                    ? const SizedBox.shrink()
-                    : Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
-                        child: _ScheduledRidesBanner(count: rides.length),
-                      ),
-                orElse: () => const SizedBox.shrink(),
+              PageStateBuilder<List<DriverRide>>(
+                asyncValue: scheduledRidesAsync,
+                shimmer: const SizedBox.shrink(),
+                onRetry: () async => ref.invalidate(scheduledRidesProvider),
+                errorBuilder: (context, error, _) => const SizedBox.shrink(),
+                isEmpty: (rides) => rides.isEmpty,
+                emptyWidget: const SizedBox.shrink(),
+                builder: (context, rides) => Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: _ScheduledRidesBanner(count: rides.length),
+                ),
               ),
 
-              pendingOfferAsync.maybeWhen(
-                data: (offer) => offer == null
-                    ? const SizedBox.shrink()
-                    : Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
-                        child: _PendingOfferBanner(ride: offer),
-                      ),
-                orElse: () => const SizedBox.shrink(),
+              PageStateBuilder<DriverRide?>(
+                asyncValue: pendingOfferAsync,
+                shimmer: const SizedBox.shrink(),
+                onRetry: () async => ref.invalidate(pendingOfferProvider),
+                errorBuilder: (context, error, _) => Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: _OfferCheckFailedBanner(onRetry: () => ref.invalidate(pendingOfferProvider)),
+                ),
+                isEmpty: (offer) => offer == null,
+                emptyWidget: const SizedBox.shrink(),
+                builder: (context, offer) => Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: _PendingOfferBanner(ride: offer!),
+                ),
               ),
 
               Text(l10n.nextRide, style: AppTypography.of(context).h3),
               const SizedBox(height: 10),
 
-              nextRideAsync.when(
-                loading: () => const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 24),
-                  child: Center(child: CircularProgressIndicator()),
+              PageStateBuilder<DriverRide?>(
+                asyncValue: nextRideAsync,
+                shimmer: const ShimmerBox(height: 110, borderRadius: AppRadius.card),
+                onRetry: () async => ref.invalidate(nextRideProvider),
+                errorBuilder: (context, error, _) => InlineRetry(
+                  message: describeFailure(l10n, error, fallback: l10n.errorGenericTitle).headline,
+                  onRetry: () => ref.invalidate(nextRideProvider),
                 ),
-                error: (error, _) => ErrorState(onRetry: () => ref.invalidate(nextRideProvider)),
-                data: (nextRide) => nextRide == null
+                builder: (context, nextRide) => nextRide == null
                     ? EmptyState(icon: BootstrapIcons.calendar_x, title: l10n.noUpcomingRides, message: '')
                     : _NextRideCard(ride: nextRide, l10n: l10n),
               ),
@@ -239,6 +268,7 @@ class _ScheduledRidesBanner extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           ElevatedButton(
+            style: ElevatedButton.styleFrom(minimumSize: const Size(0, 44)),
             onPressed: () => context.go(AppRoutes.myRides, extra: 1),
             child: Text(l10n.viewAllLabel),
           ),
@@ -278,9 +308,45 @@ class _PendingOfferBanner extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           ElevatedButton(
+            style: ElevatedButton.styleFrom(minimumSize: const Size(0, 44)),
             onPressed: () => context.push(AppRoutes.rideOffer, extra: ride),
             child: const Text('View'),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _OfferCheckFailedBanner extends StatelessWidget {
+  final VoidCallback onRetry;
+
+  const _OfferCheckFailedBanner({required this.onRetry});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final colors = AppColors.of(context);
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
+      decoration: BoxDecoration(
+        color: colors.warningBackground,
+        borderRadius: BorderRadius.circular(AppRadius.card),
+        border: Border.all(color: colors.warning),
+      ),
+      child: Row(
+        children: [
+          Icon(BootstrapIcons.exclamation_triangle_fill, size: 18, color: colors.warningText),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              l10n.offerCheckFailed,
+              style: AppTypography.of(context).label.copyWith(color: colors.warningText),
+            ),
+          ),
+          TextButton(onPressed: onRetry, child: Text(l10n.tryAgainLabel)),
         ],
       ),
     );

@@ -8,7 +8,12 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/widgets/app_scaffold.dart';
+import '../../../../core/widgets/app_shimmer.dart';
 import '../../../../core/widgets/app_toast.dart';
+import '../../../../core/widgets/empty_state.dart';
+import '../../../../core/widgets/inline_retry.dart';
+import '../../../../core/widgets/network_error_view.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 /// Route `extra` payload for [ChatScreen] — a plain value class so
 /// `GoRouterState.extra` can be cast to something typed instead of a raw map.
@@ -39,8 +44,14 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   @override
   void initState() {
     super.initState();
+    _openConversation();
+  }
+
+  void _openConversation() {
     _readyConversationId = _resolveConversationId();
   }
+
+  void _retryOpen() => setState(_openConversation);
 
   Future<String> _resolveConversationId() async {
     final repo = ref.read(chatRepositoryProvider);
@@ -54,10 +65,12 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     _controller.clear();
     try {
       await ref.read(chatRepositoryProvider).sendMessage(conversationId, text);
-    } catch (_) {
-      if (mounted) {
-        AppToast.error(context, "Message didn't send. Please try again.");
+    } catch (error) {
+      if (!mounted) return;
+      if (_controller.text.isEmpty) {
+        _controller.value = TextEditingValue(text: text, selection: TextSelection.collapsed(offset: text.length));
       }
+      AppToast.failure(context, error, fallback: AppLocalizations.of(context).messageSendFailed);
     }
   }
 
@@ -75,15 +88,17 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
         future: _readyConversationId,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return Center(
-              child: Text('Could not open chat right now.', style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).mutedText)),
+            return NetworkErrorView(
+              type: networkErrorTypeFor(snapshot.error!),
+              isCompact: true,
+              onRetry: () async => _retryOpen(),
             );
           }
           if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
+            return const ChatShimmer();
           }
           final conversationId = snapshot.data!;
-          return _MessageList(conversationId: conversationId);
+          return _MessageList(conversationId: conversationId, onRetry: _retryOpen);
         },
       ),
       bottomBar: FutureBuilder<String>(
@@ -103,23 +118,30 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
 
 class _MessageList extends ConsumerWidget {
   final String conversationId;
-  const _MessageList({required this.conversationId});
+  final VoidCallback onRetry;
+  const _MessageList({required this.conversationId, required this.onRetry});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final repo = ref.watch(chatRepositoryProvider);
     final myUid = repo.myUid;
+    final l10n = AppLocalizations.of(context);
 
     return StreamBuilder<List<ChatMessage>>(
       stream: repo.streamMessages(conversationId),
       builder: (context, snapshot) {
         final messages = snapshot.data ?? const <ChatMessage>[];
+        if (snapshot.hasError && messages.isEmpty) {
+          return InlineRetry(message: l10n.chatLoadFailed, onRetry: onRetry);
+        }
         if (snapshot.connectionState == ConnectionState.waiting && messages.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
+          return const ChatShimmer();
         }
         if (messages.isEmpty) {
-          return Center(
-            child: Text('No messages yet — say hello!', style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).mutedText)),
+          return EmptyState(
+            icon: BootstrapIcons.chat_dots,
+            title: l10n.chatEmptyTitle,
+            message: l10n.chatEmptyMessage,
           );
         }
         return ListView.builder(

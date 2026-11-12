@@ -14,6 +14,7 @@ import '../../../../core/widgets/app_toast.dart';
 import '../../../../core/widgets/buttons.dart';
 import '../../../../core/widgets/driver_bottom_nav.dart';
 import '../../../../core/widgets/page_state_builder.dart';
+import '../../../../core/widgets/receipt_row.dart';
 import '../../../../core/widgets/subscription_metric_card.dart';
 import '../../../../core/widgets/usage_progress_bar.dart';
 import '../../../../l10n/generated/app_localizations.dart';
@@ -24,8 +25,6 @@ class SubscriptionScreen extends ConsumerWidget {
   void _goToTab(BuildContext context, DriverNavTab tab) {
     context.go(tab == DriverNavTab.rides ? AppRoutes.myRides : AppRoutes.subscription);
   }
-
-  String _formatNullableDate(DateTime? date) => date == null ? '—' : '${formatRideDate(date)} ${date.year}';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -85,7 +84,7 @@ class SubscriptionScreen extends ConsumerWidget {
                           ],
                         ),
                         const SizedBox(height: 10),
-                        Text('${l10n.validUntil}: ${_formatNullableDate(plan.renewalDate)}', style: AppTypography.of(context).caption),
+                        Text('${l10n.validUntil}: ${formatDateWithYear(plan.renewalDate)}', style: AppTypography.of(context).caption),
                       ],
                     ),
                   ),
@@ -121,29 +120,17 @@ class SubscriptionScreen extends ConsumerWidget {
                     ),
                     child: Column(
                       children: [
-                        _HistoryRow(label: l10n.lastPayment, value: formatRupees(history.lastPayment)),
-                        _HistoryRow(label: l10n.paidOn, value: _formatNullableDate(history.paidOn)),
-                        _HistoryRow(label: l10n.nextRenewal, value: _formatNullableDate(history.nextRenewal)),
-                        _HistoryRow(label: l10n.paymentMethodLabel, value: history.paymentMethod, isLast: true),
+                        ReceiptRow(label: l10n.lastPayment, value: formatRupees(history.lastPayment)),
+                        ReceiptRow(label: l10n.paidOn, value: formatDateWithYear(history.paidOn)),
+                        ReceiptRow(label: l10n.nextRenewal, value: formatDateWithYear(history.nextRenewal)),
+                        ReceiptRow(label: l10n.paymentMethodLabel, value: history.paymentMethod, isLast: true),
                       ],
                     ),
                   ),
 
                   const SizedBox(height: 24),
 
-                  PrimaryButton(
-                    label: l10n.renewSubscription,
-                    onPressed: () async {
-                      try {
-                        await ref.read(subscriptionControllerProvider.notifier).renewSubscription();
-                        if (!context.mounted) return;
-                        AppToast.success(context, l10n.renewedToast);
-                      } catch (_) {
-                        if (!context.mounted) return;
-                        AppToast.error(context, "Couldn't renew right now. Please try again.");
-                      }
-                    },
-                  ),
+                  const _RenewButton(),
 
                   const SizedBox(height: 24),
                 ],
@@ -156,29 +143,34 @@ class SubscriptionScreen extends ConsumerWidget {
   }
 }
 
-class _HistoryRow extends StatelessWidget {
-  final String label;
-  final String value;
-  final bool isLast;
+class _RenewButton extends ConsumerStatefulWidget {
+  const _RenewButton();
 
-  const _HistoryRow({required this.label, required this.value, this.isLast = false});
+  @override
+  ConsumerState<_RenewButton> createState() => _RenewButtonState();
+}
+
+class _RenewButtonState extends ConsumerState<_RenewButton> {
+  bool _busy = false;
+
+  Future<void> _renew() async {
+    setState(() => _busy = true);
+    final renewed = await ref.read(subscriptionControllerProvider.notifier).renewSubscription();
+    if (!mounted) return;
+    if (renewed) {
+      context.go(AppRoutes.subscriptionSuccess);
+      return;
+    }
+    setState(() => _busy = false);
+    AppToast.error(context, AppLocalizations.of(context).renewFailedToast);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(label, style: AppTypography.of(context).caption),
-              Text(value, style: AppTypography.of(context).label.copyWith(fontWeight: FontWeight.w600)),
-            ],
-          ),
-        ),
-        if (!isLast) const Divider(height: 1),
-      ],
+    return PrimaryButton(
+      label: AppLocalizations.of(context).renewSubscription,
+      loading: _busy,
+      onPressed: _renew,
     );
   }
 }

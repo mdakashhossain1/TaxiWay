@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../data/chat_repository.dart';
 import '../data/ride_repository.dart';
 import '../models/driver_ride.dart';
+import '../realtime/trip_publisher.dart';
 
 /// The soonest active (accepted) ride, shown on the Dashboard.
 final nextRideProvider = FutureProvider.autoDispose<DriverRide?>((ref) {
@@ -37,6 +39,7 @@ class RideActionsController extends Notifier<void> {
 
   Future<DriverRide> markCompleted(String rideId) async {
     final updated = await ref.read(rideRepositoryProvider).markCompleted(rideId);
+    await TripPublisher.instance.stop(completed: true);
     ref.invalidate(nextRideProvider);
     ref.invalidate(upcomingRidesProvider);
     ref.invalidate(completedRidesProvider);
@@ -45,6 +48,7 @@ class RideActionsController extends Notifier<void> {
 
   Future<DriverRide> acceptRide(String rideId) async {
     final updated = await ref.read(rideRepositoryProvider).acceptRide(rideId);
+    _publishLive(updated);
     ref.invalidate(pendingOfferProvider);
     ref.invalidate(nextRideProvider);
     ref.invalidate(upcomingRidesProvider);
@@ -54,6 +58,17 @@ class RideActionsController extends Notifier<void> {
   Future<void> rejectRide(String rideId) async {
     await ref.read(rideRepositoryProvider).rejectRide(rideId);
     ref.invalidate(pendingOfferProvider);
+  }
+
+  /// Starts streaming this ride's live position/status to the rider. Resumes
+  /// an already-active ride too (e.g. after the app was reopened mid-trip).
+  void resumeLive(DriverRide ride) => _publishLive(ride);
+
+  void _publishLive(DriverRide ride) {
+    TripPublisher.instance.start(
+      ride: ride,
+      ensureSignedIn: () => ref.read(chatRepositoryProvider).ensureSignedIn(),
+    );
   }
 
   /// Can throw ApiException(422, ...) if another driver won the race first —

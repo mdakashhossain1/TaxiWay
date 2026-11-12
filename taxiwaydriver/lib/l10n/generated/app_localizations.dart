@@ -597,6 +597,258 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View All'**
   String get viewAllLabel;
+
+  /// No description provided for @paymentSuccessfulTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment successful'**
+  String get paymentSuccessfulTitle;
+
+  /// No description provided for @subscriptionRenewedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your plan has been renewed.'**
+  String get subscriptionRenewedMessage;
+
+  /// No description provided for @amountPaidLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount paid'**
+  String get amountPaidLabel;
+
+  /// No description provided for @doneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get doneLabel;
+
+  /// No description provided for @renewFailedToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t renew right now. Please try again.'**
+  String get renewFailedToast;
+
+  /// No description provided for @connectionOfflineTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection'**
+  String get connectionOfflineTitle;
+
+  /// No description provided for @connectionSlowTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Slow connection'**
+  String get connectionSlowTitle;
+
+  /// No description provided for @connectionRestoredTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Back online'**
+  String get connectionRestoredTitle;
+
+  /// No description provided for @connectionServerTroubleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'re having trouble reaching our servers'**
+  String get connectionServerTroubleTitle;
+
+  /// No description provided for @connectionRetryAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get connectionRetryAction;
+
+  /// No description provided for @connectionCheckingAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking…'**
+  String get connectionCheckingAction;
+
+  /// No description provided for @errorOfflineTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re offline'**
+  String get errorOfflineTitle;
+
+  /// No description provided for @errorOfflineMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your Wi-Fi or mobile data and try again.'**
+  String get errorOfflineMessage;
+
+  /// No description provided for @errorTimeoutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This is taking too long'**
+  String get errorTimeoutTitle;
+
+  /// No description provided for @errorTimeoutMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your connection seems slow. Try again in a moment.'**
+  String get errorTimeoutMessage;
+
+  /// No description provided for @errorServerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'re having trouble on our end'**
+  String get errorServerTitle;
+
+  /// No description provided for @errorServerMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This isn\'t your connection. Please try again shortly.'**
+  String get errorServerMessage;
+
+  /// No description provided for @errorMaintenanceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Back shortly'**
+  String get errorMaintenanceTitle;
+
+  /// No description provided for @errorMaintenanceMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Taxiway is being updated to serve you better.'**
+  String get errorMaintenanceMessage;
+
+  /// No description provided for @errorGenericTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get errorGenericTitle;
+
+  /// No description provided for @errorGenericMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t load this. Please try again.'**
+  String get errorGenericMessage;
+
+  /// No description provided for @tryAgainLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get tryAgainLabel;
+
+  /// No description provided for @tryingAgainLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Trying again…'**
+  String get tryingAgainLabel;
+
+  /// No description provided for @goBackLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Go back'**
+  String get goBackLabel;
+
+  /// No description provided for @emptyDefaultTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing here yet'**
+  String get emptyDefaultTitle;
+
+  /// No description provided for @emptyDefaultMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Items will show up here.'**
+  String get emptyDefaultMessage;
+
+  /// No description provided for @chatEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No messages yet'**
+  String get chatEmptyTitle;
+
+  /// No description provided for @chatEmptyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Say hello!'**
+  String get chatEmptyMessage;
+
+  /// No description provided for @chatLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load messages'**
+  String get chatLoadFailed;
+
+  /// No description provided for @messageSendFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Message didn\'t send. Please try again.'**
+  String get messageSendFailed;
+
+  /// No description provided for @otpSendFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t send the OTP. Please try again.'**
+  String get otpSendFailed;
+
+  /// No description provided for @otpResendFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t resend the OTP. Please try again.'**
+  String get otpResendFailed;
+
+  /// No description provided for @otpVerifyFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t verify the code. Please try again.'**
+  String get otpVerifyFailed;
+
+  /// No description provided for @otpExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'This code has expired. Please request a new one.'**
+  String get otpExpired;
+
+  /// No description provided for @googleSignInFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t sign in with Google. Please try again.'**
+  String get googleSignInFailed;
+
+  /// No description provided for @supportNumberMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Support number isn\'t set up yet.'**
+  String get supportNumberMissing;
+
+  /// No description provided for @supportUnreachable.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t reach support right now. Please try again.'**
+  String get supportUnreachable;
+
+  /// No description provided for @offerUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'This offer is no longer available.'**
+  String get offerUnavailable;
+
+  /// No description provided for @offerDeclineFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t decline this offer. Please try again.'**
+  String get offerDeclineFailed;
+
+  /// No description provided for @offerAcceptFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t accept this offer. Please try again.'**
+  String get offerAcceptFailed;
+
+  /// No description provided for @rideCompleteFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t mark this ride as completed. Please try again.'**
+  String get rideCompleteFailed;
+
+  /// No description provided for @offerCheckFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t check for new ride offers'**
+  String get offerCheckFailed;
 }
 
 class _AppLocalizationsDelegate
