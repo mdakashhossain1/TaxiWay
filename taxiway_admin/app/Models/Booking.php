@@ -10,7 +10,7 @@ class Booking extends Model
 {
     protected $fillable = [
         'customer_id', 'driver_id', 'vehicle_id', 'vehicle_category_id',
-        'pickup_address', 'pickup_lat', 'pickup_lng',
+        'pickup_address', 'pickup_lat', 'pickup_lng', 'pickup_h3_cells',
         'destination_address', 'destination_lat', 'destination_lng',
         'distance_km', 'eta_minutes',
         'base_fare', 'distance_charge', 'time_charge', 'total_fare',
@@ -32,6 +32,7 @@ class Booking extends Model
             'total_fare' => 'decimal:2',
             'offer_expires_at' => 'datetime',
             'rejected_driver_ids' => 'array',
+            'pickup_h3_cells' => 'array',
             'scheduled_at' => 'datetime',
             'last_broadcast_at' => 'datetime',
         ];

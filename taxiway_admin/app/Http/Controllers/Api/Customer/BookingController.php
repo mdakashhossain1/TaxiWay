@@ -37,6 +37,11 @@ class BookingController extends Controller
             'pickup_address' => ['required', 'string'],
             'pickup_lat' => ['required', 'numeric'],
             'pickup_lng' => ['required', 'numeric'],
+            // H3 cell + ring around the pickup, computed by the rider app, used
+            // to shortlist nearby drivers during allocation. Optional — the
+            // allocator falls back to any eligible driver when it's absent.
+            'pickup_h3_cells' => ['nullable', 'array', 'max:30'],
+            'pickup_h3_cells.*' => ['string', 'max:16'],
             'destination_address' => ['required', 'string'],
             'destination_lat' => ['required', 'numeric'],
             'destination_lng' => ['required', 'numeric'],
