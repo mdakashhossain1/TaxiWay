@@ -28,7 +28,10 @@ extension BookingStatusX on BookingStatus {
       this != BookingStatus.draft;
 }
 
-BookingStatus _statusFromApi(String status) {
+/// Maps a backend status string to [BookingStatus]. Shared by [Booking.fromJson]
+/// and the realtime trip channel, so a live Firestore update and a REST refetch
+/// resolve the same status the same way.
+BookingStatus bookingStatusFromApi(String status) {
   switch (status) {
     case 'requested':
       return BookingStatus.requested;
@@ -85,12 +88,17 @@ class Booking {
   final Driver? driver;
   final Vehicle? vehicle;
 
-  /// Live simulation fields for tracking screens. These are a cosmetic,
-  /// client-side approximation of the driver's approach (no real GPS feed
-  /// exists) — see BookingController for the full rationale.
+  /// Driver-approach fields for tracking screens. Fed by the realtime trip
+  /// channel from the driver's actual GPS when available, and by the fallback
+  /// simulation otherwise — see BookingController.
   final double driverDistanceKm;
   final int driverEtaMinutes;
   final double routeProgress; // 0.0 - 1.0 while ride is in progress
+
+  /// The driver's live GPS position from the trip channel, or null before the
+  /// first fix (the map then falls back to route-interpolated movement).
+  final double? driverLat;
+  final double? driverLng;
 
   const Booking({
     required this.id,
@@ -112,6 +120,8 @@ class Booking {
     this.driverDistanceKm = 0,
     this.driverEtaMinutes = 0,
     this.routeProgress = 0,
+    this.driverLat,
+    this.driverLng,
   });
 
   factory Booking.fromJson(Map<String, dynamic> json) {
@@ -136,7 +146,7 @@ class Booking {
       distanceKm: double.parse(json['distance_km'].toString()),
       etaMinutes: json['eta_minutes'] as int,
       fare: FareBreakdown.fromJson(json),
-      status: _statusFromApi(json['status'] as String),
+      status: bookingStatusFromApi(json['status'] as String),
       driverId: json['driver_id']?.toString() ?? '',
       createdAt: DateTime.parse(json['created_at'] as String).toLocal(),
       paymentMethod: (json['payment_method'] as String).toUpperCase(),
@@ -156,6 +166,8 @@ class Booking {
     String? paymentStatus,
     Driver? driver,
     Vehicle? vehicle,
+    double? driverLat,
+    double? driverLng,
   }) {
     return Booking(
       id: id,
@@ -177,6 +189,8 @@ class Booking {
       driverDistanceKm: driverDistanceKm ?? this.driverDistanceKm,
       driverEtaMinutes: driverEtaMinutes ?? this.driverEtaMinutes,
       routeProgress: routeProgress ?? this.routeProgress,
+      driverLat: driverLat ?? this.driverLat,
+      driverLng: driverLng ?? this.driverLng,
     );
   }
 }

@@ -645,6 +645,7 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
               showDriver: true,
               driverPhase: MapDriverPhase.approachingPickup,
               driverProgress: driverProgress,
+              driverPosition: driverPositionOf(booking),
               height: 180,
               borderRadius: BorderRadius.zero,
               enableExpand: false,

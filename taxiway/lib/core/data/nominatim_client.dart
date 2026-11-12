@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import '../api/network_failure.dart';
 
 const _kUserAgent = 'TaxiwayCabApp/1.0';
 const _kTimeout = Duration(seconds: 4);
@@ -16,8 +18,9 @@ class NominatimResult {
 /// Forward-geocodes [query] via Nominatim's `/search` endpoint, tagged with
 /// [localeCode] (Nominatim's `accept-language` param) so results come back
 /// in the app's selected language instead of always English. Returns an
-/// empty list on any network/parse failure rather than throwing, so callers
-/// can treat this as just one of several search providers to try.
+/// empty list when the service answered without usable results, and throws
+/// [NetworkFailure] when it could not be reached at all, so callers can tell
+/// "nothing found" apart from "couldn't look".
 Future<List<NominatimResult>> nominatimForwardGeocode(
   String query,
   String localeCode, {
@@ -35,8 +38,8 @@ Future<List<NominatimResult>> nominatimForwardGeocode(
       'addressdetails': '1',
       'limit': '$limit',
       'accept-language': localeCode,
-      if (countryCodes != null) 'countrycodes': countryCodes,
-      if (viewbox != null) 'viewbox': viewbox,
+      'countrycodes': ?countryCodes,
+      'viewbox': ?viewbox,
       if (viewbox != null) 'bounded': '0',
     });
 
@@ -58,6 +61,10 @@ Future<List<NominatimResult>> nominatimForwardGeocode(
         })
         .where((r) => r.lat != 0.0 && r.lon != 0.0 && r.displayName.isNotEmpty)
         .toList();
+  } on TimeoutException {
+    throw const NetworkFailure(NetworkFailureKind.timeout);
+  } on IOException {
+    throw const NetworkFailure(NetworkFailureKind.offline);
   } catch (_) {
     return [];
   } finally {

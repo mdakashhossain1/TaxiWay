@@ -12,6 +12,7 @@ import 'core/services/push_notification_service.dart';
 import 'core/state/locale_controller.dart';
 import 'core/state/theme_controller.dart';
 import 'core/theme/app_theme.dart';
+import 'core/widgets/connectivity_banner.dart';
 import 'l10n/generated/app_localizations.dart';
 
 void main() async {
@@ -35,7 +36,9 @@ void main() async {
     return true;
   };
 
-  runApp(const ProviderScope(child: TaxiwayApp()));
+  // Fail fast: ApiClient already retries GETs, and Riverpod's default provider retry
+  // would hold a failed load in its loading state for ~40s before any error shows.
+  runApp(ProviderScope(retry: (retryCount, error) => null, child: const TaxiwayApp()));
 }
 
 class TaxiwayApp extends ConsumerWidget {
@@ -67,7 +70,7 @@ class TaxiwayApp extends ConsumerWidget {
           locale: locale,
           supportedLocales: AppLocalizations.supportedLocales,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
-          builder: (context, child) => ThemeSwitchingArea(child: child!),
+          builder: (context, child) => ThemeSwitchingArea(child: ConnectivityBannerHost(child: child!)),
         ),
       ),
     );

@@ -1,6 +1,8 @@
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:toastification/toastification.dart';
+import '../../l10n/generated/app_localizations.dart';
+import '../utils/failure_message.dart';
 
 enum ToastType { success, info, warning, error, phone }
 
@@ -40,6 +42,11 @@ class AppToast {
 
   static void error(BuildContext context, String message, {String? title}) {
     show(context, message: message, title: title, type: ToastType.error);
+  }
+
+  static void failure(BuildContext context, Object error, {required String fallback, String? title}) {
+    final text = describeFailure(AppLocalizations.of(context), error, fallback: fallback, title: title);
+    show(context, message: text.message, title: text.title, type: ToastType.error);
   }
 
   static void info(BuildContext context, String message, {String? title}) {

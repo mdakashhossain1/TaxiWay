@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_typography.dart';
+import 'buttons.dart';
 import 'network_error_view.dart';
 
 class EmptyState extends StatelessWidget {
   final IconData icon;
   final String title;
   final String message;
+  final String? actionLabel;
+  final VoidCallback? onAction;
 
   const EmptyState({
     super.key,
     required this.icon,
     required this.title,
     required this.message,
+    this.actionLabel,
+    this.onAction,
   });
 
   @override
@@ -50,21 +56,30 @@ class EmptyState extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ],
+            if (actionLabel != null && onAction != null) ...[
+              const SizedBox(height: 20),
+              SizedBox(
+                width: 200,
+                child: PrimaryButton(label: actionLabel!, onPressed: onAction),
+              ),
+            ],
           ],
         ),
-      ),
+      ).animate().fadeIn(duration: 260.ms).slideY(begin: 0.04, end: 0, duration: 260.ms, curve: Curves.easeOutCubic),
     );
   }
 }
 
 class ErrorState extends StatelessWidget {
-  final String message;
+  final Object? error;
+  final String? message;
   final VoidCallback onRetry;
   final bool isCompact;
 
   const ErrorState({
     super.key,
-    this.message = "We couldn't load this information. Check connection and try again.",
+    this.error,
+    this.message,
     required this.onRetry,
     this.isCompact = false,
   });
@@ -72,6 +87,7 @@ class ErrorState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NetworkErrorView(
+      type: error == null ? NetworkErrorType.generic : networkErrorTypeFor(error!),
       message: message,
       onRetry: () async => onRetry(),
       isCompact: isCompact,

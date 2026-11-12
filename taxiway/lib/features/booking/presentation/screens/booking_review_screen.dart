@@ -362,10 +362,10 @@ class _BookingReviewScreenState extends ConsumerState<BookingReviewScreen> {
                 ref.invalidate(tripHistoryControllerProvider);
                 AppToast.success(context, l10n.scheduledRideConfirmationToast);
                 context.go(AppRoutes.home);
-              } catch (_) {
+              } catch (error) {
                 if (!context.mounted) return;
                 if (!isScheduled) context.pop();
-                AppToast.error(context, l10n.bookingFailedMessage, title: l10n.bookingFailedTitle);
+                AppToast.failure(context, error, fallback: l10n.bookingFailedMessage, title: l10n.bookingFailedTitle);
               }
             },
           ),

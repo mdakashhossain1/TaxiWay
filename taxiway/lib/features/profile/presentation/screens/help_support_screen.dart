@@ -12,6 +12,7 @@ import '../../../../core/widgets/app_scaffold.dart';
 import '../../../../core/widgets/app_toast.dart';
 import '../../../../core/widgets/buttons.dart';
 import '../../../chat/presentation/screens/chat_screen.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 const _topics = [
   (BootstrapIcons.car_front_fill, 'How to book a ride'),
@@ -32,7 +33,7 @@ class HelpSupportScreen extends ConsumerWidget {
       final number = await ref.read(appConfigRepositoryProvider).getSupportContactNumber();
       if (number == null || number.isEmpty) {
         if (context.mounted) {
-          AppToast.error(context, 'Support number is not configured yet.', title: 'Unavailable');
+          AppToast.error(context, AppLocalizations.of(context).supportNumberMissing);
         }
         return;
       }
@@ -40,9 +41,9 @@ class HelpSupportScreen extends ConsumerWidget {
         AppToast.call(context, 'Connecting to Taxiway Helpline: $number...', title: 'Helpline Calling');
       }
       await launchPhoneCall(number);
-    } catch (_) {
+    } catch (error) {
       if (context.mounted) {
-        AppToast.error(context, 'Could not reach support right now. Please try again.', title: 'Something went wrong');
+        AppToast.failure(context, error, fallback: AppLocalizations.of(context).supportUnreachable);
       }
     }
   }

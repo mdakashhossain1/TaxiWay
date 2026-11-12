@@ -53,6 +53,7 @@ class RideInProgressScreen extends ConsumerWidget {
               showDriver: true,
               driverPhase: MapDriverPhase.headingToDestination,
               driverProgress: booking.routeProgress,
+              driverPosition: driverPositionOf(booking),
               height: double.infinity,
               borderRadius: BorderRadius.zero,
             ),
