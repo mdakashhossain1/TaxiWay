@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../data/chat_repository.dart';
 import '../data/location_repository.dart';
 import '../geo/geo_index.dart';
+import '../realtime/publish_gates.dart';
 import '../realtime/trip_publisher.dart';
 import '../utils/geo_utils.dart';
 
@@ -18,6 +19,7 @@ class DriverLocationTrackingService {
 
   static const _interval = Duration(seconds: 25);
   static Timer? _timer;
+  static final _presence = PresenceGate();
 
   /// Takes the root [ProviderContainer] rather than the caller's `WidgetRef`
   /// — the timer keeps firing long after the login screen that starts it is
@@ -31,6 +33,7 @@ class DriverLocationTrackingService {
   static void stop() {
     _timer?.cancel();
     _timer = null;
+    _presence.reset();
   }
 
   static Future<void> _sendUpdate(ProviderContainer container) async {
@@ -60,6 +63,8 @@ class DriverLocationTrackingService {
     // driver is signed in to Firebase. A driver already on a trip is marked
     // unavailable so they don't show as bookable.
     if (cell == null) return;
+    final available = !TripPublisher.instance.isPublishing;
+    if (!_presence.due(DateTime.now(), lat: position.latitude, lng: position.longitude, available: available)) return;
     try {
       final chat = container.read(chatRepositoryProvider);
       await chat.ensureSignedIn();
@@ -69,10 +74,11 @@ class DriverLocationTrackingService {
         'lat': position.latitude,
         'lng': position.longitude,
         'h3r8': cell,
-        'available': !TripPublisher.instance.isPublishing,
+        'available': available,
         'updatedAt': FieldValue.serverTimestamp(),
       }, SetOptions(merge: true));
     } catch (_) {
+      _presence.reset();
       // Non-fatal — nearby display is best-effort; the REST update above is the
       // source of truth.
     }

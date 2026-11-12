@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 import '../models/driver_ride.dart';
+import 'publish_gates.dart';
 
 /// Publishes the active ride's live position and status to Firestore so the
 /// rider app can track it in realtime (`live_trips/{rideId}`). The driver is
@@ -24,6 +25,7 @@ class TripPublisher {
   StreamSubscription<Position>? _sub;
   String? _rideId;
   _Phase _phase = _Phase.enRoute;
+  final _gate = IntervalGate(const Duration(seconds: 3));
 
   bool get isPublishing => _rideId != null;
 
@@ -45,6 +47,7 @@ class TripPublisher {
 
     _rideId = ride.id;
     _phase = _Phase.enRoute;
+    _gate.reset();
 
     _sub = Geolocator.getPositionStream(
       locationSettings: const LocationSettings(
@@ -61,7 +64,10 @@ class TripPublisher {
     final toPickupKm = _haversineKm(pos.latitude, pos.longitude, ride.pickupLat, ride.pickupLng);
     final toDestKm = _haversineKm(pos.latitude, pos.longitude, ride.destinationLat, ride.destinationLng);
 
+    final phaseBefore = _phase;
     _advancePhase(toPickupKm);
+
+    if (!_gate.due(DateTime.now(), force: _phase != phaseBefore)) return;
 
     final tripKm = _haversineKm(ride.pickupLat, ride.pickupLng, ride.destinationLat, ride.destinationLng);
 

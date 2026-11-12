@@ -53,10 +53,10 @@ class DriverCompactCard extends StatelessWidget {
 
   String get _vehicleImage {
     final cat = vehicle.category.toLowerCase();
-    if (cat.contains('hatchback')) return 'assets/images/car_hatchback.jpg';
-    if (cat.contains('suv')) return 'assets/images/car_suv.jpg';
-    if (cat.contains('traveller') || cat.contains('tempo')) return 'assets/images/car_traveller.jpg';
-    return 'assets/images/car_sedan.jpg';
+    if (cat.contains('hatchback')) return 'assets/images/car_hatchback.webp';
+    if (cat.contains('suv')) return 'assets/images/car_suv.webp';
+    if (cat.contains('traveller') || cat.contains('tempo')) return 'assets/images/car_traveller.webp';
+    return 'assets/images/car_sedan.webp';
   }
 
   @override

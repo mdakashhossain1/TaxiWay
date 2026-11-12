@@ -13,47 +13,60 @@ class NearbyDriver {
   const NearbyDriver({required this.id, required this.lat, required this.lng, this.heading});
 }
 
+const maxNearbyDrivers = 20;
+const nearbyDriverStaleAfter = Duration(seconds: 90);
+
 final geoIndexProvider = FutureProvider<GeoIndex>((_) => GeoIndex.instance());
+
+/// The search area for [center] as a stable key, so moving around inside the
+/// same cells reuses one Firestore listener instead of opening a new one per
+/// GPS fix.
+final _searchCellsProvider = Provider.autoDispose.family<String?, PlaceLocation>((ref, center) {
+  final geo = ref.watch(geoIndexProvider).asData?.value;
+  if (geo == null) return null;
+  final cells = geo.diskCells(center.latitude, center.longitude, ringSize: 1)..sort();
+  return cells.join(',');
+});
+
+final _driversInCellsProvider = StreamProvider.autoDispose.family<List<NearbyDriver>, String>((ref, cellKey) {
+  return FirebaseFirestore.instance
+      .collection('driver_locations')
+      .where('h3r8', whereIn: cellKey.split(','))
+      .limit(maxNearbyDrivers)
+      .snapshots()
+      .map((snap) => snap.docs.map(toNearbyDriver).whereType<NearbyDriver>().toList());
+});
 
 /// Live available drivers around [center], found by H3 cell + ring — the same
 /// hexagonal index Uber uses for driver search. Queries only by cell (an
 /// indexed field); availability and staleness are filtered client-side so no
-/// Firestore composite index is required. Emits an empty list until H3 loads.
+/// Firestore composite index is required. Empty until H3 loads.
 ///
-/// A document is considered live only if it was updated within [_staleAfter];
-/// drivers that go offline without a final write simply age out.
+/// A document is considered live only if it was updated within
+/// [nearbyDriverStaleAfter]; drivers that go offline without a final write
+/// simply age out.
 final nearbyDriversProvider =
-    StreamProvider.autoDispose.family<List<NearbyDriver>, PlaceLocation>((ref, center) {
-  final geo = ref.watch(geoIndexProvider).asData?.value;
-  if (geo == null) return Stream.value(const <NearbyDriver>[]);
-
-  final cells = geo.diskCells(center.latitude, center.longitude, ringSize: 1);
-  if (cells.isEmpty) return Stream.value(const <NearbyDriver>[]);
-
-  return FirebaseFirestore.instance
-      .collection('driver_locations')
-      .where('h3r8', whereIn: cells)
-      .snapshots()
-      .map((snap) => snap.docs
-          .map(_toDriver)
-          .whereType<NearbyDriver>()
-          .toList());
+    Provider.autoDispose.family<AsyncValue<List<NearbyDriver>>, PlaceLocation>((ref, center) {
+  final cellKey = ref.watch(_searchCellsProvider(center));
+  if (cellKey == null) return const AsyncData(<NearbyDriver>[]);
+  return ref.watch(_driversInCellsProvider(cellKey));
 });
 
-const _staleAfter = Duration(seconds: 60);
+NearbyDriver? toNearbyDriver(QueryDocumentSnapshot<Map<String, dynamic>> doc) {
+  return nearbyDriverFrom(doc.id, doc.data(), DateTime.now());
+}
 
-NearbyDriver? _toDriver(QueryDocumentSnapshot<Map<String, dynamic>> doc) {
-  final data = doc.data();
+NearbyDriver? nearbyDriverFrom(String id, Map<String, dynamic> data, DateTime now) {
   if (data['available'] != true) return null;
   final lat = (data['lat'] as num?)?.toDouble();
   final lng = (data['lng'] as num?)?.toDouble();
   if (lat == null || lng == null) return null;
 
   final updatedAt = (data['updatedAt'] as Timestamp?)?.toDate();
-  if (updatedAt != null && DateTime.now().difference(updatedAt) > _staleAfter) return null;
+  if (updatedAt != null && now.difference(updatedAt) > nearbyDriverStaleAfter) return null;
 
   return NearbyDriver(
-    id: doc.id,
+    id: id,
     lat: lat,
     lng: lng,
     heading: (data['driverHeading'] as num?)?.toDouble(),

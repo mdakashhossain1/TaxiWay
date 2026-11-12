@@ -37,15 +37,15 @@ class _BookingReviewScreenState extends ConsumerState<BookingReviewScreen> {
   String _imageForCategory(String id) {
     switch (id) {
       case 'hatchback':
-        return 'assets/images/car_hatchback.jpg';
+        return 'assets/images/car_hatchback.webp';
       case 'suv':
-        return 'assets/images/car_suv.jpg';
+        return 'assets/images/car_suv.webp';
       case 'traveller':
       case 'tempo':
-        return 'assets/images/car_traveller.jpg';
+        return 'assets/images/car_traveller.webp';
       case 'sedan':
       default:
-        return 'assets/images/car_sedan.jpg';
+        return 'assets/images/car_sedan.webp';
     }
   }
 

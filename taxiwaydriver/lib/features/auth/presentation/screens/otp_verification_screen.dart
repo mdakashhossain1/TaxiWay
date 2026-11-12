@@ -237,7 +237,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                       // Top Section Image
                       Center(
                         child: Image.asset(
-                          'assets/images/otp_hero.png',
+                          'assets/images/otp_hero.webp',
                           height: 180,
                           fit: BoxFit.contain,
                         )

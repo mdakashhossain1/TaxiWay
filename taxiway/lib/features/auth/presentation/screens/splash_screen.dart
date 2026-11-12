@@ -68,7 +68,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       backgroundColor: const Color(0xFFFDE8D8),
       body: SizedBox.expand(
         child: Image.asset(
-          'assets/images/splash_bg.png',
+          'assets/images/splash_bg.webp',
           fit: BoxFit.cover,
         )
             .animate()

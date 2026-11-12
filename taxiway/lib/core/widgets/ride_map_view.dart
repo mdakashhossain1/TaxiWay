@@ -137,6 +137,8 @@ class _RideMapViewState extends State<RideMapView> with SingleTickerProviderStat
       : null;
 
   List<LatLng>? _liveRoutePoints;
+  Set<Polyline> _polylines = const {};
+  Object? _polylineKey;
 
   @override
   void initState() {
@@ -404,6 +406,41 @@ class _RideMapViewState extends State<RideMapView> with SingleTickerProviderStat
     Future.delayed(const Duration(milliseconds: 340), () => _fitCamera());
   }
 
+  Set<Polyline> _buildPolylines(List<LatLng> route, Color primary) {
+    return {
+      if (widget.showDriver && widget.driverPhase == MapDriverPhase.approachingPickup)
+        Polyline(
+          polylineId: const PolylineId('driver_approach'),
+          points: _driverApproachPoints,
+          color: const Color(0xFF6366F1),
+          width: 4,
+          jointType: JointType.round,
+          startCap: Cap.roundCap,
+          endCap: Cap.roundCap,
+        ),
+      if (route.isNotEmpty) ...[
+        Polyline(
+          polylineId: const PolylineId('route_border'),
+          points: route,
+          color: const Color(0xFFC2410C),
+          width: 7,
+          jointType: JointType.round,
+          startCap: Cap.roundCap,
+          endCap: Cap.roundCap,
+        ),
+        Polyline(
+          polylineId: const PolylineId('route_main'),
+          points: route,
+          color: primary,
+          width: 5,
+          jointType: JointType.round,
+          startCap: Cap.roundCap,
+          endCap: Cap.roundCap,
+        ),
+      ],
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -447,38 +484,13 @@ class _RideMapViewState extends State<RideMapView> with SingleTickerProviderStat
         ),
     };
 
-    final polylines = <Polyline>{
-      if (widget.showDriver && widget.driverPhase == MapDriverPhase.approachingPickup)
-        Polyline(
-          polylineId: const PolylineId('driver_approach'),
-          points: _driverApproachPoints,
-          color: const Color(0xFF6366F1),
-          width: 4,
-          jointType: JointType.round,
-          startCap: Cap.roundCap,
-          endCap: Cap.roundCap,
-        ),
-      if (route.isNotEmpty) ...[
-        Polyline(
-          polylineId: const PolylineId('route_border'),
-          points: route,
-          color: const Color(0xFFC2410C),
-          width: 7,
-          jointType: JointType.round,
-          startCap: Cap.roundCap,
-          endCap: Cap.roundCap,
-        ),
-        Polyline(
-          polylineId: const PolylineId('route_main'),
-          points: route,
-          color: AppColors.of(context).primary,
-          width: 5,
-          jointType: JointType.round,
-          startCap: Cap.roundCap,
-          endCap: Cap.roundCap,
-        ),
-      ],
-    };
+    final primary = AppColors.of(context).primary;
+    final polylineKey = Object.hash(identityHashCode(_liveRoutePoints), widget.showDriver, widget.driverPhase, primary);
+    if (polylineKey != _polylineKey) {
+      _polylineKey = polylineKey;
+      _polylines = _buildPolylines(route, primary);
+    }
+    final polylines = _polylines;
 
     final targetHeight = _isExpanded ? 540.0 : widget.height;
 

@@ -13,7 +13,7 @@ class UpiLogoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.asset(
-      'assets/images/upi_logo.png',
+      'assets/images/upi_logo.webp',
       height: height,
       fit: BoxFit.contain,
       errorBuilder: (context, error, stackTrace) => Row(

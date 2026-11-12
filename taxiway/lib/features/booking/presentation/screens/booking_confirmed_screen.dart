@@ -91,10 +91,10 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
 
   String _getVehicleImage(String category) {
     final cat = category.toLowerCase();
-    if (cat.contains('hatchback')) return 'assets/images/car_hatchback.jpg';
-    if (cat.contains('suv')) return 'assets/images/car_suv.jpg';
-    if (cat.contains('traveller') || cat.contains('tempo')) return 'assets/images/car_traveller.jpg';
-    return 'assets/images/car_sedan.jpg';
+    if (cat.contains('hatchback')) return 'assets/images/car_hatchback.webp';
+    if (cat.contains('suv')) return 'assets/images/car_suv.webp';
+    if (cat.contains('traveller') || cat.contains('tempo')) return 'assets/images/car_traveller.webp';
+    return 'assets/images/car_sedan.webp';
   }
 
   void _showCancelDialog() {
@@ -387,7 +387,7 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                         shape: BoxShape.circle,
                         border: Border.all(color: AppColors.of(context).border, width: 2),
                         image: const DecorationImage(
-                          image: AssetImage('assets/images/driver_avatar.jpg'),
+                          image: AssetImage('assets/images/driver_avatar.webp'),
                           fit: BoxFit.cover,
                         ),
                       ),

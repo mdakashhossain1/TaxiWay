@@ -71,7 +71,8 @@ class HomeScreen extends ConsumerWidget {
     final mapHeight = draft.hasRoute ? 270.0 : 330.0;
 
     // Live "cars near you" around the pickup, via H3 cell search.
-    final nearbyDrivers = draft.pickup == null
+    final isCurrentRoute = ModalRoute.of(context)?.isCurrent ?? true;
+    final nearbyDrivers = draft.pickup == null || !isCurrentRoute
         ? const <LatLng>[]
         : (ref.watch(nearbyDriversProvider(draft.pickup!)).asData?.value ?? const [])
             .map((d) => LatLng(d.lat, d.lng))
@@ -188,8 +189,8 @@ class HomeScreen extends ConsumerWidget {
                         },
                       )
                           .animate()
-                          .fadeIn(delay: (40 * i).ms, duration: 220.ms)
-                          .slideX(begin: 0.12, end: 0, delay: (40 * i).ms, duration: 220.ms, curve: Curves.easeOutCubic);
+                          .fadeIn(delay: (40 * (i < 6 ? i : 6)).ms, duration: 220.ms)
+                          .slideX(begin: 0.12, end: 0, delay: (40 * (i < 6 ? i : 6)).ms, duration: 220.ms, curve: Curves.easeOutCubic);
                     },
                   );
                 },

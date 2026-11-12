@@ -21,6 +21,8 @@ class TripHistoryScreen extends ConsumerStatefulWidget {
 }
 
 class _TripHistoryScreenState extends ConsumerState<TripHistoryScreen> with SingleTickerProviderStateMixin {
+  static const _staggeredItems = 8;
+
   late final TabController _tabController = TabController(length: 4, vsync: this);
 
   @override
@@ -72,13 +74,17 @@ class _TripHistoryScreenState extends ConsumerState<TripHistoryScreen> with Sing
             return ListView.builder(
               padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
               itemCount: list.length,
-              itemBuilder: (context, i) => TripCard(
-                booking: list[i].booking,
-                onTap: () => context.push(AppRoutes.tripDetails, extra: list[i]),
-              )
-                  .animate()
-                  .fadeIn(delay: (50 * i).ms, duration: 260.ms)
-                  .slideY(begin: 0.08, end: 0, delay: (50 * i).ms, duration: 260.ms, curve: Curves.easeOutCubic),
+              itemBuilder: (context, i) {
+                final card = TripCard(
+                  booking: list[i].booking,
+                  onTap: () => context.push(AppRoutes.tripDetails, extra: list[i]),
+                );
+                if (i >= _staggeredItems) return card;
+                return card
+                    .animate()
+                    .fadeIn(delay: (50 * i).ms, duration: 260.ms)
+                    .slideY(begin: 0.08, end: 0, delay: (50 * i).ms, duration: 260.ms, curve: Curves.easeOutCubic);
+              },
             );
           }),
         ),
