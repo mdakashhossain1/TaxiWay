@@ -13,6 +13,13 @@ class DriverProfile {
     required this.verificationStatus,
   });
 
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'phone': phone,
+        'verification_status': verificationStatus.name,
+      };
+
   factory DriverProfile.fromJson(Map<String, dynamic> json) {
     return DriverProfile(
       id: json['id'].toString(),

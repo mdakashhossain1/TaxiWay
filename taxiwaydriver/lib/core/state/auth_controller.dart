@@ -15,14 +15,26 @@ class AuthState {
   /// already-authenticated Google session instead of starting a fresh login.
   final bool linking;
 
-  const AuthState({this.phone = '', this.driver, this.debugOtp, this.linking = false});
+  /// True only while the saved session is being read at app start, so the
+  /// router can hold on a blank launch screen instead of flashing login.
+  final bool checking;
+
+  const AuthState({this.phone = '', this.driver, this.debugOtp, this.linking = false, this.checking = false});
 
   bool get isLoggedIn => driver != null;
 }
 
 class AuthController extends Notifier<AuthState> {
   @override
-  AuthState build() => const AuthState();
+  AuthState build() {
+    _restoreSession();
+    return const AuthState(checking: true);
+  }
+
+  Future<void> _restoreSession() async {
+    final driver = await ref.read(authRepositoryProvider).getSession();
+    state = AuthState(phone: driver?.phone ?? '', driver: driver);
+  }
 
   Future<String?> sendOtp(String phone) async {
     state = AuthState(phone: phone, driver: state.driver, linking: state.linking);
@@ -60,6 +72,7 @@ class AuthController extends Notifier<AuthState> {
 
   void logout() {
     ApiClient.instance.clearToken();
+    ref.read(authRepositoryProvider).clearSession();
     DriverLocationTrackingService.stop();
     PushNotificationService.reset();
     state = const AuthState();
