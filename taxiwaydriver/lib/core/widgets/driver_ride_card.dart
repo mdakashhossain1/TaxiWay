@@ -6,6 +6,7 @@ import '../theme/app_typography.dart';
 import '../utils/format_utils.dart';
 import 'pressable_scale.dart';
 import 'status_badge.dart';
+import 'auto_scroll_text.dart';
 
 class DriverRideCard extends StatelessWidget {
   final DriverRide ride;
@@ -139,11 +140,9 @@ class _RoutePoint extends StatelessWidget {
         ),
         const SizedBox(width: 10),
         Expanded(
-          child: Text(
+          child: AutoScrollText(
             text,
             style: AppTypography.of(context).body.copyWith(fontWeight: FontWeight.w600, color: colors.navy),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],
