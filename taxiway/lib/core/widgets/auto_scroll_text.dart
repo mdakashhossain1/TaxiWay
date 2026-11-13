@@ -1,30 +1,34 @@
 import 'package:flutter/material.dart';
 
-/// One-line text that shows in full. When the text is wider than the space it
-/// has, it pauses, scrolls to the end, pauses and scrolls back, repeating, so
-/// a long place name can be read instead of being cut off with "...".
+/// One-line text that is always readable in full. When it is wider than the
+/// space it has, it holds for a moment and then scrolls continuously to the
+/// left as a marquee: a second copy follows the first, so the text wraps
+/// around seamlessly and loops without ever bouncing back.
 class AutoScrollText extends StatefulWidget {
   final String text;
   final TextStyle? style;
   final Duration pause;
   final double pixelsPerSecond;
+  final double gap;
 
   const AutoScrollText(
     this.text, {
     super.key,
     this.style,
-    this.pause = const Duration(milliseconds: 1400),
-    this.pixelsPerSecond = 38,
+    this.pause = const Duration(milliseconds: 1200),
+    this.pixelsPerSecond = 42,
+    this.gap = 36,
   });
 
   @override
   State<AutoScrollText> createState() => _AutoScrollTextState();
 }
 
-class _AutoScrollTextState extends State<AutoScrollText> {
-  final ScrollController _controller = ScrollController();
-  bool _looping = false;
+class _AutoScrollTextState extends State<AutoScrollText> with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(vsync: this);
+  bool _running = false;
   bool _disposed = false;
+  double _cycle = 0;
 
   @override
   void dispose() {
@@ -36,27 +40,22 @@ class _AutoScrollTextState extends State<AutoScrollText> {
   @override
   void didUpdateWidget(covariant AutoScrollText oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.text != widget.text && _controller.hasClients) {
-      _controller.jumpTo(0);
-    }
+    if (oldWidget.text != widget.text) _controller.value = 0;
   }
 
-  Future<void> _loop() async {
-    if (_looping) return;
-    _looping = true;
-    while (!_disposed) {
+  Future<void> _run(double cycleWidth) async {
+    if (_running && cycleWidth == _cycle) return;
+    _cycle = cycleWidth;
+    if (_running) return;
+    _running = true;
+    while (!_disposed && _cycle > 0) {
+      _controller.value = 0;
       await Future<void>.delayed(widget.pause);
-      if (_disposed || !_controller.hasClients) break;
-      final extent = _controller.position.maxScrollExtent;
-      if (extent <= 0) break;
-      final forward = Duration(milliseconds: (extent / widget.pixelsPerSecond * 1000).round());
-      await _controller.animateTo(extent, duration: forward, curve: Curves.linear);
-      if (_disposed || !_controller.hasClients) break;
-      await Future<void>.delayed(widget.pause);
-      if (_disposed || !_controller.hasClients) break;
-      await _controller.animateTo(0, duration: const Duration(milliseconds: 450), curve: Curves.easeOutCubic);
+      if (_disposed) break;
+      final duration = Duration(milliseconds: (_cycle / widget.pixelsPerSecond * 1000).round());
+      await _controller.animateTo(1, duration: duration, curve: Curves.linear);
     }
-    _looping = false;
+    _running = false;
   }
 
   @override
@@ -72,29 +71,53 @@ class _AutoScrollTextState extends State<AutoScrollText> {
           textDirection: Directionality.of(context),
           textScaler: MediaQuery.textScalerOf(context),
         )..layout();
-        final overflows = painter.width > constraints.maxWidth + 0.5;
+        final textWidth = painter.width;
+        final overflows = textWidth > constraints.maxWidth + 0.5;
 
         if (!overflows || reduceMotion) {
           return Text(widget.text, style: style, maxLines: 1, overflow: TextOverflow.ellipsis);
         }
 
+        final cycleWidth = textWidth + widget.gap;
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (!_disposed) _loop();
+          if (!_disposed) _run(cycleWidth);
         });
 
         return SizedBox(
           height: painter.height,
-          child: ShaderMask(
-            blendMode: BlendMode.dstIn,
-            shaderCallback: (bounds) => const LinearGradient(
-              colors: [Colors.black, Colors.black, Colors.transparent],
-              stops: [0, 0.9, 1],
-            ).createShader(bounds),
-            child: SingleChildScrollView(
-              controller: _controller,
-              scrollDirection: Axis.horizontal,
-              physics: const NeverScrollableScrollPhysics(),
-              child: Text(widget.text, style: style, maxLines: 1, softWrap: false),
+          width: constraints.maxWidth,
+          child: AnimatedBuilder(
+            animation: _controller,
+            builder: (context, child) {
+              final scrolled = _controller.value > 0;
+              return ShaderMask(
+                blendMode: BlendMode.dstIn,
+                shaderCallback: (bounds) => LinearGradient(
+                  colors: [
+                    scrolled ? Colors.transparent : Colors.black,
+                    Colors.black,
+                    Colors.black,
+                    Colors.transparent,
+                  ],
+                  stops: const [0, 0.07, 0.92, 1],
+                ).createShader(bounds),
+                child: ClipRect(
+                  child: OverflowBox(
+                    alignment: Alignment.centerLeft,
+                    minWidth: 0,
+                    maxWidth: double.infinity,
+                    child: Transform.translate(offset: Offset(-_controller.value * cycleWidth, 0), child: child),
+                  ),
+                ),
+              );
+            },
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(widget.text, style: style, maxLines: 1, softWrap: false),
+                SizedBox(width: widget.gap),
+                Text(widget.text, style: style, maxLines: 1, softWrap: false),
+              ],
             ),
           ),
         );
