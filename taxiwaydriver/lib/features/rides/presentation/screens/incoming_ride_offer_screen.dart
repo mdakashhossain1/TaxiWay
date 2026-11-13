@@ -19,6 +19,7 @@ import '../../../../core/widgets/app_scaffold.dart';
 import '../../../../core/widgets/app_toast.dart';
 import '../../../../core/widgets/buttons.dart';
 import '../../../../l10n/generated/app_localizations.dart';
+import '../../../../core/widgets/auto_scroll_text.dart';
 
 /// Shown when a new ride offer arrives (push tap, or found via
 /// `pendingOfferProvider` on app open). A 20-second, server-enforced window
@@ -237,7 +238,7 @@ class _RoutePoint extends StatelessWidget {
         ),
         const SizedBox(width: 10),
         Expanded(
-          child: Text(
+          child: AutoScrollText(
             text,
             style: AppTypography.of(context).body.copyWith(fontWeight: FontWeight.w600, color: colors.navy),
           ),
