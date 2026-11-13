@@ -7,7 +7,7 @@ import '../../../../core/router/app_router.dart';
 import '../../../../core/state/driver_rides_controller.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
-import '../../../../core/widgets/app_shimmer.dart';
+import '../../../../core/widgets/skeleton_loaders.dart';
 import '../../../../core/widgets/driver_bottom_nav.dart';
 import '../../../../core/widgets/driver_ride_card.dart';
 import '../../../../core/widgets/empty_state.dart';
@@ -90,7 +90,7 @@ class _RideList extends ConsumerWidget {
 
     return PageStateBuilder<List<DriverRide>>(
       asyncValue: ridesAsync,
-      shimmer: const RideListShimmer(itemCount: 4),
+      shimmer: const DriverRideListSkeleton(),
       isEmpty: (rides) => rides.isEmpty,
       emptyWidget: EmptyState(icon: AppIcons.calendar3, title: emptyTitle, message: ''),
       onRetry: () async {
@@ -127,7 +127,7 @@ class _ScheduledRideList extends ConsumerWidget {
 
     return PageStateBuilder<List<DriverRide>>(
       asyncValue: ridesAsync,
-      shimmer: const RideListShimmer(itemCount: 4),
+      shimmer: const DriverRideListSkeleton(),
       isEmpty: (rides) => rides.isEmpty,
       emptyWidget: EmptyState(icon: AppIcons.calendar3, title: l10n.noScheduledRidesTitle, message: ''),
       onRetry: () async => ref.invalidate(scheduledRidesProvider),

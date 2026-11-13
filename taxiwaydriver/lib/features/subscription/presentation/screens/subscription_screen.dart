@@ -9,7 +9,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/utils/format_utils.dart';
-import '../../../../core/widgets/app_shimmer.dart';
+import '../../../../core/widgets/skeleton_loaders.dart';
 import '../../../../core/widgets/app_toast.dart';
 import '../../../../core/widgets/buttons.dart';
 import '../../../../core/widgets/driver_bottom_nav.dart';
@@ -45,7 +45,7 @@ class SubscriptionScreen extends ConsumerWidget {
       body: SafeArea(
         child: PageStateBuilder<SubscriptionSnapshot>(
           asyncValue: snapshotAsync,
-          shimmer: const DashboardShimmer(),
+          shimmer: const SubscriptionScreenSkeleton(),
           onRetry: () async => ref.invalidate(subscriptionControllerProvider),
           builder: (context, snapshot) {
             final plan = snapshot.plan;
