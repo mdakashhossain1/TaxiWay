@@ -143,7 +143,7 @@ class DashboardScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          '${formatRupees(plan.pricePerMonth)} / month',
+                          AppLocalizations.of(context).perMonthPrice(formatRupees(plan.pricePerMonth)),
                           style: AppTypography.of(context).priceLarge.copyWith(color: AppColors.of(context).onPrimary),
                         ),
                         Text(
@@ -415,7 +415,7 @@ class _NextRideCard extends StatelessWidget {
                   icon: AppIcons.telephone_fill,
                   onPressed: () {
                     launchPhoneCall(ride.customerPhone);
-                    AppToast.call(context, 'Calling ${ride.customerName}...');
+                    AppToast.call(context, AppLocalizations.of(context).callingPerson(ride.customerName));
                   },
                 ),
               ),

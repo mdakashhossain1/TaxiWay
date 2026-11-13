@@ -89,7 +89,7 @@ class BulkOffersReceivedScreen extends ConsumerWidget {
                               children: [
                                 RatingStars(rating: v.rating, size: 12),
                                 const SizedBox(width: 4),
-                                Text('${v.rating} · ${v.category} · ${v.seats} Seater', style: AppTypography.of(context).caption),
+                                Text('${v.rating} · ${v.category} · ${AppLocalizations.of(context).seaterCount(v.seats)}', style: AppTypography.of(context).caption),
                               ],
                             ),
                           ],

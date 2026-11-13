@@ -519,4 +519,35 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get viewLabel => 'দেখুন';
+
+  @override
+  String devOtpLabel(String otp) {
+    return 'OTP: $otp';
+  }
+
+  @override
+  String newOtpSentTo(String phone) {
+    return 'নতুন OTP +91 $phone নম্বরে পাঠানো হয়েছে';
+  }
+
+  @override
+  String driverNumberAutoFilled(String number) {
+    return 'ড্রাইভার নম্বর +91 $number স্বয়ংক্রিয়ভাবে পূরণ হয়েছে';
+  }
+
+  @override
+  String callingPerson(String name) {
+    return '$name-কে কল করা হচ্ছে...';
+  }
+
+  @override
+  String perMonthPrice(String price) {
+    return '$price / মাস';
+  }
+
+  @override
+  String get statusOffered => 'প্রস্তাবিত';
+
+  @override
+  String get statusOpen => 'উন্মুক্ত';
 }

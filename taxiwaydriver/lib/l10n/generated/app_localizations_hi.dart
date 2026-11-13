@@ -518,4 +518,35 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get viewLabel => 'देखें';
+
+  @override
+  String devOtpLabel(String otp) {
+    return 'OTP: $otp';
+  }
+
+  @override
+  String newOtpSentTo(String phone) {
+    return 'नया OTP +91 $phone पर भेजा गया';
+  }
+
+  @override
+  String driverNumberAutoFilled(String number) {
+    return 'ड्राइवर नंबर +91 $number अपने-आप भर गया';
+  }
+
+  @override
+  String callingPerson(String name) {
+    return '$name को कॉल किया जा रहा है...';
+  }
+
+  @override
+  String perMonthPrice(String price) {
+    return '$price / माह';
+  }
+
+  @override
+  String get statusOffered => 'प्रस्तावित';
+
+  @override
+  String get statusOpen => 'खुला';
 }

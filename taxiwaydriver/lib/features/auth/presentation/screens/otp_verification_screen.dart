@@ -138,9 +138,9 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
       if (!mounted) return;
       if (debugOtp != null) {
         _otpKey.currentState?.setCode(debugOtp);
-        AppToast.info(context, 'OTP: $debugOtp', title: AppLocalizations.of(context).devModeNoSms);
+        AppToast.info(context, AppLocalizations.of(context).devOtpLabel(debugOtp), title: AppLocalizations.of(context).devModeNoSms);
       } else {
-        AppToast.info(context, 'New OTP sent to +91 $phone', title: AppLocalizations.of(context).codeResent);
+        AppToast.info(context, AppLocalizations.of(context).newOtpSentTo(phone), title: AppLocalizations.of(context).codeResent);
       }
     } catch (error) {
       if (!mounted) return;
@@ -168,12 +168,12 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
       });
       if (debugOtp != null) {
         _otpKey.currentState?.setCode(debugOtp!);
-        AppToast.info(context, 'OTP: $debugOtp', title: AppLocalizations.of(context).devModeNoSms);
+        AppToast.info(context, AppLocalizations.of(context).devOtpLabel(debugOtp!), title: AppLocalizations.of(context).devModeNoSms);
         return;
       }
       AppToast.success(
         context,
-        'New OTP sent to +91 $newPhone',
+        AppLocalizations.of(context).newOtpSentTo(newPhone),
         title: AppLocalizations.of(context).numberUpdated,
       );
     }

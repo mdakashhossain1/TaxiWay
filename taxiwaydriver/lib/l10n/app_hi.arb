@@ -168,5 +168,12 @@
   "supportLabel": "सहायता",
   "typeAMessage": "संदेश लिखें…",
   "verifiedLabel": "सत्यापित",
-  "viewLabel": "देखें"
+  "viewLabel": "देखें",
+  "devOtpLabel": "OTP: {otp}",
+  "newOtpSentTo": "नया OTP +91 {phone} पर भेजा गया",
+  "driverNumberAutoFilled": "ड्राइवर नंबर +91 {number} अपने-आप भर गया",
+  "callingPerson": "{name} को कॉल किया जा रहा है...",
+  "perMonthPrice": "{price} / माह",
+  "statusOffered": "प्रस्तावित",
+  "statusOpen": "खुला"
 }

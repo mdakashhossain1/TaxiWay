@@ -51,7 +51,7 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
         _phone = detected;
         _controller.text = detected;
       });
-      AppToast.success(context, 'Number +91 $detected auto-filled from SIM', title: AppLocalizations.of(context).simAutoFill);
+      AppToast.success(context, AppLocalizations.of(context).numberAutoFilledFromSim(detected), title: AppLocalizations.of(context).simAutoFill);
     }
   }
 
@@ -70,7 +70,7 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
       final debugOtp = await ref.read(authControllerProvider.notifier).sendOtp(_phone);
       if (!mounted) return;
       if (debugOtp != null) {
-        AppToast.info(context, 'OTP: $debugOtp', title: AppLocalizations.of(context).devModeNoSms);
+        AppToast.info(context, AppLocalizations.of(context).devOtpLabel(debugOtp), title: AppLocalizations.of(context).devModeNoSms);
       }
       context.push(AppRoutes.otp);
     } catch (error) {

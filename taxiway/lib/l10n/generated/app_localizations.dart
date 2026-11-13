@@ -2187,6 +2187,378 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your Rating'**
   String get yourRating;
+
+  /// No description provided for @backgroundCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'Background Check'**
+  String get backgroundCheck;
+
+  /// No description provided for @bookingId.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking ID'**
+  String get bookingId;
+
+  /// No description provided for @contactLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact'**
+  String get contactLabel;
+
+  /// No description provided for @dateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get dateLabel;
+
+  /// No description provided for @distanceFare.
+  ///
+  /// In en, this message translates to:
+  /// **'Distance Fare'**
+  String get distanceFare;
+
+  /// No description provided for @driverLabelShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Driver'**
+  String get driverLabelShort;
+
+  /// No description provided for @drivingLicense.
+  ///
+  /// In en, this message translates to:
+  /// **'Driving License'**
+  String get drivingLicense;
+
+  /// No description provided for @durationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get durationLabel;
+
+  /// No description provided for @gpsEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'GPS Enabled'**
+  String get gpsEnabled;
+
+  /// No description provided for @languagesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Languages'**
+  String get languagesLabel;
+
+  /// No description provided for @livesIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Lives In'**
+  String get livesIn;
+
+  /// No description provided for @memberSinceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Member Since'**
+  String get memberSinceLabel;
+
+  /// No description provided for @nameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get nameLabel;
+
+  /// No description provided for @nonSmoking.
+  ///
+  /// In en, this message translates to:
+  /// **'Non-Smoking'**
+  String get nonSmoking;
+
+  /// No description provided for @notesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get notesLabel;
+
+  /// No description provided for @passengersLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Passengers'**
+  String get passengersLabel;
+
+  /// No description provided for @paymentStatusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Status'**
+  String get paymentStatusLabel;
+
+  /// No description provided for @requestId.
+  ///
+  /// In en, this message translates to:
+  /// **'Request ID'**
+  String get requestId;
+
+  /// No description provided for @requirementsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Requirements'**
+  String get requirementsLabel;
+
+  /// No description provided for @routeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Route'**
+  String get routeLabel;
+
+  /// No description provided for @statusCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get statusCompleted;
+
+  /// No description provided for @statusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get statusLabel;
+
+  /// No description provided for @statusUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming'**
+  String get statusUpcoming;
+
+  /// No description provided for @timeFare.
+  ///
+  /// In en, this message translates to:
+  /// **'Time Fare'**
+  String get timeFare;
+
+  /// No description provided for @totalCapacity.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Capacity'**
+  String get totalCapacity;
+
+  /// No description provided for @totalPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Paid'**
+  String get totalPaid;
+
+  /// No description provided for @tripType.
+  ///
+  /// In en, this message translates to:
+  /// **'Trip Type'**
+  String get tripType;
+
+  /// No description provided for @vehiclesConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicles Confirmed'**
+  String get vehiclesConfirmed;
+
+  /// No description provided for @vehiclesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicles'**
+  String get vehiclesLabel;
+
+  /// No description provided for @viewAllLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'View All'**
+  String get viewAllLabel;
+
+  /// No description provided for @devOtpLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'OTP: {otp}'**
+  String devOtpLabel(String otp);
+
+  /// No description provided for @newOtpSentTo.
+  ///
+  /// In en, this message translates to:
+  /// **'New OTP sent to +91 {phone}'**
+  String newOtpSentTo(String phone);
+
+  /// No description provided for @numberAutoFilledFromSim.
+  ///
+  /// In en, this message translates to:
+  /// **'Number +91 {number} auto-filled from SIM'**
+  String numberAutoFilledFromSim(String number);
+
+  /// No description provided for @memberSinceDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Member since {date}'**
+  String memberSinceDate(String date);
+
+  /// No description provided for @connectingHelpline.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting to Taxiway Helpline: {number}...'**
+  String connectingHelpline(String number);
+
+  /// No description provided for @openingGuideFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening guide and FAQs for \"{topic}\"...'**
+  String openingGuideFor(String topic);
+
+  /// No description provided for @waitingAtPlace.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting at {place}'**
+  String waitingAtPlace(String place);
+
+  /// No description provided for @callingPerson.
+  ///
+  /// In en, this message translates to:
+  /// **'Calling {name}...'**
+  String callingPerson(String name);
+
+  /// No description provided for @meetAtPickupIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Meet at pickup in {minutes} min'**
+  String meetAtPickupIn(int minutes);
+
+  /// No description provided for @kmAway.
+  ///
+  /// In en, this message translates to:
+  /// **'{km} km away'**
+  String kmAway(String km);
+
+  /// No description provided for @messagePerson.
+  ///
+  /// In en, this message translates to:
+  /// **'Message {name}'**
+  String messagePerson(String name);
+
+  /// No description provided for @withPerson.
+  ///
+  /// In en, this message translates to:
+  /// **'with {name}'**
+  String withPerson(String name);
+
+  /// No description provided for @headingToPlace.
+  ///
+  /// In en, this message translates to:
+  /// **'Heading to {place}'**
+  String headingToPlace(String place);
+
+  /// No description provided for @arriveSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Arrive {time} · {minutes} min · {km} km left'**
+  String arriveSummary(String time, int minutes, String km);
+
+  /// No description provided for @tripNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Trip #{id}'**
+  String tripNumber(String id);
+
+  /// No description provided for @pendingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get pendingLabel;
+
+  /// No description provided for @paidLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid'**
+  String get paidLabel;
+
+  /// No description provided for @statusFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get statusFailed;
+
+  /// No description provided for @statusSubmitted.
+  ///
+  /// In en, this message translates to:
+  /// **'Submitted'**
+  String get statusSubmitted;
+
+  /// No description provided for @statusUnderReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Under Review'**
+  String get statusUnderReview;
+
+  /// No description provided for @statusOfferReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Offer Ready'**
+  String get statusOfferReady;
+
+  /// No description provided for @statusConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmed'**
+  String get statusConfirmed;
+
+  /// No description provided for @mediaFront.
+  ///
+  /// In en, this message translates to:
+  /// **'Front'**
+  String get mediaFront;
+
+  /// No description provided for @mediaRear.
+  ///
+  /// In en, this message translates to:
+  /// **'Rear'**
+  String get mediaRear;
+
+  /// No description provided for @mediaLeftSide.
+  ///
+  /// In en, this message translates to:
+  /// **'Left Side'**
+  String get mediaLeftSide;
+
+  /// No description provided for @mediaRightSide.
+  ///
+  /// In en, this message translates to:
+  /// **'Right Side'**
+  String get mediaRightSide;
+
+  /// No description provided for @relativeToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get relativeToday;
+
+  /// No description provided for @relativeOneDayAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'1 day ago'**
+  String get relativeOneDayAgo;
+
+  /// No description provided for @relativeDaysAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} days ago'**
+  String relativeDaysAgo(int count);
+
+  /// No description provided for @relativeWeeksAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} weeks ago'**
+  String relativeWeeksAgo(int count);
+
+  /// No description provided for @relativeMonthsAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} months ago'**
+  String relativeMonthsAgo(int count);
+
+  /// No description provided for @perMonthPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'{price} / month'**
+  String perMonthPrice(String price);
 }
 
 class _AppLocalizationsDelegate

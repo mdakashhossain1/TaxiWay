@@ -86,7 +86,7 @@ class _RatingReviewScreenState extends ConsumerState<RatingReviewScreen> {
           ),
           const SizedBox(height: 4),
           Text(
-            'with ${driver.name}',
+            AppLocalizations.of(context).withPerson(driver.name),
             style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).bodyText),
           ),
           const SizedBox(height: 20),

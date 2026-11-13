@@ -1141,4 +1141,228 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get yourRating => 'Your Rating';
+
+  @override
+  String get backgroundCheck => 'Background Check';
+
+  @override
+  String get bookingId => 'Booking ID';
+
+  @override
+  String get contactLabel => 'Contact';
+
+  @override
+  String get dateLabel => 'Date';
+
+  @override
+  String get distanceFare => 'Distance Fare';
+
+  @override
+  String get driverLabelShort => 'Driver';
+
+  @override
+  String get drivingLicense => 'Driving License';
+
+  @override
+  String get durationLabel => 'Duration';
+
+  @override
+  String get gpsEnabled => 'GPS Enabled';
+
+  @override
+  String get languagesLabel => 'Languages';
+
+  @override
+  String get livesIn => 'Lives In';
+
+  @override
+  String get memberSinceLabel => 'Member Since';
+
+  @override
+  String get nameLabel => 'Name';
+
+  @override
+  String get nonSmoking => 'Non-Smoking';
+
+  @override
+  String get notesLabel => 'Notes';
+
+  @override
+  String get passengersLabel => 'Passengers';
+
+  @override
+  String get paymentStatusLabel => 'Payment Status';
+
+  @override
+  String get requestId => 'Request ID';
+
+  @override
+  String get requirementsLabel => 'Requirements';
+
+  @override
+  String get routeLabel => 'Route';
+
+  @override
+  String get statusCompleted => 'Completed';
+
+  @override
+  String get statusLabel => 'Status';
+
+  @override
+  String get statusUpcoming => 'Upcoming';
+
+  @override
+  String get timeFare => 'Time Fare';
+
+  @override
+  String get totalCapacity => 'Total Capacity';
+
+  @override
+  String get totalPaid => 'Total Paid';
+
+  @override
+  String get tripType => 'Trip Type';
+
+  @override
+  String get vehiclesConfirmed => 'Vehicles Confirmed';
+
+  @override
+  String get vehiclesLabel => 'Vehicles';
+
+  @override
+  String get viewAllLabel => 'View All';
+
+  @override
+  String devOtpLabel(String otp) {
+    return 'OTP: $otp';
+  }
+
+  @override
+  String newOtpSentTo(String phone) {
+    return 'New OTP sent to +91 $phone';
+  }
+
+  @override
+  String numberAutoFilledFromSim(String number) {
+    return 'Number +91 $number auto-filled from SIM';
+  }
+
+  @override
+  String memberSinceDate(String date) {
+    return 'Member since $date';
+  }
+
+  @override
+  String connectingHelpline(String number) {
+    return 'Connecting to Taxiway Helpline: $number...';
+  }
+
+  @override
+  String openingGuideFor(String topic) {
+    return 'Opening guide and FAQs for \"$topic\"...';
+  }
+
+  @override
+  String waitingAtPlace(String place) {
+    return 'Waiting at $place';
+  }
+
+  @override
+  String callingPerson(String name) {
+    return 'Calling $name...';
+  }
+
+  @override
+  String meetAtPickupIn(int minutes) {
+    return 'Meet at pickup in $minutes min';
+  }
+
+  @override
+  String kmAway(String km) {
+    return '$km km away';
+  }
+
+  @override
+  String messagePerson(String name) {
+    return 'Message $name';
+  }
+
+  @override
+  String withPerson(String name) {
+    return 'with $name';
+  }
+
+  @override
+  String headingToPlace(String place) {
+    return 'Heading to $place';
+  }
+
+  @override
+  String arriveSummary(String time, int minutes, String km) {
+    return 'Arrive $time · $minutes min · $km km left';
+  }
+
+  @override
+  String tripNumber(String id) {
+    return 'Trip #$id';
+  }
+
+  @override
+  String get pendingLabel => 'Pending';
+
+  @override
+  String get paidLabel => 'Paid';
+
+  @override
+  String get statusFailed => 'Failed';
+
+  @override
+  String get statusSubmitted => 'Submitted';
+
+  @override
+  String get statusUnderReview => 'Under Review';
+
+  @override
+  String get statusOfferReady => 'Offer Ready';
+
+  @override
+  String get statusConfirmed => 'Confirmed';
+
+  @override
+  String get mediaFront => 'Front';
+
+  @override
+  String get mediaRear => 'Rear';
+
+  @override
+  String get mediaLeftSide => 'Left Side';
+
+  @override
+  String get mediaRightSide => 'Right Side';
+
+  @override
+  String get relativeToday => 'Today';
+
+  @override
+  String get relativeOneDayAgo => '1 day ago';
+
+  @override
+  String relativeDaysAgo(int count) {
+    return '$count days ago';
+  }
+
+  @override
+  String relativeWeeksAgo(int count) {
+    return '$count weeks ago';
+  }
+
+  @override
+  String relativeMonthsAgo(int count) {
+    return '$count months ago';
+  }
+
+  @override
+  String perMonthPrice(String price) {
+    return '$price / month';
+  }
 }

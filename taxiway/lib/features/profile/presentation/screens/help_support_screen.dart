@@ -38,7 +38,7 @@ class HelpSupportScreen extends ConsumerWidget {
         return;
       }
       if (context.mounted) {
-        AppToast.call(context, 'Connecting to Taxiway Helpline: $number...', title: AppLocalizations.of(context).helplineCalling);
+        AppToast.call(context, AppLocalizations.of(context).connectingHelpline(number), title: AppLocalizations.of(context).helplineCalling);
       }
       await launchPhoneCall(number);
     } catch (error) {
@@ -96,7 +96,7 @@ class HelpSupportScreen extends ConsumerWidget {
                 trailing: Icon(AppIcons.chevron_right, size: 14, color: AppColors.of(context).mutedText),
                 onTap: () => AppToast.info(
                   context,
-                  'Opening guide and FAQs for "${t.$2}"...',
+                  AppLocalizations.of(context).openingGuideFor(t.$2),
                   title: AppLocalizations.of(context).helpCenter,
                 ),
               ),

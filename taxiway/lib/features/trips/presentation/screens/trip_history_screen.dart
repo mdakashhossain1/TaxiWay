@@ -50,7 +50,7 @@ class _TripHistoryScreenState extends ConsumerState<TripHistoryScreen> with Sing
           controller: _tabController,
           isScrollable: true,
           tabAlignment: TabAlignment.start,
-          tabs: [Tab(text: AppLocalizations.of(context).filterAll), Tab(text: 'Upcoming'), Tab(text: 'Completed'), Tab(text: AppLocalizations.of(context).filterCancelled)],
+          tabs: [Tab(text: AppLocalizations.of(context).filterAll), Tab(text: AppLocalizations.of(context).statusUpcoming), Tab(text: AppLocalizations.of(context).statusCompleted), Tab(text: AppLocalizations.of(context).filterCancelled)],
         ),
       ),
       body: PageStateBuilder<List<TripHistoryItem>>(

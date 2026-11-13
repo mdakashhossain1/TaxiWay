@@ -1149,4 +1149,228 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get yourRating => 'আপনার রেটিং';
+
+  @override
+  String get backgroundCheck => 'ব্যাকগ্রাউন্ড যাচাই';
+
+  @override
+  String get bookingId => 'বুকিং ID';
+
+  @override
+  String get contactLabel => 'যোগাযোগ';
+
+  @override
+  String get dateLabel => 'তারিখ';
+
+  @override
+  String get distanceFare => 'দূরত্বের ভাড়া';
+
+  @override
+  String get driverLabelShort => 'ড্রাইভার';
+
+  @override
+  String get drivingLicense => 'ড্রাইভিং লাইসেন্স';
+
+  @override
+  String get durationLabel => 'সময়কাল';
+
+  @override
+  String get gpsEnabled => 'GPS চালু';
+
+  @override
+  String get languagesLabel => 'ভাষা';
+
+  @override
+  String get livesIn => 'বসবাস';
+
+  @override
+  String get memberSinceLabel => 'সদস্য হয়েছেন';
+
+  @override
+  String get nameLabel => 'নাম';
+
+  @override
+  String get nonSmoking => 'ধূমপানমুক্ত';
+
+  @override
+  String get notesLabel => 'নোট';
+
+  @override
+  String get passengersLabel => 'যাত্রী';
+
+  @override
+  String get paymentStatusLabel => 'পেমেন্টের অবস্থা';
+
+  @override
+  String get requestId => 'অনুরোধ ID';
+
+  @override
+  String get requirementsLabel => 'প্রয়োজনীয়তা';
+
+  @override
+  String get routeLabel => 'রুট';
+
+  @override
+  String get statusCompleted => 'সম্পন্ন';
+
+  @override
+  String get statusLabel => 'অবস্থা';
+
+  @override
+  String get statusUpcoming => 'আসন্ন';
+
+  @override
+  String get timeFare => 'সময়ের ভাড়া';
+
+  @override
+  String get totalCapacity => 'মোট ধারণক্ষমতা';
+
+  @override
+  String get totalPaid => 'মোট পরিশোধ';
+
+  @override
+  String get tripType => 'ট্রিপের ধরন';
+
+  @override
+  String get vehiclesConfirmed => 'নিশ্চিত গাড়ি';
+
+  @override
+  String get vehiclesLabel => 'গাড়ি';
+
+  @override
+  String get viewAllLabel => 'সব দেখুন';
+
+  @override
+  String devOtpLabel(String otp) {
+    return 'OTP: $otp';
+  }
+
+  @override
+  String newOtpSentTo(String phone) {
+    return 'নতুন OTP +91 $phone নম্বরে পাঠানো হয়েছে';
+  }
+
+  @override
+  String numberAutoFilledFromSim(String number) {
+    return 'নম্বর +91 $number SIM থেকে স্বয়ংক্রিয়ভাবে পূরণ হয়েছে';
+  }
+
+  @override
+  String memberSinceDate(String date) {
+    return '$date থেকে সদস্য';
+  }
+
+  @override
+  String connectingHelpline(String number) {
+    return 'Taxiway হেল্পলাইনে সংযোগ করা হচ্ছে: $number...';
+  }
+
+  @override
+  String openingGuideFor(String topic) {
+    return '\"$topic\"-এর গাইড ও FAQ খোলা হচ্ছে...';
+  }
+
+  @override
+  String waitingAtPlace(String place) {
+    return '$place-এ অপেক্ষা করছে';
+  }
+
+  @override
+  String callingPerson(String name) {
+    return '$name-কে কল করা হচ্ছে...';
+  }
+
+  @override
+  String meetAtPickupIn(int minutes) {
+    return '$minutes মিনিটে পিকআপে দেখা করুন';
+  }
+
+  @override
+  String kmAway(String km) {
+    return '$km কিমি দূরে';
+  }
+
+  @override
+  String messagePerson(String name) {
+    return '$name-কে বার্তা পাঠান';
+  }
+
+  @override
+  String withPerson(String name) {
+    return '$name-এর সাথে';
+  }
+
+  @override
+  String headingToPlace(String place) {
+    return '$place-এর দিকে যাচ্ছেন';
+  }
+
+  @override
+  String arriveSummary(String time, int minutes, String km) {
+    return '$time-এ পৌঁছাবেন · $minutes মিনিট · $km কিমি বাকি';
+  }
+
+  @override
+  String tripNumber(String id) {
+    return 'ট্রিপ #$id';
+  }
+
+  @override
+  String get pendingLabel => 'অপেক্ষমাণ';
+
+  @override
+  String get paidLabel => 'পরিশোধিত';
+
+  @override
+  String get statusFailed => 'ব্যর্থ';
+
+  @override
+  String get statusSubmitted => 'জমা দেওয়া হয়েছে';
+
+  @override
+  String get statusUnderReview => 'পর্যালোচনাধীন';
+
+  @override
+  String get statusOfferReady => 'অফার প্রস্তুত';
+
+  @override
+  String get statusConfirmed => 'নিশ্চিত';
+
+  @override
+  String get mediaFront => 'সামনে';
+
+  @override
+  String get mediaRear => 'পেছনে';
+
+  @override
+  String get mediaLeftSide => 'বাম পাশ';
+
+  @override
+  String get mediaRightSide => 'ডান পাশ';
+
+  @override
+  String get relativeToday => 'আজ';
+
+  @override
+  String get relativeOneDayAgo => '১ দিন আগে';
+
+  @override
+  String relativeDaysAgo(int count) {
+    return '$count দিন আগে';
+  }
+
+  @override
+  String relativeWeeksAgo(int count) {
+    return '$count সপ্তাহ আগে';
+  }
+
+  @override
+  String relativeMonthsAgo(int count) {
+    return '$count মাস আগে';
+  }
+
+  @override
+  String perMonthPrice(String price) {
+    return '$price / মাস';
+  }
 }

@@ -53,7 +53,7 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
         _controller.text = detected;
         _error = null;
       });
-      AppToast.success(context, 'Driver number +91 $detected auto-filled', title: AppLocalizations.of(context).simDetected);
+      AppToast.success(context, AppLocalizations.of(context).driverNumberAutoFilled(detected), title: AppLocalizations.of(context).simDetected);
     }
   }
 
@@ -75,7 +75,7 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
       final debugOtp = await ref.read(authControllerProvider.notifier).sendOtp(_phone);
       if (!mounted) return;
       if (debugOtp != null) {
-        AppToast.info(context, 'OTP: $debugOtp', title: AppLocalizations.of(context).devModeNoSms);
+        AppToast.info(context, AppLocalizations.of(context).devOtpLabel(debugOtp), title: AppLocalizations.of(context).devModeNoSms);
       }
       context.push(AppRoutes.otp);
     } catch (error) {

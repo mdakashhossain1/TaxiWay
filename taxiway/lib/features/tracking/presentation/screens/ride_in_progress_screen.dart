@@ -86,14 +86,14 @@ class RideInProgressScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'Heading to ${booking.destination.shortName}',
+                      AppLocalizations.of(context).headingToPlace(booking.destination.shortName),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: type.h2.copyWith(fontWeight: FontWeight.w800),
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      'Arrive $arrival · $remainingMin min · ${remainingKm.toStringAsFixed(1)} km left',
+                      AppLocalizations.of(context).arriveSummary(arrival, remainingMin, remainingKm.toStringAsFixed(1)),
                       style: type.body.copyWith(color: colors.secondaryText),
                     ),
                     const SizedBox(height: 16),

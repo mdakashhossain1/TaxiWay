@@ -62,7 +62,7 @@ class TripDetailsScreen extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Trip #${booking.id}',
+                AppLocalizations.of(context).tripNumber(booking.id),
                 style: AppTypography.of(context).label.copyWith(fontSize: 15, fontWeight: FontWeight.w700, color: AppColors.of(context).navy),
               ),
               StatusBadge(
@@ -89,9 +89,9 @@ class TripDetailsScreen extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _Row('Pickup', booking.pickup.address),
-                _Row('Destination', booking.destination.address),
-                _Row('Driver', driver?.name ?? '—'),
+                _Row(AppLocalizations.of(context).pickupLabel, booking.pickup.address),
+                _Row(AppLocalizations.of(context).destinationLabel, booking.destination.address),
+                _Row(AppLocalizations.of(context).driverLabelShort, driver?.name ?? '—'),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4),
                   child: Row(
@@ -115,8 +115,8 @@ class TripDetailsScreen extends ConsumerWidget {
                     ],
                   ),
                 ),
-                _Row('Distance', '${booking.distanceKm.toStringAsFixed(1)} km'),
-                _Row('Duration', '${booking.etaMinutes} min'),
+                _Row(AppLocalizations.of(context).distanceLabel, '${booking.distanceKm.toStringAsFixed(1)} km'),
+                _Row(AppLocalizations.of(context).durationLabel, '${booking.etaMinutes} min'),
               ],
             ),
           ),
@@ -139,14 +139,14 @@ class TripDetailsScreen extends ConsumerWidget {
                   style: AppTypography.of(context).h3.copyWith(fontSize: 16, color: AppColors.of(context).navy),
                 ),
                 const SizedBox(height: 10),
-                _Row('Base Fare', formatRupees(booking.fare.baseFare)),
-                _Row('Distance Fare', formatRupees(booking.fare.distanceFare)),
-                _Row('Time Fare', formatRupees(booking.fare.timeFare)),
+                _Row(AppLocalizations.of(context).baseFareLabel, formatRupees(booking.fare.baseFare)),
+                _Row(AppLocalizations.of(context).distanceFare, formatRupees(booking.fare.distanceFare)),
+                _Row(AppLocalizations.of(context).timeFare, formatRupees(booking.fare.timeFare)),
                 const Divider(height: 18),
-                _Row('Total Paid', formatRupees(booking.fare.total), emphasize: true),
+                _Row(AppLocalizations.of(context).totalPaid, formatRupees(booking.fare.total), emphasize: true),
                 const SizedBox(height: 6),
-                _Row('Payment Method', booking.paymentMethod.toUpperCase()),
-                _Row('Payment Status', booking.paymentStatus),
+                _Row(AppLocalizations.of(context).paymentMethodLabel, booking.paymentMethod.toUpperCase()),
+                _Row(AppLocalizations.of(context).paymentStatusLabel, booking.paymentStatus),
               ],
             ),
           ),

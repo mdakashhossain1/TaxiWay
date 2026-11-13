@@ -112,12 +112,12 @@ class LiveTrackingScreen extends ConsumerWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Meet at pickup in ${booking.driverEtaMinutes} min',
+                                    AppLocalizations.of(context).meetAtPickupIn(booking.driverEtaMinutes),
                                     style: type.h2.copyWith(fontWeight: FontWeight.w800),
                                   ),
                                   const SizedBox(height: 2),
                                   Text(
-                                    '${booking.driverDistanceKm.toStringAsFixed(1)} km away',
+                                    AppLocalizations.of(context).kmAway(booking.driverDistanceKm.toStringAsFixed(1)),
                                     style: type.body.copyWith(color: colors.secondaryText),
                                   ),
                                 ],
@@ -208,7 +208,7 @@ class LiveTrackingScreen extends ConsumerWidget {
                                       const SizedBox(width: 10),
                                       Expanded(
                                         child: Text(
-                                          'Message ${driver.name.split(' ').first}',
+                                          AppLocalizations.of(context).messagePerson(driver.name.split(' ').first),
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: type.body.copyWith(color: colors.secondaryText, fontWeight: FontWeight.w500),

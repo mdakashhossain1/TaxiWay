@@ -76,7 +76,7 @@ class DriverArrivedScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      'Waiting at ${booking.pickup.shortName}',
+                      AppLocalizations.of(context).waitingAtPlace(booking.pickup.shortName),
                       style: AppTypography.of(context).body.copyWith(fontSize: 14, color: AppColors.of(context).bodyText),
                     ),
                   ],
@@ -142,7 +142,7 @@ class DriverArrivedScreen extends ConsumerWidget {
           DriverCompactCard(
             driver: driver,
             vehicle: vehicle,
-            onCall: () => AppToast.call(context, 'Calling ${driver.name} (+91 98765 00000)...', title: AppLocalizations.of(context).phoneCallTitle),
+            onCall: () => AppToast.call(context, AppLocalizations.of(context).callingPerson(driver.name), title: AppLocalizations.of(context).phoneCallTitle),
             onMessage: () => context.push(
               AppRoutes.chat,
               extra: ChatScreenArgs(title: driver.name, conversationId: 'ride_${booking.id}'),
@@ -190,7 +190,7 @@ class DriverArrivedScreen extends ConsumerWidget {
                 child: PrimaryButton(
                   label: AppLocalizations.of(context).callDriver,
                   icon: AppIcons.telephone_fill,
-                  onPressed: () => AppToast.call(context, 'Calling ${driver.name} (+91 98765 00000)...', title: AppLocalizations.of(context).phoneCallTitle),
+                  onPressed: () => AppToast.call(context, AppLocalizations.of(context).callingPerson(driver.name), title: AppLocalizations.of(context).phoneCallTitle),
                 ),
               ),
             ],

@@ -168,5 +168,12 @@
   "supportLabel": "সহায়তা",
   "typeAMessage": "বার্তা লিখুন…",
   "verifiedLabel": "যাচাইকৃত",
-  "viewLabel": "দেখুন"
+  "viewLabel": "দেখুন",
+  "devOtpLabel": "OTP: {otp}",
+  "newOtpSentTo": "নতুন OTP +91 {phone} নম্বরে পাঠানো হয়েছে",
+  "driverNumberAutoFilled": "ড্রাইভার নম্বর +91 {number} স্বয়ংক্রিয়ভাবে পূরণ হয়েছে",
+  "callingPerson": "{name}-কে কল করা হচ্ছে...",
+  "perMonthPrice": "{price} / মাস",
+  "statusOffered": "প্রস্তাবিত",
+  "statusOpen": "উন্মুক্ত"
 }

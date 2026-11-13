@@ -397,5 +397,164 @@
   "yearsExp": "Years Exp.",
   "yourDriverHasArrived": "Your driver has arrived",
   "yourDrivers": "Your Drivers",
-  "yourRating": "Your Rating"
+  "yourRating": "Your Rating",
+  "backgroundCheck": "Background Check",
+  "bookingId": "Booking ID",
+  "contactLabel": "Contact",
+  "dateLabel": "Date",
+  "distanceFare": "Distance Fare",
+  "driverLabelShort": "Driver",
+  "drivingLicense": "Driving License",
+  "durationLabel": "Duration",
+  "gpsEnabled": "GPS Enabled",
+  "languagesLabel": "Languages",
+  "livesIn": "Lives In",
+  "memberSinceLabel": "Member Since",
+  "nameLabel": "Name",
+  "nonSmoking": "Non-Smoking",
+  "notesLabel": "Notes",
+  "passengersLabel": "Passengers",
+  "paymentStatusLabel": "Payment Status",
+  "requestId": "Request ID",
+  "requirementsLabel": "Requirements",
+  "routeLabel": "Route",
+  "statusCompleted": "Completed",
+  "statusLabel": "Status",
+  "statusUpcoming": "Upcoming",
+  "timeFare": "Time Fare",
+  "totalCapacity": "Total Capacity",
+  "totalPaid": "Total Paid",
+  "tripType": "Trip Type",
+  "vehiclesConfirmed": "Vehicles Confirmed",
+  "vehiclesLabel": "Vehicles",
+  "viewAllLabel": "View All",
+  "devOtpLabel": "OTP: {otp}",
+  "@devOtpLabel": {
+    "placeholders": {
+      "otp": { "type": "String" }
+    }
+  },
+  "newOtpSentTo": "New OTP sent to +91 {phone}",
+  "@newOtpSentTo": {
+    "placeholders": {
+      "phone": { "type": "String" }
+    }
+  },
+  "numberAutoFilledFromSim": "Number +91 {number} auto-filled from SIM",
+  "@numberAutoFilledFromSim": {
+    "placeholders": {
+      "number": { "type": "String" }
+    }
+  },
+  "memberSinceDate": "Member since {date}",
+  "@memberSinceDate": {
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
+  "connectingHelpline": "Connecting to Taxiway Helpline: {number}...",
+  "@connectingHelpline": {
+    "placeholders": {
+      "number": { "type": "String" }
+    }
+  },
+  "openingGuideFor": "Opening guide and FAQs for \"{topic}\"...",
+  "@openingGuideFor": {
+    "placeholders": {
+      "topic": { "type": "String" }
+    }
+  },
+  "waitingAtPlace": "Waiting at {place}",
+  "@waitingAtPlace": {
+    "placeholders": {
+      "place": { "type": "String" }
+    }
+  },
+  "callingPerson": "Calling {name}...",
+  "@callingPerson": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "meetAtPickupIn": "Meet at pickup in {minutes} min",
+  "@meetAtPickupIn": {
+    "placeholders": {
+      "minutes": { "type": "int" }
+    }
+  },
+  "kmAway": "{km} km away",
+  "@kmAway": {
+    "placeholders": {
+      "km": { "type": "String" }
+    }
+  },
+  "messagePerson": "Message {name}",
+  "@messagePerson": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "withPerson": "with {name}",
+  "@withPerson": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "headingToPlace": "Heading to {place}",
+  "@headingToPlace": {
+    "placeholders": {
+      "place": { "type": "String" }
+    }
+  },
+  "arriveSummary": "Arrive {time} · {minutes} min · {km} km left",
+  "@arriveSummary": {
+    "placeholders": {
+      "time": { "type": "String" },
+      "minutes": { "type": "int" },
+      "km": { "type": "String" }
+    }
+  },
+  "tripNumber": "Trip #{id}",
+  "@tripNumber": {
+    "placeholders": {
+      "id": { "type": "String" }
+    }
+  },
+  "pendingLabel": "Pending",
+  "paidLabel": "Paid",
+  "statusFailed": "Failed",
+  "statusSubmitted": "Submitted",
+  "statusUnderReview": "Under Review",
+  "statusOfferReady": "Offer Ready",
+  "statusConfirmed": "Confirmed",
+  "mediaFront": "Front",
+  "mediaRear": "Rear",
+  "mediaLeftSide": "Left Side",
+  "mediaRightSide": "Right Side",
+  "relativeToday": "Today",
+  "relativeOneDayAgo": "1 day ago",
+  "relativeDaysAgo": "{count} days ago",
+  "@relativeDaysAgo": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "relativeWeeksAgo": "{count} weeks ago",
+  "@relativeWeeksAgo": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "relativeMonthsAgo": "{count} months ago",
+  "@relativeMonthsAgo": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "perMonthPrice": "{price} / month",
+  "@perMonthPrice": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  }
 }

@@ -1047,6 +1047,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View'**
   String get viewLabel;
+
+  /// No description provided for @devOtpLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'OTP: {otp}'**
+  String devOtpLabel(String otp);
+
+  /// No description provided for @newOtpSentTo.
+  ///
+  /// In en, this message translates to:
+  /// **'New OTP sent to +91 {phone}'**
+  String newOtpSentTo(String phone);
+
+  /// No description provided for @driverNumberAutoFilled.
+  ///
+  /// In en, this message translates to:
+  /// **'Driver number +91 {number} auto-filled'**
+  String driverNumberAutoFilled(String number);
+
+  /// No description provided for @callingPerson.
+  ///
+  /// In en, this message translates to:
+  /// **'Calling {name}...'**
+  String callingPerson(String name);
+
+  /// No description provided for @perMonthPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'{price} / month'**
+  String perMonthPrice(String price);
+
+  /// No description provided for @statusOffered.
+  ///
+  /// In en, this message translates to:
+  /// **'Offered'**
+  String get statusOffered;
+
+  /// No description provided for @statusOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get statusOpen;
 }
 
 class _AppLocalizationsDelegate

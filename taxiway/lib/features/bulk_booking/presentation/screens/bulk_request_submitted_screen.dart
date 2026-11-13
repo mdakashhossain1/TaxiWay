@@ -54,9 +54,9 @@ class BulkRequestSubmittedScreen extends ConsumerWidget {
             decoration: BoxDecoration(color: AppColors.of(context).surface, borderRadius: BorderRadius.circular(AppRadius.card)),
             child: Column(
               children: [
-                _Row('Request ID', request.id),
-                _Row('Date', DateFormat('dd MMM yyyy').format(request.createdAt)),
-                _Row('Status', bulkStatusLabel(request.status)),
+                _Row(AppLocalizations.of(context).requestId, request.id),
+                _Row(AppLocalizations.of(context).dateLabel, DateFormat('dd MMM yyyy').format(request.createdAt)),
+                _Row(AppLocalizations.of(context).statusLabel, bulkStatusLabel(request.status)),
               ],
             ),
           ),

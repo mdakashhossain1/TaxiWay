@@ -513,4 +513,35 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get viewLabel => 'View';
+
+  @override
+  String devOtpLabel(String otp) {
+    return 'OTP: $otp';
+  }
+
+  @override
+  String newOtpSentTo(String phone) {
+    return 'New OTP sent to +91 $phone';
+  }
+
+  @override
+  String driverNumberAutoFilled(String number) {
+    return 'Driver number +91 $number auto-filled';
+  }
+
+  @override
+  String callingPerson(String name) {
+    return 'Calling $name...';
+  }
+
+  @override
+  String perMonthPrice(String price) {
+    return '$price / month';
+  }
+
+  @override
+  String get statusOffered => 'Offered';
+
+  @override
+  String get statusOpen => 'Open';
 }

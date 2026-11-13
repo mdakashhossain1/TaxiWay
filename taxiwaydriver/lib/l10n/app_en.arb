@@ -171,5 +171,37 @@
   "supportLabel": "Support",
   "typeAMessage": "Type a message…",
   "verifiedLabel": "Verified",
-  "viewLabel": "View"
+  "viewLabel": "View",
+  "devOtpLabel": "OTP: {otp}",
+  "@devOtpLabel": {
+    "placeholders": {
+      "otp": { "type": "String" }
+    }
+  },
+  "newOtpSentTo": "New OTP sent to +91 {phone}",
+  "@newOtpSentTo": {
+    "placeholders": {
+      "phone": { "type": "String" }
+    }
+  },
+  "driverNumberAutoFilled": "Driver number +91 {number} auto-filled",
+  "@driverNumberAutoFilled": {
+    "placeholders": {
+      "number": { "type": "String" }
+    }
+  },
+  "callingPerson": "Calling {name}...",
+  "@callingPerson": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "perMonthPrice": "{price} / month",
+  "@perMonthPrice": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "statusOffered": "Offered",
+  "statusOpen": "Open"
 }
