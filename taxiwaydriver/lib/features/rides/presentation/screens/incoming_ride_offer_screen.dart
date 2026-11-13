@@ -4,6 +4,7 @@ import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:latlong2/latlong.dart';
 
 import '../../../../core/api/api_client.dart';
 import '../../../../core/models/driver_ride.dart';
@@ -13,6 +14,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/utils/format_utils.dart';
+import '../../../../core/widgets/offer_route_map.dart';
 import '../../../../core/widgets/app_scaffold.dart';
 import '../../../../core/widgets/app_toast.dart';
 import '../../../../core/widgets/buttons.dart';
@@ -43,12 +45,26 @@ class _IncomingRideOfferScreenState extends ConsumerState<IncomingRideOfferScree
   void initState() {
     super.initState();
     _secondsLeft = _remainingSeconds();
+    if (_secondsLeft <= 0) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _closeExpired());
+      return;
+    }
     _timer = Timer.periodic(const Duration(seconds: 1), (t) {
       final left = _remainingSeconds();
       if (!mounted) return;
       setState(() => _secondsLeft = left);
-      if (left <= 0) t.cancel();
+      if (left <= 0) {
+        t.cancel();
+        _closeExpired();
+      }
     });
+  }
+
+  void _closeExpired() {
+    if (!mounted || _acting) return;
+    ref.invalidate(pendingOfferProvider);
+    AppToast.error(context, AppLocalizations.of(context).offerUnavailable);
+    context.go(AppRoutes.dashboard);
   }
 
   int _remainingSeconds() {
@@ -103,83 +119,95 @@ class _IncomingRideOfferScreenState extends ConsumerState<IncomingRideOfferScree
   @override
   Widget build(BuildContext context) {
     final ride = widget.ride;
-    final expired = _secondsLeft <= 0;
     final colors = AppColors.of(context);
     final type = AppTypography.of(context);
 
     return AppScaffold(
+      padHorizontal: false,
       appBar: AppBar(title: Text('New Ride Offer', style: type.h2), automaticallyImplyLeading: false),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: SingleChildScrollView(
+            child: OfferRouteMap(
+              pickup: LatLng(ride.pickupLat, ride.pickupLng),
+              destination: LatLng(ride.destinationLat, ride.destinationLng),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(formatRupees(ride.fare), style: type.display.copyWith(fontSize: 40, height: 1.1)),
+                      const SizedBox(height: 2),
+                      Text(
+                        '${ride.vehicleCategory} · ${ride.customerName}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: type.body,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 12),
+                SizedBox(
+                  width: 72,
+                  height: 72,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      SizedBox.expand(
+                        child: TweenAnimationBuilder<double>(
+                          tween: Tween(end: (_secondsLeft / _offerWindowSeconds).clamp(0.0, 1.0)),
+                          duration: const Duration(milliseconds: 900),
+                          curve: Curves.linear,
+                          builder: (context, value, _) => CircularProgressIndicator(
+                            value: value,
+                            strokeWidth: 5,
+                            strokeCap: StrokeCap.round,
+                            backgroundColor: colors.surface,
+                            color: _secondsLeft <= 5 ? colors.error : colors.primary,
+                          ),
+                        ),
+                      ),
+                      Text('${_secondsLeft}s', style: type.h2.copyWith(fontWeight: FontWeight.w800)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 14, 20, 0),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(color: colors.surface, borderRadius: BorderRadius.circular(AppRadius.card)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 8),
-                  Center(
-                    child: SizedBox(
-                      width: 104,
-                      height: 104,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          SizedBox.expand(
-                            child: TweenAnimationBuilder<double>(
-                              tween: Tween(end: expired ? 0 : (_secondsLeft / _offerWindowSeconds).clamp(0.0, 1.0)),
-                              duration: const Duration(milliseconds: 900),
-                              curve: Curves.linear,
-                              builder: (context, value, _) => CircularProgressIndicator(
-                                value: value,
-                                strokeWidth: 6,
-                                strokeCap: StrokeCap.round,
-                                backgroundColor: colors.surface,
-                                color: _secondsLeft <= 5 ? colors.error : colors.primary,
-                              ),
-                            ),
-                          ),
-                          Text('${_secondsLeft}s', style: type.h1.copyWith(color: expired ? colors.mutedText : colors.navy)),
-                        ],
-                      ),
-                    ),
+                  _RoutePoint(isPickup: true, text: ride.pickup),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4),
+                    child: SizedBox(height: 14, child: VerticalDivider(width: 1, thickness: 1.5, color: colors.borderStrong)),
                   ),
-                  const SizedBox(height: 20),
-                  Center(child: Text(formatRupees(ride.fare), style: type.display.copyWith(fontSize: 44, height: 1.1))),
-                  const SizedBox(height: 4),
-                  Center(child: Text('${ride.vehicleCategory} · ${ride.customerName}', style: type.body)),
-                  const SizedBox(height: 24),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(color: colors.surface, borderRadius: BorderRadius.circular(AppRadius.card)),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _RoutePoint(isPickup: true, text: ride.pickup),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 4),
-                          child: SizedBox(height: 16, child: VerticalDivider(width: 1, thickness: 1.5, color: colors.borderStrong)),
-                        ),
-                        _RoutePoint(isPickup: false, text: ride.destination),
-                      ],
-                    ),
-                  ),
+                  _RoutePoint(isPickup: false, text: ride.destination),
                 ],
               ),
             ),
           ),
-          const SizedBox(height: 16),
-          if (expired)
-            Center(
-              child: Text('This offer has expired.', style: type.body.copyWith(color: colors.mutedText)),
-            )
-          else ...[
-            PrimaryButton(label: 'Accept Ride', icon: AppIcons.check_circle_fill, loading: _acting, onPressed: _accept),
-            const SizedBox(height: 12),
-            DestructiveButton(label: 'Decline', onPressed: _acting ? null : _reject),
-          ],
-          const SizedBox(height: 24),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
+            child: PrimaryButton(label: 'Accept Ride', icon: AppIcons.check_circle_fill, loading: _acting, onPressed: _accept),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+            child: DestructiveButton(label: 'Decline', onPressed: _acting ? null : _reject),
+          ),
         ],
       ),
     );
