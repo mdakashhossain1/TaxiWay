@@ -223,5 +223,13 @@
   "otpExpired": "यह कोड समाप्त हो गया है। कृपया नया कोड माँगें।",
   "googleSignInFailed": "Google से साइन इन नहीं हो सका। कृपया फिर कोशिश करें।",
   "supportNumberMissing": "सपोर्ट नंबर अभी सेट नहीं है।",
-  "supportUnreachable": "अभी सपोर्ट से संपर्क नहीं हो सका। कृपया फिर कोशिश करें।"
+  "supportUnreachable": "अभी सपोर्ट से संपर्क नहीं हो सका। कृपया फिर कोशिश करें।",
+  "chooseOnMapLabel": "मानचित्र पर चुनें",
+  "yourRouteTitle": "आपका रूट",
+  "rideCompleteTitle": "राइड पूरी हुई",
+  "thanksForRidingLabel": "Taxiway के साथ सफ़र करने के लिए धन्यवाद",
+  "rateYourRideWith": "{name} के साथ आपकी राइड कैसी रही?",
+  "doneLabel": "हो गया",
+  "viewReceiptLabel": "रसीद देखें",
+  "paidWithLabel": "{method} से भुगतान"
 }

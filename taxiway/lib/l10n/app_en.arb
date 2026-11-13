@@ -236,5 +236,23 @@
   "otpExpired": "This code has expired. Please request a new one.",
   "googleSignInFailed": "Couldn't sign in with Google. Please try again.",
   "supportNumberMissing": "Support number isn't set up yet.",
-  "supportUnreachable": "Couldn't reach support right now. Please try again."
+  "supportUnreachable": "Couldn't reach support right now. Please try again.",
+  "chooseOnMapLabel": "Choose on map",
+  "yourRouteTitle": "Your route",
+  "rideCompleteTitle": "Ride complete",
+  "thanksForRidingLabel": "Thanks for riding with Taxiway",
+  "rateYourRideWith": "How was your ride with {name}?",
+  "@rateYourRideWith": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "doneLabel": "Done",
+  "viewReceiptLabel": "View receipt",
+  "paidWithLabel": "Paid with {method}",
+  "@paidWithLabel": {
+    "placeholders": {
+      "method": { "type": "String" }
+    }
+  }
 }

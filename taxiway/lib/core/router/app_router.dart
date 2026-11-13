@@ -162,7 +162,7 @@ final GoRouter appRouter = GoRouter(
     GoRoute(path: AppRoutes.driverArrived, pageBuilder: (context, state) => _page(state, const DriverArrivedScreen())),
     GoRoute(path: AppRoutes.rideInProgress, pageBuilder: (context, state) => _page(state, const RideInProgressScreen())),
     GoRoute(path: AppRoutes.rideCompleted, pageBuilder: (context, state) => _page(state, const RideCompletedScreen())),
-    GoRoute(path: AppRoutes.ratingReview, pageBuilder: (context, state) => _page(state, const RatingReviewScreen())),
+    GoRoute(path: AppRoutes.ratingReview, pageBuilder: (context, state) => _page(state, RatingReviewScreen(initialRating: state.extra as int? ?? 5))),
     GoRoute(path: AppRoutes.tripHistory, pageBuilder: (context, state) => _page(state, const TripHistoryScreen())),
     GoRoute(
       path: AppRoutes.tripDetails,

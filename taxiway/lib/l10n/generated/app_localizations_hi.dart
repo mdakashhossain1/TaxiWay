@@ -669,4 +669,32 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get supportUnreachable =>
       'अभी सपोर्ट से संपर्क नहीं हो सका। कृपया फिर कोशिश करें।';
+
+  @override
+  String get chooseOnMapLabel => 'मानचित्र पर चुनें';
+
+  @override
+  String get yourRouteTitle => 'आपका रूट';
+
+  @override
+  String get rideCompleteTitle => 'राइड पूरी हुई';
+
+  @override
+  String get thanksForRidingLabel => 'Taxiway के साथ सफ़र करने के लिए धन्यवाद';
+
+  @override
+  String rateYourRideWith(String name) {
+    return '$name के साथ आपकी राइड कैसी रही?';
+  }
+
+  @override
+  String get doneLabel => 'हो गया';
+
+  @override
+  String get viewReceiptLabel => 'रसीद देखें';
+
+  @override
+  String paidWithLabel(String method) {
+    return '$method से भुगतान';
+  }
 }

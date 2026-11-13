@@ -1281,6 +1281,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t reach support right now. Please try again.'**
   String get supportUnreachable;
+
+  /// No description provided for @chooseOnMapLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose on map'**
+  String get chooseOnMapLabel;
+
+  /// No description provided for @yourRouteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your route'**
+  String get yourRouteTitle;
+
+  /// No description provided for @rideCompleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ride complete'**
+  String get rideCompleteTitle;
+
+  /// No description provided for @thanksForRidingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks for riding with Taxiway'**
+  String get thanksForRidingLabel;
+
+  /// No description provided for @rateYourRideWith.
+  ///
+  /// In en, this message translates to:
+  /// **'How was your ride with {name}?'**
+  String rateYourRideWith(String name);
+
+  /// No description provided for @doneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get doneLabel;
+
+  /// No description provided for @viewReceiptLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'View receipt'**
+  String get viewReceiptLabel;
+
+  /// No description provided for @paidWithLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid with {method}'**
+  String paidWithLabel(String method);
 }
 
 class _AppLocalizationsDelegate
