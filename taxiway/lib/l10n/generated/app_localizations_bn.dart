@@ -704,4 +704,449 @@ class AppLocalizationsBn extends AppLocalizations {
   String paidWithLabel(String method) {
     return '$method দিয়ে পরিশোধ';
   }
+
+  @override
+  String get aboutDriver => 'ড্রাইভার সম্পর্কে';
+
+  @override
+  String get addPhoneToFinishSetup =>
+      'আপনার অ্যাকাউন্ট সম্পূর্ণ করতে ফোন নম্বর যোগ করুন।';
+
+  @override
+  String get addSpecialNotesOptional =>
+      'বিশেষ নোট / নির্দেশনা যোগ করুন (ঐচ্ছিক)';
+
+  @override
+  String get addTipOptional => 'টিপ যোগ করুন (ঐচ্ছিক)';
+
+  @override
+  String get additionalRequirements => 'অতিরিক্ত প্রয়োজনীয়তা';
+
+  @override
+  String get almostThere => 'প্রায় শেষ';
+
+  @override
+  String get approxPassengers => 'আনুমানিক যাত্রী';
+
+  @override
+  String get arrangingVehiclesNote =>
+      'আমরা আপনার ট্রিপের জন্য গাড়ি ঠিক করছি। অফার তৈরি হলে আপনাকে জানানো হবে।';
+
+  @override
+  String get assignedVehicle => 'বরাদ্দকৃত গাড়ি';
+
+  @override
+  String get autoFillSimNumber => 'SIM নম্বর স্বয়ংক্রিয়ভাবে পূরণ করুন';
+
+  @override
+  String get backToHome => 'হোমে ফিরে যান';
+
+  @override
+  String get backgroundChecked => 'ব্যাকগ্রাউন্ড যাচাই সম্পন্ন';
+
+  @override
+  String get bulkBookingConfirmedTitle => 'বাল্ক বুকিং নিশ্চিত';
+
+  @override
+  String get bulkRequestSubmittedHeading =>
+      'আপনার বাল্ক বুকিং অনুরোধ জমা হয়েছে!';
+
+  @override
+  String get bulkRequestSubmittedToast =>
+      'বাল্ক বুকিং অনুরোধ পর্যালোচনার জন্য জমা হয়েছে!';
+
+  @override
+  String get bulkRequestTitle => 'বাল্ক অনুরোধ';
+
+  @override
+  String get callDriver => 'ড্রাইভারকে কল করুন';
+
+  @override
+  String get callLabel => 'কল করুন';
+
+  @override
+  String get callingDriverToast => 'ড্রাইভারকে কল করা হচ্ছে...';
+
+  @override
+  String get cancelRideAction => 'রাইড বাতিল করুন';
+
+  @override
+  String get changeLabel => 'পরিবর্তন';
+
+  @override
+  String get changePhoneNumber => 'ফোন নম্বর পরিবর্তন করুন';
+
+  @override
+  String get chatLabel => 'চ্যাট';
+
+  @override
+  String get checkVehicleNumberBeforeBoarding =>
+      'ওঠার আগে গাড়ির নম্বর যাচাই করে নিন।';
+
+  @override
+  String get checkingSimForNumber => 'আপনার SIM-এ ফোন নম্বর খোঁজা হচ্ছে…';
+
+  @override
+  String get chooseTravelSchedule => 'আপনার ভ্রমণের সময়সূচি বেছে নিন';
+
+  @override
+  String get codeResent => 'কোড আবার পাঠানো হয়েছে';
+
+  @override
+  String get completionLabel => 'সম্পূর্ণতার হার';
+
+  @override
+  String get confirmBooking => 'বুকিং নিশ্চিত করুন';
+
+  @override
+  String get confirmDateAndSchedule => 'তারিখ ও সময় নিশ্চিত করুন';
+
+  @override
+  String get contactPerson => 'যোগাযোগের ব্যক্তি';
+
+  @override
+  String get contactSupport => 'সহায়তায় যোগাযোগ করুন';
+
+  @override
+  String get contactSupportRequestChange =>
+      'সহায়তায় যোগাযোগ করুন / পরিবর্তনের অনুরোধ';
+
+  @override
+  String get continueWithGoogle => 'Google দিয়ে চালিয়ে যান';
+
+  @override
+  String get devModeNoSms => 'ডেভ মোড — SMS গেটওয়ে নেই';
+
+  @override
+  String get didntReceiveCode => 'কোড পাননি? ';
+
+  @override
+  String get driverAndVehicle => 'ড্রাইভার ও গাড়ি';
+
+  @override
+  String get driverAndVehicleList => 'ড্রাইভার ও গাড়ির তালিকা';
+
+  @override
+  String get driverArrivedTitle => 'ড্রাইভার পৌঁছে গেছে';
+
+  @override
+  String get driverProfileAndReviews => 'ড্রাইভার প্রোফাইল ও রিভিউ';
+
+  @override
+  String get enterCorrectMobileForOtp =>
+      'নতুন OTP পেতে আপনার সঠিক মোবাইল নম্বর দিন';
+
+  @override
+  String get enterPhoneToContinue => 'চালিয়ে যেতে\nআপনার ফোন নম্বর দিন';
+
+  @override
+  String get estimatedFareRange => 'আনুমানিক ভাড়ার সীমা';
+
+  @override
+  String get estimatedOnlyNote =>
+      'শুধু আনুমানিক। গাড়ি নিশ্চিত হওয়ার পর চূড়ান্ত অফার বদলাতে পারে।';
+
+  @override
+  String get experienceLabel => 'অভিজ্ঞতা';
+
+  @override
+  String get fareInvoice => 'ভাড়ার ইনভয়েস';
+
+  @override
+  String get feedbackSubmitted => 'মতামত জমা হয়েছে';
+
+  @override
+  String get fetchingYourNumber => 'আপনার নম্বর আনা হচ্ছে';
+
+  @override
+  String get filterAll => 'সব';
+
+  @override
+  String get filterCancelled => 'বাতিল';
+
+  @override
+  String get helpCenter => 'হেল্প সেন্টার';
+
+  @override
+  String get helpIntro =>
+      'জনপ্রিয় বিষয় দেখুন বা সরাসরি আমাদের সহায়তা দলের সঙ্গে যোগাযোগ করুন।';
+
+  @override
+  String get helplineCalling => 'হেল্পলাইন কল';
+
+  @override
+  String get howCanWeHelp => 'আমরা আপনাকে কীভাবে সাহায্য করতে পারি?';
+
+  @override
+  String get howWasYourRide => 'আপনার রাইড কেমন ছিল?';
+
+  @override
+  String get identityVerified => 'পরিচয় যাচাইকৃত';
+
+  @override
+  String get includedCharges => 'অন্তর্ভুক্ত চার্জ';
+
+  @override
+  String get journeyDate => 'যাত্রার তারিখ';
+
+  @override
+  String get journeyTime => 'যাত্রার সময়';
+
+  @override
+  String get licenceVerified => 'ড্রাইভিং লাইসেন্স যাচাইকৃত';
+
+  @override
+  String get linkShared => 'লিঙ্ক শেয়ার করা হয়েছে';
+
+  @override
+  String get messageLabel => 'বার্তা';
+
+  @override
+  String get messagingDriverToast => 'ড্রাইভারকে বার্তা পাঠানো হচ্ছে...';
+
+  @override
+  String get noCompletedRideFound => 'কোনো সম্পন্ন রাইড পাওয়া যায়নি।';
+
+  @override
+  String get noConfirmedBookingFound => 'কোনো নিশ্চিত বুকিং পাওয়া যায়নি।';
+
+  @override
+  String get noOfferAvailable => 'কোনো অফার নেই।';
+
+  @override
+  String get noOfferYet => 'এখনও কোনো অফার নেই।';
+
+  @override
+  String get noRequestFound => 'কোনো অনুরোধ পাওয়া যায়নি।';
+
+  @override
+  String get noReviewsYet => 'এখনও কোনো রিভিউ নেই।';
+
+  @override
+  String get noVideosYet => 'এখনও কোনো ভিডিও নেই।';
+
+  @override
+  String get noteForDriverHint => 'ড্রাইভারের জন্য নোট লিখুন (ঐচ্ছিক)...';
+
+  @override
+  String get numberOfVehicles => 'গাড়ির সংখ্যা';
+
+  @override
+  String get numberUpdated => 'নম্বর আপডেট হয়েছে';
+
+  @override
+  String get offerDetails => 'অফারের বিবরণ';
+
+  @override
+  String get offersReceived => 'প্রাপ্ত অফার';
+
+  @override
+  String get onboardingRiderBody1 =>
+      'বিমানবন্দর, স্টেশন বা আপনার পছন্দের জায়গা, যেকোনো গন্তব্যে তখনই ক্যাব বুক করুন।';
+
+  @override
+  String get onboardingRiderBody2 =>
+      'প্রতিটি ড্রাইভারের ব্যাকগ্রাউন্ড যাচাই করা হয় এবং আপনার মতো যাত্রীরা রেটিং দেন, যাতে আপনি নিশ্চিন্ত থাকেন।';
+
+  @override
+  String get onboardingRiderBody3 =>
+      'সার্জ প্রাইসিংয়ের কোনো চমক নেই। বুক করার আগে সম্পূর্ণ ভাড়ার বিবরণ দেখুন।';
+
+  @override
+  String get onboardingRiderTitle1 => 'পাটনায় যেকোনো জায়গায় রাইড নিন';
+
+  @override
+  String get onboardingRiderTitle2 => 'নিরাপদ ও যাচাইকৃত ড্রাইভার';
+
+  @override
+  String get onboardingRiderTitle3 => 'স্বচ্ছ মূল্য';
+
+  @override
+  String get oneWay => 'একমুখী';
+
+  @override
+  String get otpVerificationTitle => 'OTP যাচাইকরণ';
+
+  @override
+  String get passengerReviews => 'যাত্রীদের রিভিউ';
+
+  @override
+  String get phoneCallTitle => 'ফোন কল';
+
+  @override
+  String get phoneVerifiedSuccess => 'ফোন সফলভাবে যাচাই হয়েছে!';
+
+  @override
+  String get photosLabel => 'ছবি';
+
+  @override
+  String get pickupTimeSlot => 'পিকআপের সময় স্লট';
+
+  @override
+  String get rateAndReview => 'রেটিং ও রিভিউ';
+
+  @override
+  String get ratingDistribution => 'রেটিংয়ের বণ্টন';
+
+  @override
+  String get ratingLabel => 'রেটিং';
+
+  @override
+  String get removeLabel => 'সরান';
+
+  @override
+  String get requestSent => 'অনুরোধ পাঠানো হয়েছে';
+
+  @override
+  String get resendOtpIn => 'OTP আবার পাঠান: ';
+
+  @override
+  String get reviewRequest => 'অনুরোধ পর্যালোচনা';
+
+  @override
+  String get reviewsLabel => 'রিভিউ';
+
+  @override
+  String get roundTrip => 'রাউন্ড ট্রিপ';
+
+  @override
+  String get selectDateAndTime => 'তারিখ ও সময় বেছে নিন';
+
+  @override
+  String get shareTrip => 'ট্রিপ শেয়ার করুন';
+
+  @override
+  String get shareWithDriverToStart => 'রাইড শুরু করতে ড্রাইভারকে জানান';
+
+  @override
+  String get simAutoFill => 'SIM থেকে স্বয়ংক্রিয় পূরণ';
+
+  @override
+  String get skipLabel => 'এড়িয়ে যান';
+
+  @override
+  String get sosAlertSent => 'SOS অ্যালার্ট পাঠানো হয়েছে';
+
+  @override
+  String get sosAlertToast =>
+      'জরুরি SOS অ্যালার্ট পাঠানো হয়েছে! ২৪x৭ সহায়তা ও পুলিশকে জানানো হয়েছে।';
+
+  @override
+  String get sosLabel => 'SOS';
+
+  @override
+  String get specialNotesHint =>
+      'যেমন: অতিরিক্ত মালপত্রের জায়গা, বিমানবন্দরের ফ্লাইটের তথ্য, ইংরেজি বলা ড্রাইভার...';
+
+  @override
+  String get specialNotesOptional => 'বিশেষ নোট (ঐচ্ছিক)';
+
+  @override
+  String get startRideOtp => 'রাইড শুরুর OTP';
+
+  @override
+  String get stillNeedHelp => 'এখনও সাহায্য দরকার?';
+
+  @override
+  String get submitRequest => 'অনুরোধ জমা দিন';
+
+  @override
+  String get submitReview => 'রিভিউ জমা দিন';
+
+  @override
+  String get successLabel => 'সফল';
+
+  @override
+  String get supportLabel => 'সহায়তা';
+
+  @override
+  String get thanksForRatingToast => 'আপনার রাইডে রেটিং দেওয়ার জন্য ধন্যবাদ!';
+
+  @override
+  String get thisWeekend => 'এই সপ্তাহান্তে';
+
+  @override
+  String get todayLabel => 'আজ';
+
+  @override
+  String get tomorrowLabel => 'আগামীকাল';
+
+  @override
+  String get totalFare => 'মোট ভাড়া';
+
+  @override
+  String get totalTrips => 'মোট ট্রিপ';
+
+  @override
+  String get tripDetails => 'ট্রিপের বিবরণ';
+
+  @override
+  String get tripHistory => 'ট্রিপের ইতিহাস';
+
+  @override
+  String get tripLinkCopiedToast => 'লাইভ ট্রিপ ট্র্যাকিং লিঙ্ক কপি হয়েছে!';
+
+  @override
+  String get tripsLabel => 'ট্রিপ';
+
+  @override
+  String get typeAMessage => 'বার্তা লিখুন…';
+
+  @override
+  String get vehicleGallery => 'গাড়ির গ্যালারি';
+
+  @override
+  String get vehiclePhotos => 'গাড়ির ছবি';
+
+  @override
+  String get vehiclesAvailable => 'উপলব্ধ গাড়ি';
+
+  @override
+  String get verificationLabel => 'যাচাইকরণ';
+
+  @override
+  String get verifiedDriverOnline => 'যাচাইকৃত ড্রাইভার · অনলাইন';
+
+  @override
+  String get verifiedLabel => 'যাচাইকৃত';
+
+  @override
+  String get videosLabel => 'ভিডিও';
+
+  @override
+  String get viewDetails => 'বিস্তারিত দেখুন';
+
+  @override
+  String get viewMyRequest => 'আমার অনুরোধ দেখুন';
+
+  @override
+  String get viewVehicle => 'গাড়ি দেখুন';
+
+  @override
+  String get weSentSixDigitOtp => 'আমরা ৬ সংখ্যার OTP পাঠিয়েছি:';
+
+  @override
+  String get weWillNotifyVehicles =>
+      'উপযুক্ত গাড়ি ও ড্রাইভার পাওয়া গেলে আমরা আপনাকে জানাব।';
+
+  @override
+  String get welcomeTitle => 'স্বাগতম';
+
+  @override
+  String get wereHereForYou => 'আমরা আপনার পাশে আছি।';
+
+  @override
+  String get whatWentWell => 'কী ভালো ছিল?';
+
+  @override
+  String get yearsExp => 'বছরের অভিজ্ঞতা';
+
+  @override
+  String get yourDriverHasArrived => 'আপনার ড্রাইভার পৌঁছে গেছে';
+
+  @override
+  String get yourDrivers => 'আপনার ড্রাইভার';
+
+  @override
+  String get yourRating => 'আপনার রেটিং';
 }

@@ -227,7 +227,7 @@ class _MessageInputBar extends StatelessWidget {
               textInputAction: TextInputAction.send,
               onSubmitted: (_) => onSend?.call(),
               decoration: InputDecoration(
-                hintText: 'Type a message…',
+                hintText: AppLocalizations.of(context).typeAMessage,
                 filled: true,
                 fillColor: AppColors.of(context).surface,
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppRadius.button), borderSide: BorderSide.none),

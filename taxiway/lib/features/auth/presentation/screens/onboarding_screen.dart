@@ -28,20 +28,20 @@ class _Slide {
 List<_Slide> _slides(BuildContext context) => [
   _Slide(
     icon: AppIcons.geo_alt_fill,
-    title: 'Ride Anywhere in Patna',
-    subtitle: 'Book a cab to any destination instantly — airport, station, or your favourite spot.',
+    title: AppLocalizations.of(context).onboardingRiderTitle1,
+    subtitle: AppLocalizations.of(context).onboardingRiderBody1,
     accent: AppColors.of(context).primary,
   ),
   _Slide(
     icon: AppIcons.shield_check,
-    title: 'Safe & Verified Drivers',
-    subtitle: 'Every driver is background-checked and rated by riders like you, for your peace of mind.',
+    title: AppLocalizations.of(context).onboardingRiderTitle2,
+    subtitle: AppLocalizations.of(context).onboardingRiderBody2,
     accent: Color(0xFF6366F1),
   ),
   _Slide(
     icon: AppIcons.cash_coin,
-    title: 'Transparent Pricing',
-    subtitle: 'No surge pricing surprises. See the full fare breakdown before you book.',
+    title: AppLocalizations.of(context).onboardingRiderTitle3,
+    subtitle: AppLocalizations.of(context).onboardingRiderBody3,
     accent: Color(0xFF16A34A),
   ),
 ];
@@ -106,7 +106,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     TextButton(
                       onPressed: _finish,
                       child: Text(
-                        'Skip',
+                        AppLocalizations.of(context).skipLabel,
                         style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).secondaryText),
                       ),
                     ),

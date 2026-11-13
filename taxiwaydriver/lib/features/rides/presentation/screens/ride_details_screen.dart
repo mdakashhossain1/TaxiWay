@@ -93,7 +93,7 @@ class RideDetailsScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 12),
           AppOutlineButton(
-            label: 'Message Customer',
+            label: AppLocalizations.of(context).messageCustomer,
             icon: AppIcons.chat_dots_fill,
             onPressed: () => context.push(
               AppRoutes.chat,

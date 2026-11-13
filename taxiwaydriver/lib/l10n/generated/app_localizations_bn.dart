@@ -415,4 +415,108 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get offerCheckFailed => 'নতুন রাইড অফার যাচাই করা যায়নি';
+
+  @override
+  String get acceptedTitle => 'গ্রহণ করা হয়েছে';
+
+  @override
+  String get addPhoneToFinishSetup =>
+      'আপনার অ্যাকাউন্ট সম্পূর্ণ করতে ফোন নম্বর যোগ করুন।';
+
+  @override
+  String get almostThere => 'প্রায় শেষ';
+
+  @override
+  String get autoFillSimNumber => 'SIM নম্বর স্বয়ংক্রিয়ভাবে পূরণ করুন';
+
+  @override
+  String get changeLabel => 'পরিবর্তন';
+
+  @override
+  String get changePhoneNumber => 'ফোন নম্বর পরিবর্তন করুন';
+
+  @override
+  String get codeResent => 'কোড আবার পাঠানো হয়েছে';
+
+  @override
+  String get continueWithGoogle => 'Google দিয়ে চালিয়ে যান';
+
+  @override
+  String get devModeNoSms => 'ডেভ মোড — SMS গেটওয়ে নেই';
+
+  @override
+  String get didntReceiveCode => 'কোড পাননি? ';
+
+  @override
+  String get driverAuthSuccess => 'ড্রাইভার যাচাইকরণ সফল!';
+
+  @override
+  String get enterCorrectMobileForOtp =>
+      'নতুন OTP পেতে আপনার সঠিক মোবাইল নম্বর দিন';
+
+  @override
+  String get messageCustomer => 'গ্রাহককে বার্তা পাঠান';
+
+  @override
+  String get newRideOffer => 'নতুন রাইড অফার';
+
+  @override
+  String get newRideOfferWaiting => 'নতুন রাইড অফার অপেক্ষায়';
+
+  @override
+  String get numberUpdated => 'নম্বর আপডেট হয়েছে';
+
+  @override
+  String get onboardingDriverBody1 =>
+      'সরাসরি পেমেন্ট, নিশ্চিত রাইড অনুরোধ এবং ০% কমিশনে প্রতিদিনের নির্ভরযোগ্য আয় করুন।';
+
+  @override
+  String get onboardingDriverBody2 =>
+      'প্রতিটি যাত্রীর ফোন যাচাই করা, সঠিক পিকআপ রুট এবং ২৪/৭ SOS নিরাপত্তা সহায়তা পাওয়া যায়।';
+
+  @override
+  String get onboardingDriverBody3 =>
+      'সাশ্রয়ী দৈনিক বা সাপ্তাহিক প্ল্যান বেছে নিন। কোনো লুকানো কাটছাঁট ছাড়াই আপনার পুরো আয় রাখুন।';
+
+  @override
+  String get onboardingDriverTitle1 => 'পাটনায় চালান এবং আয় করুন';
+
+  @override
+  String get onboardingDriverTitle2 => 'নিরাপদ ও যাচাইকৃত ট্রিপ';
+
+  @override
+  String get onboardingDriverTitle3 => 'নমনীয় সাবস্ক্রিপশন';
+
+  @override
+  String get otpVerificationTitle => 'OTP যাচাইকরণ';
+
+  @override
+  String get rideConfirmedHeadToPickup => 'রাইড নিশ্চিত! পিকআপের দিকে যান।';
+
+  @override
+  String get ridesLabel => 'রাইড';
+
+  @override
+  String get simDetected => 'SIM পাওয়া গেছে';
+
+  @override
+  String get skipLabel => 'এড়িয়ে যান';
+
+  @override
+  String get subscriptionLabel => 'সাবস্ক্রিপশন';
+
+  @override
+  String get successLabel => 'সফল';
+
+  @override
+  String get supportLabel => 'সহায়তা';
+
+  @override
+  String get typeAMessage => 'বার্তা লিখুন…';
+
+  @override
+  String get verifiedLabel => 'যাচাইকৃত';
+
+  @override
+  String get viewLabel => 'দেখুন';
 }

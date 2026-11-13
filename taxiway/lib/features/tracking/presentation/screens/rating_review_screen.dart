@@ -11,6 +11,7 @@ import '../../../../core/widgets/app_toast.dart';
 import '../../../../core/widgets/buttons.dart';
 import '../../../../core/widgets/driver_card.dart';
 import '../../../../core/widgets/rating_stars.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 const _quickTags = ['Clean Car', 'Safe Driving', 'Polite', 'On Time', 'Good AC', 'Comfortable'];
 const _tips = [10, 20, 50, 100];
@@ -55,7 +56,7 @@ class _RatingReviewScreenState extends ConsumerState<RatingReviewScreen> {
     }
     ref.read(bookingDraftControllerProvider.notifier).reset();
     if (!mounted) return;
-    AppToast.success(context, 'Thank you for rating your ride!', title: 'Feedback Submitted');
+    AppToast.success(context, AppLocalizations.of(context).thanksForRatingToast, title: AppLocalizations.of(context).feedbackSubmitted);
     context.go(AppRoutes.home);
   }
 
@@ -66,7 +67,7 @@ class _RatingReviewScreenState extends ConsumerState<RatingReviewScreen> {
     return AppScaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('Rate & Review', style: AppTypography.of(context).h2.copyWith(fontSize: 18, color: AppColors.of(context).navy)),
+        title: Text(AppLocalizations.of(context).rateAndReview, style: AppTypography.of(context).h2.copyWith(fontSize: 18, color: AppColors.of(context).navy)),
       ),
       scrollable: true,
       body: Column(
@@ -79,7 +80,7 @@ class _RatingReviewScreenState extends ConsumerState<RatingReviewScreen> {
           const SizedBox(height: 12),
 
           Text(
-            'How was your ride?',
+            AppLocalizations.of(context).howWasYourRide,
             style: AppTypography.of(context).h1.copyWith(fontSize: 22, color: AppColors.of(context).navy),
             textAlign: TextAlign.center,
           ),
@@ -102,7 +103,7 @@ class _RatingReviewScreenState extends ConsumerState<RatingReviewScreen> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              'What went well?',
+              AppLocalizations.of(context).whatWentWell,
               style: AppTypography.of(context).h3.copyWith(fontSize: 15, color: AppColors.of(context).navy),
             ),
           ),
@@ -140,7 +141,7 @@ class _RatingReviewScreenState extends ConsumerState<RatingReviewScreen> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              'Add a Tip (Optional)',
+              AppLocalizations.of(context).addTipOptional,
               style: AppTypography.of(context).h3.copyWith(fontSize: 15, color: AppColors.of(context).navy),
             ),
           ),
@@ -186,15 +187,15 @@ class _RatingReviewScreenState extends ConsumerState<RatingReviewScreen> {
           TextField(
             controller: _commentController,
             maxLines: 3,
-            decoration: const InputDecoration(
-              hintText: 'Leave a note for the driver (optional)...',
+            decoration: InputDecoration(
+              hintText: AppLocalizations.of(context).noteForDriverHint,
             ),
           ),
 
           const SizedBox(height: 28),
 
           PrimaryButton(
-            label: 'Submit Review',
+            label: AppLocalizations.of(context).submitReview,
             onPressed: _rating > 0 ? _submit : null,
           ),
 

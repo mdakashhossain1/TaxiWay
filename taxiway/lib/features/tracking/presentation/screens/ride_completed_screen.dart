@@ -35,7 +35,7 @@ class RideCompletedScreen extends ConsumerWidget {
     final vehicle = ref.watch(currentVehicleProvider);
 
     if (booking == null) {
-      return const Scaffold(body: Center(child: Text('No completed ride found.')));
+      return Scaffold(body: Center(child: Text(AppLocalizations.of(context).noCompletedRideFound)));
     }
 
     final firstName = driver.name.split(' ').first;

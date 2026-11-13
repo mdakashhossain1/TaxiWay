@@ -51,7 +51,7 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
         _phone = detected;
         _controller.text = detected;
       });
-      AppToast.success(context, 'Number +91 $detected auto-filled from SIM', title: 'SIM Auto-Fill');
+      AppToast.success(context, 'Number +91 $detected auto-filled from SIM', title: AppLocalizations.of(context).simAutoFill);
     }
   }
 
@@ -70,7 +70,7 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
       final debugOtp = await ref.read(authControllerProvider.notifier).sendOtp(_phone);
       if (!mounted) return;
       if (debugOtp != null) {
-        AppToast.info(context, 'OTP: $debugOtp', title: 'Dev Mode — No SMS Gateway');
+        AppToast.info(context, 'OTP: $debugOtp', title: AppLocalizations.of(context).devModeNoSms);
       }
       context.push(AppRoutes.otp);
     } catch (error) {
@@ -92,7 +92,7 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
         PushNotificationService.initialize(ProviderScope.containerOf(context, listen: false));
         context.go(AppRoutes.home);
       } else {
-        AppToast.info(context, 'Add your phone number to finish setting up your account.', title: 'Almost there');
+        AppToast.info(context, AppLocalizations.of(context).addPhoneToFinishSetup, title: AppLocalizations.of(context).almostThere);
       }
     } on GoogleSignInCancelledException {
       // User dismissed the picker — nothing to report.
@@ -132,7 +132,7 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
                           Expanded(
                             child: Center(
                               child: Text(
-                                'Login',
+                                AppLocalizations.of(context).login,
                                 style: AppTypography.of(context).h3.copyWith(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w700,
@@ -183,7 +183,7 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
 
                       // Subtitle
                       Text(
-                        'Enter your phone number\nto continue',
+                        AppLocalizations.of(context).enterPhoneToContinue,
                         style: AppTypography.of(context).body.copyWith(
                           fontSize: 15,
                           color: AppColors.of(context).bodyText,

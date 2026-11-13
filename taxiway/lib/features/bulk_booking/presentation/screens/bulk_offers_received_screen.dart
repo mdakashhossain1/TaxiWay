@@ -13,6 +13,7 @@ import '../../../../core/widgets/buttons.dart';
 import '../../../../core/widgets/rating_stars.dart';
 import '../../../../core/widgets/status_badge.dart';
 import '../../../../core/utils/geo_utils.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 class BulkOffersReceivedScreen extends ConsumerWidget {
   const BulkOffersReceivedScreen({super.key});
@@ -24,11 +25,11 @@ class BulkOffersReceivedScreen extends ConsumerWidget {
     final offer = bulkState.offer;
 
     if (request == null || offer == null) {
-      return AppScaffold(appBar: AppBar(), body: const Center(child: Text('No offer available yet.')));
+      return AppScaffold(appBar: AppBar(), body: Center(child: Text(AppLocalizations.of(context).noOfferYet)));
     }
 
     return AppScaffold(
-      appBar: AppBar(title: const Text('Offers Received')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).offersReceived)),
       scrollable: true,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,7 +51,7 @@ class BulkOffersReceivedScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 20),
-          Text('Vehicles Available', style: AppTypography.of(context).h2),
+          Text(AppLocalizations.of(context).vehiclesAvailable, style: AppTypography.of(context).h2),
           const SizedBox(height: 12),
           Container(
             padding: const EdgeInsets.all(16),
@@ -81,7 +82,7 @@ class BulkOffersReceivedScreen extends ConsumerWidget {
                                 Text(v.driverName, style: AppTypography.of(context).label),
                                 const SizedBox(width: 6),
                                 if (v.verified)
-                                  const StatusBadge(label: 'Verified', variant: BadgeVariant.verified),
+                                  StatusBadge(label: AppLocalizations.of(context).verifiedLabel, variant: BadgeVariant.verified),
                               ],
                             ),
                             Row(
@@ -104,12 +105,12 @@ class BulkOffersReceivedScreen extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Total Fare', style: AppTypography.of(context).label),
+                    Text(AppLocalizations.of(context).totalFare, style: AppTypography.of(context).label),
                     Text(formatRupees(offer.totalFare), style: AppTypography.of(context).price.copyWith(color: AppColors.of(context).primaryDark)),
                   ],
                 ),
                 const SizedBox(height: 16),
-                PrimaryButton(label: 'View Details', onPressed: () => context.push(AppRoutes.bulkOfferDetails)),
+                PrimaryButton(label: AppLocalizations.of(context).viewDetails, onPressed: () => context.push(AppRoutes.bulkOfferDetails)),
               ],
             ),
           ),

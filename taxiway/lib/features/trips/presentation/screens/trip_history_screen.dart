@@ -43,14 +43,14 @@ class _TripHistoryScreenState extends ConsumerState<TripHistoryScreen> with Sing
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Trip History'),
+        title: Text(AppLocalizations.of(context).tripHistory),
         leading: const AppBackButton(),
         automaticallyImplyLeading: false,
         bottom: TabBar(
           controller: _tabController,
           isScrollable: true,
           tabAlignment: TabAlignment.start,
-          tabs: const [Tab(text: 'All'), Tab(text: 'Upcoming'), Tab(text: 'Completed'), Tab(text: 'Cancelled')],
+          tabs: [Tab(text: AppLocalizations.of(context).filterAll), Tab(text: 'Upcoming'), Tab(text: 'Completed'), Tab(text: AppLocalizations.of(context).filterCancelled)],
         ),
       ),
       body: PageStateBuilder<List<TripHistoryItem>>(

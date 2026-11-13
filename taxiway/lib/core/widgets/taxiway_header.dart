@@ -9,6 +9,7 @@ import '../theme/app_typography.dart';
 import '../theme/eased_circle_clipper.dart';
 import 'language_picker_sheet.dart';
 import 'pressable_scale.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 class TaxiwayWordmark extends StatelessWidget {
   final double fontSize;
@@ -28,7 +29,7 @@ class TaxiwayWordmark extends StatelessWidget {
 
     return Text.rich(
       TextSpan(
-        text: 'Taxiway',
+        text: AppLocalizations.of(context).appTitle,
         style: style,
         children: [TextSpan(text: '.', style: style.copyWith(color: colors.accent))],
       ),

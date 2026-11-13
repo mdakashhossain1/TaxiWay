@@ -4,6 +4,7 @@ import '../theme/app_colors.dart';
 import '../theme/app_radius.dart';
 import '../theme/app_typography.dart';
 import 'buttons.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 /// Shows the custom, animated Taxiway calendar and time picker in a centered modal dialog.
 Future<DateTime?> showAnimatedCalendarPicker({
@@ -139,7 +140,7 @@ class _CenteredAnimatedCalendarDialogState extends State<_CenteredAnimatedCalend
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            'Select Date & Time',
+                            AppLocalizations.of(context).selectDateAndTime,
                             textAlign: TextAlign.center,
                             style: AppTypography.of(context).h2.copyWith(
                               fontSize: 19,
@@ -149,7 +150,7 @@ class _CenteredAnimatedCalendarDialogState extends State<_CenteredAnimatedCalend
                           ),
                           const SizedBox(height: 3),
                           Text(
-                            'Choose your travel schedule',
+                            AppLocalizations.of(context).chooseTravelSchedule,
                             textAlign: TextAlign.center,
                             style: AppTypography.of(context).caption.copyWith(
                               fontSize: 13,
@@ -173,19 +174,19 @@ class _CenteredAnimatedCalendarDialogState extends State<_CenteredAnimatedCalend
                 Row(
                   children: [
                     _QuickDateChip(
-                      label: 'Today',
+                      label: AppLocalizations.of(context).todayLabel,
                       selected: _isSameDay(_selectedDate, today),
                       onTap: () => _quickSelect(today),
                     ),
                     const SizedBox(width: 8),
                     _QuickDateChip(
-                      label: 'Tomorrow',
+                      label: AppLocalizations.of(context).tomorrowLabel,
                       selected: _isSameDay(_selectedDate, tomorrow),
                       onTap: () => _quickSelect(tomorrow),
                     ),
                     const SizedBox(width: 8),
                     _QuickDateChip(
-                      label: 'This Weekend',
+                      label: AppLocalizations.of(context).thisWeekend,
                       selected: _isSameDay(_selectedDate, _getNextWeekend(today)),
                       onTap: () => _quickSelect(_getNextWeekend(today)),
                     ),
@@ -257,7 +258,7 @@ class _CenteredAnimatedCalendarDialogState extends State<_CenteredAnimatedCalend
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Pickup Time Slot',
+                    AppLocalizations.of(context).pickupTimeSlot,
                     style: AppTypography.of(context).label.copyWith(
                       fontWeight: FontWeight.w700,
                       color: AppColors.of(context).navy,
@@ -306,7 +307,7 @@ class _CenteredAnimatedCalendarDialogState extends State<_CenteredAnimatedCalend
 
                 // Confirm Date CTA Button
                 PrimaryButton(
-                  label: 'Confirm Date & Schedule',
+                  label: AppLocalizations.of(context).confirmDateAndSchedule,
                   onPressed: () => Navigator.of(context).pop(_selectedDate),
                 ),
               ],

@@ -93,7 +93,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
       await ref.read(authControllerProvider.notifier).verifyOtp(code);
       _verified = true;
       if (!mounted) return;
-      AppToast.success(context, 'Driver authentication successful!', title: 'Verified');
+      AppToast.success(context, AppLocalizations.of(context).driverAuthSuccess, title: AppLocalizations.of(context).verifiedLabel);
       final container = ProviderScope.containerOf(context, listen: false);
       PushNotificationService.initialize(container);
       DriverLocationTrackingService.start(container);
@@ -138,9 +138,9 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
       if (!mounted) return;
       if (debugOtp != null) {
         _otpKey.currentState?.setCode(debugOtp);
-        AppToast.info(context, 'OTP: $debugOtp', title: 'Dev Mode — No SMS Gateway');
+        AppToast.info(context, 'OTP: $debugOtp', title: AppLocalizations.of(context).devModeNoSms);
       } else {
-        AppToast.info(context, 'New OTP sent to +91 $phone', title: 'Code Resent');
+        AppToast.info(context, 'New OTP sent to +91 $phone', title: AppLocalizations.of(context).codeResent);
       }
     } catch (error) {
       if (!mounted) return;
@@ -168,13 +168,13 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
       });
       if (debugOtp != null) {
         _otpKey.currentState?.setCode(debugOtp!);
-        AppToast.info(context, 'OTP: $debugOtp', title: 'Dev Mode — No SMS Gateway');
+        AppToast.info(context, 'OTP: $debugOtp', title: AppLocalizations.of(context).devModeNoSms);
         return;
       }
       AppToast.success(
         context,
         'New OTP sent to +91 $newPhone',
-        title: 'Number Updated',
+        title: AppLocalizations.of(context).numberUpdated,
       );
     }
   }
@@ -219,7 +219,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                           Expanded(
                             child: Center(
                               child: Text(
-                                'OTP Verification',
+                                AppLocalizations.of(context).otpVerificationTitle,
                                 style: AppTypography.of(context).h3.copyWith(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w700,
@@ -311,7 +311,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                                     Icon(AppIcons.pencil_square, size: 12, color: AppColors.of(context).primary),
                                     const SizedBox(width: 4),
                                     Text(
-                                      'Change',
+                                      AppLocalizations.of(context).changeLabel,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w700,
                                         color: AppColors.of(context).primary,
@@ -396,7 +396,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                                       Icon(AppIcons.arrow_clockwise, size: 14, color: AppColors.of(context).primary),
                                       const SizedBox(width: 6),
                                       Text(
-                                        "Didn't receive code? ",
+                                        AppLocalizations.of(context).didntReceiveCode,
                                         style: AppTypography.of(context).caption.copyWith(
                                           color: AppColors.of(context).bodyText,
                                           fontSize: 14,

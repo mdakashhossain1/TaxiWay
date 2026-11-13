@@ -16,6 +16,7 @@ import '../../../../core/widgets/buttons.dart';
 import '../../../../core/widgets/location_card.dart';
 import '../../../../core/widgets/number_stepper.dart';
 import '../../../../core/widgets/ride_map_view.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 class BulkTripCapacityScreen extends ConsumerWidget {
   const BulkTripCapacityScreen({super.key});
@@ -67,7 +68,7 @@ class BulkTripCapacityScreen extends ConsumerWidget {
     final userPickup = draft.pickup ?? defaultPickup;
 
     return AppScaffold(
-      appBar: AppBar(title: const Text('Bulk Booking')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).bulkBookingTitle)),
       scrollable: true,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,7 +91,7 @@ class BulkTripCapacityScreen extends ConsumerWidget {
             children: [
               Expanded(
                 child: _TripTypeTab(
-                  label: 'One Way',
+                  label: AppLocalizations.of(context).oneWay,
                   selected: draft.tripType == BulkTripType.oneWay,
                   onTap: () => notifier.setTripType(BulkTripType.oneWay),
                 ),
@@ -98,7 +99,7 @@ class BulkTripCapacityScreen extends ConsumerWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: _TripTypeTab(
-                  label: 'Round Trip',
+                  label: AppLocalizations.of(context).roundTrip,
                   selected: draft.tripType == BulkTripType.roundTrip,
                   onTap: () => notifier.setTripType(BulkTripType.roundTrip),
                 ),
@@ -117,7 +118,7 @@ class BulkTripCapacityScreen extends ConsumerWidget {
             children: [
               Expanded(
                 child: _DateTimeField(
-                  label: 'Journey Date',
+                  label: AppLocalizations.of(context).journeyDate,
                   value: draft.journeyDate == null ? 'Select date' : DateFormat('dd MMM yyyy').format(draft.journeyDate!),
                   icon: AppIcons.calendar_event,
                   onTap: () => _pickDate(context, ref),
@@ -126,7 +127,7 @@ class BulkTripCapacityScreen extends ConsumerWidget {
               const SizedBox(width: 12),
               Expanded(
                 child: _DateTimeField(
-                  label: 'Journey Time',
+                  label: AppLocalizations.of(context).journeyTime,
                   value: draft.journeyTime ?? 'Select time',
                   icon: AppIcons.clock,
                   onTap: () => _pickTime(context, ref),
@@ -139,7 +140,7 @@ class BulkTripCapacityScreen extends ConsumerWidget {
             children: [
               Expanded(
                 child: NumberStepper(
-                  label: 'Number of Vehicles',
+                  label: AppLocalizations.of(context).numberOfVehicles,
                   value: draft.numVehicles,
                   onChanged: notifier.setNumVehicles,
                 ),
@@ -147,7 +148,7 @@ class BulkTripCapacityScreen extends ConsumerWidget {
               const SizedBox(width: 12),
               Expanded(
                 child: NumberStepper(
-                  label: 'Approx. Passengers',
+                  label: AppLocalizations.of(context).approxPassengers,
                   value: draft.approxPassengers,
                   onChanged: notifier.setApproxPassengers,
                   max: 200,
@@ -157,7 +158,7 @@ class BulkTripCapacityScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 28),
           PrimaryButton(
-            label: 'Continue',
+            label: AppLocalizations.of(context).continueLabel,
             onPressed: draft.step1Valid ? () => context.push(AppRoutes.bulkAdditionalRequirements) : null,
           ),
           const SizedBox(height: 24),

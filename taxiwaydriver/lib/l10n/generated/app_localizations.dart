@@ -849,6 +849,204 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t check for new ride offers'**
   String get offerCheckFailed;
+
+  /// No description provided for @acceptedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted'**
+  String get acceptedTitle;
+
+  /// No description provided for @addPhoneToFinishSetup.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your phone number to finish setting up your account.'**
+  String get addPhoneToFinishSetup;
+
+  /// No description provided for @almostThere.
+  ///
+  /// In en, this message translates to:
+  /// **'Almost there'**
+  String get almostThere;
+
+  /// No description provided for @autoFillSimNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-fill SIM number'**
+  String get autoFillSimNumber;
+
+  /// No description provided for @changeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get changeLabel;
+
+  /// No description provided for @changePhoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Phone Number'**
+  String get changePhoneNumber;
+
+  /// No description provided for @codeResent.
+  ///
+  /// In en, this message translates to:
+  /// **'Code Resent'**
+  String get codeResent;
+
+  /// No description provided for @continueWithGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get continueWithGoogle;
+
+  /// No description provided for @devModeNoSms.
+  ///
+  /// In en, this message translates to:
+  /// **'Dev Mode — No SMS Gateway'**
+  String get devModeNoSms;
+
+  /// No description provided for @didntReceiveCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Didn\'t receive code? '**
+  String get didntReceiveCode;
+
+  /// No description provided for @driverAuthSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Driver authentication successful!'**
+  String get driverAuthSuccess;
+
+  /// No description provided for @enterCorrectMobileForOtp.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your correct mobile number to receive a new OTP'**
+  String get enterCorrectMobileForOtp;
+
+  /// No description provided for @messageCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'Message Customer'**
+  String get messageCustomer;
+
+  /// No description provided for @newRideOffer.
+  ///
+  /// In en, this message translates to:
+  /// **'New Ride Offer'**
+  String get newRideOffer;
+
+  /// No description provided for @newRideOfferWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'New ride offer waiting'**
+  String get newRideOfferWaiting;
+
+  /// No description provided for @numberUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Number Updated'**
+  String get numberUpdated;
+
+  /// No description provided for @onboardingDriverBody1.
+  ///
+  /// In en, this message translates to:
+  /// **'Earn reliable daily income with direct payouts, guaranteed ride requests, and 0% commission.'**
+  String get onboardingDriverBody1;
+
+  /// No description provided for @onboardingDriverBody2.
+  ///
+  /// In en, this message translates to:
+  /// **'Every passenger is phone-verified with accurate pickup routes and 24/7 SOS safety support.'**
+  String get onboardingDriverBody2;
+
+  /// No description provided for @onboardingDriverBody3.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose affordable daily or weekly plans. Keep 100% of your earnings with no hidden deductions.'**
+  String get onboardingDriverBody3;
+
+  /// No description provided for @onboardingDriverTitle1.
+  ///
+  /// In en, this message translates to:
+  /// **'Drive & Earn in Patna'**
+  String get onboardingDriverTitle1;
+
+  /// No description provided for @onboardingDriverTitle2.
+  ///
+  /// In en, this message translates to:
+  /// **'Safe & Verified Trips'**
+  String get onboardingDriverTitle2;
+
+  /// No description provided for @onboardingDriverTitle3.
+  ///
+  /// In en, this message translates to:
+  /// **'Flexible Subscriptions'**
+  String get onboardingDriverTitle3;
+
+  /// No description provided for @otpVerificationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'OTP Verification'**
+  String get otpVerificationTitle;
+
+  /// No description provided for @rideConfirmedHeadToPickup.
+  ///
+  /// In en, this message translates to:
+  /// **'Ride confirmed! Head to pickup.'**
+  String get rideConfirmedHeadToPickup;
+
+  /// No description provided for @ridesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Rides'**
+  String get ridesLabel;
+
+  /// No description provided for @simDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'SIM Detected'**
+  String get simDetected;
+
+  /// No description provided for @skipLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get skipLabel;
+
+  /// No description provided for @subscriptionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription'**
+  String get subscriptionLabel;
+
+  /// No description provided for @successLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Success'**
+  String get successLabel;
+
+  /// No description provided for @supportLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get supportLabel;
+
+  /// No description provided for @typeAMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a message…'**
+  String get typeAMessage;
+
+  /// No description provided for @verifiedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified'**
+  String get verifiedLabel;
+
+  /// No description provided for @viewLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'View'**
+  String get viewLabel;
 }
 
 class _AppLocalizationsDelegate

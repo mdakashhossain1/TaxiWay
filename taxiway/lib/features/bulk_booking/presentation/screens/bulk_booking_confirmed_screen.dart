@@ -15,6 +15,7 @@ import '../../../../core/widgets/buttons.dart';
 import '../../../../core/widgets/rating_stars.dart';
 import '../../../../core/widgets/ride_map_view.dart';
 import '../../../../core/utils/geo_utils.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 class BulkBookingConfirmedScreen extends ConsumerWidget {
   const BulkBookingConfirmedScreen({super.key});
@@ -26,7 +27,7 @@ class BulkBookingConfirmedScreen extends ConsumerWidget {
     final offer = bulkState.offer;
 
     if (request == null || offer == null) {
-      return AppScaffold(appBar: AppBar(), body: const Center(child: Text('No confirmed booking found.')));
+      return AppScaffold(appBar: AppBar(), body: Center(child: Text(AppLocalizations.of(context).noConfirmedBookingFound)));
     }
 
     return AppScaffold(
@@ -37,7 +38,7 @@ class BulkBookingConfirmedScreen extends ConsumerWidget {
         children: [
           const AnimatedSuccessCheck(size: 50, iconSize: 30),
           const SizedBox(height: 14),
-          Text('Bulk Booking Confirmed', style: AppTypography.of(context).h1)
+          Text(AppLocalizations.of(context).bulkBookingConfirmedTitle, style: AppTypography.of(context).h1)
               .animate()
               .fadeIn(delay: 150.ms, duration: 350.ms)
               .slideY(begin: 0.15, end: 0, delay: 150.ms, duration: 350.ms),
@@ -69,7 +70,7 @@ class BulkBookingConfirmedScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 20),
-          Text('Your Drivers', style: AppTypography.of(context).h3),
+          Text(AppLocalizations.of(context).yourDrivers, style: AppTypography.of(context).h3),
           const SizedBox(height: 10),
           for (final v in offer.vehicles)
             Container(
@@ -105,7 +106,7 @@ class BulkBookingConfirmedScreen extends ConsumerWidget {
             ),
           const SizedBox(height: 20),
           PrimaryButton(
-            label: 'Back to Home',
+            label: AppLocalizations.of(context).backToHome,
             onPressed: () {
               ref.read(bulkBookingControllerProvider.notifier).clear();
               context.go(AppRoutes.home);

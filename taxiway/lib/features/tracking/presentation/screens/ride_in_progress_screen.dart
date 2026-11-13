@@ -12,6 +12,7 @@ import '../../../../core/theme/app_typography.dart';
 import '../../../../core/widgets/app_toast.dart';
 import '../../../../core/widgets/ride_map_view.dart';
 import '../../../../core/widgets/sheet_action_button.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 class RideInProgressScreen extends ConsumerWidget {
   const RideInProgressScreen({super.key});
@@ -32,7 +33,7 @@ class RideInProgressScreen extends ConsumerWidget {
     });
 
     if (booking == null) {
-      return const Scaffold(body: Center(child: Text('No active booking.')));
+      return Scaffold(body: Center(child: Text(AppLocalizations.of(context).noActiveBookingLabel)));
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _handleTransition(context, booking.status));
@@ -111,20 +112,20 @@ class RideInProgressScreen extends ConsumerWidget {
                         Expanded(
                           child: SheetActionButton(
                             icon: AppIcons.share_fill,
-                            label: 'Share trip',
-                            onTap: () => AppToast.success(context, 'Live trip tracking link copied to clipboard!', title: 'Link Shared'),
+                            label: AppLocalizations.of(context).shareTrip,
+                            onTap: () => AppToast.success(context, AppLocalizations.of(context).tripLinkCopiedToast, title: AppLocalizations.of(context).linkShared),
                           ),
                         ),
                         const SizedBox(width: 10),
                         Expanded(
                           child: SheetActionButton(
                             icon: AppIcons.shield_exclamation,
-                            label: 'SOS',
+                            label: AppLocalizations.of(context).sosLabel,
                             destructive: true,
                             onTap: () => AppToast.error(
                               context,
-                              'Emergency SOS alert triggered! 24x7 support & police alerted.',
-                              title: 'SOS Alert Sent',
+                              AppLocalizations.of(context).sosAlertToast,
+                              title: AppLocalizations.of(context).sosAlertSent,
                             ),
                           ),
                         ),

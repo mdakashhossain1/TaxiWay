@@ -38,7 +38,7 @@ class HelpSupportScreen extends ConsumerWidget {
         return;
       }
       if (context.mounted) {
-        AppToast.call(context, 'Connecting to Taxiway Helpline: $number...', title: 'Helpline Calling');
+        AppToast.call(context, 'Connecting to Taxiway Helpline: $number...', title: AppLocalizations.of(context).helplineCalling);
       }
       await launchPhoneCall(number);
     } catch (error) {
@@ -53,7 +53,7 @@ class HelpSupportScreen extends ConsumerWidget {
     return AppScaffold(
       appBar: AppBar(
         title: Text(
-          'Help & Support',
+          AppLocalizations.of(context).helpSupport,
           style: AppTypography.of(context).h2.copyWith(fontSize: 18, color: AppColors.of(context).navy),
         ),
       ),
@@ -63,12 +63,12 @@ class HelpSupportScreen extends ConsumerWidget {
         children: [
           const SizedBox(height: 6),
           Text(
-            'How can we help you?',
+            AppLocalizations.of(context).howCanWeHelp,
             style: AppTypography.of(context).h2.copyWith(fontSize: 20, color: AppColors.of(context).navy),
           ),
           const SizedBox(height: 4),
           Text(
-            'Browse popular topics or connect directly with our support team.',
+            AppLocalizations.of(context).helpIntro,
             style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).bodyText),
           ),
           const SizedBox(height: 16),
@@ -97,7 +97,7 @@ class HelpSupportScreen extends ConsumerWidget {
                 onTap: () => AppToast.info(
                   context,
                   'Opening guide and FAQs for "${t.$2}"...',
-                  title: 'Help Center',
+                  title: AppLocalizations.of(context).helpCenter,
                 ),
               ),
             ),
@@ -115,12 +115,12 @@ class HelpSupportScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Still need help?',
+                  AppLocalizations.of(context).stillNeedHelp,
                   style: AppTypography.of(context).h3.copyWith(fontSize: 15, color: AppColors.of(context).navy),
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  "We're here for you.",
+                  AppLocalizations.of(context).wereHereForYou,
                   style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).bodyText),
                 ),
                 const SizedBox(height: 12),
@@ -128,7 +128,7 @@ class HelpSupportScreen extends ConsumerWidget {
                   children: [
                     Expanded(
                       child: AppOutlineButton(
-                        label: 'Call',
+                        label: AppLocalizations.of(context).callLabel,
                         icon: AppIcons.telephone_fill,
                         onPressed: () => _callSupport(context, ref),
                       ),
@@ -136,9 +136,9 @@ class HelpSupportScreen extends ConsumerWidget {
                     const SizedBox(width: 10),
                     Expanded(
                       child: AppOutlineButton(
-                        label: 'Message',
+                        label: AppLocalizations.of(context).messageLabel,
                         icon: AppIcons.chat_dots_fill,
-                        onPressed: () => context.push(AppRoutes.chat, extra: const ChatScreenArgs(title: 'Support')),
+                        onPressed: () => context.push(AppRoutes.chat, extra: ChatScreenArgs(title: AppLocalizations.of(context).supportLabel)),
                       ),
                     ),
                   ],

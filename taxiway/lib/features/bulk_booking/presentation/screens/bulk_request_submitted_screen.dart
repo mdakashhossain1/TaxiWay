@@ -11,6 +11,7 @@ import '../../../../core/theme/app_typography.dart';
 import '../../../../core/widgets/app_scaffold.dart';
 import '../../../../core/widgets/buttons.dart';
 import 'bulk_status_label.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 class BulkRequestSubmittedScreen extends ConsumerWidget {
   const BulkRequestSubmittedScreen({super.key});
@@ -20,7 +21,7 @@ class BulkRequestSubmittedScreen extends ConsumerWidget {
     final request = ref.watch(bulkBookingControllerProvider).request;
 
     if (request == null) {
-      return AppScaffold(appBar: AppBar(), body: const Center(child: Text('No request found.')));
+      return AppScaffold(appBar: AppBar(), body: Center(child: Text(AppLocalizations.of(context).noRequestFound)));
     }
 
     return AppScaffold(
@@ -36,13 +37,13 @@ class BulkRequestSubmittedScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 20),
           Text(
-            'Your bulk booking request has been submitted!',
+            AppLocalizations.of(context).bulkRequestSubmittedHeading,
             style: AppTypography.of(context).h1,
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 10),
           Text(
-            'We will notify you when suitable vehicles and drivers are available.',
+            AppLocalizations.of(context).weWillNotifyVehicles,
             style: AppTypography.of(context).bodyLarge,
             textAlign: TextAlign.center,
           ),
@@ -61,7 +62,7 @@ class BulkRequestSubmittedScreen extends ConsumerWidget {
           ),
           const Spacer(),
           PrimaryButton(
-            label: 'View My Request',
+            label: AppLocalizations.of(context).viewMyRequest,
             onPressed: () => context.go(AppRoutes.bulkRequestDetails),
           ),
           const SizedBox(height: 24),

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_radius.dart';
 import '../theme/app_typography.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 class PhoneInput extends StatelessWidget {
   final TextEditingController controller;
@@ -55,7 +56,7 @@ class PhoneInput extends StatelessWidget {
               ),
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               decoration: InputDecoration(
-                hintText: 'Enter mobile number',
+                hintText: AppLocalizations.of(context).enterMobileNumber,
                 hintStyle: AppTypography.of(context).body.copyWith(color: AppColors.of(context).mutedText),
                 counterText: '',
                 filled: false,
@@ -68,7 +69,7 @@ class PhoneInput extends StatelessWidget {
           ),
           if (onSimPickerTap != null) ...[
             Tooltip(
-              message: 'Auto-fill SIM number',
+              message: AppLocalizations.of(context).autoFillSimNumber,
               child: InkWell(
                 onTap: onSimPickerTap,
                 borderRadius: BorderRadius.circular(20),

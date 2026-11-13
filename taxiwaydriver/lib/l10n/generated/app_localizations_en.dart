@@ -409,4 +409,108 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get offerCheckFailed => 'Couldn\'t check for new ride offers';
+
+  @override
+  String get acceptedTitle => 'Accepted';
+
+  @override
+  String get addPhoneToFinishSetup =>
+      'Add your phone number to finish setting up your account.';
+
+  @override
+  String get almostThere => 'Almost there';
+
+  @override
+  String get autoFillSimNumber => 'Auto-fill SIM number';
+
+  @override
+  String get changeLabel => 'Change';
+
+  @override
+  String get changePhoneNumber => 'Change Phone Number';
+
+  @override
+  String get codeResent => 'Code Resent';
+
+  @override
+  String get continueWithGoogle => 'Continue with Google';
+
+  @override
+  String get devModeNoSms => 'Dev Mode — No SMS Gateway';
+
+  @override
+  String get didntReceiveCode => 'Didn\'t receive code? ';
+
+  @override
+  String get driverAuthSuccess => 'Driver authentication successful!';
+
+  @override
+  String get enterCorrectMobileForOtp =>
+      'Enter your correct mobile number to receive a new OTP';
+
+  @override
+  String get messageCustomer => 'Message Customer';
+
+  @override
+  String get newRideOffer => 'New Ride Offer';
+
+  @override
+  String get newRideOfferWaiting => 'New ride offer waiting';
+
+  @override
+  String get numberUpdated => 'Number Updated';
+
+  @override
+  String get onboardingDriverBody1 =>
+      'Earn reliable daily income with direct payouts, guaranteed ride requests, and 0% commission.';
+
+  @override
+  String get onboardingDriverBody2 =>
+      'Every passenger is phone-verified with accurate pickup routes and 24/7 SOS safety support.';
+
+  @override
+  String get onboardingDriverBody3 =>
+      'Choose affordable daily or weekly plans. Keep 100% of your earnings with no hidden deductions.';
+
+  @override
+  String get onboardingDriverTitle1 => 'Drive & Earn in Patna';
+
+  @override
+  String get onboardingDriverTitle2 => 'Safe & Verified Trips';
+
+  @override
+  String get onboardingDriverTitle3 => 'Flexible Subscriptions';
+
+  @override
+  String get otpVerificationTitle => 'OTP Verification';
+
+  @override
+  String get rideConfirmedHeadToPickup => 'Ride confirmed! Head to pickup.';
+
+  @override
+  String get ridesLabel => 'Rides';
+
+  @override
+  String get simDetected => 'SIM Detected';
+
+  @override
+  String get skipLabel => 'Skip';
+
+  @override
+  String get subscriptionLabel => 'Subscription';
+
+  @override
+  String get successLabel => 'Success';
+
+  @override
+  String get supportLabel => 'Support';
+
+  @override
+  String get typeAMessage => 'Type a message…';
+
+  @override
+  String get verifiedLabel => 'Verified';
+
+  @override
+  String get viewLabel => 'View';
 }

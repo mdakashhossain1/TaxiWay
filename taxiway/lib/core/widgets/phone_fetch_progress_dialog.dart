@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_radius.dart';
 import '../theme/app_typography.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 /// Non-dismissible overlay shown while Google Play Services' phone-number
 /// hint dialog is loading, so the screen never appears blank during that gap.
@@ -44,7 +45,7 @@ class PhoneFetchProgressDialog {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Fetching your number',
+                    AppLocalizations.of(context).fetchingYourNumber,
                     style: AppTypography.of(dialogContext).h3.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -53,7 +54,7 @@ class PhoneFetchProgressDialog {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    'Checking your SIM for a phone number…',
+                    AppLocalizations.of(context).checkingSimForNumber,
                     textAlign: TextAlign.center,
                     style: AppTypography.of(dialogContext).caption.copyWith(
                       color: AppColors.of(dialogContext).bodyText,

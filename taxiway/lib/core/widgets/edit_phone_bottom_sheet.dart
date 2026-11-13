@@ -6,6 +6,7 @@ import '../theme/app_colors.dart';
 import '../theme/app_typography.dart';
 import 'buttons.dart';
 import 'phone_input.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 /// A user-friendly bottom sheet for updating the phone number directly from the OTP screen.
 class EditPhoneBottomSheet extends StatefulWidget {
@@ -150,7 +151,7 @@ class _EditPhoneBottomSheetState extends State<EditPhoneBottomSheet> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Change Phone Number',
+                      AppLocalizations.of(context).changePhoneNumber,
                       style: AppTypography.of(context).h3.copyWith(
                         fontSize: 17,
                         fontWeight: FontWeight.w700,
@@ -159,7 +160,7 @@ class _EditPhoneBottomSheetState extends State<EditPhoneBottomSheet> {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      'Enter your correct mobile number to receive a new OTP',
+                      AppLocalizations.of(context).enterCorrectMobileForOtp,
                       style: AppTypography.of(context).caption.copyWith(
                         color: AppColors.of(context).bodyText,
                         fontSize: 13,
@@ -208,7 +209,7 @@ class _EditPhoneBottomSheetState extends State<EditPhoneBottomSheet> {
             child: TextButton(
               onPressed: () => Navigator.of(context).pop(),
               child: Text(
-                'Cancel',
+                AppLocalizations.of(context).cancel,
                 style: AppTypography.of(context).button.copyWith(
                   color: AppColors.of(context).secondaryText,
                   fontWeight: FontWeight.w600,

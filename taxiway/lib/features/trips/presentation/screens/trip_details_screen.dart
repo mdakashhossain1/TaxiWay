@@ -14,6 +14,7 @@ import '../../../../core/widgets/rating_stars.dart';
 import '../../../../core/widgets/ride_map_view.dart';
 import '../../../../core/widgets/status_badge.dart';
 import '../../../../core/utils/geo_utils.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 class TripDetailsScreen extends ConsumerWidget {
   final TripHistoryItem item;
@@ -38,7 +39,7 @@ class TripDetailsScreen extends ConsumerWidget {
 
     return AppScaffold(
       appBar: AppBar(
-        title: Text('Trip Details', style: AppTypography.of(context).h2.copyWith(fontSize: 18, color: AppColors.of(context).navy)),
+        title: Text(AppLocalizations.of(context).tripDetails, style: AppTypography.of(context).h2.copyWith(fontSize: 18, color: AppColors.of(context).navy)),
       ),
       scrollable: true,
       body: Column(
@@ -134,7 +135,7 @@ class TripDetailsScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Fare Invoice',
+                  AppLocalizations.of(context).fareInvoice,
                   style: AppTypography.of(context).h3.copyWith(fontSize: 16, color: AppColors.of(context).navy),
                 ),
                 const SizedBox(height: 10),
@@ -161,7 +162,7 @@ class TripDetailsScreen extends ConsumerWidget {
               ),
               child: Row(
                 children: [
-                  Text('Your Rating', style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).navy)),
+                  Text(AppLocalizations.of(context).yourRating, style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).navy)),
                   const SizedBox(width: 10),
                   RatingStars(rating: item.ratingGiven!, size: 16),
                 ],
@@ -172,7 +173,7 @@ class TripDetailsScreen extends ConsumerWidget {
           const SizedBox(height: 24),
 
           AppOutlineButton(
-            label: 'Contact Support',
+            label: AppLocalizations.of(context).contactSupport,
             icon: AppIcons.headset,
             onPressed: () => context.push(AppRoutes.helpSupport),
           ),

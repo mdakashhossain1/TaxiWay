@@ -12,6 +12,7 @@ import '../../../../core/widgets/app_scaffold.dart';
 import '../../../../core/widgets/ride_map_view.dart';
 import '../../../../core/widgets/status_badge.dart';
 import 'bulk_status_label.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 class BulkRequestDetailsScreen extends ConsumerWidget {
   const BulkRequestDetailsScreen({super.key});
@@ -44,13 +45,13 @@ class BulkRequestDetailsScreen extends ConsumerWidget {
     });
 
     if (request == null) {
-      return AppScaffold(appBar: AppBar(), body: const Center(child: Text('No request found.')));
+      return AppScaffold(appBar: AppBar(), body: Center(child: Text(AppLocalizations.of(context).noRequestFound)));
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _handleTransition(context, request.status));
 
     return AppScaffold(
-      appBar: AppBar(title: const Text('Bulk Request')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).bulkRequestTitle)),
       scrollable: true,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,7 +106,7 @@ class BulkRequestDetailsScreen extends ConsumerWidget {
                 const SizedBox(width: 14),
                 Expanded(
                   child: Text(
-                    "We're arranging vehicles for your trip. You'll be notified when an offer is ready.",
+                    AppLocalizations.of(context).arrangingVehiclesNote,
                     style: AppTypography.of(context).body,
                   ),
                 ),

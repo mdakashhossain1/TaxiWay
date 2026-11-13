@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_radius.dart';
 import '../theme/app_typography.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 class GoogleSignInButton extends StatelessWidget {
   final VoidCallback? onPressed;
@@ -35,7 +36,7 @@ class GoogleSignInButton extends StatelessWidget {
                 children: [
                   const Icon(AppIcons.google, size: 18, color: Color(0xFFEA4335)),
                   const SizedBox(width: 10),
-                  const Text('Continue with Google'),
+                  Text(AppLocalizations.of(context).continueWithGoogle),
                 ],
               ),
       ),

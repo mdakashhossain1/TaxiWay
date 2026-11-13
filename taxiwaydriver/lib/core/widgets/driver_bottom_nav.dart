@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_radius.dart';
 import '../theme/app_typography.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 enum DriverNavTab { rides, subscription }
 
@@ -29,7 +30,7 @@ class DriverBottomNav extends StatelessWidget {
               Expanded(
                 child: _NavItem(
                   icon: AppIcons.car_front_fill,
-                  label: 'Rides',
+                  label: AppLocalizations.of(context).ridesLabel,
                   active: selected == DriverNavTab.rides,
                   onTap: () => onSelect(DriverNavTab.rides),
                 ),
@@ -37,7 +38,7 @@ class DriverBottomNav extends StatelessWidget {
               Expanded(
                 child: _NavItem(
                   icon: AppIcons.credit_card_fill,
-                  label: 'Subscription',
+                  label: AppLocalizations.of(context).subscriptionLabel,
                   active: selected == DriverNavTab.subscription,
                   onTap: () => onSelect(DriverNavTab.subscription),
                 ),

@@ -87,7 +87,7 @@ class DashboardScreen extends ConsumerWidget {
             children: [
               TaxiwayHeader(
                 onProfileTap: () => _showLogoutConfirm(context, ref),
-                onSupportTap: () => context.push(AppRoutes.chat, extra: const ChatScreenArgs(title: 'Support')),
+                onSupportTap: () => context.push(AppRoutes.chat, extra: ChatScreenArgs(title: AppLocalizations.of(context).supportLabel)),
               ),
               const SizedBox(height: 12),
 
@@ -311,7 +311,7 @@ class _PendingOfferBanner extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('New ride offer waiting', style: AppTypography.of(context).label.copyWith(fontWeight: FontWeight.w700)),
+                Text(AppLocalizations.of(context).newRideOfferWaiting, style: AppTypography.of(context).label.copyWith(fontWeight: FontWeight.w700)),
                 Text(ride.pickup, style: AppTypography.of(context).caption, maxLines: 1, overflow: TextOverflow.ellipsis),
               ],
             ),
@@ -320,7 +320,7 @@ class _PendingOfferBanner extends StatelessWidget {
           ElevatedButton(
             style: ElevatedButton.styleFrom(minimumSize: const Size(0, 44)),
             onPressed: () => context.push(AppRoutes.rideOffer, extra: ride),
-            child: const Text('View'),
+            child: Text(AppLocalizations.of(context).viewLabel),
           ),
         ],
       ),

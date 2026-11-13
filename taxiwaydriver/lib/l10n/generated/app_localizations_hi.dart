@@ -414,4 +414,108 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get offerCheckFailed => 'नए राइड ऑफ़र की जाँच नहीं हो सकी';
+
+  @override
+  String get acceptedTitle => 'स्वीकार किया गया';
+
+  @override
+  String get addPhoneToFinishSetup =>
+      'अपना खाता पूरा करने के लिए फ़ोन नंबर जोड़ें।';
+
+  @override
+  String get almostThere => 'बस थोड़ा और';
+
+  @override
+  String get autoFillSimNumber => 'SIM नंबर अपने-आप भरें';
+
+  @override
+  String get changeLabel => 'बदलें';
+
+  @override
+  String get changePhoneNumber => 'फ़ोन नंबर बदलें';
+
+  @override
+  String get codeResent => 'कोड दोबारा भेजा गया';
+
+  @override
+  String get continueWithGoogle => 'Google से जारी रखें';
+
+  @override
+  String get devModeNoSms => 'डेव मोड — SMS गेटवे नहीं';
+
+  @override
+  String get didntReceiveCode => 'कोड नहीं मिला? ';
+
+  @override
+  String get driverAuthSuccess => 'ड्राइवर प्रमाणीकरण सफल!';
+
+  @override
+  String get enterCorrectMobileForOtp =>
+      'नया OTP पाने के लिए अपना सही मोबाइल नंबर डालें';
+
+  @override
+  String get messageCustomer => 'ग्राहक को संदेश भेजें';
+
+  @override
+  String get newRideOffer => 'नया राइड ऑफ़र';
+
+  @override
+  String get newRideOfferWaiting => 'नया राइड ऑफ़र इंतज़ार में है';
+
+  @override
+  String get numberUpdated => 'नंबर अपडेट हो गया';
+
+  @override
+  String get onboardingDriverBody1 =>
+      'सीधे भुगतान, पक्की राइड रिक्वेस्ट और 0% कमीशन के साथ रोज़ की भरोसेमंद कमाई करें।';
+
+  @override
+  String get onboardingDriverBody2 =>
+      'हर यात्री का फ़ोन सत्यापित होता है, पिकअप का सही रास्ता मिलता है और 24/7 SOS सुरक्षा सहायता उपलब्ध है।';
+
+  @override
+  String get onboardingDriverBody3 =>
+      'किफ़ायती दैनिक या साप्ताहिक प्लान चुनें। बिना किसी छिपी कटौती के अपनी पूरी कमाई रखें।';
+
+  @override
+  String get onboardingDriverTitle1 => 'पटना में चलाएँ और कमाएँ';
+
+  @override
+  String get onboardingDriverTitle2 => 'सुरक्षित और सत्यापित ट्रिप';
+
+  @override
+  String get onboardingDriverTitle3 => 'लचीले सब्सक्रिप्शन';
+
+  @override
+  String get otpVerificationTitle => 'OTP सत्यापन';
+
+  @override
+  String get rideConfirmedHeadToPickup => 'राइड कन्फ़र्म! पिकअप की ओर बढ़ें।';
+
+  @override
+  String get ridesLabel => 'राइड्स';
+
+  @override
+  String get simDetected => 'SIM मिला';
+
+  @override
+  String get skipLabel => 'छोड़ें';
+
+  @override
+  String get subscriptionLabel => 'सब्सक्रिप्शन';
+
+  @override
+  String get successLabel => 'सफल';
+
+  @override
+  String get supportLabel => 'सहायता';
+
+  @override
+  String get typeAMessage => 'संदेश लिखें…';
+
+  @override
+  String get verifiedLabel => 'सत्यापित';
+
+  @override
+  String get viewLabel => 'देखें';
 }
