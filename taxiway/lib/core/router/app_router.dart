@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/auth/presentation/screens/language_select_screen.dart';
@@ -35,6 +36,8 @@ import '../../features/tracking/presentation/screens/ride_in_progress_screen.dar
 import '../../features/trips/presentation/screens/trip_details_screen.dart';
 import '../../features/trips/presentation/screens/trip_history_screen.dart';
 import '../models/trip_history_item.dart';
+import '../providers.dart';
+import '../state/auth_controller.dart';
 
 /// Lets code outside the widget tree (the push-notification handler) reach a
 /// [BuildContext] — e.g. to show an [AppToast] when a message arrives while
@@ -124,9 +127,39 @@ Page<void> _modalPage(GoRouterState state, Widget child) {
   );
 }
 
+class RouterRefresh extends ChangeNotifier {
+  void bump() => notifyListeners();
+}
+
+final routerRefresh = RouterRefresh();
+
+const _preAuthRoutes = {AppRoutes.language, AppRoutes.onboarding, AppRoutes.login, AppRoutes.otp};
+
+String? _authRedirect(BuildContext context, GoRouterState state) {
+  final auth = ProviderScope.containerOf(context).read(authControllerProvider);
+  final location = state.matchedLocation;
+
+  if (auth.status == AuthStatus.checking) return null;
+
+  if (auth.status == AuthStatus.authenticated && !auth.linking) {
+    if (auth.isNewCustomer) {
+      return _preAuthRoutes.contains(location) || location == AppRoutes.splash ? AppRoutes.profileSetup : null;
+    }
+    return _preAuthRoutes.contains(location) ? AppRoutes.home : null;
+  }
+
+  final isPublic = _preAuthRoutes.contains(location) || location == AppRoutes.splash;
+  if (!isPublic && auth.status == AuthStatus.unauthenticated && location != AppRoutes.profileSetup) {
+    return AppRoutes.login;
+  }
+  return null;
+}
+
 final GoRouter appRouter = GoRouter(
   navigatorKey: rootNavigatorKey,
   initialLocation: AppRoutes.language,
+  refreshListenable: routerRefresh,
+  redirect: _authRedirect,
   routes: [
     GoRoute(path: AppRoutes.language, pageBuilder: (context, state) => _page(state, const LanguageSelectScreen())),
     GoRoute(path: AppRoutes.splash, pageBuilder: (context, state) => _page(state, const SplashScreen())),

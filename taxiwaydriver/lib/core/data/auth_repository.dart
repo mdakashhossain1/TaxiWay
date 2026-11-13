@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../api/api_client.dart';
 import '../models/driver_profile.dart';
 
@@ -22,9 +25,32 @@ abstract class AuthRepository {
   Future<String?> sendPhoneLinkOtp(String phone);
   Future<DriverProfile> confirmPhoneLink(String phone, String code);
   Future<void> registerDeviceToken(String fcmToken);
+  Future<DriverProfile?> getSession();
+  Future<void> clearSession();
 }
 
 class ApiAuthRepositoryImpl implements AuthRepository {
+  static const _storage = FlutterSecureStorage();
+  static const _sessionKey = 'driver_session';
+
+  Future<void> _saveSession(DriverProfile driver) =>
+      _storage.write(key: _sessionKey, value: jsonEncode(driver.toJson()));
+
+  @override
+  Future<DriverProfile?> getSession() async {
+    final token = await ApiClient.instance.readToken();
+    final raw = await _storage.read(key: _sessionKey);
+    if (token == null || raw == null) return null;
+    try {
+      return DriverProfile.fromJson(jsonDecode(raw) as Map<String, dynamic>);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  @override
+  Future<void> clearSession() => _storage.delete(key: _sessionKey);
+
   @override
   Future<String?> sendOtp(String phone) async {
     final response = await ApiClient.instance.post('/driver/auth/send-otp', body: {'phone': phone}, auth: false);
@@ -41,7 +67,9 @@ class ApiAuthRepositoryImpl implements AuthRepository {
       );
       final data = response['data'] as Map<String, dynamic>;
       await ApiClient.instance.saveToken(data['token'] as String);
-      return DriverProfile.fromJson(data['driver'] as Map<String, dynamic>);
+      final driver = DriverProfile.fromJson(data['driver'] as Map<String, dynamic>);
+      await _saveSession(driver);
+      return driver;
     } on ApiException catch (e) {
       if (e.statusCode == 422) throw InvalidOtpException(expired: e.expired);
       rethrow;
@@ -58,7 +86,9 @@ class ApiAuthRepositoryImpl implements AuthRepository {
     final data = response['data'] as Map<String, dynamic>;
     await ApiClient.instance.saveToken(data['token'] as String);
     final driver = DriverProfile.fromJson(data['driver'] as Map<String, dynamic>);
-    return GoogleLoginResult(driver: driver, phoneLinked: data['phone_linked'] as bool);
+    final phoneLinked = data['phone_linked'] as bool;
+    if (phoneLinked) await _saveSession(driver);
+    return GoogleLoginResult(driver: driver, phoneLinked: phoneLinked);
   }
 
   @override
@@ -75,7 +105,9 @@ class ApiAuthRepositoryImpl implements AuthRepository {
         body: {'phone': phone, 'code': code},
       );
       final data = (response['data'] as Map<String, dynamic>)['driver'] as Map<String, dynamic>;
-      return DriverProfile.fromJson(data);
+      final driver = DriverProfile.fromJson(data);
+      await _saveSession(driver);
+      return driver;
     } on ApiException catch (e) {
       if (e.statusCode == 422) throw InvalidOtpException(expired: e.expired);
       rethrow;
