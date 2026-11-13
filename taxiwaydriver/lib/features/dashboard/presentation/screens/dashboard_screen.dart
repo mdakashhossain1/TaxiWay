@@ -27,6 +27,7 @@ import '../../../../core/utils/failure_message.dart';
 import '../../../../core/widgets/skeleton_loaders.dart';
 import '../../../../core/widgets/inline_retry.dart';
 import '../../../../core/widgets/page_state_builder.dart';
+import '../../../../core/widgets/auto_scroll_text.dart';
 
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
@@ -312,7 +313,7 @@ class _PendingOfferBanner extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(AppLocalizations.of(context).newRideOfferWaiting, style: AppTypography.of(context).label.copyWith(fontWeight: FontWeight.w700)),
-                Text(ride.pickup, style: AppTypography.of(context).caption, maxLines: 1, overflow: TextOverflow.ellipsis),
+                AutoScrollText(ride.pickup, style: AppTypography.of(context).caption),
               ],
             ),
           ),
@@ -463,7 +464,7 @@ class _RoutePoint extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 10),
-        Expanded(child: Text(text, style: AppTypography.of(context).body.copyWith(fontWeight: FontWeight.w600, color: colors.navy))),
+        Expanded(child: AutoScrollText(text, style: AppTypography.of(context).body.copyWith(fontWeight: FontWeight.w600, color: colors.navy))),
       ],
     );
   }
