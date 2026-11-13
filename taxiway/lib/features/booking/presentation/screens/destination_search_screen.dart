@@ -16,6 +16,8 @@ import '../../../../core/widgets/ride_map_view.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../../../../core/widgets/network_error_view.dart';
 
+enum _Field { pickup, destination }
+
 class DestinationSearchScreen extends ConsumerStatefulWidget {
   const DestinationSearchScreen({super.key});
 
@@ -24,7 +26,11 @@ class DestinationSearchScreen extends ConsumerStatefulWidget {
 }
 
 class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScreen> {
-  final _controller = TextEditingController();
+  final _pickupController = TextEditingController();
+  final _destinationController = TextEditingController();
+  final _pickupFocus = FocusNode();
+  final _destinationFocus = FocusNode();
+  _Field _active = _Field.destination;
   List<PlaceLocation> _results = [];
   List<PlaceLocation> _recent = [];
   PlaceLocation? _selected;
@@ -35,17 +41,38 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
   Object? _failure;
   int _searchToken = 0;
 
+  TextEditingController get _activeController => _active == _Field.pickup ? _pickupController : _destinationController;
+
   @override
   void initState() {
     super.initState();
+    final pickup = ref.read(bookingDraftControllerProvider).pickup ?? ref.read(placeRepositoryProvider).currentLocation;
+    _pickupController.text = pickup.shortName;
+    _pickupFocus.addListener(() => _onFocusChanged(_Field.pickup, _pickupFocus));
+    _destinationFocus.addListener(() => _onFocusChanged(_Field.destination, _destinationFocus));
     _loadRecent();
   }
 
   @override
   void dispose() {
     _debounceTimer?.cancel();
-    _controller.dispose();
+    _pickupController.dispose();
+    _destinationController.dispose();
+    _pickupFocus.dispose();
+    _destinationFocus.dispose();
     super.dispose();
+  }
+
+  void _onFocusChanged(_Field field, FocusNode node) {
+    if (!node.hasFocus) return;
+    setState(() {
+      _active = field;
+      _mapMode = false;
+    });
+    if (field == _Field.pickup) {
+      _pickupController.selection = TextSelection(baseOffset: 0, extentOffset: _pickupController.text.length);
+    }
+    _onQueryChanged(field == _Field.pickup ? '' : _destinationController.text);
   }
 
   Future<void> _loadRecent() async {
@@ -110,6 +137,12 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
 
   void _pick(PlaceLocation place) {
     ref.read(placeRepositoryProvider).addRecent(place);
+    if (_active == _Field.pickup) {
+      ref.read(bookingDraftControllerProvider.notifier).setPickup(place);
+      _pickupController.text = place.shortName;
+      _destinationFocus.requestFocus();
+      return;
+    }
     Navigator.of(context).pop(place);
   }
 
@@ -119,16 +152,28 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
     setState(() => _selected = resolved);
   }
 
-  Future<void> _changePickup() async {
+  Future<void> _choosePickupOnMap() async {
     final result = await context.push<PlaceLocation>(AppRoutes.pickupSearch);
-    if (result != null) {
-      ref.read(bookingDraftControllerProvider.notifier).setPickup(result);
-    }
+    if (result == null || !mounted) return;
+    ref.read(bookingDraftControllerProvider.notifier).setPickup(result);
+    _pickupController.text = result.shortName;
+    _destinationFocus.requestFocus();
   }
 
-  void _openMapMode() {
+  void _chooseOnMap() {
+    if (_active == _Field.pickup) {
+      _choosePickupOnMap();
+      return;
+    }
     FocusScope.of(context).unfocus();
     setState(() => _mapMode = true);
+  }
+
+  void _clear(_Field field) {
+    final controller = field == _Field.pickup ? _pickupController : _destinationController;
+    controller.clear();
+    if (field == _active) _onQueryChanged('');
+    setState(() {});
   }
 
   @override
@@ -169,82 +214,58 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 12, 20, 8),
-              child: Container(
-                padding: const EdgeInsets.fromLTRB(16, 4, 8, 4),
-                decoration: BoxDecoration(color: colors.surface, borderRadius: BorderRadius.circular(AppRadius.card)),
-                child: Row(
-                  children: [
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        width: 10,
+                        height: 10,
+                        decoration: BoxDecoration(color: colors.navy, shape: BoxShape.circle),
+                      ),
+                      Container(width: 1.5, height: 50, color: colors.borderStrong),
+                      Container(
+                        width: 10,
+                        height: 10,
+                        decoration: BoxDecoration(color: colors.accent, borderRadius: BorderRadius.circular(2)),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Column(
                       children: [
-                        Container(
-                          width: 10,
-                          height: 10,
-                          decoration: BoxDecoration(color: colors.navy, shape: BoxShape.circle),
+                        _RouteField(
+                          controller: _pickupController,
+                          focusNode: _pickupFocus,
+                          hint: l10n.searchPickup,
+                          active: _active == _Field.pickup,
+                          onChanged: (value) {
+                            _onQueryChanged(value);
+                            setState(() {});
+                          },
+                          onClear: () => _clear(_Field.pickup),
                         ),
-                        Container(width: 1.5, height: 30, color: colors.borderStrong),
-                        Container(
-                          width: 10,
-                          height: 10,
-                          decoration: BoxDecoration(color: colors.accent, borderRadius: BorderRadius.circular(2)),
+                        const SizedBox(height: 8),
+                        _RouteField(
+                          controller: _destinationController,
+                          focusNode: _destinationFocus,
+                          hint: l10n.whereDoYouWantToGo,
+                          active: _active == _Field.destination,
+                          autofocus: true,
+                          bold: true,
+                          onChanged: (value) {
+                            _onQueryChanged(value);
+                            setState(() {});
+                          },
+                          onClear: () => _clear(_Field.destination),
                         ),
                       ],
                     ),
-                    const SizedBox(width: 14),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: _changePickup,
-                            child: SizedBox(
-                              height: 48,
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  pickup.shortName,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: type.bodyLarge.copyWith(color: colors.secondaryText, fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Divider(height: 1, color: colors.border),
-                          SizedBox(
-                            height: 52,
-                            child: TextField(
-                              controller: _controller,
-                              autofocus: true,
-                              onChanged: _onQueryChanged,
-                              onTap: () {
-                                if (_mapMode) setState(() => _mapMode = false);
-                              },
-                              style: type.bodyLarge.copyWith(fontWeight: FontWeight.w700),
-                              decoration: InputDecoration(
-                                hintText: l10n.whereDoYouWantToGo,
-                                filled: false,
-                                border: InputBorder.none,
-                                enabledBorder: InputBorder.none,
-                                focusedBorder: InputBorder.none,
-                                contentPadding: EdgeInsets.zero,
-                                suffixIcon: _controller.text.isNotEmpty
-                                    ? IconButton(
-                                        icon: Icon(AppIcons.close_rounded, size: 18, color: colors.mutedText),
-                                        onPressed: () {
-                                          _controller.clear();
-                                          _onQueryChanged('');
-                                        },
-                                      )
-                                    : null,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             Expanded(child: _mapMode ? _buildMapMode(pickup) : _buildList(pickup)),
@@ -294,7 +315,12 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
               const SizedBox(height: 12),
               PrimaryButton(
                 label: l10n.confirmDestinationLabel,
-                onPressed: _selected != null ? () => _pick(_selected!) : null,
+                onPressed: _selected != null
+                    ? () {
+                        ref.read(placeRepositoryProvider).addRecent(_selected!);
+                        Navigator.of(context).pop(_selected);
+                      }
+                    : null,
               ),
             ],
           ),
@@ -308,17 +334,18 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
     final colors = AppColors.of(context);
     final type = AppTypography.of(context);
 
-    Widget body;
     if (_loading) {
-      body = const Center(child: Padding(padding: EdgeInsets.all(24), child: CircularProgressIndicator(strokeWidth: 2.5)));
-    } else if (_searching && _failure != null) {
-      body = NetworkErrorView(
+      return const Center(child: Padding(padding: EdgeInsets.all(24), child: CircularProgressIndicator(strokeWidth: 2.5)));
+    }
+    if (_searching && _failure != null) {
+      return NetworkErrorView(
         type: networkErrorTypeFor(_failure!),
         isCompact: true,
-        onRetry: () async => _onQueryChanged(_controller.text),
+        onRetry: () async => _onQueryChanged(_activeController.text),
       );
-    } else if (_searching && _results.isEmpty) {
-      body = Center(
+    }
+    if (_searching && _results.isEmpty) {
+      return Center(
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(
@@ -333,57 +360,132 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
           ),
         ),
       );
-    } else {
-      final places = _searching ? _results : _recent;
-      body = ListView.builder(
-        padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
-        itemCount: places.length + 1,
-        itemBuilder: (context, i) {
-          if (i == 0) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _ChooseOnMapRow(label: l10n.chooseOnMapLabel, onTap: _openMapMode),
-                if (places.isNotEmpty) ...[
-                  Divider(height: 1, color: colors.border),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 14, bottom: 4),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          _searching ? l10n.closestMatchesLabel(_results.length) : l10n.recentSearchHistoryLabel,
-                          style: type.label.copyWith(color: colors.secondaryText),
-                        ),
-                        if (!_searching)
-                          GestureDetector(
-                            onTap: () async {
-                              await ref.read(placeRepositoryProvider).clearRecentHistory();
-                              setState(() => _recent.clear());
-                            },
-                            child: Text(l10n.clearAllLabel, style: type.caption.copyWith(color: colors.error)),
-                          ),
-                      ],
-                    ),
-                  ),
-                ],
-              ],
-            );
-          }
-          final place = places[i - 1];
-          return _PlaceTile(
-            place: place,
-            distanceKm: haversineKm(origin, place),
-            recent: !_searching,
-            removeTooltip: l10n.removeFromHistoryTooltip,
-            onTap: () => _pick(place),
-            onRemove: _searching ? null : () => _deleteRecent(place),
-          );
-        },
-      );
     }
 
-    return body;
+    final places = _searching ? _results : _recent;
+    return ListView.builder(
+      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+      itemCount: places.length + 1,
+      itemBuilder: (context, i) {
+        if (i == 0) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _ChooseOnMapRow(label: l10n.chooseOnMapLabel, onTap: _chooseOnMap),
+              if (places.isNotEmpty) ...[
+                Divider(height: 1, color: colors.border),
+                Padding(
+                  padding: const EdgeInsets.only(top: 14, bottom: 4),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        _searching ? l10n.closestMatchesLabel(_results.length) : l10n.recentSearchHistoryLabel,
+                        style: type.label.copyWith(color: colors.secondaryText),
+                      ),
+                      if (!_searching)
+                        GestureDetector(
+                          onTap: () async {
+                            await ref.read(placeRepositoryProvider).clearRecentHistory();
+                            setState(() => _recent.clear());
+                          },
+                          child: Text(l10n.clearAllLabel, style: type.caption.copyWith(color: colors.error)),
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+            ],
+          );
+        }
+        final place = places[i - 1];
+        return _PlaceTile(
+          place: place,
+          distanceKm: haversineKm(origin, place),
+          recent: !_searching,
+          removeTooltip: l10n.removeFromHistoryTooltip,
+          onTap: () => _pick(place),
+          onRemove: _searching ? null : () => _deleteRecent(place),
+        );
+      },
+    );
+  }
+}
+
+class _RouteField extends StatelessWidget {
+  final TextEditingController controller;
+  final FocusNode focusNode;
+  final String hint;
+  final bool active;
+  final bool autofocus;
+  final bool bold;
+  final ValueChanged<String> onChanged;
+  final VoidCallback onClear;
+
+  const _RouteField({
+    required this.controller,
+    required this.focusNode,
+    required this.hint,
+    required this.active,
+    required this.onChanged,
+    required this.onClear,
+    this.autofocus = false,
+    this.bold = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+    final type = AppTypography.of(context);
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 160),
+      height: 52,
+      padding: const EdgeInsets.only(left: 14, right: 4),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: active ? colors.card : colors.surface,
+        borderRadius: BorderRadius.circular(AppRadius.medium),
+        border: Border.all(color: active ? colors.primary : Colors.transparent, width: 1.8),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              controller: controller,
+              focusNode: focusNode,
+              autofocus: autofocus,
+              onChanged: onChanged,
+              maxLines: 1,
+              textAlignVertical: TextAlignVertical.center,
+              cursorColor: colors.primary,
+              style: type.bodyLarge.copyWith(fontWeight: bold ? FontWeight.w700 : FontWeight.w600, height: 1.2),
+              decoration: InputDecoration(
+                hintText: hint,
+                hintStyle: type.bodyLarge.copyWith(color: colors.mutedText, fontWeight: FontWeight.w500, height: 1.2),
+                filled: false,
+                isDense: true,
+                border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                contentPadding: const EdgeInsets.symmetric(vertical: 14),
+              ),
+            ),
+          ),
+          if (active && controller.text.isNotEmpty)
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: onClear,
+              child: SizedBox(
+                width: 40,
+                height: 40,
+                child: Icon(AppIcons.close_rounded, size: 18, color: colors.mutedText),
+              ),
+            ),
+        ],
+      ),
+    );
   }
 }
 
