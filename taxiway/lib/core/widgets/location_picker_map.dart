@@ -141,19 +141,33 @@ class LocationPickerMapState extends State<LocationPickerMap> {
               children: const [OsmTileLayer(), OsmAttribution()],
             ),
             IgnorePointer(
-              child: AnimatedSlide(
-                offset: _moving ? const Offset(0, -0.12) : Offset.zero,
-                duration: const Duration(milliseconds: 150),
-                curve: Curves.easeOut,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 30),
-                  child: Icon(
-                    AppIcons.geo_alt_fill,
-                    size: 38,
-                    color: colors.mapDestination,
-                    shadows: const [Shadow(color: Color(0x40000000), blurRadius: 4, offset: Offset(0, 2))],
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 150),
+                    width: _moving ? 14 : 9,
+                    height: _moving ? 5 : 3.5,
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.28),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
                   ),
-                ),
+                  AnimatedSlide(
+                    offset: _moving ? const Offset(0, -0.2) : Offset.zero,
+                    duration: const Duration(milliseconds: 150),
+                    curve: Curves.easeOut,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 44),
+                      child: Icon(
+                        AppIcons.geo_alt_fill,
+                        size: 48,
+                        color: colors.navy,
+                        shadows: const [Shadow(color: Color(0x33000000), blurRadius: 5, offset: Offset(0, 2))],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             Positioned(right: 12, bottom: 12, child: _RecenterFab(onTap: useCurrentLocation)),
