@@ -667,4 +667,32 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get supportUnreachable =>
       'Couldn\'t reach support right now. Please try again.';
+
+  @override
+  String get chooseOnMapLabel => 'Choose on map';
+
+  @override
+  String get yourRouteTitle => 'Your route';
+
+  @override
+  String get rideCompleteTitle => 'Ride complete';
+
+  @override
+  String get thanksForRidingLabel => 'Thanks for riding with Taxiway';
+
+  @override
+  String rateYourRideWith(String name) {
+    return 'How was your ride with $name?';
+  }
+
+  @override
+  String get doneLabel => 'Done';
+
+  @override
+  String get viewReceiptLabel => 'View receipt';
+
+  @override
+  String paidWithLabel(String method) {
+    return 'Paid with $method';
+  }
 }

@@ -24,7 +24,7 @@ import '../../../../core/widgets/usage_progress_bar.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../../../../core/data/subscription_repository.dart';
 import '../../../../core/utils/failure_message.dart';
-import '../../../../core/widgets/app_shimmer.dart';
+import '../../../../core/widgets/skeleton_loaders.dart';
 import '../../../../core/widgets/inline_retry.dart';
 import '../../../../core/widgets/page_state_builder.dart';
 
@@ -119,7 +119,7 @@ class DashboardScreen extends ConsumerWidget {
               // Subscription summary card.
               PageStateBuilder<SubscriptionSnapshot>(
                 asyncValue: subscriptionAsync,
-                shimmer: const ShimmerBox(height: 170, borderRadius: AppRadius.card),
+                shimmer: const SubscriptionCardSkeleton(),
                 onRetry: () async => ref.invalidate(subscriptionControllerProvider),
                 errorBuilder: (context, error, _) => InlineRetry(
                   message: describeFailure(l10n, error, fallback: l10n.errorGenericTitle).headline,
@@ -223,7 +223,7 @@ class DashboardScreen extends ConsumerWidget {
 
               PageStateBuilder<DriverRide?>(
                 asyncValue: nextRideAsync,
-                shimmer: const ShimmerBox(height: 110, borderRadius: AppRadius.card),
+                shimmer: const NextRideCardSkeleton(),
                 onRetry: () async => ref.invalidate(nextRideProvider),
                 errorBuilder: (context, error, _) => InlineRetry(
                   message: describeFailure(l10n, error, fallback: l10n.errorGenericTitle).headline,

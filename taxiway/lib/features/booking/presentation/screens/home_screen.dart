@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:latlong2/latlong.dart';
+
 import '../../../../core/geo/nearby_drivers.dart';
 import '../../../../core/models/place_location.dart';
 import '../../../../core/models/vehicle_category.dart';
@@ -14,15 +15,16 @@ import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_shadows.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/utils/geo_utils.dart';
-import '../../../../core/widgets/app_shimmer.dart';
 import '../../../../core/widgets/inline_retry.dart';
 import '../../../../core/widgets/location_card.dart';
 import '../../../../core/widgets/pressable_scale.dart';
 import '../../../../core/widgets/ride_map_view.dart';
 import '../../../../core/widgets/schedule_toggle_card.dart';
+import '../../../../core/widgets/skeleton_loaders.dart';
 import '../../../../core/widgets/upcoming_scheduled_ride_card.dart';
 import '../../../../core/widgets/vehicle_option_tile.dart';
 import '../../../../l10n/generated/app_localizations.dart';
+import '../../../../core/widgets/auto_scroll_text.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -56,9 +58,7 @@ class HomeScreen extends ConsumerWidget {
     final isCurrentRoute = ModalRoute.of(context)?.isCurrent ?? true;
     final nearbyDrivers = draft.pickup == null || !isCurrentRoute
         ? const <LatLng>[]
-        : (ref.watch(nearbyDriversProvider(draft.pickup!)).asData?.value ?? const [])
-            .map((d) => LatLng(d.lat, d.lng))
-            .toList();
+        : (ref.watch(nearbyDriversProvider(draft.pickup!)).asData?.value ?? const []).map((d) => LatLng(d.lat, d.lng)).toList();
 
     return Scaffold(
       backgroundColor: colors.appBackground,
@@ -116,13 +116,7 @@ class HomeScreen extends ConsumerWidget {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
               child: Row(
-                children: [
-                  _MapButton(
-                    icon: AppIcons.person_fill,
-                    filled: true,
-                    onTap: () => context.push(AppRoutes.profileMenu),
-                  ),
-                ],
+                children: [_MapButton(icon: AppIcons.person_fill, filled: true, onTap: () => context.push(AppRoutes.profileMenu))],
               ),
             ),
           ),
@@ -151,11 +145,7 @@ class _MapButton extends StatelessWidget {
         child: Container(
           height: 46,
           width: 46,
-          decoration: BoxDecoration(
-            color: filled ? colors.primary : colors.card,
-            shape: BoxShape.circle,
-            boxShadow: AppShadows.elevated,
-          ),
+          decoration: BoxDecoration(color: filled ? colors.primary : colors.card, shape: BoxShape.circle, boxShadow: AppShadows.elevated),
           child: Icon(icon, size: 20, color: filled ? colors.onPrimary : colors.navy),
         ),
       ),
@@ -252,10 +242,8 @@ class _DestinationSheet extends ConsumerWidget {
                   ),
                   const SizedBox(width: 14),
                   Expanded(
-                    child: Text(
+                    child: AutoScrollText(
                       draft.pickup?.shortName ?? l10n.searchPickup,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
                       style: type.body.copyWith(color: colors.secondaryText, fontWeight: FontWeight.w500),
                     ),
                   ),
@@ -348,19 +336,8 @@ class _PlaceRow extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    place.shortName,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: type.label.copyWith(fontWeight: FontWeight.w700),
-                  ),
-                  if (rest.isNotEmpty)
-                    Text(
-                      rest,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: type.caption.copyWith(color: colors.secondaryText),
-                    ),
+                  AutoScrollText(place.shortName, style: type.label.copyWith(fontWeight: FontWeight.w700)),
+                  if (rest.isNotEmpty) AutoScrollText(rest, style: type.caption.copyWith(color: colors.secondaryText)),
                 ],
               ),
             ),
@@ -415,21 +392,10 @@ class _RideOptionsSheet extends ConsumerWidget {
           child: categoriesAsync.when(
             skipLoadingOnReload: true,
             skipError: true,
-            loading: () => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  for (var i = 0; i < 3; i++)
-                    const ShimmerBox(height: 72, borderRadius: AppRadius.card, margin: EdgeInsets.only(bottom: 8)),
-                ],
-              ),
-            ),
+            loading: () => const VehicleOptionListSkeleton(),
             error: (_, _) => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: InlineRetry(
-                message: l10n.couldNotLoadVehicles,
-                onRetry: () => ref.invalidate(vehicleCategoriesProvider),
-              ),
+              child: InlineRetry(message: l10n.couldNotLoadVehicles, onRetry: () => ref.invalidate(vehicleCategoriesProvider)),
             ),
             data: (categories) {
               _ensureSelection(ref, draft.selectedCategory, categories);
@@ -444,11 +410,11 @@ class _RideOptionsSheet extends ConsumerWidget {
                   final categoryFare = controller.fareFor(category);
                   final delay = (40 * (i < 6 ? i : 6)).ms;
                   return VehicleOptionTile(
-                    category: category,
-                    fare: categoryFare?.total ?? category.minimumFare,
-                    selected: draft.selectedCategory?.id == category.id,
-                    onTap: () => controller.selectCategory(category),
-                  )
+                        category: category,
+                        fare: categoryFare?.total ?? category.minimumFare,
+                        selected: draft.selectedCategory?.id == category.id,
+                        onTap: () => controller.selectCategory(category),
+                      )
                       .animate()
                       .fadeIn(delay: delay, duration: 220.ms)
                       .slideY(begin: 0.12, end: 0, delay: delay, duration: 220.ms, curve: Curves.easeOutCubic);

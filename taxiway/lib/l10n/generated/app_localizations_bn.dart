@@ -676,4 +676,32 @@ class AppLocalizationsBn extends AppLocalizations {
   @override
   String get supportUnreachable =>
       'এখন সাপোর্টে যোগাযোগ করা যাচ্ছে না। অনুগ্রহ করে আবার চেষ্টা করুন।';
+
+  @override
+  String get chooseOnMapLabel => 'ম্যাপে বেছে নিন';
+
+  @override
+  String get yourRouteTitle => 'আপনার রুট';
+
+  @override
+  String get rideCompleteTitle => 'রাইড সম্পন্ন';
+
+  @override
+  String get thanksForRidingLabel => 'Taxiway-এর সাথে ভ্রমণ করার জন্য ধন্যবাদ';
+
+  @override
+  String rateYourRideWith(String name) {
+    return '$name-এর সাথে আপনার রাইড কেমন ছিল?';
+  }
+
+  @override
+  String get doneLabel => 'সম্পন্ন';
+
+  @override
+  String get viewReceiptLabel => 'রসিদ দেখুন';
+
+  @override
+  String paidWithLabel(String method) {
+    return '$method দিয়ে পরিশোধ';
+  }
 }

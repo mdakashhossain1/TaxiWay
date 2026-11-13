@@ -50,7 +50,7 @@ class InteractiveRatingStars extends StatelessWidget {
             child: Icon(
               selected ? AppIcons.star_fill : AppIcons.star,
               size: 40,
-              color: selected ? const Color(0xFFF59E0B) : AppColors.of(context).borderStrong,
+              color: selected ? AppColors.of(context).navy : AppColors.of(context).borderStrong,
             ),
           ),
         )

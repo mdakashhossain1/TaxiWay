@@ -1,7 +1,10 @@
 import 'dart:async';
+
 import '../../../../core/theme/app_icons.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../../core/models/place_location.dart';
 import '../../../../core/providers.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -13,6 +16,7 @@ import '../../../../core/widgets/buttons.dart';
 import '../../../../core/widgets/location_picker_map.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../../../../core/widgets/network_error_view.dart';
+import '../../../../core/widgets/auto_scroll_text.dart';
 
 class PickupSearchScreen extends ConsumerStatefulWidget {
   const PickupSearchScreen({super.key});
@@ -147,10 +151,7 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-            child: Text(
-              l10n.dragMapPickupHint,
-              style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).mutedText),
-            ),
+            child: Text(l10n.dragMapPickupHint, style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).mutedText)),
           ),
           Expanded(
             child: Padding(
@@ -180,10 +181,7 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
                     contentPadding: EdgeInsets.zero,
                     leading: Container(
                       padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: AppColors.of(context).primaryBackground,
-                        shape: BoxShape.circle,
-                      ),
+                      decoration: BoxDecoration(color: AppColors.of(context).primaryBackground, shape: BoxShape.circle),
                       child: Icon(AppIcons.crosshair, color: AppColors.of(context).primary, size: 16),
                     ),
                     title: Text(l10n.useCurrentGpsLocation, style: AppTypography.of(context).label.copyWith(fontWeight: FontWeight.w600)),
@@ -199,13 +197,9 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        _searching
-                            ? l10n.closestResultsLabel(_results.length)
-                            : l10n.recentPickupsLabel,
-                        style: AppTypography.of(context).label.copyWith(
-                          color: AppColors.of(context).secondaryText,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        _searching ? l10n.closestResultsLabel(_results.length) : l10n.recentPickupsLabel,
+                        style: AppTypography.of(context).label
+                            .copyWith(color: AppColors.of(context).secondaryText, fontWeight: FontWeight.w600),
                       ),
                       if (!_searching && _recent.isNotEmpty)
                         GestureDetector(
@@ -225,8 +219,8 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
                     child: _loading
                         ? const Center(child: CircularProgressIndicator(strokeWidth: 2.5))
                         : _searching
-                            ? _buildSearchResults(currentLocation)
-                            : _buildRecentHistory(currentLocation),
+                        ? _buildSearchResults(currentLocation)
+                        : _buildRecentHistory(currentLocation),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12),
@@ -296,10 +290,8 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
           title: Row(
             children: [
               Expanded(
-                child: Text(
+                child: AutoScrollText(
                   place.shortName,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                   style: AppTypography.of(context).label.copyWith(
                     fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
                     color: isSelected ? AppColors.of(context).primaryDark : AppColors.of(context).navy,
@@ -308,26 +300,15 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(
-                  color: AppColors.of(context).surface,
-                  borderRadius: BorderRadius.circular(4),
-                ),
+                decoration: BoxDecoration(color: AppColors.of(context).surface, borderRadius: BorderRadius.circular(4)),
                 child: Text(
                   '${distanceKm.toStringAsFixed(1)} km',
-                  style: AppTypography.of(context).caption.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.of(context).primaryDark,
-                  ),
+                  style: AppTypography.of(context).caption.copyWith(fontWeight: FontWeight.w600, color: AppColors.of(context).primaryDark),
                 ),
               ),
             ],
           ),
-          subtitle: Text(
-            place.address,
-            style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).bodyText),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
+          subtitle: AutoScrollText(place.address, style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).bodyText)),
           selected: isSelected,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.card)),
           onTap: () => _selectPlace(place),
@@ -349,11 +330,7 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
               const SizedBox(height: 8),
               Text(l10n.noRecentPickupsTitle, style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).secondaryText)),
               const SizedBox(height: 4),
-              Text(
-                l10n.searchPickupAboveHint,
-                style: AppTypography.of(context).caption,
-                textAlign: TextAlign.center,
-              ),
+              Text(l10n.searchPickupAboveHint, style: AppTypography.of(context).caption, textAlign: TextAlign.center),
             ],
           ),
         ),
@@ -372,20 +349,11 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
           contentPadding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
           leading: Container(
             padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: AppColors.of(context).surface,
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              AppIcons.clock_history,
-              color: AppColors.of(context).secondaryText,
-              size: 16,
-            ),
+            decoration: BoxDecoration(color: AppColors.of(context).surface, shape: BoxShape.circle),
+            child: Icon(AppIcons.clock_history, color: AppColors.of(context).secondaryText, size: 16),
           ),
-          title: Text(
+          title: AutoScrollText(
             place.shortName,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
             style: AppTypography.of(context).label.copyWith(
               fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
               color: isSelected ? AppColors.of(context).primaryDark : AppColors.of(context).navy,
@@ -394,11 +362,9 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
           subtitle: Row(
             children: [
               Expanded(
-                child: Text(
+                child: AutoScrollText(
                   place.address,
                   style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).bodyText),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               const SizedBox(width: 8),

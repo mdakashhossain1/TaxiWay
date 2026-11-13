@@ -19,10 +19,6 @@ val localProperties = Properties().apply {
     val file = rootProject.file("local.properties")
     if (file.exists()) file.inputStream().use { load(it) }
 }
-val mapsApiKey: String = localProperties.getProperty("maps.apiKey") ?: ""
-if (mapsApiKey.isEmpty()) {
-    logger.warn("maps.apiKey is missing in android/local.properties: Google Map will render blank")
-}
 
 android {
     namespace = "com.taxiway.user.arknox"
@@ -48,7 +44,6 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
-        manifestPlaceholders["mapsApiKey"] = mapsApiKey
     }
 
     // Builds the native library that hands the HMAC client secret to Dart

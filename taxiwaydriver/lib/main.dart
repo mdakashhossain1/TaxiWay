@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toastification/toastification.dart';
 import 'core/api/native_secrets.dart';
 import 'core/router/app_router.dart';
+import 'core/state/auth_controller.dart';
 import 'core/services/push_notification_service.dart';
 import 'core/state/locale_controller.dart';
 import 'core/state/theme_controller.dart';
@@ -46,6 +47,7 @@ class DriverApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(authControllerProvider, (_, _) => routerRefresh.bump());
     final locale = ref.watch(localeControllerProvider).locale;
     final themeState = ref.watch(themeControllerProvider);
 

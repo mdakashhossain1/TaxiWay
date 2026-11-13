@@ -1,21 +1,19 @@
 import 'dart:math' as math;
-import 'dart:ui' as ui;
 
-import '../theme/app_icons.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart' hide Path;
 
 import '../../l10n/generated/app_localizations.dart';
 import '../models/booking.dart';
 import '../models/place_location.dart';
 import '../services/road_route_service.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_icons.dart';
 import '../theme/app_radius.dart';
 import '../theme/app_typography.dart';
-import '../theme/dark_map_style.dart';
 import '../utils/geo_utils.dart';
+import 'osm_tile_layer.dart';
 
 const kMapFallbackCenter = LatLng(25.5980, 85.1280);
 
@@ -71,26 +69,18 @@ class RideMapView extends StatefulWidget {
 }
 
 class _RideMapViewState extends State<RideMapView> with SingleTickerProviderStateMixin {
-  GoogleMapController? _controller;
-  bool _fitted = false;
+  final MapController _map = MapController();
+  bool _ready = false;
   bool _isExpanded = false;
-  BitmapDescriptor? _carIcon;
-  bool _carIconRequested = false;
 
-  // Driver-marker smoothing: the `driverProgress` prop updates in coarse steps
-  // (a live GPS fix every few seconds, or a 1 Hz simulation tick), which makes
-  // the car jump. Instead of drawing the prop value directly, we tween a
-  // _displayedProgress toward it at 60fps so the car glides — the same reason
-  // Uber's car feels alive.
   late final AnimationController _driverAnimation = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 1000),
-  )..addListener(() => setState(() {}));
+  )..addListener(_onDriverTick);
   double _animFrom = 0;
   double _animTo = 0;
 
-  double get _driverProgress =>
-      _animFrom + (_animTo - _animFrom) * _driverAnimation.value;
+  double get _driverProgress => _animFrom + (_animTo - _animFrom) * _driverAnimation.value;
 
   void _animateDriverTo(double target) {
     _animFrom = _driverProgress;
@@ -128,17 +118,13 @@ class _RideMapViewState extends State<RideMapView> with SingleTickerProviderStat
     _driverAnimation.forward(from: 0);
   }
 
-  LatLng get _pickupLatLng => widget.pickup != null
-      ? LatLng(widget.pickup!.latitude, widget.pickup!.longitude)
-      : kMapFallbackCenter;
+  LatLng get _pickupLatLng =>
+      widget.pickup != null ? LatLng(widget.pickup!.latitude, widget.pickup!.longitude) : kMapFallbackCenter;
 
-  LatLng? get _destinationLatLng => widget.destination != null
-      ? LatLng(widget.destination!.latitude, widget.destination!.longitude)
-      : null;
+  LatLng? get _destinationLatLng =>
+      widget.destination != null ? LatLng(widget.destination!.latitude, widget.destination!.longitude) : null;
 
   List<LatLng>? _liveRoutePoints;
-  Set<Polyline> _polylines = const {};
-  Object? _polylineKey;
 
   @override
   void initState() {
@@ -151,95 +137,18 @@ class _RideMapViewState extends State<RideMapView> with SingleTickerProviderStat
   @override
   void dispose() {
     _driverAnimation.dispose();
+    _map.dispose();
     super.dispose();
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (!_carIconRequested) {
-      _carIconRequested = true;
-      final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
-      _buildCarIcon(devicePixelRatio).then((icon) {
-        if (mounted) setState(() => _carIcon = icon);
-      });
+  void _onDriverTick() {
+    if (!mounted) return;
+    setState(() {});
+    final zoom = _followZoomLevel;
+    final driver = _driverLatLng;
+    if (_ready && widget.showDriver && zoom != null && driver != null) {
+      _map.move(driver, zoom);
     }
-  }
-
-  /// Draws a simple top-down car marker (colored body + windshield, on a
-  /// white halo for contrast against any map style) pointing north — the
-  /// marker's own `rotation` then turns it to face the direction of travel.
-  Future<BitmapDescriptor> _buildCarIcon(double devicePixelRatio) async {
-    const logicalSize = 52.0;
-    final size = logicalSize * devicePixelRatio;
-    final recorder = ui.PictureRecorder();
-    final canvas = Canvas(recorder, Rect.fromLTWH(0, 0, size, size));
-    final cx = size / 2;
-    final cy = size / 2;
-    final w = size * 0.38;
-    final h = size * 0.78;
-    final top = cy - h / 2;
-    final bottom = cy + h / 2;
-    final left = cx - w / 2;
-    final right = cx + w / 2;
-
-    final body = Path()
-      ..moveTo(cx, top)
-      ..cubicTo(right - w * 0.05, top, right, top + h * 0.10, right, top + h * 0.24)
-      ..lineTo(right, bottom - h * 0.20)
-      ..cubicTo(right, bottom - h * 0.04, right - w * 0.12, bottom, cx, bottom)
-      ..cubicTo(left + w * 0.12, bottom, left, bottom - h * 0.04, left, bottom - h * 0.20)
-      ..lineTo(left, top + h * 0.24)
-      ..cubicTo(left, top + h * 0.10, left + w * 0.05, top, cx, top)
-      ..close();
-
-    canvas.drawPath(
-      body.shift(Offset(0, size * 0.025)),
-      Paint()
-        ..color = Colors.black.withValues(alpha: 0.30)
-        ..maskFilter = MaskFilter.blur(BlurStyle.normal, size * 0.045),
-    );
-    canvas.drawPath(
-      body,
-      Paint()
-        ..color = Colors.white
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = size * 0.05
-        ..strokeJoin = StrokeJoin.round,
-    );
-    canvas.drawPath(
-      body,
-      Paint()
-        ..shader = const LinearGradient(
-          colors: [Color(0xFF273449), Color(0xFF0B1220)],
-        ).createShader(Rect.fromLTRB(left, top, right, bottom)),
-    );
-
-    void glass(double centerY, double widthFactor, double heightFactor, Color color) {
-      canvas.drawRRect(
-        RRect.fromRectAndRadius(
-          Rect.fromCenter(center: Offset(cx, centerY), width: w * widthFactor, height: h * heightFactor),
-          Radius.circular(w * 0.14),
-        ),
-        Paint()..color = color,
-      );
-    }
-
-    glass(cy - h * 0.12, 0.80, 0.19, const Color(0xFF9DB4D3));
-    glass(cy + h * 0.08, 0.74, 0.25, const Color(0xFF3B4A63));
-    glass(cy + h * 0.29, 0.72, 0.10, const Color(0xFF7F95B5));
-
-    final headlight = Paint()..color = const Color(0xFFFDE68A);
-    final taillight = Paint()..color = const Color(0xFFEF4444);
-    for (final dx in [-w * 0.27, w * 0.27]) {
-      canvas.drawCircle(Offset(cx + dx, top + h * 0.075), w * 0.075, headlight);
-      canvas.drawCircle(Offset(cx + dx, bottom - h * 0.055), w * 0.07, taillight);
-    }
-
-    final picture = recorder.endRecording();
-    final image = await picture.toImage(size.round(), size.round());
-    final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-    return BitmapDescriptor.bytes(byteData!.buffer.asUint8List(), width: logicalSize, height: logicalSize);
   }
 
   void _loadLiveRoadRoute() {
@@ -322,46 +231,32 @@ class _RideMapViewState extends State<RideMapView> with SingleTickerProviderStat
   }
 
   double? _followZoomLevel;
-  bool _establishingZoom = false;
 
-  Future<void> _followDriver() async {
-    final controller = _controller;
-    if (controller == null || !widget.showDriver) return;
-    // Lead the camera to where the car is heading (the target) while the marker
-    // glides there, so the two settle together instead of the camera lagging.
+  void _followDriver() {
+    if (!_ready || !widget.showDriver || _followZoomLevel != null) return;
     final driver = widget.driverPosition ?? _positionAtProgress(widget.driverProgress);
     final target = widget.driverPhase == MapDriverPhase.approachingPickup
         ? _pickupLatLng
         : (_destinationLatLng ?? _pickupLatLng);
-
-    if (_followZoomLevel == null) {
-      if (_establishingZoom) return;
-      _establishingZoom = true;
-      await controller.animateCamera(CameraUpdate.newLatLngBounds(_boundsFor([driver, target]), 60));
-      _followZoomLevel = await controller.getZoomLevel();
-      _establishingZoom = false;
-      return;
-    }
-
-    await controller.animateCamera(CameraUpdate.newLatLngZoom(driver, _followZoomLevel!));
+    _map.fitCamera(CameraFit.bounds(bounds: _boundsFor([driver, target]), padding: const EdgeInsets.all(60), maxZoom: 17));
+    _followZoomLevel = _map.camera.zoom;
   }
 
-  Future<void> _fitCamera() async {
-    final controller = _controller;
-    if (controller == null) return;
+  void _fitCamera() {
+    if (!_ready) return;
     final route = _routePoints;
     if (route.isNotEmpty) {
-      await controller.animateCamera(
-        CameraUpdate.newLatLngBounds(_boundsFor(route), 45),
-      );
+      _map.fitCamera(CameraFit.bounds(bounds: _boundsFor(route), padding: const EdgeInsets.all(45), maxZoom: 17));
     } else if (widget.showDestination && _destinationLatLng != null) {
-      await controller.animateCamera(
-        CameraUpdate.newLatLngBounds(_boundsFor([_pickupLatLng, _destinationLatLng!]), 50),
+      _map.fitCamera(
+        CameraFit.bounds(
+          bounds: _boundsFor([_pickupLatLng, _destinationLatLng!]),
+          padding: const EdgeInsets.all(50),
+          maxZoom: 17,
+        ),
       );
     } else {
-      await controller.animateCamera(
-        CameraUpdate.newLatLngZoom(_pickupLatLng, 15.5),
-      );
+      _map.move(_pickupLatLng, 15.5);
     }
   }
 
@@ -383,18 +278,13 @@ class _RideMapViewState extends State<RideMapView> with SingleTickerProviderStat
       minLng -= epsilon;
       maxLng += epsilon;
     }
-    return LatLngBounds(
-      southwest: LatLng(minLat, minLng),
-      northeast: LatLng(maxLat, maxLng),
-    );
+    return LatLngBounds(LatLng(minLat, minLng), LatLng(maxLat, maxLng));
   }
 
   Future<void> _recenter() async {
     final position = await determineCurrentPosition();
-    if (position != null && mounted) {
-      await _controller?.animateCamera(
-        CameraUpdate.newLatLngZoom(LatLng(position.latitude, position.longitude), 16),
-      );
+    if (position != null && mounted && _ready) {
+      _map.move(LatLng(position.latitude, position.longitude), 16);
     }
     widget.onRecenter?.call();
   }
@@ -403,94 +293,17 @@ class _RideMapViewState extends State<RideMapView> with SingleTickerProviderStat
     setState(() {
       _isExpanded = !_isExpanded;
     });
-    Future.delayed(const Duration(milliseconds: 340), () => _fitCamera());
-  }
-
-  Set<Polyline> _buildPolylines(List<LatLng> route, Color primary) {
-    return {
-      if (widget.showDriver && widget.driverPhase == MapDriverPhase.approachingPickup)
-        Polyline(
-          polylineId: const PolylineId('driver_approach'),
-          points: _driverApproachPoints,
-          color: const Color(0xFF6366F1),
-          width: 4,
-          jointType: JointType.round,
-          startCap: Cap.roundCap,
-          endCap: Cap.roundCap,
-        ),
-      if (route.isNotEmpty) ...[
-        Polyline(
-          polylineId: const PolylineId('route_border'),
-          points: route,
-          color: const Color(0xFFC2410C),
-          width: 7,
-          jointType: JointType.round,
-          startCap: Cap.roundCap,
-          endCap: Cap.roundCap,
-        ),
-        Polyline(
-          polylineId: const PolylineId('route_main'),
-          points: route,
-          color: primary,
-          width: 5,
-          jointType: JointType.round,
-          startCap: Cap.roundCap,
-          endCap: Cap.roundCap,
-        ),
-      ],
-    };
+    Future.delayed(const Duration(milliseconds: 360), _fitCamera);
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final colors = AppColors.of(context);
     final driver = _driverLatLng;
     final destination = widget.showDestination ? _destinationLatLng : null;
     final route = _routePoints;
-
-    final markers = <Marker>{
-      Marker(
-        markerId: const MarkerId('pickup'),
-        position: _pickupLatLng,
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-        infoWindow: InfoWindow(title: widget.pickup?.shortName ?? l10n.pickupLabel),
-      ),
-      if (destination != null)
-        Marker(
-          markerId: const MarkerId('destination'),
-          position: destination,
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
-          infoWindow: InfoWindow(title: widget.destination?.shortName ?? l10n.destinationLabel),
-        ),
-      if (driver != null)
-        Marker(
-          markerId: const MarkerId('driver'),
-          position: driver,
-          icon: _carIcon ?? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
-          anchor: const Offset(0.5, 0.5),
-          rotation: _driverHeading ?? 0,
-          flat: true,
-          zIndexInt: 3,
-          infoWindow: InfoWindow(title: l10n.driverLocationLabel),
-        ),
-      for (var i = 0; i < widget.nearbyDrivers.length; i++)
-        Marker(
-          markerId: MarkerId('nearby_$i'),
-          position: widget.nearbyDrivers[i],
-          icon: _carIcon ?? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
-          anchor: const Offset(0.5, 0.5),
-          flat: true,
-          zIndexInt: 2,
-        ),
-    };
-
-    final primary = AppColors.of(context).primary;
-    final polylineKey = Object.hash(identityHashCode(_liveRoutePoints), widget.showDriver, widget.driverPhase, primary);
-    if (polylineKey != _polylineKey) {
-      _polylineKey = polylineKey;
-      _polylines = _buildPolylines(route, primary);
-    }
-    final polylines = _polylines;
+    final heading = (_driverHeading ?? 0) * math.pi / 180;
 
     final targetHeight = _isExpanded ? 540.0 : widget.height;
 
@@ -513,39 +326,77 @@ class _RideMapViewState extends State<RideMapView> with SingleTickerProviderStat
         borderRadius: widget.borderRadius,
         child: Stack(
           children: [
-            IgnorePointer(
-              ignoring: !widget.interactive,
-              child: GoogleMap(
-                initialCameraPosition: CameraPosition(target: _pickupLatLng, zoom: 15.5),
-                style: Theme.of(context).brightness == Brightness.dark ? kDarkMapStyle : null,
-                onMapCreated: (controller) {
-                  _controller = controller;
-                  if (!_fitted) {
-                    _fitted = true;
-                    _fitCamera();
-                  }
+            FlutterMap(
+              mapController: _map,
+              options: MapOptions(
+                initialCenter: _pickupLatLng,
+                initialZoom: 15.5,
+                minZoom: 3,
+                maxZoom: 19,
+                backgroundColor: colors.surface,
+                interactionOptions: InteractionOptions(
+                  flags: widget.interactive
+                      ? InteractiveFlag.drag |
+                          InteractiveFlag.pinchZoom |
+                          InteractiveFlag.doubleTapZoom |
+                          InteractiveFlag.flingAnimation
+                      : InteractiveFlag.none,
+                ),
+                onTap: widget.interactive && widget.onMapTap != null ? (_, point) => widget.onMapTap!(point) : null,
+                onMapReady: () {
+                  _ready = true;
+                  _fitCamera();
                 },
-                markers: markers,
-                polylines: polylines,
-                onTap: widget.interactive ? widget.onMapTap : null,
-                zoomControlsEnabled: false,
-                myLocationButtonEnabled: false,
-                mapToolbarEnabled: false,
-                compassEnabled: widget.interactive,
-                zoomGesturesEnabled: widget.interactive,
-                scrollGesturesEnabled: widget.interactive,
-                rotateGesturesEnabled: widget.interactive,
-                tiltGesturesEnabled: widget.interactive,
-                gestureRecognizers: widget.interactive
-                    ? <Factory<OneSequenceGestureRecognizer>>{
-                        Factory<OneSequenceGestureRecognizer>(
-                          () => EagerGestureRecognizer(),
-                        ),
-                      }
-                    : const <Factory<OneSequenceGestureRecognizer>>{},
               ),
+              children: [
+                const OsmTileLayer(),
+                PolylineLayer(
+                  polylines: [
+                    if (widget.showDriver && widget.driverPhase == MapDriverPhase.approachingPickup)
+                      Polyline(
+                        points: _driverApproachPoints,
+                        strokeWidth: 4,
+                        color: colors.accent,
+                        borderStrokeWidth: 1.5,
+                        borderColor: colors.card,
+                        strokeCap: StrokeCap.round,
+                        strokeJoin: StrokeJoin.round,
+                      ),
+                    if (route.isNotEmpty)
+                      Polyline(
+                        points: route,
+                        strokeWidth: 5,
+                        color: colors.mapRoute,
+                        borderStrokeWidth: 2,
+                        borderColor: colors.card,
+                        strokeCap: StrokeCap.round,
+                        strokeJoin: StrokeJoin.round,
+                      ),
+                  ],
+                ),
+                MarkerLayer(
+                  markers: [
+                    Marker(
+                      point: _pickupLatLng,
+                      width: 26,
+                      height: 26,
+                      child: _StopMarker(color: colors.mapPickup, ring: colors.card, square: false),
+                    ),
+                    if (destination != null)
+                      Marker(
+                        point: destination,
+                        width: 26,
+                        height: 26,
+                        child: _StopMarker(color: colors.mapDestination, ring: colors.card, square: true),
+                      ),
+                    for (final nearby in widget.nearbyDrivers)
+                      Marker(point: nearby, width: 34, height: 34, child: const _CarMarker(rotation: 0)),
+                    if (driver != null) Marker(point: driver, width: 52, height: 52, child: _CarMarker(rotation: heading)),
+                  ],
+                ),
+                const OsmAttribution(),
+              ],
             ),
-
             if (widget.showDestination && widget.distanceKm != null && widget.etaMinutes != null)
               Positioned(
                 top: 14,
@@ -553,9 +404,9 @@ class _RideMapViewState extends State<RideMapView> with SingleTickerProviderStat
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
                   decoration: BoxDecoration(
-                    color: AppColors.of(context).card,
+                    color: colors.card,
                     borderRadius: BorderRadius.circular(AppRadius.pill),
-                    border: Border.all(color: AppColors.of(context).border, width: 1),
+                    border: Border.all(color: colors.border, width: 1),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withValues(alpha: 0.12),
@@ -567,13 +418,13 @@ class _RideMapViewState extends State<RideMapView> with SingleTickerProviderStat
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(AppIcons.car_front_fill, size: 14, color: AppColors.of(context).primary),
+                      Icon(AppIcons.car_front_fill, size: 14, color: colors.primary),
                       const SizedBox(width: 6),
                       Text(
                         '${l10n.kmShort(widget.distanceKm!.toStringAsFixed(1))} • ${l10n.minutesShort(widget.etaMinutes!)}',
                         style: AppTypography.of(context).caption.copyWith(
                           fontWeight: FontWeight.w700,
-                          color: AppColors.of(context).navy,
+                          color: colors.navy,
                           fontSize: 13,
                         ),
                       ),
@@ -581,13 +432,12 @@ class _RideMapViewState extends State<RideMapView> with SingleTickerProviderStat
                   ),
                 ),
               ),
-
             if (widget.enableExpand && widget.interactive)
               Positioned(
                 top: 14,
                 left: 14,
                 child: Material(
-                  color: AppColors.of(context).card,
+                  color: colors.card,
                   borderRadius: BorderRadius.circular(AppRadius.pill),
                   elevation: 3,
                   shadowColor: Colors.black38,
@@ -602,7 +452,7 @@ class _RideMapViewState extends State<RideMapView> with SingleTickerProviderStat
                           Icon(
                             _isExpanded ? AppIcons.fullscreen_exit : AppIcons.arrows_fullscreen,
                             size: 15,
-                            color: AppColors.of(context).navy,
+                            color: colors.navy,
                           ),
                           const SizedBox(width: 6),
                           Text(
@@ -610,7 +460,7 @@ class _RideMapViewState extends State<RideMapView> with SingleTickerProviderStat
                             style: AppTypography.of(context).caption.copyWith(
                               fontWeight: FontWeight.w700,
                               fontSize: 13,
-                              color: AppColors.of(context).navy,
+                              color: colors.navy,
                             ),
                           ),
                         ],
@@ -619,7 +469,6 @@ class _RideMapViewState extends State<RideMapView> with SingleTickerProviderStat
                   ),
                 ),
               ),
-
             if (widget.onRecenter != null && widget.interactive)
               Positioned(
                 right: 14,
@@ -643,6 +492,116 @@ LatLng? driverPositionOf(Booking booking) {
   return lat == null || lng == null ? null : LatLng(lat, lng);
 }
 
+class _StopMarker extends StatelessWidget {
+  final Color color;
+  final Color ring;
+  final bool square;
+
+  const _StopMarker({required this.color, required this.ring, required this.square});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        width: 20,
+        height: 20,
+        decoration: BoxDecoration(
+          color: color,
+          shape: square ? BoxShape.rectangle : BoxShape.circle,
+          borderRadius: square ? BorderRadius.circular(4) : null,
+          border: Border.all(color: ring, width: 3),
+          boxShadow: const [BoxShadow(color: Color(0x40000000), blurRadius: 6, offset: Offset(0, 2))],
+        ),
+      ),
+    );
+  }
+}
+
+class _CarMarker extends StatelessWidget {
+  final double rotation;
+
+  const _CarMarker({required this.rotation});
+
+  @override
+  Widget build(BuildContext context) {
+    return Transform.rotate(angle: rotation, child: const CustomPaint(painter: _CarPainter()));
+  }
+}
+
+/// Top-down car (body, glass, lights) on a white halo, pointing north; the
+/// parent rotates it to face the direction of travel.
+class _CarPainter extends CustomPainter {
+  const _CarPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final s = size.shortestSide;
+    final cx = size.width / 2;
+    final cy = size.height / 2;
+    final w = s * 0.38;
+    final h = s * 0.78;
+    final top = cy - h / 2;
+    final bottom = cy + h / 2;
+    final left = cx - w / 2;
+    final right = cx + w / 2;
+
+    final body = Path()
+      ..moveTo(cx, top)
+      ..cubicTo(right - w * 0.05, top, right, top + h * 0.10, right, top + h * 0.24)
+      ..lineTo(right, bottom - h * 0.20)
+      ..cubicTo(right, bottom - h * 0.04, right - w * 0.12, bottom, cx, bottom)
+      ..cubicTo(left + w * 0.12, bottom, left, bottom - h * 0.04, left, bottom - h * 0.20)
+      ..lineTo(left, top + h * 0.24)
+      ..cubicTo(left, top + h * 0.10, left + w * 0.05, top, cx, top)
+      ..close();
+
+    canvas.drawPath(
+      body.shift(Offset(0, s * 0.025)),
+      Paint()
+        ..color = Colors.black.withValues(alpha: 0.30)
+        ..maskFilter = MaskFilter.blur(BlurStyle.normal, s * 0.045),
+    );
+    canvas.drawPath(
+      body,
+      Paint()
+        ..color = Colors.white
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = s * 0.05
+        ..strokeJoin = StrokeJoin.round,
+    );
+    canvas.drawPath(
+      body,
+      Paint()
+        ..shader = const LinearGradient(colors: [Color(0xFF273449), Color(0xFF0B1220)])
+            .createShader(Rect.fromLTRB(left, top, right, bottom)),
+    );
+
+    void glass(double centerY, double widthFactor, double heightFactor, Color color) {
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(
+          Rect.fromCenter(center: Offset(cx, centerY), width: w * widthFactor, height: h * heightFactor),
+          Radius.circular(w * 0.14),
+        ),
+        Paint()..color = color,
+      );
+    }
+
+    glass(cy - h * 0.12, 0.80, 0.19, const Color(0xFF9DB4D3));
+    glass(cy + h * 0.08, 0.74, 0.25, const Color(0xFF3B4A63));
+    glass(cy + h * 0.29, 0.72, 0.10, const Color(0xFF7F95B5));
+
+    final headlight = Paint()..color = const Color(0xFFFDE68A);
+    final taillight = Paint()..color = const Color(0xFFEF4444);
+    for (final dx in [-w * 0.27, w * 0.27]) {
+      canvas.drawCircle(Offset(cx + dx, top + h * 0.075), w * 0.075, headlight);
+      canvas.drawCircle(Offset(cx + dx, bottom - h * 0.055), w * 0.07, taillight);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _CarPainter oldDelegate) => false;
+}
+
 class _RecenterButton extends StatelessWidget {
   final VoidCallback onTap;
   const _RecenterButton({required this.onTap});
@@ -658,7 +617,7 @@ class _RecenterButton extends StatelessWidget {
         customBorder: const CircleBorder(),
         onTap: onTap,
         child: Padding(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: Icon(AppIcons.crosshair, size: 18, color: AppColors.of(context).navy),
         ),
       ),

@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart' show Scaffold;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/auth/presentation/screens/onboarding_screen.dart';
@@ -14,6 +16,8 @@ import '../../features/rides/presentation/screens/scheduled_ride_detail_screen.d
 import '../../features/subscription/presentation/screens/payment_success_screen.dart';
 import '../../features/subscription/presentation/screens/subscription_screen.dart';
 import '../models/driver_ride.dart';
+import '../models/driver_profile.dart';
+import '../state/auth_controller.dart';
 
 /// Lets code outside the widget tree (the push-notification handler) reach a
 /// [BuildContext] — e.g. to show an [AppToast] when a message arrives while
@@ -23,6 +27,7 @@ import '../models/driver_ride.dart';
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 
 abstract class AppRoutes {
+  static const launch = '/launch';
   static const onboarding = '/onboarding';
   static const login = '/login';
   static const otp = '/otp';
@@ -42,10 +47,40 @@ Page<void> _page(GoRouterState state, Widget child) {
   return CupertinoPage<void>(key: state.pageKey, child: child);
 }
 
+class RouterRefresh extends ChangeNotifier {
+  void bump() => notifyListeners();
+}
+
+final routerRefresh = RouterRefresh();
+
+const _preAuthRoutes = {AppRoutes.launch, AppRoutes.onboarding, AppRoutes.login, AppRoutes.otp};
+
+String? _authRedirect(BuildContext context, GoRouterState state) {
+  final auth = ProviderScope.containerOf(context).read(authControllerProvider);
+  final location = state.matchedLocation;
+
+  if (auth.checking) return location == AppRoutes.launch ? null : AppRoutes.launch;
+
+  final driver = auth.driver;
+  if (driver != null) {
+    if (!_preAuthRoutes.contains(location)) return null;
+    return driver.verificationStatus == VerificationStatus.verified ? AppRoutes.dashboard : AppRoutes.verificationStatus;
+  }
+
+  if (location == AppRoutes.launch) return AppRoutes.login;
+  return _preAuthRoutes.contains(location) ? null : AppRoutes.login;
+}
+
 final GoRouter appRouter = GoRouter(
   navigatorKey: rootNavigatorKey,
-  initialLocation: AppRoutes.login,
+  initialLocation: AppRoutes.launch,
+  refreshListenable: routerRefresh,
+  redirect: _authRedirect,
   routes: [
+    GoRoute(
+      path: AppRoutes.launch,
+      pageBuilder: (context, state) => _page(state, const Scaffold(body: SizedBox.shrink())),
+    ),
     GoRoute(path: AppRoutes.onboarding, pageBuilder: (context, state) => _page(state, const DriverOnboardingScreen())),
     GoRoute(path: AppRoutes.login, pageBuilder: (context, state) => _page(state, const PhoneLoginScreen())),
     GoRoute(path: AppRoutes.otp, pageBuilder: (context, state) => _page(state, const OtpVerificationScreen())),

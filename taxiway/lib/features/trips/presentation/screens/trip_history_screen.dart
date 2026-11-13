@@ -7,7 +7,7 @@ import '../../../../core/models/trip_history_item.dart';
 import '../../../../core/providers.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/widgets/app_back_button.dart';
-import '../../../../core/widgets/app_shimmer.dart';
+import '../../../../core/widgets/skeleton_loaders.dart';
 import '../../../../core/widgets/empty_state.dart';
 import '../../../../core/widgets/page_state_builder.dart';
 import '../../../../core/widgets/trip_card.dart';
@@ -55,7 +55,7 @@ class _TripHistoryScreenState extends ConsumerState<TripHistoryScreen> with Sing
       ),
       body: PageStateBuilder<List<TripHistoryItem>>(
         asyncValue: tripsAsync,
-        shimmer: const RideListShimmer(itemCount: 4),
+        shimmer: const TripListSkeleton(),
         onRetry: () async => ref.invalidate(tripHistoryControllerProvider),
         builder: (context, trips) => TabBarView(
           controller: _tabController,

@@ -16,14 +16,16 @@ const _quickTags = ['Clean Car', 'Safe Driving', 'Polite', 'On Time', 'Good AC',
 const _tips = [10, 20, 50, 100];
 
 class RatingReviewScreen extends ConsumerStatefulWidget {
-  const RatingReviewScreen({super.key});
+  final int initialRating;
+
+  const RatingReviewScreen({super.key, this.initialRating = 5});
 
   @override
   ConsumerState<RatingReviewScreen> createState() => _RatingReviewScreenState();
 }
 
 class _RatingReviewScreenState extends ConsumerState<RatingReviewScreen> {
-  int _rating = 5;
+  late int _rating = widget.initialRating;
   final Set<String> _selectedTags = {};
   int? _selectedTip;
   final _commentController = TextEditingController();
