@@ -14,6 +14,7 @@ import '../../../../core/widgets/app_scaffold.dart';
 import '../../../../core/widgets/app_toast.dart';
 import '../../../../core/widgets/buttons.dart';
 import '../../../../core/widgets/driver_card.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 class DriverArrivedScreen extends ConsumerWidget {
   const DriverArrivedScreen({super.key});
@@ -38,7 +39,7 @@ class DriverArrivedScreen extends ConsumerWidget {
     });
 
     if (booking == null) {
-      return const Scaffold(body: Center(child: Text('No active booking.')));
+      return Scaffold(body: Center(child: Text(AppLocalizations.of(context).noActiveBookingLabel)));
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _handleTransition(context, booking.status));
@@ -46,7 +47,7 @@ class DriverArrivedScreen extends ConsumerWidget {
     return AppScaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('Driver Arrived', style: AppTypography.of(context).h2.copyWith(fontSize: 18, color: AppColors.of(context).navy)),
+        title: Text(AppLocalizations.of(context).driverArrivedTitle, style: AppTypography.of(context).h2.copyWith(fontSize: 18, color: AppColors.of(context).navy)),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,12 +71,12 @@ class DriverArrivedScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Your driver has arrived',
+                      AppLocalizations.of(context).yourDriverHasArrived,
                       style: AppTypography.of(context).h2.copyWith(fontSize: 20, color: AppColors.of(context).navy),
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      'Waiting at ${booking.pickup.shortName}',
+                      AppLocalizations.of(context).waitingAtPlace(booking.pickup.shortName),
                       style: AppTypography.of(context).body.copyWith(fontSize: 14, color: AppColors.of(context).bodyText),
                     ),
                   ],
@@ -101,7 +102,7 @@ class DriverArrivedScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'START RIDE OTP',
+                      AppLocalizations.of(context).startRideOtp,
                       style: AppTypography.of(context).caption.copyWith(
                         fontWeight: FontWeight.w700,
                         color: AppColors.of(context).primaryDark,
@@ -110,7 +111,7 @@ class DriverArrivedScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      'Share with driver to start ride',
+                      AppLocalizations.of(context).shareWithDriverToStart,
                       style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).bodyText),
                     ),
                   ],
@@ -141,7 +142,7 @@ class DriverArrivedScreen extends ConsumerWidget {
           DriverCompactCard(
             driver: driver,
             vehicle: vehicle,
-            onCall: () => AppToast.call(context, 'Calling ${driver.name} (+91 98765 00000)...', title: 'Phone Call'),
+            onCall: () => AppToast.call(context, AppLocalizations.of(context).callingPerson(driver.name), title: AppLocalizations.of(context).phoneCallTitle),
             onMessage: () => context.push(
               AppRoutes.chat,
               extra: ChatScreenArgs(title: driver.name, conversationId: 'ride_${booking.id}'),
@@ -165,7 +166,7 @@ class DriverArrivedScreen extends ConsumerWidget {
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    'Please check the vehicle number before boarding.',
+                    AppLocalizations.of(context).checkVehicleNumberBeforeBoarding,
                     style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).bodyText),
                   ),
                 ),
@@ -179,7 +180,7 @@ class DriverArrivedScreen extends ConsumerWidget {
             children: [
               Expanded(
                 child: AppOutlineButton(
-                  label: 'View Vehicle',
+                  label: AppLocalizations.of(context).viewVehicle,
                   icon: AppIcons.car_front,
                   onPressed: () => context.push(AppRoutes.vehicleGallery),
                 ),
@@ -187,9 +188,9 @@ class DriverArrivedScreen extends ConsumerWidget {
               const SizedBox(width: 12),
               Expanded(
                 child: PrimaryButton(
-                  label: 'Call Driver',
+                  label: AppLocalizations.of(context).callDriver,
                   icon: AppIcons.telephone_fill,
-                  onPressed: () => AppToast.call(context, 'Calling ${driver.name} (+91 98765 00000)...', title: 'Phone Call'),
+                  onPressed: () => AppToast.call(context, AppLocalizations.of(context).callingPerson(driver.name), title: AppLocalizations.of(context).phoneCallTitle),
                 ),
               ),
             ],

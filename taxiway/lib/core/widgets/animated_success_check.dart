@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../theme/app_colors.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 /// The recurring "success" badge (Booking Confirmed, Ride Completed, Bulk
 /// Booking Confirmed): the disc scales in, the checkmark draws itself, and a
@@ -48,7 +49,7 @@ class _AnimatedSuccessCheckState extends State<AnimatedSuccessCheck> with Single
     final diameter = widget.iconSize + widget.size * 0.4;
 
     return Semantics(
-      label: 'Success',
+      label: AppLocalizations.of(context).successLabel,
       child: SizedBox(
         width: diameter,
         height: diameter,

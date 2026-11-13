@@ -14,6 +14,7 @@ import '../../../../core/widgets/buttons.dart';
 import '../../../../core/widgets/driver_card.dart';
 import '../../../../core/widgets/rating_stars.dart';
 import '../../../../core/widgets/vehicle_media_placeholder.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 class DriverVehicleProfileScreen extends ConsumerWidget {
   const DriverVehicleProfileScreen({super.key});
@@ -26,7 +27,7 @@ class DriverVehicleProfileScreen extends ConsumerWidget {
 
     return AppScaffold(
       appBar: AppBar(
-        title: Text('Driver & Vehicle', style: AppTypography.of(context).h2.copyWith(fontSize: 18, color: AppColors.of(context).navy)),
+        title: Text(AppLocalizations.of(context).driverAndVehicle, style: AppTypography.of(context).h2.copyWith(fontSize: 18, color: AppColors.of(context).navy)),
       ),
       scrollable: true,
       body: Column(
@@ -54,17 +55,17 @@ class DriverVehicleProfileScreen extends ConsumerWidget {
                   children: [
                     Icon(AppIcons.patch_check_fill, size: 15, color: AppColors.of(context).success),
                     const SizedBox(width: 4),
-                    Text('Verified Driver · Online', style: AppTypography.of(context).caption.copyWith(color: Colors.white70)),
+                    Text(AppLocalizations.of(context).verifiedDriverOnline, style: AppTypography.of(context).caption.copyWith(color: Colors.white70)),
                   ],
                 ),
                 const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    _StatColumn(value: driver.rating.toStringAsFixed(1), label: 'Rating', icon: AppIcons.star_fill),
-                    _StatColumn(value: '${driver.totalTrips}', label: 'Trips'),
-                    _StatColumn(value: '${driver.completionRate}%', label: 'Completion'),
-                    _StatColumn(value: '${driver.yearsExperience}+ yrs', label: 'Experience'),
+                    _StatColumn(value: driver.rating.toStringAsFixed(1), label: AppLocalizations.of(context).ratingLabel, icon: AppIcons.star_fill),
+                    _StatColumn(value: '${driver.totalTrips}', label: AppLocalizations.of(context).tripsLabel),
+                    _StatColumn(value: '${driver.completionRate}%', label: AppLocalizations.of(context).completionLabel),
+                    _StatColumn(value: '${driver.yearsExperience}+ yrs', label: AppLocalizations.of(context).experienceLabel),
                   ],
                 ),
               ],
@@ -73,7 +74,7 @@ class DriverVehicleProfileScreen extends ConsumerWidget {
 
           const SizedBox(height: 20),
 
-          Text('Verification', style: AppTypography.of(context).h3.copyWith(fontSize: 16, color: AppColors.of(context).navy)),
+          Text(AppLocalizations.of(context).verificationLabel, style: AppTypography.of(context).h3.copyWith(fontSize: 16, color: AppColors.of(context).navy)),
           const SizedBox(height: 10),
           Container(
             padding: const EdgeInsets.all(14),
@@ -84,18 +85,18 @@ class DriverVehicleProfileScreen extends ConsumerWidget {
             ),
             child: Column(
               children: [
-                _VerificationRow(label: 'Identity Verified', verified: driver.identityVerified),
+                _VerificationRow(label: AppLocalizations.of(context).identityVerified, verified: driver.identityVerified),
                 Divider(height: 14, color: AppColors.of(context).border),
-                _VerificationRow(label: 'Driving Licence Verified', verified: driver.licenceVerified),
+                _VerificationRow(label: AppLocalizations.of(context).licenceVerified, verified: driver.licenceVerified),
                 Divider(height: 14, color: AppColors.of(context).border),
-                _VerificationRow(label: 'Background Checked', verified: driver.backgroundChecked),
+                _VerificationRow(label: AppLocalizations.of(context).backgroundChecked, verified: driver.backgroundChecked),
               ],
             ),
           ),
 
           const SizedBox(height: 20),
 
-          Text('Assigned Vehicle', style: AppTypography.of(context).h3.copyWith(fontSize: 16, color: AppColors.of(context).navy)),
+          Text(AppLocalizations.of(context).assignedVehicle, style: AppTypography.of(context).h3.copyWith(fontSize: 16, color: AppColors.of(context).navy)),
           const SizedBox(height: 10),
           Container(
             padding: const EdgeInsets.all(16),
@@ -146,17 +147,17 @@ class DriverVehicleProfileScreen extends ConsumerWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
                 Wrap(
                   spacing: 8,
                   runSpacing: 8,
                   children: [
                     _Chip(vehicle.category),
-                    _Chip('${vehicle.seats} Seater'),
-                    if (vehicle.ac) const _Chip('AC'),
+                    _Chip(AppLocalizations.of(context).seaterCount(vehicle.seats)),
+                    if (vehicle.ac) _Chip(AppLocalizations.of(context).acLabel),
                     _Chip(vehicle.fuelType),
-                    if (vehicle.nonSmoking) const _Chip('Non-Smoking'),
-                    if (vehicle.gps) const _Chip('GPS Enabled'),
+                    if (vehicle.nonSmoking) _Chip(AppLocalizations.of(context).nonSmoking),
+                    if (vehicle.gps) _Chip(AppLocalizations.of(context).gpsEnabled),
                   ],
                 ),
               ],
@@ -168,10 +169,10 @@ class DriverVehicleProfileScreen extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Vehicle Photos', style: AppTypography.of(context).h3.copyWith(fontSize: 16, color: AppColors.of(context).navy)),
+              Text(AppLocalizations.of(context).vehiclePhotos, style: AppTypography.of(context).h3.copyWith(fontSize: 16, color: AppColors.of(context).navy)),
               TextButton(
                 onPressed: () => context.push(AppRoutes.vehicleGallery),
-                child: Text('View All', style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).primaryDark)),
+                child: Text(AppLocalizations.of(context).viewAllLabel, style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).primaryDark)),
               ),
             ],
           ),
@@ -193,15 +194,15 @@ class DriverVehicleProfileScreen extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Passenger Reviews', style: AppTypography.of(context).h3.copyWith(fontSize: 16, color: AppColors.of(context).navy)),
+              Text(AppLocalizations.of(context).passengerReviews, style: AppTypography.of(context).h3.copyWith(fontSize: 16, color: AppColors.of(context).navy)),
               TextButton(
                 onPressed: () => context.push(AppRoutes.fullDriverProfile),
-                child: Text('View All', style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).primaryDark)),
+                child: Text(AppLocalizations.of(context).viewAllLabel, style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).primaryDark)),
               ),
             ],
           ),
           if (reviews.isEmpty)
-            Text("No reviews yet.", style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).mutedText))
+            Text(AppLocalizations.of(context).noReviewsYet, style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).mutedText))
           else
             Column(
               children: reviews.take(2).map((r) {
@@ -239,17 +240,17 @@ class DriverVehicleProfileScreen extends ConsumerWidget {
             children: [
               Expanded(
                 child: AppOutlineButton(
-                  label: 'Message',
+                  label: AppLocalizations.of(context).messageLabel,
                   icon: AppIcons.chat_dots,
-                  onPressed: () => AppToast.info(context, 'Messaging driver Amit Kumar...', title: 'Chat'),
+                  onPressed: () => AppToast.info(context, AppLocalizations.of(context).messagingDriverToast, title: AppLocalizations.of(context).chatLabel),
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: PrimaryButton(
-                  label: 'Call Driver',
+                  label: AppLocalizations.of(context).callDriver,
                   icon: AppIcons.telephone_fill,
-                  onPressed: () => AppToast.call(context, 'Calling driver Amit Kumar (+91 98765 00000)...', title: 'Phone Call'),
+                  onPressed: () => AppToast.call(context, AppLocalizations.of(context).callingDriverToast, title: AppLocalizations.of(context).phoneCallTitle),
                 ),
               ),
             ],

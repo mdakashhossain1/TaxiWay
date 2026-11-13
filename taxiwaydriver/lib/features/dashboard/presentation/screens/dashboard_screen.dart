@@ -88,7 +88,7 @@ class DashboardScreen extends ConsumerWidget {
             children: [
               TaxiwayHeader(
                 onProfileTap: () => _showLogoutConfirm(context, ref),
-                onSupportTap: () => context.push(AppRoutes.chat, extra: const ChatScreenArgs(title: 'Support')),
+                onSupportTap: () => context.push(AppRoutes.chat, extra: ChatScreenArgs(title: AppLocalizations.of(context).supportLabel)),
               ),
               const SizedBox(height: 12),
 
@@ -144,7 +144,7 @@ class DashboardScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          '${formatRupees(plan.pricePerMonth)} / month',
+                          AppLocalizations.of(context).perMonthPrice(formatRupees(plan.pricePerMonth)),
                           style: AppTypography.of(context).priceLarge.copyWith(color: AppColors.of(context).onPrimary),
                         ),
                         Text(
@@ -312,7 +312,7 @@ class _PendingOfferBanner extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('New ride offer waiting', style: AppTypography.of(context).label.copyWith(fontWeight: FontWeight.w700)),
+                Text(AppLocalizations.of(context).newRideOfferWaiting, style: AppTypography.of(context).label.copyWith(fontWeight: FontWeight.w700)),
                 AutoScrollText(ride.pickup, style: AppTypography.of(context).caption),
               ],
             ),
@@ -321,7 +321,7 @@ class _PendingOfferBanner extends StatelessWidget {
           ElevatedButton(
             style: ElevatedButton.styleFrom(minimumSize: const Size(0, 44)),
             onPressed: () => context.push(AppRoutes.rideOffer, extra: ride),
-            child: const Text('View'),
+            child: Text(AppLocalizations.of(context).viewLabel),
           ),
         ],
       ),
@@ -416,7 +416,7 @@ class _NextRideCard extends StatelessWidget {
                   icon: AppIcons.telephone_fill,
                   onPressed: () {
                     launchPhoneCall(ride.customerPhone);
-                    AppToast.call(context, 'Calling ${ride.customerName}...');
+                    AppToast.call(context, AppLocalizations.of(context).callingPerson(ride.customerName));
                   },
                 ),
               ),

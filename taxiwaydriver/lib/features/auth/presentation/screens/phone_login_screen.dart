@@ -53,7 +53,7 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
         _controller.text = detected;
         _error = null;
       });
-      AppToast.success(context, 'Driver number +91 $detected auto-filled', title: 'SIM Detected');
+      AppToast.success(context, AppLocalizations.of(context).driverNumberAutoFilled(detected), title: AppLocalizations.of(context).simDetected);
     }
   }
 
@@ -75,7 +75,7 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
       final debugOtp = await ref.read(authControllerProvider.notifier).sendOtp(_phone);
       if (!mounted) return;
       if (debugOtp != null) {
-        AppToast.info(context, 'OTP: $debugOtp', title: 'Dev Mode — No SMS Gateway');
+        AppToast.info(context, AppLocalizations.of(context).devOtpLabel(debugOtp), title: AppLocalizations.of(context).devModeNoSms);
       }
       context.push(AppRoutes.otp);
     } catch (error) {
@@ -106,7 +106,7 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
           context.go(AppRoutes.verificationStatus);
         }
       } else {
-        AppToast.info(context, 'Add your phone number to finish setting up your account.', title: 'Almost there');
+        AppToast.info(context, AppLocalizations.of(context).addPhoneToFinishSetup, title: AppLocalizations.of(context).almostThere);
       }
     } on GoogleSignInCancelledException {
       // User dismissed the picker — nothing to report.
@@ -146,7 +146,7 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
                           Expanded(
                             child: Center(
                               child: Text(
-                                'Login',
+                                AppLocalizations.of(context).loginLabel,
                                 style: AppTypography.of(context).h3.copyWith(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w700,

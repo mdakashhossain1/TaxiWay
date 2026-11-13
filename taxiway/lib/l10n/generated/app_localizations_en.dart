@@ -695,4 +695,674 @@ class AppLocalizationsEn extends AppLocalizations {
   String paidWithLabel(String method) {
     return 'Paid with $method';
   }
+
+  @override
+  String get aboutDriver => 'About Driver';
+
+  @override
+  String get addPhoneToFinishSetup =>
+      'Add your phone number to finish setting up your account.';
+
+  @override
+  String get addSpecialNotesOptional =>
+      'Add Special Notes / Instructions (Optional)';
+
+  @override
+  String get addTipOptional => 'Add a Tip (Optional)';
+
+  @override
+  String get additionalRequirements => 'Additional Requirements';
+
+  @override
+  String get almostThere => 'Almost there';
+
+  @override
+  String get approxPassengers => 'Approx. Passengers';
+
+  @override
+  String get arrangingVehiclesNote =>
+      'We\'re arranging vehicles for your trip. You\'ll be notified when an offer is ready.';
+
+  @override
+  String get assignedVehicle => 'Assigned Vehicle';
+
+  @override
+  String get autoFillSimNumber => 'Auto-fill SIM number';
+
+  @override
+  String get backToHome => 'Back to Home';
+
+  @override
+  String get backgroundChecked => 'Background Checked';
+
+  @override
+  String get bulkBookingConfirmedTitle => 'Bulk Booking Confirmed';
+
+  @override
+  String get bulkRequestSubmittedHeading =>
+      'Your bulk booking request has been submitted!';
+
+  @override
+  String get bulkRequestSubmittedToast =>
+      'Bulk booking request submitted for review!';
+
+  @override
+  String get bulkRequestTitle => 'Bulk Request';
+
+  @override
+  String get callDriver => 'Call Driver';
+
+  @override
+  String get callLabel => 'Call';
+
+  @override
+  String get callingDriverToast =>
+      'Calling driver Amit Kumar (+91 98765 00000)...';
+
+  @override
+  String get cancelRideAction => 'Cancel ride';
+
+  @override
+  String get changeLabel => 'Change';
+
+  @override
+  String get changePhoneNumber => 'Change Phone Number';
+
+  @override
+  String get chatLabel => 'Chat';
+
+  @override
+  String get checkVehicleNumberBeforeBoarding =>
+      'Please check the vehicle number before boarding.';
+
+  @override
+  String get checkingSimForNumber => 'Checking your SIM for a phone number…';
+
+  @override
+  String get chooseTravelSchedule => 'Choose your travel schedule';
+
+  @override
+  String get codeResent => 'Code Resent';
+
+  @override
+  String get completionLabel => 'Completion';
+
+  @override
+  String get confirmBooking => 'Confirm Booking';
+
+  @override
+  String get confirmDateAndSchedule => 'Confirm Date & Schedule';
+
+  @override
+  String get contactPerson => 'Contact Person';
+
+  @override
+  String get contactSupport => 'Contact Support';
+
+  @override
+  String get contactSupportRequestChange => 'Contact Support / Request Change';
+
+  @override
+  String get continueWithGoogle => 'Continue with Google';
+
+  @override
+  String get devModeNoSms => 'Dev Mode — No SMS Gateway';
+
+  @override
+  String get didntReceiveCode => 'Didn\'t receive code? ';
+
+  @override
+  String get driverAndVehicle => 'Driver & Vehicle';
+
+  @override
+  String get driverAndVehicleList => 'Driver & Vehicle List';
+
+  @override
+  String get driverArrivedTitle => 'Driver Arrived';
+
+  @override
+  String get driverProfileAndReviews => 'Driver Profile & Reviews';
+
+  @override
+  String get enterCorrectMobileForOtp =>
+      'Enter your correct mobile number to receive a new OTP';
+
+  @override
+  String get enterPhoneToContinue => 'Enter your phone number\nto continue';
+
+  @override
+  String get estimatedFareRange => 'Estimated Fare Range';
+
+  @override
+  String get estimatedOnlyNote =>
+      'Estimated only. Final offer may vary after vehicle confirmation.';
+
+  @override
+  String get experienceLabel => 'Experience';
+
+  @override
+  String get fareInvoice => 'Fare Invoice';
+
+  @override
+  String get feedbackSubmitted => 'Feedback Submitted';
+
+  @override
+  String get fetchingYourNumber => 'Fetching your number';
+
+  @override
+  String get filterAll => 'All';
+
+  @override
+  String get filterCancelled => 'Cancelled';
+
+  @override
+  String get helpCenter => 'Help Center';
+
+  @override
+  String get helpIntro =>
+      'Browse popular topics or connect directly with our support team.';
+
+  @override
+  String get helplineCalling => 'Helpline Calling';
+
+  @override
+  String get howCanWeHelp => 'How can we help you?';
+
+  @override
+  String get howWasYourRide => 'How was your ride?';
+
+  @override
+  String get identityVerified => 'Identity Verified';
+
+  @override
+  String get includedCharges => 'Included Charges';
+
+  @override
+  String get journeyDate => 'Journey Date';
+
+  @override
+  String get journeyTime => 'Journey Time';
+
+  @override
+  String get licenceVerified => 'Driving Licence Verified';
+
+  @override
+  String get linkShared => 'Link Shared';
+
+  @override
+  String get messageLabel => 'Message';
+
+  @override
+  String get messagingDriverToast => 'Messaging driver Amit Kumar...';
+
+  @override
+  String get noCompletedRideFound => 'No completed ride found.';
+
+  @override
+  String get noConfirmedBookingFound => 'No confirmed booking found.';
+
+  @override
+  String get noOfferAvailable => 'No offer available.';
+
+  @override
+  String get noOfferYet => 'No offer available yet.';
+
+  @override
+  String get noRequestFound => 'No request found.';
+
+  @override
+  String get noReviewsYet => 'No reviews yet.';
+
+  @override
+  String get noVideosYet => 'No videos yet.';
+
+  @override
+  String get noteForDriverHint => 'Leave a note for the driver (optional)...';
+
+  @override
+  String get numberOfVehicles => 'Number of Vehicles';
+
+  @override
+  String get numberUpdated => 'Number Updated';
+
+  @override
+  String get offerDetails => 'Offer Details';
+
+  @override
+  String get offersReceived => 'Offers Received';
+
+  @override
+  String get onboardingRiderBody1 =>
+      'Book a cab to any destination instantly — airport, station, or your favourite spot.';
+
+  @override
+  String get onboardingRiderBody2 =>
+      'Every driver is background-checked and rated by riders like you, for your peace of mind.';
+
+  @override
+  String get onboardingRiderBody3 =>
+      'No surge pricing surprises. See the full fare breakdown before you book.';
+
+  @override
+  String get onboardingRiderTitle1 => 'Ride Anywhere in Patna';
+
+  @override
+  String get onboardingRiderTitle2 => 'Safe & Verified Drivers';
+
+  @override
+  String get onboardingRiderTitle3 => 'Transparent Pricing';
+
+  @override
+  String get oneWay => 'One Way';
+
+  @override
+  String get otpVerificationTitle => 'OTP Verification';
+
+  @override
+  String get passengerReviews => 'Passenger Reviews';
+
+  @override
+  String get phoneCallTitle => 'Phone Call';
+
+  @override
+  String get phoneVerifiedSuccess => 'Phone verified successfully!';
+
+  @override
+  String get photosLabel => 'Photos';
+
+  @override
+  String get pickupTimeSlot => 'Pickup Time Slot';
+
+  @override
+  String get rateAndReview => 'Rate & Review';
+
+  @override
+  String get ratingDistribution => 'Rating Distribution';
+
+  @override
+  String get ratingLabel => 'Rating';
+
+  @override
+  String get removeLabel => 'Remove';
+
+  @override
+  String get requestSent => 'Request Sent';
+
+  @override
+  String get resendOtpIn => 'Resend OTP in ';
+
+  @override
+  String get reviewRequest => 'Review Request';
+
+  @override
+  String get reviewsLabel => 'Reviews';
+
+  @override
+  String get roundTrip => 'Round Trip';
+
+  @override
+  String get selectDateAndTime => 'Select Date & Time';
+
+  @override
+  String get shareTrip => 'Share trip';
+
+  @override
+  String get shareWithDriverToStart => 'Share with driver to start ride';
+
+  @override
+  String get simAutoFill => 'SIM Auto-Fill';
+
+  @override
+  String get skipLabel => 'Skip';
+
+  @override
+  String get sosAlertSent => 'SOS Alert Sent';
+
+  @override
+  String get sosAlertToast =>
+      'Emergency SOS alert triggered! 24x7 support & police alerted.';
+
+  @override
+  String get sosLabel => 'SOS';
+
+  @override
+  String get specialNotesHint =>
+      'e.g. Extra luggage space, airport flight details, English speaking driver...';
+
+  @override
+  String get specialNotesOptional => 'Special Notes (Optional)';
+
+  @override
+  String get startRideOtp => 'START RIDE OTP';
+
+  @override
+  String get stillNeedHelp => 'Still need help?';
+
+  @override
+  String get submitRequest => 'Submit Request';
+
+  @override
+  String get submitReview => 'Submit Review';
+
+  @override
+  String get successLabel => 'Success';
+
+  @override
+  String get supportLabel => 'Support';
+
+  @override
+  String get thanksForRatingToast => 'Thank you for rating your ride!';
+
+  @override
+  String get thisWeekend => 'This Weekend';
+
+  @override
+  String get todayLabel => 'Today';
+
+  @override
+  String get tomorrowLabel => 'Tomorrow';
+
+  @override
+  String get totalFare => 'Total Fare';
+
+  @override
+  String get totalTrips => 'Total Trips';
+
+  @override
+  String get tripDetails => 'Trip Details';
+
+  @override
+  String get tripHistory => 'Trip History';
+
+  @override
+  String get tripLinkCopiedToast =>
+      'Live trip tracking link copied to clipboard!';
+
+  @override
+  String get tripsLabel => 'Trips';
+
+  @override
+  String get typeAMessage => 'Type a message…';
+
+  @override
+  String get vehicleGallery => 'Vehicle Gallery';
+
+  @override
+  String get vehiclePhotos => 'Vehicle Photos';
+
+  @override
+  String get vehiclesAvailable => 'Vehicles Available';
+
+  @override
+  String get verificationLabel => 'Verification';
+
+  @override
+  String get verifiedDriverOnline => 'Verified Driver · Online';
+
+  @override
+  String get verifiedLabel => 'Verified';
+
+  @override
+  String get videosLabel => 'Videos';
+
+  @override
+  String get viewDetails => 'View Details';
+
+  @override
+  String get viewMyRequest => 'View My Request';
+
+  @override
+  String get viewVehicle => 'View Vehicle';
+
+  @override
+  String get weSentSixDigitOtp => 'We\'ve sent a 6-digit OTP to';
+
+  @override
+  String get weWillNotifyVehicles =>
+      'We will notify you when suitable vehicles and drivers are available.';
+
+  @override
+  String get welcomeTitle => 'Welcome';
+
+  @override
+  String get wereHereForYou => 'We\'re here for you.';
+
+  @override
+  String get whatWentWell => 'What went well?';
+
+  @override
+  String get yearsExp => 'Years Exp.';
+
+  @override
+  String get yourDriverHasArrived => 'Your driver has arrived';
+
+  @override
+  String get yourDrivers => 'Your Drivers';
+
+  @override
+  String get yourRating => 'Your Rating';
+
+  @override
+  String get backgroundCheck => 'Background Check';
+
+  @override
+  String get bookingId => 'Booking ID';
+
+  @override
+  String get contactLabel => 'Contact';
+
+  @override
+  String get dateLabel => 'Date';
+
+  @override
+  String get distanceFare => 'Distance Fare';
+
+  @override
+  String get driverLabelShort => 'Driver';
+
+  @override
+  String get drivingLicense => 'Driving License';
+
+  @override
+  String get durationLabel => 'Duration';
+
+  @override
+  String get gpsEnabled => 'GPS Enabled';
+
+  @override
+  String get languagesLabel => 'Languages';
+
+  @override
+  String get livesIn => 'Lives In';
+
+  @override
+  String get memberSinceLabel => 'Member Since';
+
+  @override
+  String get nameLabel => 'Name';
+
+  @override
+  String get nonSmoking => 'Non-Smoking';
+
+  @override
+  String get notesLabel => 'Notes';
+
+  @override
+  String get passengersLabel => 'Passengers';
+
+  @override
+  String get paymentStatusLabel => 'Payment Status';
+
+  @override
+  String get requestId => 'Request ID';
+
+  @override
+  String get requirementsLabel => 'Requirements';
+
+  @override
+  String get routeLabel => 'Route';
+
+  @override
+  String get statusCompleted => 'Completed';
+
+  @override
+  String get statusLabel => 'Status';
+
+  @override
+  String get statusUpcoming => 'Upcoming';
+
+  @override
+  String get timeFare => 'Time Fare';
+
+  @override
+  String get totalCapacity => 'Total Capacity';
+
+  @override
+  String get totalPaid => 'Total Paid';
+
+  @override
+  String get tripType => 'Trip Type';
+
+  @override
+  String get vehiclesConfirmed => 'Vehicles Confirmed';
+
+  @override
+  String get vehiclesLabel => 'Vehicles';
+
+  @override
+  String get viewAllLabel => 'View All';
+
+  @override
+  String devOtpLabel(String otp) {
+    return 'OTP: $otp';
+  }
+
+  @override
+  String newOtpSentTo(String phone) {
+    return 'New OTP sent to +91 $phone';
+  }
+
+  @override
+  String numberAutoFilledFromSim(String number) {
+    return 'Number +91 $number auto-filled from SIM';
+  }
+
+  @override
+  String memberSinceDate(String date) {
+    return 'Member since $date';
+  }
+
+  @override
+  String connectingHelpline(String number) {
+    return 'Connecting to Taxiway Helpline: $number...';
+  }
+
+  @override
+  String openingGuideFor(String topic) {
+    return 'Opening guide and FAQs for \"$topic\"...';
+  }
+
+  @override
+  String waitingAtPlace(String place) {
+    return 'Waiting at $place';
+  }
+
+  @override
+  String callingPerson(String name) {
+    return 'Calling $name...';
+  }
+
+  @override
+  String meetAtPickupIn(int minutes) {
+    return 'Meet at pickup in $minutes min';
+  }
+
+  @override
+  String kmAway(String km) {
+    return '$km km away';
+  }
+
+  @override
+  String messagePerson(String name) {
+    return 'Message $name';
+  }
+
+  @override
+  String withPerson(String name) {
+    return 'with $name';
+  }
+
+  @override
+  String headingToPlace(String place) {
+    return 'Heading to $place';
+  }
+
+  @override
+  String arriveSummary(String time, int minutes, String km) {
+    return 'Arrive $time · $minutes min · $km km left';
+  }
+
+  @override
+  String tripNumber(String id) {
+    return 'Trip #$id';
+  }
+
+  @override
+  String get pendingLabel => 'Pending';
+
+  @override
+  String get paidLabel => 'Paid';
+
+  @override
+  String get statusFailed => 'Failed';
+
+  @override
+  String get statusSubmitted => 'Submitted';
+
+  @override
+  String get statusUnderReview => 'Under Review';
+
+  @override
+  String get statusOfferReady => 'Offer Ready';
+
+  @override
+  String get statusConfirmed => 'Confirmed';
+
+  @override
+  String get mediaFront => 'Front';
+
+  @override
+  String get mediaRear => 'Rear';
+
+  @override
+  String get mediaLeftSide => 'Left Side';
+
+  @override
+  String get mediaRightSide => 'Right Side';
+
+  @override
+  String get relativeToday => 'Today';
+
+  @override
+  String get relativeOneDayAgo => '1 day ago';
+
+  @override
+  String relativeDaysAgo(int count) {
+    return '$count days ago';
+  }
+
+  @override
+  String relativeWeeksAgo(int count) {
+    return '$count weeks ago';
+  }
+
+  @override
+  String relativeMonthsAgo(int count) {
+    return '$count months ago';
+  }
+
+  @override
+  String perMonthPrice(String price) {
+    return '$price / month';
+  }
 }

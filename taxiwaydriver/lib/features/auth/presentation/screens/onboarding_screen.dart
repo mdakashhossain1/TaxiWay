@@ -79,8 +79,8 @@ class _DriverOnboardingScreenState extends ConsumerState<DriverOnboardingScreen>
             .animate()
             .scale(duration: 500.ms, curve: Curves.easeOutBack, begin: const Offset(0.7, 0.7))
             .fadeIn(duration: 350.ms),
-        title: 'Drive & Earn in Patna',
-        subtitle: 'Earn reliable daily income with direct payouts, guaranteed ride requests, and 0% commission.',
+        title: AppLocalizations.of(context).onboardingDriverTitle1,
+        subtitle: AppLocalizations.of(context).onboardingDriverBody1,
         accent: AppColors.of(context).primary,
       ),
       _DriverOnboardingSlide(
@@ -90,8 +90,8 @@ class _DriverOnboardingScreenState extends ConsumerState<DriverOnboardingScreen>
             .animate()
             .scale(duration: 500.ms, curve: Curves.easeOutBack, begin: const Offset(0.7, 0.7))
             .fadeIn(duration: 350.ms),
-        title: 'Safe & Verified Trips',
-        subtitle: 'Every passenger is phone-verified with accurate pickup routes and 24/7 SOS safety support.',
+        title: AppLocalizations.of(context).onboardingDriverTitle2,
+        subtitle: AppLocalizations.of(context).onboardingDriverBody2,
         accent: const Color(0xFF6366F1),
       ),
       _DriverOnboardingSlide(
@@ -101,8 +101,8 @@ class _DriverOnboardingScreenState extends ConsumerState<DriverOnboardingScreen>
             .animate()
             .scale(duration: 500.ms, curve: Curves.easeOutBack, begin: const Offset(0.7, 0.7))
             .fadeIn(duration: 350.ms),
-        title: 'Flexible Subscriptions',
-        subtitle: 'Choose affordable daily or weekly plans. Keep 100% of your earnings with no hidden deductions.',
+        title: AppLocalizations.of(context).onboardingDriverTitle3,
+        subtitle: AppLocalizations.of(context).onboardingDriverBody3,
         accent: const Color(0xFF0D9488),
       ),
     ];
@@ -130,7 +130,7 @@ class _DriverOnboardingScreenState extends ConsumerState<DriverOnboardingScreen>
                     TextButton(
                       onPressed: _finish,
                       child: Text(
-                        'Skip',
+                        AppLocalizations.of(context).skipLabel,
                         style: AppTypography.of(context).body.copyWith(
                           color: AppColors.of(context).secondaryText,
                           fontWeight: FontWeight.w600,

@@ -13,6 +13,7 @@ import '../../../../core/widgets/app_toast.dart';
 import '../../../../core/widgets/buttons.dart';
 import '../../../../core/widgets/ride_map_view.dart';
 import '../../../../core/utils/geo_utils.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 class BulkReviewRequestScreen extends ConsumerWidget {
   const BulkReviewRequestScreen({super.key});
@@ -25,7 +26,7 @@ class BulkReviewRequestScreen extends ConsumerWidget {
     final fareMax = (perVehicle * 1.1 / 100).round() * 100;
 
     return AppScaffold(
-      appBar: AppBar(title: const Text('Review Request')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).reviewRequest)),
       scrollable: true,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,16 +51,16 @@ class BulkReviewRequestScreen extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _Row('From', draft.pickup?.address ?? '-'),
-                _Row('To', draft.destination?.address ?? '-'),
-                _Row('Date', draft.journeyDate == null ? '-' : DateFormat('dd MMM yyyy').format(draft.journeyDate!)),
-                _Row('Time', draft.journeyTime ?? '-'),
-                _Row('Trip Type', draft.tripType == BulkTripType.oneWay ? 'One Way' : 'Round Trip'),
-                _Row('Vehicles', '${draft.numVehicles}'),
-                _Row('Passengers', '${draft.approxPassengers}'),
-                if (draft.requirements.isNotEmpty) _Row('Requirements', draft.requirements.join(', ')),
-                if (draft.notes.trim().isNotEmpty) _Row('Notes', draft.notes.trim()),
-                _Row('Contact', '${draft.contactName} · ${draft.contactPhone}'),
+                _Row(AppLocalizations.of(context).fromLabel, draft.pickup?.address ?? '-'),
+                _Row(AppLocalizations.of(context).toLabel, draft.destination?.address ?? '-'),
+                _Row(AppLocalizations.of(context).dateLabel, draft.journeyDate == null ? '-' : DateFormat('dd MMM yyyy').format(draft.journeyDate!)),
+                _Row(AppLocalizations.of(context).timeLabel, draft.journeyTime ?? '-'),
+                _Row(AppLocalizations.of(context).tripType, draft.tripType == BulkTripType.oneWay ? 'One Way' : 'Round Trip'),
+                _Row(AppLocalizations.of(context).vehiclesLabel, '${draft.numVehicles}'),
+                _Row(AppLocalizations.of(context).passengersLabel, '${draft.approxPassengers}'),
+                if (draft.requirements.isNotEmpty) _Row(AppLocalizations.of(context).requirementsLabel, draft.requirements.join(', ')),
+                if (draft.notes.trim().isNotEmpty) _Row(AppLocalizations.of(context).notesLabel, draft.notes.trim()),
+                _Row(AppLocalizations.of(context).contactLabel, '${draft.contactName} · ${draft.contactPhone}'),
               ],
             ),
           ),
@@ -70,24 +71,24 @@ class BulkReviewRequestScreen extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Estimated Fare Range', style: AppTypography.of(context).label),
+                Text(AppLocalizations.of(context).estimatedFareRange, style: AppTypography.of(context).label),
                 const SizedBox(height: 6),
                 Text(
                   '${formatRupees(fareMin)} – ${formatRupees(fareMax)}',
                   style: AppTypography.of(context).price.copyWith(color: AppColors.of(context).primaryDark),
                 ),
                 const SizedBox(height: 8),
-                Text('Estimated only. Final offer may vary after vehicle confirmation.', style: AppTypography.of(context).caption),
+                Text(AppLocalizations.of(context).estimatedOnlyNote, style: AppTypography.of(context).caption),
               ],
             ),
           ),
           const SizedBox(height: 24),
           PrimaryButton(
-            label: 'Submit Request',
+            label: AppLocalizations.of(context).submitRequest,
             onPressed: () {
               ref.read(bulkBookingControllerProvider.notifier).submitRequest(draft);
               ref.read(bulkBookingDraftControllerProvider.notifier).reset();
-              AppToast.success(context, 'Bulk booking request submitted for review!', title: 'Request Sent');
+              AppToast.success(context, AppLocalizations.of(context).bulkRequestSubmittedToast, title: AppLocalizations.of(context).requestSent);
               context.push(AppRoutes.bulkRequestSubmitted);
             },
           ),

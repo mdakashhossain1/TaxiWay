@@ -8,6 +8,7 @@ import '../../../../core/theme/app_typography.dart';
 import '../../../../core/widgets/app_scaffold.dart';
 import '../../../../core/widgets/driver_card.dart';
 import '../../../../core/widgets/rating_stars.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 class FullDriverProfileScreen extends ConsumerWidget {
   const FullDriverProfileScreen({super.key});
@@ -19,7 +20,7 @@ class FullDriverProfileScreen extends ConsumerWidget {
     final reviews = ref.watch(reviewsProvider);
 
     return AppScaffold(
-      appBar: AppBar(title: const Text('Driver Profile & Reviews')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).driverProfileAndReviews)),
       scrollable: true,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,7 +36,7 @@ class FullDriverProfileScreen extends ConsumerWidget {
                     Text(driver.name, style: AppTypography.of(context).h2),
                     const SizedBox(height: 4),
                     Text('${driver.languages.join(', ')} · ${driver.operatingArea}', style: AppTypography.of(context).caption),
-                    Text('Member since ${driver.memberSince}', style: AppTypography.of(context).caption),
+                    Text(AppLocalizations.of(context).memberSinceDate(driver.memberSince), style: AppTypography.of(context).caption),
                   ],
                 ),
               ),
@@ -44,13 +45,13 @@ class FullDriverProfileScreen extends ConsumerWidget {
           const SizedBox(height: 18),
           Row(
             children: [
-              _AboutStat(value: driver.rating.toStringAsFixed(1), label: 'Rating'),
-              _AboutStat(value: '${driver.totalTrips}', label: 'Total Trips'),
-              _AboutStat(value: '${driver.yearsExperience}+', label: 'Years Exp.'),
+              _AboutStat(value: driver.rating.toStringAsFixed(1), label: AppLocalizations.of(context).ratingLabel),
+              _AboutStat(value: '${driver.totalTrips}', label: AppLocalizations.of(context).totalTrips),
+              _AboutStat(value: '${driver.yearsExperience}+', label: AppLocalizations.of(context).yearsExp),
             ],
           ),
           const SizedBox(height: 20),
-          Text('About Driver', style: AppTypography.of(context).h3),
+          Text(AppLocalizations.of(context).aboutDriver, style: AppTypography.of(context).h3),
           const SizedBox(height: 10),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
@@ -61,18 +62,18 @@ class FullDriverProfileScreen extends ConsumerWidget {
             ),
             child: Column(
               children: [
-                _InfoRow('Name', driver.name),
-                _InfoRow('Languages', driver.languages.join(', ')),
-                _InfoRow('Lives In', driver.operatingArea),
-                _InfoRow('Member Since', driver.memberSince),
-                _VerifyRow('Driving License', driver.licenceVerified),
-                _VerifyRow('Identity Verified', driver.identityVerified),
-                _VerifyRow('Background Check', driver.backgroundChecked),
+                _InfoRow(AppLocalizations.of(context).nameLabel, driver.name),
+                _InfoRow(AppLocalizations.of(context).languagesLabel, driver.languages.join(', ')),
+                _InfoRow(AppLocalizations.of(context).livesIn, driver.operatingArea),
+                _InfoRow(AppLocalizations.of(context).memberSinceLabel, driver.memberSince),
+                _VerifyRow(AppLocalizations.of(context).drivingLicense, driver.licenceVerified),
+                _VerifyRow(AppLocalizations.of(context).identityVerified, driver.identityVerified),
+                _VerifyRow(AppLocalizations.of(context).backgroundCheck, driver.backgroundChecked),
               ],
             ),
           ),
           const SizedBox(height: 20),
-          Text('Rating Distribution', style: AppTypography.of(context).h3),
+          Text(AppLocalizations.of(context).ratingDistribution, style: AppTypography.of(context).h3),
           const SizedBox(height: 12),
           Column(
             children: [
@@ -81,10 +82,10 @@ class FullDriverProfileScreen extends ConsumerWidget {
             ],
           ),
           const SizedBox(height: 20),
-          Text('Reviews', style: AppTypography.of(context).h3),
+          Text(AppLocalizations.of(context).reviewsLabel, style: AppTypography.of(context).h3),
           const SizedBox(height: 10),
           if (reviews.isEmpty)
-            Text("No reviews yet.", style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).mutedText))
+            Text(AppLocalizations.of(context).noReviewsYet, style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).mutedText))
           else
             Column(
               children: reviews.map((r) {

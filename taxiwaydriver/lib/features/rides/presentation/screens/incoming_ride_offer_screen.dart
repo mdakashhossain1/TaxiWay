@@ -86,7 +86,7 @@ class _IncomingRideOfferScreenState extends ConsumerState<IncomingRideOfferScree
     try {
       await ref.read(rideActionsProvider.notifier).acceptRide(widget.ride.id);
       if (!mounted) return;
-      AppToast.success(context, 'Ride confirmed! Head to pickup.', title: 'Accepted');
+      AppToast.success(context, AppLocalizations.of(context).rideConfirmedHeadToPickup, title: AppLocalizations.of(context).acceptedTitle);
       context.go(AppRoutes.dashboard);
     } catch (error) {
       if (!mounted) return;
@@ -125,7 +125,7 @@ class _IncomingRideOfferScreenState extends ConsumerState<IncomingRideOfferScree
 
     return AppScaffold(
       padHorizontal: false,
-      appBar: AppBar(title: Text('New Ride Offer', style: type.h2), automaticallyImplyLeading: false),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).newRideOffer, style: type.h2), automaticallyImplyLeading: false),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -203,11 +203,11 @@ class _IncomingRideOfferScreenState extends ConsumerState<IncomingRideOfferScree
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
-            child: PrimaryButton(label: 'Accept Ride', icon: AppIcons.check_circle_fill, loading: _acting, onPressed: _accept),
+            child: PrimaryButton(label: AppLocalizations.of(context).acceptRideLabel, icon: AppIcons.check_circle_fill, loading: _acting, onPressed: _accept),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
-            child: DestructiveButton(label: 'Decline', onPressed: _acting ? null : _reject),
+            child: DestructiveButton(label: AppLocalizations.of(context).declineLabel, onPressed: _acting ? null : _reject),
           ),
         ],
       ),

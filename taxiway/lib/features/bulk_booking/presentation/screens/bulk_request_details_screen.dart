@@ -12,6 +12,7 @@ import '../../../../core/widgets/app_scaffold.dart';
 import '../../../../core/widgets/ride_map_view.dart';
 import '../../../../core/widgets/status_badge.dart';
 import 'bulk_status_label.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 class BulkRequestDetailsScreen extends ConsumerWidget {
   const BulkRequestDetailsScreen({super.key});
@@ -44,13 +45,13 @@ class BulkRequestDetailsScreen extends ConsumerWidget {
     });
 
     if (request == null) {
-      return AppScaffold(appBar: AppBar(), body: const Center(child: Text('No request found.')));
+      return AppScaffold(appBar: AppBar(), body: Center(child: Text(AppLocalizations.of(context).noRequestFound)));
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _handleTransition(context, request.status));
 
     return AppScaffold(
-      appBar: AppBar(title: const Text('Bulk Request')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).bulkRequestTitle)),
       scrollable: true,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,14 +81,14 @@ class BulkRequestDetailsScreen extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _Row('From', request.pickup.address),
-                _Row('To', request.destination.address),
-                _Row('Date', DateFormat('dd MMM yyyy').format(request.journeyDate)),
-                _Row('Time', request.journeyTime),
-                _Row('Vehicles', '${request.numVehicles}'),
-                _Row('Passengers', '${request.approxPassengers}'),
-                if (request.requirements.isNotEmpty) _Row('Requirements', request.requirements.join(', ')),
-                _Row('Contact', '${request.contactName} · ${request.contactPhone}'),
+                _Row(AppLocalizations.of(context).fromLabel, request.pickup.address),
+                _Row(AppLocalizations.of(context).toLabel, request.destination.address),
+                _Row(AppLocalizations.of(context).dateLabel, DateFormat('dd MMM yyyy').format(request.journeyDate)),
+                _Row(AppLocalizations.of(context).timeLabel, request.journeyTime),
+                _Row(AppLocalizations.of(context).vehiclesLabel, '${request.numVehicles}'),
+                _Row(AppLocalizations.of(context).passengersLabel, '${request.approxPassengers}'),
+                if (request.requirements.isNotEmpty) _Row(AppLocalizations.of(context).requirementsLabel, request.requirements.join(', ')),
+                _Row(AppLocalizations.of(context).contactLabel, '${request.contactName} · ${request.contactPhone}'),
               ],
             ),
           ),
@@ -105,7 +106,7 @@ class BulkRequestDetailsScreen extends ConsumerWidget {
                 const SizedBox(width: 14),
                 Expanded(
                   child: Text(
-                    "We're arranging vehicles for your trip. You'll be notified when an offer is ready.",
+                    AppLocalizations.of(context).arrangingVehiclesNote,
                     style: AppTypography.of(context).body,
                   ),
                 ),

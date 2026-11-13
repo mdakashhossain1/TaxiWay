@@ -8,6 +8,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/widgets/app_back_button.dart';
 import '../../../../core/widgets/vehicle_media_placeholder.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 class VehicleGalleryScreen extends ConsumerWidget {
   const VehicleGalleryScreen({super.key});
@@ -58,19 +59,19 @@ class VehicleGalleryScreen extends ConsumerWidget {
       child: Scaffold(
         appBar: AppBar(
           leading: const AppBackButton(),
-          title: const Text('Vehicle Gallery'),
+          title: Text(AppLocalizations.of(context).vehicleGallery),
           bottom: TabBar(
             labelColor: AppColors.of(context).primary,
             unselectedLabelColor: AppColors.of(context).mutedText,
             indicatorColor: AppColors.of(context).primary,
-            tabs: const [Tab(text: 'Photos'), Tab(text: 'Videos')],
+            tabs: [Tab(text: AppLocalizations.of(context).photosLabel), Tab(text: AppLocalizations.of(context).videosLabel)],
           ),
         ),
         body: TabBarView(
           children: [
             _MediaGrid(media: photos, onTap: (m) => _openViewer(context, m)),
             videos.isEmpty
-                ? Center(child: Text('No videos yet.', style: AppTypography.of(context).body))
+                ? Center(child: Text(AppLocalizations.of(context).noVideosYet, style: AppTypography.of(context).body))
                 : _MediaGrid(media: videos, onTap: (m) => _openViewer(context, m)),
           ],
         ),

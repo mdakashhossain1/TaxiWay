@@ -71,7 +71,7 @@ class SubscriptionScreen extends ConsumerWidget {
                       children: [
                         Text(l10n.currentPlan, style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).primaryDark)),
                         const SizedBox(height: 4),
-                        Text('${formatRupees(plan.pricePerMonth)} / month', style: AppTypography.of(context).priceLarge),
+                        Text(AppLocalizations.of(context).perMonthPrice(formatRupees(plan.pricePerMonth)), style: AppTypography.of(context).priceLarge),
                         Text(l10n.ridesIncluded(plan.totalRides), style: AppTypography.of(context).body),
                         const SizedBox(height: 14),
                         UsageProgressBar(fraction: plan.usageFraction),

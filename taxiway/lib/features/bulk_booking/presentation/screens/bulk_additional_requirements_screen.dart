@@ -12,6 +12,7 @@ import '../../../../core/widgets/app_scaffold.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../core/widgets/buttons.dart';
 import '../../../../core/widgets/phone_input.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 class BulkAdditionalRequirementsScreen extends ConsumerStatefulWidget {
   const BulkAdditionalRequirementsScreen({super.key});
@@ -56,7 +57,7 @@ class _BulkAdditionalRequirementsScreenState extends ConsumerState<BulkAdditiona
     final notifier = ref.read(bulkBookingDraftControllerProvider.notifier);
 
     return AppScaffold(
-      appBar: AppBar(title: const Text('Additional Requirements')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).additionalRequirements)),
       scrollable: true,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,7 +109,7 @@ class _BulkAdditionalRequirementsScreenState extends ConsumerState<BulkAdditiona
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
-                        'Add Special Notes / Instructions (Optional)',
+                        AppLocalizations.of(context).addSpecialNotesOptional,
                         style: AppTypography.of(context).caption.copyWith(
                           fontSize: 13.5,
                           fontWeight: FontWeight.w600,
@@ -139,7 +140,7 @@ class _BulkAdditionalRequirementsScreenState extends ConsumerState<BulkAdditiona
                           Icon(AppIcons.chat_left_text, size: 16, color: AppColors.of(context).primary),
                           const SizedBox(width: 8),
                           Text(
-                            'Special Notes (Optional)',
+                            AppLocalizations.of(context).specialNotesOptional,
                             style: AppTypography.of(context).label.copyWith(fontSize: 14),
                           ),
                         ],
@@ -153,7 +154,7 @@ class _BulkAdditionalRequirementsScreenState extends ConsumerState<BulkAdditiona
                           });
                         },
                         child: Text(
-                          'Remove',
+                          AppLocalizations.of(context).removeLabel,
                           style: AppTypography.of(context).caption.copyWith(
                             color: AppColors.of(context).error,
                             fontWeight: FontWeight.w600,
@@ -169,7 +170,7 @@ class _BulkAdditionalRequirementsScreenState extends ConsumerState<BulkAdditiona
                     onChanged: notifier.setNotes,
                     style: AppTypography.of(context).body,
                     decoration: InputDecoration(
-                      hintText: 'e.g. Extra luggage space, airport flight details, English speaking driver...',
+                      hintText: AppLocalizations.of(context).specialNotesHint,
                       hintStyle: AppTypography.of(context).caption,
                       filled: true,
                       fillColor: Colors.white,
@@ -195,11 +196,11 @@ class _BulkAdditionalRequirementsScreenState extends ConsumerState<BulkAdditiona
           const SizedBox(height: 22),
 
           // Contact Person Section
-          Text('Contact Person', style: AppTypography.of(context).h3),
+          Text(AppLocalizations.of(context).contactPerson, style: AppTypography.of(context).h3),
           const SizedBox(height: 12),
           AppTextField(
             controller: _nameController,
-            hint: 'Full name',
+            hint: AppLocalizations.of(context).fullNameLabel,
             prefixIcon: AppIcons.person,
             onChanged: notifier.setContactName,
           ),
@@ -209,7 +210,7 @@ class _BulkAdditionalRequirementsScreenState extends ConsumerState<BulkAdditiona
 
           // Primary Continue CTA
           PrimaryButton(
-            label: 'Continue',
+            label: AppLocalizations.of(context).continueLabel,
             onPressed: draft.step2Valid ? () => context.push(AppRoutes.bulkReviewRequest) : null,
           ),
           const SizedBox(height: 24),

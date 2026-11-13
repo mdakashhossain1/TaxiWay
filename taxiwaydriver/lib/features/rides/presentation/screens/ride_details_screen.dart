@@ -88,12 +88,12 @@ class RideDetailsScreen extends ConsumerWidget {
             icon: AppIcons.telephone_fill,
             onPressed: () {
               launchPhoneCall(ride.customerPhone);
-              AppToast.call(context, 'Calling ${ride.customerName}...');
+              AppToast.call(context, AppLocalizations.of(context).callingPerson(ride.customerName));
             },
           ),
           const SizedBox(height: 12),
           AppOutlineButton(
-            label: 'Message Customer',
+            label: AppLocalizations.of(context).messageCustomer,
             icon: AppIcons.chat_dots_fill,
             onPressed: () => context.push(
               AppRoutes.chat,

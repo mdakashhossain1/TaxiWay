@@ -12,6 +12,7 @@ import '../../../../core/widgets/buttons.dart';
 import '../../../../core/widgets/rating_stars.dart';
 import '../../../../core/widgets/ride_map_view.dart';
 import '../../../../core/utils/geo_utils.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 class BulkOfferDetailsScreen extends ConsumerWidget {
   const BulkOfferDetailsScreen({super.key});
@@ -23,11 +24,11 @@ class BulkOfferDetailsScreen extends ConsumerWidget {
     final request = bulkState.request;
 
     if (offer == null) {
-      return AppScaffold(appBar: AppBar(), body: const Center(child: Text('No offer available.')));
+      return AppScaffold(appBar: AppBar(), body: Center(child: Text(AppLocalizations.of(context).noOfferAvailable)));
     }
 
     return AppScaffold(
-      appBar: AppBar(title: const Text('Offer Details')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).offerDetails)),
       scrollable: true,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,7 +45,7 @@ class BulkOfferDetailsScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
           ],
-          Text('Driver & Vehicle List', style: AppTypography.of(context).h3),
+          Text(AppLocalizations.of(context).driverAndVehicleList, style: AppTypography.of(context).h3),
           const SizedBox(height: 12),
           for (final v in offer.vehicles)
             Container(
@@ -81,25 +82,25 @@ class BulkOfferDetailsScreen extends ConsumerWidget {
                       Text(formatRupees(v.fareShare), style: AppTypography.of(context).label),
                     ],
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10),
                   Container(height: 1, color: AppColors.of(context).border),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10),
                   Text('${v.vehicleModel} · ${v.registrationNumber}', style: AppTypography.of(context).body),
-                  const SizedBox(height: 6),
+                  SizedBox(height: 6),
                   Wrap(
                     spacing: 8,
                     runSpacing: 8,
                     children: [
                       _Chip(v.category),
-                      _Chip('${v.seats} Seater'),
-                      if (v.ac) const _Chip('AC'),
+                      _Chip(AppLocalizations.of(context).seaterCount(v.seats)),
+                      if (v.ac) _Chip(AppLocalizations.of(context).acLabel),
                     ],
                   ),
                 ],
               ),
             ),
           const SizedBox(height: 8),
-          Text('Included Charges', style: AppTypography.of(context).h3),
+          Text(AppLocalizations.of(context).includedCharges, style: AppTypography.of(context).h3),
           const SizedBox(height: 10),
           Container(
             padding: const EdgeInsets.all(16),
@@ -127,14 +128,14 @@ class BulkOfferDetailsScreen extends ConsumerWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Total Fare', style: AppTypography.of(context).label),
+                Text(AppLocalizations.of(context).totalFare, style: AppTypography.of(context).label),
                 Text(formatRupees(offer.totalFare), style: AppTypography.of(context).price.copyWith(color: AppColors.of(context).primaryDark)),
               ],
             ),
           ),
           const SizedBox(height: 24),
           PrimaryButton(
-            label: 'Confirm Booking',
+            label: AppLocalizations.of(context).confirmBooking,
             onPressed: () {
               ref.read(bulkBookingControllerProvider.notifier).confirmOffer();
               context.push(AppRoutes.bulkBookingConfirmed);
@@ -142,7 +143,7 @@ class BulkOfferDetailsScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 10),
           AppOutlineButton(
-            label: 'Contact Support / Request Change',
+            label: AppLocalizations.of(context).contactSupportRequestChange,
             onPressed: () => context.push(AppRoutes.helpSupport),
           ),
           const SizedBox(height: 24),

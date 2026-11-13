@@ -8,6 +8,7 @@ import '../theme/app_typography.dart';
 import 'buttons.dart';
 import 'rating_stars.dart';
 import 'status_badge.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 /// Circular photo placeholder or avatar.
 class DriverAvatar extends StatelessWidget {
@@ -112,8 +113,8 @@ class DriverCompactCard extends StatelessWidget {
                 ),
               ),
               if (driver.isFullyVerified)
-                const StatusBadge(
-                  label: 'Verified',
+                StatusBadge(
+                  label: AppLocalizations.of(context).verifiedLabel,
                   variant: BadgeVariant.verified,
                   icon: AppIcons.patch_check_fill,
                 ),
@@ -173,7 +174,7 @@ class DriverCompactCard extends StatelessWidget {
                       onPressed: onViewProfile,
                       icon: Icon(AppIcons.person, size: 16, color: AppColors.of(context).navy),
                       label: Text(
-                        'Profile',
+                        AppLocalizations.of(context).profileTitle,
                         style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).navy),
                       ),
                       style: OutlinedButton.styleFrom(
@@ -204,7 +205,7 @@ class DriverCompactCard extends StatelessWidget {
                       onPressed: onCall,
                       icon: const Icon(AppIcons.telephone_fill, size: 16, color: Colors.white),
                       label: Text(
-                        'Call',
+                        AppLocalizations.of(context).callLabel,
                         style: AppTypography.of(context).button.copyWith(color: Colors.white, fontSize: 14),
                       ),
                       style: ElevatedButton.styleFrom(
