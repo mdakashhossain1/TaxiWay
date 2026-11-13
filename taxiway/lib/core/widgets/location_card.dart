@@ -1,10 +1,13 @@
 import '../theme/app_icons.dart';
+
 import 'package:flutter/material.dart';
+
 import '../models/place_location.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_radius.dart';
 import '../theme/app_typography.dart';
 import '../../l10n/generated/app_localizations.dart';
+import 'auto_scroll_text.dart';
 
 class LocationCard extends StatelessWidget {
   final PlaceLocation? pickup;
@@ -31,10 +34,7 @@ class LocationCard extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
-      decoration: BoxDecoration(
-        color: colors.surface,
-        borderRadius: BorderRadius.circular(AppRadius.card),
-      ),
+      decoration: BoxDecoration(color: colors.surface, borderRadius: BorderRadius.circular(AppRadius.card)),
       child: Row(
         children: [
           Column(
@@ -74,11 +74,9 @@ class LocationCard extends StatelessWidget {
                         children: [
                           Text(l10n.fromPickupLabel, style: type.caption.copyWith(color: colors.secondaryText)),
                           const SizedBox(height: 1),
-                          Text(
+                          AutoScrollText(
                             pickup?.shortName ?? (pickup?.address ?? l10n.searchPickup),
                             style: type.bodyLarge.copyWith(fontWeight: FontWeight.w600),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
                           ),
                         ],
                       ),
@@ -98,14 +96,12 @@ class LocationCard extends StatelessWidget {
                         children: [
                           Text(l10n.toDestinationLabel, style: type.caption.copyWith(color: colors.secondaryText)),
                           const SizedBox(height: 1),
-                          Text(
+                          AutoScrollText(
                             hasDestination ? destination!.shortName : l10n.whereDoYouWantToGo,
                             style: type.bodyLarge.copyWith(
                               fontWeight: FontWeight.w600,
                               color: hasDestination ? colors.navy : colors.mutedText,
                             ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
                           ),
                         ],
                       ),
@@ -153,11 +149,7 @@ class _DottedLinePainter extends CustomPainter {
     double startY = 3.0;
 
     while (startY < size.height - 3) {
-      canvas.drawLine(
-        Offset(size.width / 2, startY),
-        Offset(size.width / 2, startY + dashHeight),
-        paint,
-      );
+      canvas.drawLine(Offset(size.width / 2, startY), Offset(size.width / 2, startY + dashHeight), paint);
       startY += dashHeight + dashSpace;
     }
   }

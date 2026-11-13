@@ -1,8 +1,11 @@
 import 'dart:async';
+
 import '../../../../core/theme/app_icons.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
 import '../../../../core/models/place_location.dart';
 import '../../../../core/providers.dart';
 import '../../../../core/router/app_router.dart';
@@ -15,6 +18,7 @@ import '../../../../core/widgets/buttons.dart';
 import '../../../../core/widgets/ride_map_view.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../../../../core/widgets/network_error_view.dart';
+import '../../../../core/widgets/auto_scroll_text.dart';
 
 enum _Field { pickup, destination }
 
@@ -114,8 +118,7 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
     });
 
     _debounceTimer = Timer(const Duration(milliseconds: 350), () async {
-      final origin = ref.read(bookingDraftControllerProvider).pickup ??
-          ref.read(placeRepositoryProvider).currentLocation;
+      final origin = ref.read(bookingDraftControllerProvider).pickup ?? ref.read(placeRepositoryProvider).currentLocation;
       final repo = ref.read(placeRepositoryProvider);
       try {
         final results = await repo.search(trimmed, proximityOrigin: origin);
@@ -335,7 +338,9 @@ class _DestinationSearchScreenState extends ConsumerState<DestinationSearchScree
     final type = AppTypography.of(context);
 
     if (_loading) {
-      return const Center(child: Padding(padding: EdgeInsets.all(24), child: CircularProgressIndicator(strokeWidth: 2.5)));
+      return const Center(
+        child: Padding(padding: EdgeInsets.all(24), child: CircularProgressIndicator(strokeWidth: 2.5)),
+      );
     }
     if (_searching && _failure != null) {
       return NetworkErrorView(
@@ -477,11 +482,7 @@ class _RouteField extends StatelessWidget {
             GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: onClear,
-              child: SizedBox(
-                width: 40,
-                height: 40,
-                child: Icon(AppIcons.close_rounded, size: 18, color: colors.mutedText),
-              ),
+              child: SizedBox(width: 40, height: 40, child: Icon(AppIcons.close_rounded, size: 18, color: colors.mutedText)),
             ),
         ],
       ),
@@ -515,7 +516,9 @@ class _ChooseOnMapRow extends StatelessWidget {
                 child: Icon(AppIcons.map_fill, size: 18, color: colors.navy),
               ),
               const SizedBox(width: 14),
-              Expanded(child: Text(label, style: AppTypography.of(context).label.copyWith(fontWeight: FontWeight.w700))),
+              Expanded(
+                child: Text(label, style: AppTypography.of(context).label.copyWith(fontWeight: FontWeight.w700)),
+              ),
               Icon(AppIcons.chevron_right, size: 16, color: colors.mutedText),
             ],
           ),
@@ -566,19 +569,9 @@ class _PlaceTile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    place.shortName,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: type.label.copyWith(fontWeight: FontWeight.w700),
-                  ),
+                  AutoScrollText(place.shortName, style: type.label.copyWith(fontWeight: FontWeight.w700)),
                   const SizedBox(height: 1),
-                  Text(
-                    rest,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: type.caption.copyWith(color: colors.secondaryText),
-                  ),
+                  AutoScrollText(rest, style: type.caption.copyWith(color: colors.secondaryText)),
                 ],
               ),
             ),
