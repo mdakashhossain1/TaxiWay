@@ -20,6 +20,9 @@ val localProperties = Properties().apply {
     if (file.exists()) file.inputStream().use { load(it) }
 }
 val mapsApiKey: String = localProperties.getProperty("maps.apiKey") ?: ""
+if (mapsApiKey.isEmpty()) {
+    logger.warn("maps.apiKey is missing in android/local.properties: Google Map will render blank")
+}
 
 android {
     namespace = "com.taxiway.user.arknox"

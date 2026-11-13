@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/models/place_location.dart';
@@ -125,6 +125,8 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final currentLocation = ref.read(placeRepositoryProvider).currentLocation;
+    final keyboardOpen = MediaQuery.viewInsetsOf(context).bottom > 0;
+    final mapHeight = keyboardOpen ? 120.0 : 240.0;
 
     return AppScaffold(
       appBar: AppBar(title: Text(l10n.pickupLocationTitle)),
@@ -140,7 +142,7 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
                 _selected = loc;
               });
             },
-            height: 200,
+            height: mapHeight,
             borderRadius: BorderRadius.zero,
           ),
           Padding(
@@ -161,31 +163,16 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
                     onChanged: _onQueryChanged,
                     decoration: InputDecoration(
                       hintText: l10n.searchPickupMapHint,
-                      prefixIcon: Icon(BootstrapIcons.search, size: 18, color: AppColors.of(context).primary),
+                      prefixIcon: Icon(AppIcons.search, size: 18, color: AppColors.of(context).navy),
                       suffixIcon: _controller.text.isNotEmpty
                           ? IconButton(
-                              icon: Icon(Icons.close_rounded, size: 20, color: AppColors.of(context).mutedText),
+                              icon: Icon(AppIcons.close_rounded, size: 20, color: AppColors.of(context).mutedText),
                               onPressed: () {
                                 _controller.clear();
                                 _onQueryChanged('');
                               },
                             )
                           : null,
-                      filled: true,
-                      fillColor: AppColors.of(context).surface,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(AppRadius.input),
-                        borderSide: BorderSide(color: AppColors.of(context).primary, width: 1.5),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(AppRadius.input),
-                        borderSide: BorderSide(color: AppColors.of(context).border, width: 1),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(AppRadius.input),
-                        borderSide: BorderSide(color: AppColors.of(context).primary, width: 1.8),
-                      ),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -197,7 +184,7 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
                         color: AppColors.of(context).primaryBackground,
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(BootstrapIcons.crosshair, color: AppColors.of(context).primary, size: 16),
+                      child: Icon(AppIcons.crosshair, color: AppColors.of(context).primary, size: 16),
                     ),
                     title: Text(l10n.useCurrentGpsLocation, style: AppTypography.of(context).label.copyWith(fontWeight: FontWeight.w600)),
                     subtitle: Text(l10n.detectLocationAutomatically, style: AppTypography.of(context).caption),
@@ -273,7 +260,7 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(BootstrapIcons.geo_alt, size: 36, color: AppColors.of(context).mutedText),
+              Icon(AppIcons.geo_alt, size: 36, color: AppColors.of(context).mutedText),
               const SizedBox(height: 8),
               Text(l10n.noExactMatchTitle, style: AppTypography.of(context).label),
               const SizedBox(height: 4),
@@ -301,7 +288,7 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
               shape: BoxShape.circle,
             ),
             child: Icon(
-              BootstrapIcons.geo_alt_fill,
+              AppIcons.geo_alt_fill,
               color: isSelected ? AppColors.of(context).primary : AppColors.of(context).secondaryText,
               size: 16,
             ),
@@ -311,6 +298,8 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
               Expanded(
                 child: Text(
                   place.shortName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: AppTypography.of(context).label.copyWith(
                     fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
                     color: isSelected ? AppColors.of(context).primaryDark : AppColors.of(context).navy,
@@ -356,7 +345,7 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(BootstrapIcons.clock_history, size: 36, color: AppColors.of(context).mutedText),
+              Icon(AppIcons.clock_history, size: 36, color: AppColors.of(context).mutedText),
               const SizedBox(height: 8),
               Text(l10n.noRecentPickupsTitle, style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).secondaryText)),
               const SizedBox(height: 4),
@@ -388,13 +377,15 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
               shape: BoxShape.circle,
             ),
             child: Icon(
-              BootstrapIcons.clock_history,
+              AppIcons.clock_history,
               color: AppColors.of(context).secondaryText,
               size: 16,
             ),
           ),
           title: Text(
             place.shortName,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: AppTypography.of(context).label.copyWith(
               fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
               color: isSelected ? AppColors.of(context).primaryDark : AppColors.of(context).navy,
@@ -418,7 +409,7 @@ class _PickupSearchScreenState extends ConsumerState<PickupSearchScreen> {
             ],
           ),
           trailing: IconButton(
-            icon: Icon(Icons.close_rounded, size: 18, color: AppColors.of(context).mutedText),
+            icon: Icon(AppIcons.close_rounded, size: 18, color: AppColors.of(context).mutedText),
             tooltip: l10n.removeFromHistoryTooltip,
             onPressed: () => _deleteRecent(place),
           ),

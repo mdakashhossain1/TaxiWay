@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -62,7 +62,7 @@ class _LanguageSelectScreenState extends ConsumerState<LanguageSelectScreen> {
           child: Column(
             children: [
               const Spacer(flex: 3),
-              const AuthHeroBadge(icon: BootstrapIcons.translate, size: 104)
+              const AuthHeroBadge(icon: AppIcons.translate, size: 104)
                   .animate()
                   .scale(duration: 450.ms, curve: Curves.elasticOut, begin: const Offset(0.5, 0.5), end: const Offset(1, 1))
                   .fadeIn(duration: 300.ms),

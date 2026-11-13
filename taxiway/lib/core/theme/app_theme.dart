@@ -21,13 +21,15 @@ class AppTheme {
       scaffoldBackgroundColor: colors.appBackground,
       colorScheme: base.colorScheme.copyWith(
         primary: colors.primary,
-        onPrimary: Colors.white,
-        secondary: colors.primaryDark,
+        onPrimary: colors.onPrimary,
+        secondary: colors.accent,
+        outline: colors.border,
+        surfaceContainerHighest: colors.surface,
         surface: colors.card,
         error: colors.error,
       ),
       extensions: [colors, typography],
-      textTheme: GoogleFonts.plusJakartaSansTextTheme(
+      textTheme: GoogleFonts.interTextTheme(
         TextTheme(
           displayLarge: typography.display,
           headlineLarge: typography.h1,
@@ -54,22 +56,25 @@ class AppTheme {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: colors.primary,
-          foregroundColor: Colors.white,
-          disabledBackgroundColor: colors.mutedText.withValues(alpha: 0.4),
-          minimumSize: const Size.fromHeight(52),
+          foregroundColor: colors.onPrimary,
+          disabledBackgroundColor: colors.surface,
+          disabledForegroundColor: colors.mutedText,
+          minimumSize: const Size.fromHeight(54),
           textStyle: typography.button,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.button),
           ),
           elevation: 0,
+          shadowColor: Colors.transparent,
+          surfaceTintColor: Colors.transparent,
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: colors.navy,
-          minimumSize: const Size.fromHeight(52),
+          minimumSize: const Size.fromHeight(54),
           textStyle: typography.button,
-          side: BorderSide(color: colors.border),
+          side: BorderSide(color: colors.borderStrong),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.button),
           ),
@@ -77,21 +82,55 @@ class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: colors.card,
+        fillColor: colors.surface,
         hintStyle: typography.bodyLarge.copyWith(color: colors.mutedText),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.input),
-          borderSide: BorderSide(color: colors.border),
+          borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.input),
-          borderSide: BorderSide(color: colors.border),
+          borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.input),
           borderSide: BorderSide(color: colors.primary, width: 1.5),
         ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadius.input),
+          borderSide: BorderSide(color: colors.error, width: 1),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadius.input),
+          borderSide: BorderSide(color: colors.error, width: 1.5),
+        ),
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: colors.card,
+        surfaceTintColor: Colors.transparent,
+        showDragHandle: false,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.bottomSheet)),
+        ),
+      ),
+      dialogTheme: DialogThemeData(
+        backgroundColor: colors.card,
+        surfaceTintColor: Colors.transparent,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.card)),
+      ),
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: colors.primary,
+        selectionColor: colors.accent.withValues(alpha: 0.25),
+        selectionHandleColor: colors.accent,
+      ),
+      progressIndicatorTheme: ProgressIndicatorThemeData(color: colors.primary),
+      switchTheme: SwitchThemeData(
+        thumbColor: WidgetStatePropertyAll(colors.card),
+        trackColor: WidgetStateProperty.resolveWith(
+          (states) => states.contains(WidgetState.selected) ? colors.primary : colors.borderStrong,
+        ),
+        trackOutlineColor: const WidgetStatePropertyAll(Colors.transparent),
       ),
       dividerTheme: DividerThemeData(color: colors.border, thickness: 1, space: 1),
       splashFactory: NoSplash.splashFactory,

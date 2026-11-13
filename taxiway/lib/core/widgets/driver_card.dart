@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import '../models/driver.dart';
 import '../models/vehicle.dart';
@@ -20,12 +20,12 @@ class DriverAvatar extends StatelessWidget {
       width: size,
       height: size,
       decoration: const BoxDecoration(
-        color: Color(0xFF0F172A),
+        color: Color(0xFF101114),
         shape: BoxShape.circle,
       ),
       child: Center(
         child: Icon(
-          BootstrapIcons.person_fill,
+          AppIcons.person_fill,
           color: Colors.white,
           size: size * 0.55,
         ),
@@ -66,10 +66,10 @@ class DriverCompactCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.of(context).card,
         borderRadius: BorderRadius.circular(AppRadius.card),
-        border: Border.all(color: AppColors.of(context).border, width: 1.2),
+        border: Border.all(color: AppColors.of(context).border, width: 1),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF0F172A).withValues(alpha: 0.04),
+            color: const Color(0xFF101114).withValues(alpha: 0.04),
             blurRadius: 8,
             offset: const Offset(0, 3),
           ),
@@ -115,12 +115,12 @@ class DriverCompactCard extends StatelessWidget {
                 const StatusBadge(
                   label: 'Verified',
                   variant: BadgeVariant.verified,
-                  icon: BootstrapIcons.patch_check_fill,
+                  icon: AppIcons.patch_check_fill,
                 ),
             ],
           ),
           const SizedBox(height: 12),
-          Container(height: 1, color: const Color(0xFFE2E8F0)),
+          Container(height: 1, color: const Color(0xFFE8E8EA)),
           const SizedBox(height: 12),
           Row(
             children: [
@@ -129,7 +129,7 @@ class DriverCompactCard extends StatelessWidget {
                 height: 36,
                 padding: const EdgeInsets.all(2),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFF8FAFC),
+                  color: const Color(0xFFF7F7F8),
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: ClipRRect(
@@ -171,7 +171,7 @@ class DriverCompactCard extends StatelessWidget {
                   Expanded(
                     child: OutlinedButton.icon(
                       onPressed: onViewProfile,
-                      icon: Icon(BootstrapIcons.person, size: 16, color: AppColors.of(context).navy),
+                      icon: Icon(AppIcons.person, size: 16, color: AppColors.of(context).navy),
                       label: Text(
                         'Profile',
                         style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).navy),
@@ -191,7 +191,7 @@ class DriverCompactCard extends StatelessWidget {
                     width: 44,
                     height: 42,
                     child: CircleIconButton(
-                      icon: BootstrapIcons.chat_dots_fill,
+                      icon: AppIcons.chat_dots_fill,
                       onPressed: onMessage!,
                       background: AppColors.of(context).surface,
                       foreground: AppColors.of(context).navy,
@@ -202,14 +202,14 @@ class DriverCompactCard extends StatelessWidget {
                   Expanded(
                     child: ElevatedButton.icon(
                       onPressed: onCall,
-                      icon: const Icon(BootstrapIcons.telephone_fill, size: 16, color: Colors.white),
+                      icon: const Icon(AppIcons.telephone_fill, size: 16, color: Colors.white),
                       label: Text(
                         'Call',
                         style: AppTypography.of(context).button.copyWith(color: Colors.white, fontSize: 14),
                       ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.of(context).primary,
-                        foregroundColor: Colors.white,
+                        foregroundColor: AppColors.of(context).onPrimary,
                         elevation: 0,
                         minimumSize: const Size.fromHeight(42),
                         shape: RoundedRectangleBorder(

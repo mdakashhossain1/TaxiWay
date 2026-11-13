@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import '../models/vehicle.dart';
 import '../theme/app_colors.dart';
@@ -23,20 +23,20 @@ class VehicleMediaTile extends StatelessWidget {
   IconData get _icon {
     switch (media.category) {
       case VehicleMediaCategory.exterior:
-        return BootstrapIcons.car_front_fill;
+        return AppIcons.car_front_fill;
       case VehicleMediaCategory.interior:
-        return BootstrapIcons.person_fill;
+        return AppIcons.person_fill;
       case VehicleMediaCategory.dashboard:
-        return BootstrapIcons.speedometer2;
+        return AppIcons.speedometer2;
       case VehicleMediaCategory.boot:
-        return BootstrapIcons.bag_fill;
+        return AppIcons.bag_fill;
     }
   }
 
   List<Color> get _gradient {
     switch (media.category) {
       case VehicleMediaCategory.exterior:
-        return const [Color(0xFFE2E8F0), Color(0xFFCBD5E1)];
+        return const [Color(0xFFE8E8EA), Color(0xFFD0D0D4)];
       case VehicleMediaCategory.interior:
         return const [Color(0xFFFFEDD5), Color(0xFFFED7AA)];
       case VehicleMediaCategory.dashboard:
@@ -61,7 +61,7 @@ class VehicleMediaTile extends StatelessWidget {
                 const Positioned(
                   right: 8,
                   top: 8,
-                  child: Icon(BootstrapIcons.play_circle_fill, color: Colors.white, size: 22),
+                  child: Icon(AppIcons.play_circle_fill, color: Colors.white, size: 22),
                 ),
               Positioned(
                 left: 8,

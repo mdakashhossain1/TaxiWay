@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -64,7 +64,7 @@ class _TripHistoryScreenState extends ConsumerState<TripHistoryScreen> with Sing
             if (list.isEmpty) {
               final l10n = AppLocalizations.of(context);
               return EmptyState(
-                icon: BootstrapIcons.receipt,
+                icon: AppIcons.receipt,
                 title: l10n.tripsEmptyTitle,
                 message: l10n.tripsEmptyMessage,
                 actionLabel: l10n.bookARideAction,

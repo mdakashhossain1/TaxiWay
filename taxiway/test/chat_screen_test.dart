@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import 'package:taxiway/core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -98,7 +98,7 @@ void main() {
 
     chat.failSend = true;
     await tester.enterText(find.byType(TextField), 'hello driver');
-    await tester.tap(find.byIcon(BootstrapIcons.send_fill));
+    await tester.tap(find.byIcon(AppIcons.send_fill));
     await tester.pump(const Duration(milliseconds: 200));
     await tester.pump(const Duration(milliseconds: 600));
     await tester.pump(const Duration(seconds: 1));

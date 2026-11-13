@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -62,7 +62,7 @@ class DriverArrivedScreen extends ConsumerWidget {
                   color: AppColors.of(context).successBackground,
                   shape: BoxShape.circle,
                 ),
-                child: Icon(BootstrapIcons.geo_alt_fill, color: AppColors.of(context).success, size: 26),
+                child: Icon(AppIcons.geo_alt_fill, color: AppColors.of(context).success, size: 26),
               ),
               const SizedBox(width: 14),
               Expanded(
@@ -161,7 +161,7 @@ class DriverArrivedScreen extends ConsumerWidget {
             ),
             child: Row(
               children: [
-                Icon(BootstrapIcons.shield_check, size: 18, color: AppColors.of(context).primary),
+                Icon(AppIcons.shield_check, size: 18, color: AppColors.of(context).primary),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
@@ -180,7 +180,7 @@ class DriverArrivedScreen extends ConsumerWidget {
               Expanded(
                 child: AppOutlineButton(
                   label: 'View Vehicle',
-                  icon: BootstrapIcons.car_front,
+                  icon: AppIcons.car_front,
                   onPressed: () => context.push(AppRoutes.vehicleGallery),
                 ),
               ),
@@ -188,7 +188,7 @@ class DriverArrivedScreen extends ConsumerWidget {
               Expanded(
                 child: PrimaryButton(
                   label: 'Call Driver',
-                  icon: BootstrapIcons.telephone_fill,
+                  icon: AppIcons.telephone_fill,
                   onPressed: () => AppToast.call(context, 'Calling ${driver.name} (+91 98765 00000)...', title: 'Phone Call'),
                 ),
               ),

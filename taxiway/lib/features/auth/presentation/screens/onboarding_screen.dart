@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,19 +27,19 @@ class _Slide {
 
 List<_Slide> _slides(BuildContext context) => [
   _Slide(
-    icon: BootstrapIcons.geo_alt_fill,
+    icon: AppIcons.geo_alt_fill,
     title: 'Ride Anywhere in Patna',
     subtitle: 'Book a cab to any destination instantly — airport, station, or your favourite spot.',
     accent: AppColors.of(context).primary,
   ),
   _Slide(
-    icon: BootstrapIcons.shield_check,
+    icon: AppIcons.shield_check,
     title: 'Safe & Verified Drivers',
     subtitle: 'Every driver is background-checked and rated by riders like you, for your peace of mind.',
     accent: Color(0xFF6366F1),
   ),
   _Slide(
-    icon: BootstrapIcons.cash_coin,
+    icon: AppIcons.cash_coin,
     title: 'Transparent Pricing',
     subtitle: 'No surge pricing surprises. See the full fare breakdown before you book.',
     accent: Color(0xFF16A34A),
@@ -206,7 +206,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       onPressed: _next,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.of(context).primary,
-                        foregroundColor: Colors.white,
+                        foregroundColor: AppColors.of(context).onPrimary,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(AppRadius.button),
@@ -219,7 +219,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                           Text(isLast ? l10n.getStarted : 'Next'),
                           const SizedBox(width: 8),
                           Icon(
-                            isLast ? BootstrapIcons.arrow_right : BootstrapIcons.chevron_right,
+                            isLast ? AppIcons.arrow_right : AppIcons.chevron_right,
                             size: 18,
                           ),
                         ],

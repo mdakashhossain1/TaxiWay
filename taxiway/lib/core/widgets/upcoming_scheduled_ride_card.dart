@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -33,45 +33,62 @@ class UpcomingScheduledRideCard extends ConsumerWidget {
       child: GestureDetector(
         onTap: () => context.push(AppRoutes.tripHistory),
         child: Container(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           decoration: BoxDecoration(
-            color: AppColors.of(context).card,
+            color: AppColors.of(context).surface,
             borderRadius: BorderRadius.circular(AppRadius.card),
-            border: Border.all(color: AppColors.of(context).primary.withValues(alpha: 0.4), width: 1.2),
-            boxShadow: [
-              BoxShadow(color: const Color(0xFF0F172A).withValues(alpha: 0.04), blurRadius: 10, offset: const Offset(0, 3)),
-            ],
           ),
           child: Row(
             children: [
               Container(
-                padding: const EdgeInsets.all(10),
+                height: 44,
+                width: 44,
                 decoration: BoxDecoration(
-                  color: AppColors.of(context).primaryBackground,
+                  color: AppColors.of(context).card,
                   borderRadius: BorderRadius.circular(AppRadius.medium),
                 ),
-                child: Icon(BootstrapIcons.calendar_event, color: AppColors.of(context).primary, size: 22),
+                child: Icon(AppIcons.calendar_event, color: AppColors.of(context).navy, size: 20),
               ),
               const SizedBox(width: 14),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(l10n.upcomingScheduledRideTitle, style: AppTypography.of(context).h3.copyWith(color: AppColors.of(context).navy)),
+                    Text(l10n.upcomingScheduledRideTitle, style: AppTypography.of(context).label),
                     const SizedBox(height: 2),
-                    Text(scheduledLabel, style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).bodyText)),
-                    const SizedBox(height: 4),
                     Text(
-                      isAssigned ? l10n.driverAssignedNameLabel(booking.driver!.name) : l10n.waitingForDriverLabel,
-                      style: AppTypography.of(context).caption.copyWith(
-                        color: isAssigned ? AppColors.of(context).success : AppColors.of(context).warningText,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      scheduledLabel,
+                      style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).secondaryText),
+                    ),
+                    const SizedBox(height: 6),
+                    Row(
+                      children: [
+                        Container(
+                          height: 6,
+                          width: 6,
+                          decoration: BoxDecoration(
+                            color: isAssigned ? AppColors.of(context).success : AppColors.of(context).warning,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Flexible(
+                          child: Text(
+                            isAssigned ? l10n.driverAssignedNameLabel(booking.driver!.name) : l10n.waitingForDriverLabel,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTypography.of(context).caption.copyWith(
+                              color: isAssigned ? AppColors.of(context).success : AppColors.of(context).warningText,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ),
-              Icon(BootstrapIcons.chevron_right, color: AppColors.of(context).mutedText, size: 18),
+              Icon(AppIcons.chevron_right, color: AppColors.of(context).mutedText, size: 16),
             ],
           ),
         ),

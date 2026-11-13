@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -90,13 +90,12 @@ class _BookingReviewScreenState extends ConsumerState<BookingReviewScreen> {
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
               decoration: BoxDecoration(
-                color: AppColors.of(context).primaryBackground,
+                color: AppColors.of(context).surface,
                 borderRadius: BorderRadius.circular(AppRadius.card),
-                border: Border.all(color: AppColors.of(context).primary.withValues(alpha: 0.4)),
               ),
               child: Row(
                 children: [
-                  Icon(BootstrapIcons.calendar_event, size: 16, color: AppColors.of(context).primary),
+                  Icon(AppIcons.calendar_event, size: 16, color: AppColors.of(context).primary),
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
@@ -117,16 +116,8 @@ class _BookingReviewScreenState extends ConsumerState<BookingReviewScreen> {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: AppColors.of(context).card,
+              color: AppColors.of(context).surface,
               borderRadius: BorderRadius.circular(AppRadius.card),
-              border: Border.all(color: AppColors.of(context).border, width: 1.2),
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFF0F172A).withValues(alpha: 0.04),
-                  blurRadius: 10,
-                  offset: const Offset(0, 3),
-                ),
-              ],
             ),
             child: Row(
               children: [
@@ -135,7 +126,7 @@ class _BookingReviewScreenState extends ConsumerState<BookingReviewScreen> {
                   child: Container(
                     width: 88,
                     height: 64,
-                    color: const Color(0xFFF8FAFC),
+                    color: const Color(0xFFF7F7F8),
                     child: Image.asset(
                       _imageForCategory(category.id),
                       fit: BoxFit.contain,
@@ -300,7 +291,7 @@ class _BookingReviewScreenState extends ConsumerState<BookingReviewScreen> {
               style: AppTypography.of(context).body,
               decoration: InputDecoration(
                 hintText: l10n.emailOptionalHint,
-                prefixIcon: Icon(BootstrapIcons.envelope, size: 18, color: AppColors.of(context).mutedText),
+                prefixIcon: Icon(AppIcons.envelope, size: 18, color: AppColors.of(context).mutedText),
                 filled: true,
                 fillColor: AppColors.of(context).card,
                 border: OutlineInputBorder(
@@ -395,8 +386,8 @@ class _RouteLine extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 3),
           child: isPickup
-              ? Container(width: 10, height: 10, decoration: BoxDecoration(color: AppColors.of(context).success, shape: BoxShape.circle))
-              : Icon(BootstrapIcons.geo_alt_fill, color: AppColors.of(context).primary, size: 14),
+              ? Container(width: 10, height: 10, decoration: BoxDecoration(color: AppColors.of(context).navy, shape: BoxShape.circle))
+              : Container(width: 10, height: 10, decoration: BoxDecoration(color: AppColors.of(context).accent, borderRadius: BorderRadius.circular(2))),
         ),
         const SizedBox(width: 12),
         Expanded(

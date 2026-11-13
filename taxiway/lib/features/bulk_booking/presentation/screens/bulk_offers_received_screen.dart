@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -69,7 +69,7 @@ class BulkOffersReceivedScreen extends ConsumerWidget {
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(color: AppColors.of(context).navySecondary, shape: BoxShape.circle),
-                        child: const Icon(BootstrapIcons.person_fill, color: Colors.white, size: 20),
+                        child: const Icon(AppIcons.person_fill, color: Colors.white, size: 20),
                       ),
                       const SizedBox(width: 12),
                       Expanded(

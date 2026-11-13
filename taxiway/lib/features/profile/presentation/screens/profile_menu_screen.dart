@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -33,7 +33,7 @@ class ProfileMenuScreen extends ConsumerWidget {
             onPressed: () => Navigator.of(context).pop(true),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.of(context).error,
-              foregroundColor: Colors.white,
+              foregroundColor: AppColors.of(context).onPrimary,
               elevation: 0,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.button)),
             ),
@@ -65,7 +65,7 @@ class ProfileMenuScreen extends ConsumerWidget {
             onPressed: () => Navigator.of(context).pop(true),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.of(context).error,
-              foregroundColor: Colors.white,
+              foregroundColor: AppColors.of(context).onPrimary,
               elevation: 0,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.button)),
             ),
@@ -104,10 +104,10 @@ class ProfileMenuScreen extends ConsumerWidget {
             decoration: BoxDecoration(
               color: AppColors.of(context).card,
               borderRadius: BorderRadius.circular(AppRadius.card),
-              border: Border.all(color: AppColors.of(context).border, width: 1.2),
+              border: Border.all(color: AppColors.of(context).border, width: 1),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF0F172A).withValues(alpha: 0.04),
+                  color: const Color(0xFF101114).withValues(alpha: 0.04),
                   blurRadius: 10,
                   offset: const Offset(0, 3),
                 ),
@@ -119,11 +119,11 @@ class ProfileMenuScreen extends ConsumerWidget {
                   width: 58,
                   height: 58,
                   decoration: const BoxDecoration(
-                    color: Color(0xFF0F172A),
+                    color: Color(0xFF101114),
                     shape: BoxShape.circle,
                   ),
                   child: const Center(
-                    child: Icon(BootstrapIcons.person_fill, size: 28, color: Colors.white),
+                    child: Icon(AppIcons.person_fill, size: 28, color: Colors.white),
                   ),
                 ),
                 const SizedBox(width: 14),
@@ -138,7 +138,7 @@ class ProfileMenuScreen extends ConsumerWidget {
                       const SizedBox(height: 2),
                       Row(
                         children: [
-                          Icon(BootstrapIcons.telephone, size: 12, color: AppColors.of(context).primary),
+                          Icon(AppIcons.telephone, size: 12, color: AppColors.of(context).primary),
                           const SizedBox(width: 4),
                           Text(
                             '+91 ${customer?.phone ?? ''}',
@@ -159,17 +159,17 @@ class ProfileMenuScreen extends ConsumerWidget {
           _MenuSection(
             children: [
               _MenuTile(
-                icon: BootstrapIcons.receipt,
+                icon: AppIcons.receipt,
                 label: l10n.myTrips,
                 onTap: () => context.push(AppRoutes.tripHistory),
               ),
               _MenuTile(
-                icon: BootstrapIcons.headset,
+                icon: AppIcons.headset,
                 label: l10n.helpSupport,
                 onTap: () => context.push(AppRoutes.helpSupport),
               ),
               _MenuTile(
-                icon: BootstrapIcons.translate,
+                icon: AppIcons.translate,
                 label: l10n.languageMenuItem,
                 onTap: () => showLanguagePickerSheet(context, ref),
               ),
@@ -181,12 +181,12 @@ class ProfileMenuScreen extends ConsumerWidget {
           _MenuSection(
             children: [
               _MenuTile(
-                icon: BootstrapIcons.file_text,
+                icon: AppIcons.file_text,
                 label: l10n.termsAndConditions,
                 onTap: () => openInAppBrowser(kTermsAndConditionsUrl),
               ),
               _MenuTile(
-                icon: BootstrapIcons.shield_lock_fill,
+                icon: AppIcons.shield_lock_fill,
                 label: l10n.privacyPolicy,
                 onTap: () => openInAppBrowser(kPrivacyPolicyUrl),
               ),
@@ -198,13 +198,13 @@ class ProfileMenuScreen extends ConsumerWidget {
           _MenuSection(
             children: [
               _MenuTile(
-                icon: BootstrapIcons.box_arrow_right,
+                icon: AppIcons.box_arrow_right,
                 label: l10n.logout,
                 destructive: true,
                 onTap: () => _logout(context, ref),
               ),
               _MenuTile(
-                icon: BootstrapIcons.trash,
+                icon: AppIcons.trash,
                 label: l10n.deleteMyAccount,
                 destructive: true,
                 onTap: () => _deleteAccount(context, ref),
@@ -267,7 +267,7 @@ class _MenuTile extends StatelessWidget {
                 ),
               ),
             ),
-            if (!destructive) Icon(BootstrapIcons.chevron_right, size: 14, color: AppColors.of(context).mutedText),
+            if (!destructive) Icon(AppIcons.chevron_right, size: 14, color: AppColors.of(context).mutedText),
           ],
         ),
       ),

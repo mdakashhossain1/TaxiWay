@@ -26,16 +26,8 @@ class FareCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
-        color: AppColors.of(context).card,
+        color: AppColors.of(context).surface,
         borderRadius: BorderRadius.circular(AppRadius.card),
-        border: Border.all(color: AppColors.of(context).border, width: 1.2),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF0F172A).withValues(alpha: 0.04),
-            blurRadius: 10,
-            offset: const Offset(0, 3),
-          ),
-        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +49,7 @@ class FareCard extends StatelessWidget {
             l10n.tollsParkingNote,
             style: AppTypography.of(context).caption.copyWith(
               color: AppColors.of(context).mutedText,
-              fontSize: 11,
+              fontSize: 13,
             ),
           ),
         ],
@@ -81,7 +73,7 @@ class _FareItem extends StatelessWidget {
           label,
           style: AppTypography.of(context).caption.copyWith(
             color: AppColors.of(context).mutedText,
-            fontSize: 11,
+            fontSize: 13,
           ),
         ),
         const SizedBox(height: 2),

@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -15,14 +15,14 @@ import '../../../chat/presentation/screens/chat_screen.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 
 const _topics = [
-  (BootstrapIcons.car_front_fill, 'How to book a ride'),
-  (BootstrapIcons.cash_stack, 'Fare and payment issues'),
-  (BootstrapIcons.x_circle_fill, 'Cancellation & Refund policy'),
-  (BootstrapIcons.person_dash_fill, 'Driver or vehicle feedback'),
-  (BootstrapIcons.box_seam_fill, 'Lost & Found item in vehicle'),
-  (BootstrapIcons.shield_check, 'Safety & Emergency support'),
-  (BootstrapIcons.people_fill, 'Bulk & Corporate booking help'),
-  (BootstrapIcons.three_dots, 'Other queries & feedback'),
+  (AppIcons.car_front_fill, 'How to book a ride'),
+  (AppIcons.cash_stack, 'Fare and payment issues'),
+  (AppIcons.x_circle_fill, 'Cancellation & Refund policy'),
+  (AppIcons.person_dash_fill, 'Driver or vehicle feedback'),
+  (AppIcons.box_seam_fill, 'Lost & Found item in vehicle'),
+  (AppIcons.shield_check, 'Safety & Emergency support'),
+  (AppIcons.people_fill, 'Bulk & Corporate booking help'),
+  (AppIcons.three_dots, 'Other queries & feedback'),
 ];
 
 class HelpSupportScreen extends ConsumerWidget {
@@ -93,7 +93,7 @@ class HelpSupportScreen extends ConsumerWidget {
                   t.$2,
                   style: AppTypography.of(context).label.copyWith(fontSize: 14, color: AppColors.of(context).navy, fontWeight: FontWeight.w600),
                 ),
-                trailing: Icon(BootstrapIcons.chevron_right, size: 14, color: AppColors.of(context).mutedText),
+                trailing: Icon(AppIcons.chevron_right, size: 14, color: AppColors.of(context).mutedText),
                 onTap: () => AppToast.info(
                   context,
                   'Opening guide and FAQs for "${t.$2}"...',
@@ -129,7 +129,7 @@ class HelpSupportScreen extends ConsumerWidget {
                     Expanded(
                       child: AppOutlineButton(
                         label: 'Call',
-                        icon: BootstrapIcons.telephone_fill,
+                        icon: AppIcons.telephone_fill,
                         onPressed: () => _callSupport(context, ref),
                       ),
                     ),
@@ -137,7 +137,7 @@ class HelpSupportScreen extends ConsumerWidget {
                     Expanded(
                       child: AppOutlineButton(
                         label: 'Message',
-                        icon: BootstrapIcons.chat_dots_fill,
+                        icon: AppIcons.chat_dots_fill,
                         onPressed: () => context.push(AppRoutes.chat, extra: const ChatScreenArgs(title: 'Support')),
                       ),
                     ),

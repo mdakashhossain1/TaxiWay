@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_icons.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_radius.dart';
 import '../theme/app_typography.dart';
@@ -159,7 +160,7 @@ class _CenteredAnimatedCalendarDialogState extends State<_CenteredAnimatedCalend
                       ),
                     ),
                     IconButton(
-                      icon: Icon(Icons.close_rounded, color: AppColors.of(context).mutedText, size: 22),
+                      icon: Icon(AppIcons.close_rounded, color: AppColors.of(context).mutedText, size: 22),
                       onPressed: () => Navigator.of(context).pop(),
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
@@ -204,7 +205,7 @@ class _CenteredAnimatedCalendarDialogState extends State<_CenteredAnimatedCalend
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
-                        icon: Icon(Icons.chevron_left_rounded, color: AppColors.of(context).navy, size: 24),
+                        icon: Icon(AppIcons.chevron_left_rounded, color: AppColors.of(context).navy, size: 24),
                         onPressed: _prevMonth,
                         padding: EdgeInsets.zero,
                         constraints: const BoxConstraints(),
@@ -218,7 +219,7 @@ class _CenteredAnimatedCalendarDialogState extends State<_CenteredAnimatedCalend
                         ),
                       ),
                       IconButton(
-                        icon: Icon(Icons.chevron_right_rounded, color: AppColors.of(context).navy, size: 24),
+                        icon: Icon(AppIcons.chevron_right_rounded, color: AppColors.of(context).navy, size: 24),
                         onPressed: _nextMonth,
                         padding: EdgeInsets.zero,
                         constraints: const BoxConstraints(),
@@ -237,7 +238,7 @@ class _CenteredAnimatedCalendarDialogState extends State<_CenteredAnimatedCalend
                               d,
                               textAlign: TextAlign.center,
                               style: const TextStyle(
-                                fontSize: 12,
+                                fontSize: 13,
                                 fontWeight: FontWeight.w700,
                                 color: Color(0xFF94A3B8),
                               ),
@@ -289,7 +290,7 @@ class _CenteredAnimatedCalendarDialogState extends State<_CenteredAnimatedCalend
                             child: Text(
                               slot,
                               style: TextStyle(
-                                fontSize: 12.5,
+                                fontSize: 13,
                                 fontWeight: isSelected ? FontWeight.w800 : FontWeight.w500,
                                 color: isSelected ? AppColors.of(context).primaryDark : AppColors.of(context).navy,
                               ),
@@ -374,7 +375,7 @@ class _CenteredAnimatedCalendarDialogState extends State<_CenteredAnimatedCalend
                   color: isSelected
                       ? Colors.white
                       : isPast
-                          ? const Color(0xFFCBD5E1)
+                          ? const Color(0xFFD0D0D4)
                           : isToday
                               ? AppColors.of(context).primaryDark
                               : AppColors.of(context).navy,
@@ -429,7 +430,7 @@ class _QuickDateChip extends StatelessWidget {
           child: Text(
             label,
             style: TextStyle(
-              fontSize: 12.5,
+              fontSize: 13,
               fontWeight: selected ? FontWeight.w800 : FontWeight.w600,
               color: selected ? AppColors.of(context).primaryDark : AppColors.of(context).navy,
             ),

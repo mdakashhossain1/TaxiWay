@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_colors.dart';
@@ -18,7 +18,7 @@ class RatingStars extends StatelessWidget {
         final filled = i < rating.floor();
         final half = !filled && i < rating;
         return Icon(
-          half ? BootstrapIcons.star_half : (filled ? BootstrapIcons.star_fill : BootstrapIcons.star),
+          half ? AppIcons.star_half : (filled ? AppIcons.star_fill : AppIcons.star),
           size: size,
           color: filled || half ? color : AppColors.of(context).borderStrong,
         );
@@ -48,7 +48,7 @@ class InteractiveRatingStars extends StatelessWidget {
             duration: const Duration(milliseconds: 180),
             curve: Curves.easeOutBack,
             child: Icon(
-              selected ? BootstrapIcons.star_fill : BootstrapIcons.star,
+              selected ? AppIcons.star_fill : AppIcons.star,
               size: 40,
               color: selected ? const Color(0xFFF59E0B) : AppColors.of(context).borderStrong,
             ),

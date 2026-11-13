@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -119,7 +119,7 @@ class BulkTripCapacityScreen extends ConsumerWidget {
                 child: _DateTimeField(
                   label: 'Journey Date',
                   value: draft.journeyDate == null ? 'Select date' : DateFormat('dd MMM yyyy').format(draft.journeyDate!),
-                  icon: BootstrapIcons.calendar_event,
+                  icon: AppIcons.calendar_event,
                   onTap: () => _pickDate(context, ref),
                 ),
               ),
@@ -128,7 +128,7 @@ class BulkTripCapacityScreen extends ConsumerWidget {
                 child: _DateTimeField(
                   label: 'Journey Time',
                   value: draft.journeyTime ?? 'Select time',
-                  icon: BootstrapIcons.clock,
+                  icon: AppIcons.clock,
                   onTap: () => _pickTime(context, ref),
                 ),
               ),

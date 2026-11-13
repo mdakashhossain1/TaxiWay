@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../theme/app_colors.dart';
@@ -20,7 +20,7 @@ class InlineRetry extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(BootstrapIcons.exclamation_circle, size: 24, color: colors.mutedText),
+          Icon(AppIcons.exclamation_circle, size: 24, color: colors.mutedText),
           const SizedBox(height: 8),
           Text(
             message,
@@ -30,7 +30,7 @@ class InlineRetry extends StatelessWidget {
           const SizedBox(height: 4),
           TextButton.icon(
             onPressed: onRetry,
-            icon: const Icon(BootstrapIcons.arrow_clockwise, size: 16),
+            icon: const Icon(AppIcons.arrow_clockwise, size: 16),
             label: Text(AppLocalizations.of(context).tryAgainLabel),
           ),
         ],

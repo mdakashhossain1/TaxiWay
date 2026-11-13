@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -9,10 +9,13 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_shadows.dart';
 import '../../../../core/theme/app_typography.dart';
+import '../../../../core/utils/launch_utils.dart';
+import '../../../../core/widgets/app_network_image.dart';
 import '../../../../core/widgets/app_toast.dart';
 import '../../../../core/widgets/buttons.dart';
-import '../../../../core/widgets/driver_card.dart';
+import '../../../../core/widgets/pressable_scale.dart';
 import '../../../../core/widgets/ride_map_view.dart';
+import '../../../../core/widgets/sheet_action_button.dart';
 import '../../../chat/presentation/screens/chat_screen.dart';
 
 class LiveTrackingScreen extends ConsumerWidget {
@@ -56,6 +59,8 @@ class LiveTrackingScreen extends ConsumerWidget {
     WidgetsBinding.instance.addPostFrameCallback((_) => _handleTransition(context, booking.status));
 
     final progress = 1 - (booking.driverDistanceKm / 2.4).clamp(0.0, 1.0);
+    final colors = AppColors.of(context);
+    final type = AppTypography.of(context);
 
     return Scaffold(
       backgroundColor: AppColors.of(context).appBackground,
@@ -64,7 +69,6 @@ class LiveTrackingScreen extends ConsumerWidget {
           Column(
             children: [
               Expanded(
-                flex: 6,
                 child: RideMapView(
                   pickup: booking.pickup,
                   destination: booking.destination,
@@ -74,118 +78,172 @@ class LiveTrackingScreen extends ConsumerWidget {
                   driverPosition: driverPositionOf(booking),
                   height: double.infinity,
                   borderRadius: BorderRadius.zero,
+                  enableExpand: false,
                 ),
               ),
-              Expanded(
-                flex: 5,
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.fromLTRB(20, 18, 20, 18),
-                  decoration: BoxDecoration(
-                    color: AppColors.of(context).card,
-                    borderRadius: const BorderRadius.vertical(top: Radius.circular(AppRadius.bottomSheet)),
-                    boxShadow: AppShadows.elevated,
-                  ),
-                  child: SingleChildScrollView(
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  color: colors.card,
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(AppRadius.bottomSheet)),
+                  boxShadow: AppShadows.sheet,
+                ),
+                child: SafeArea(
+                  top: false,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 16),
                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Drag Handle
                         Center(
                           child: Container(
                             width: 36,
                             height: 4,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFCBD5E1),
-                              borderRadius: BorderRadius.circular(2),
-                            ),
+                            decoration: BoxDecoration(color: colors.borderStrong, borderRadius: BorderRadius.circular(2)),
                           ),
                         ),
-                        const SizedBox(height: 12),
-
+                        const SizedBox(height: 16),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'En route to pickup',
-                              style: AppTypography.of(context).h3.copyWith(fontSize: 17, color: AppColors.of(context).navy),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Meet at pickup in ${booking.driverEtaMinutes} min',
+                                    style: type.h2.copyWith(fontWeight: FontWeight.w800),
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    '${booking.driverDistanceKm.toStringAsFixed(1)} km away',
+                                    style: type.body.copyWith(color: colors.secondaryText),
+                                  ),
+                                ],
+                              ),
                             ),
+                            const SizedBox(width: 12),
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                               decoration: BoxDecoration(
-                                color: AppColors.of(context).primaryBackground,
-                                borderRadius: BorderRadius.circular(AppRadius.pill),
+                                color: colors.primary,
+                                borderRadius: BorderRadius.circular(AppRadius.small),
                               ),
                               child: Text(
-                                '${booking.driverEtaMinutes} min away',
-                                style: AppTypography.of(context).caption.copyWith(
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.of(context).primaryDark,
-                                ),
+                                vehicle.registrationNumber,
+                                style: type.label.copyWith(color: colors.onPrimary, fontWeight: FontWeight.w700, fontSize: 13),
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 4),
-                        Text(
-                          'Your driver is on the way',
-                          style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).bodyText),
-                        ),
+                        const SizedBox(height: 16),
+                        Divider(height: 1, color: colors.border),
                         const SizedBox(height: 14),
-
-                        // Distance Left / Est. Time Left / Arrival Time strip
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                          decoration: BoxDecoration(
-                            color: AppColors.of(context).surface,
-                            borderRadius: BorderRadius.circular(AppRadius.card),
-                            border: Border.all(color: AppColors.of(context).border),
-                          ),
+                        GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () => context.push(AppRoutes.driverProfile),
                           child: Row(
                             children: [
-                              _Metric(label: 'Distance Left', value: '${booking.driverDistanceKm.toStringAsFixed(1)} km'),
-                              Container(width: 1, height: 26, color: AppColors.of(context).border),
-                              const SizedBox(width: 12),
-                              _Metric(label: 'Est. Time Left', value: '${booking.driverEtaMinutes} min'),
-                              Container(width: 1, height: 26, color: AppColors.of(context).border),
-                              const SizedBox(width: 12),
-                              _Metric(
-                                label: 'Arrival Time',
-                                value: TimeOfDay.fromDateTime(
-                                  DateTime.now().add(Duration(minutes: booking.driverEtaMinutes)),
-                                ).format(context),
+                              Container(
+                                height: 54,
+                                width: 54,
+                                clipBehavior: Clip.antiAlias,
+                                decoration: BoxDecoration(color: colors.surface, shape: BoxShape.circle),
+                                child: driver.photoUrl.isEmpty
+                                    ? Icon(AppIcons.person_fill, color: colors.mutedText, size: 26)
+                                    : AppNetworkImage(
+                                        url: driver.photoUrl,
+                                        fit: BoxFit.cover,
+                                        fallback: Icon(AppIcons.person_fill, color: colors.mutedText, size: 26),
+                                      ),
                               ),
+                              const SizedBox(width: 14),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Flexible(
+                                          child: Text(
+                                            driver.name,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: type.h3.copyWith(fontWeight: FontWeight.w800),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Icon(AppIcons.star_fill, size: 14, color: colors.navy),
+                                        const SizedBox(width: 2),
+                                        Text(driver.rating.toStringAsFixed(1), style: type.label.copyWith(fontSize: 14)),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Text(vehicle.model, style: type.caption.copyWith(color: colors.secondaryText)),
+                                  ],
+                                ),
+                              ),
+                              Icon(AppIcons.chevron_right, size: 16, color: colors.mutedText),
                             ],
                           ),
                         ),
-                        const SizedBox(height: 14),
-
-                        DriverCompactCard(
-                          driver: driver,
-                          vehicle: vehicle,
-                          onCall: () => AppToast.call(context, 'Calling ${driver.name} (+91 98765 00000)...', title: 'Phone Call'),
-                          onMessage: () => context.push(
-                            AppRoutes.chat,
-                            extra: ChatScreenArgs(title: driver.name, conversationId: 'ride_${booking.id}'),
-                          ),
-                          onViewProfile: () => context.push(AppRoutes.driverProfile),
-                        ),
-                        const SizedBox(height: 14),
-
+                        const SizedBox(height: 16),
                         Row(
                           children: [
                             Expanded(
-                              child: AppOutlineButton(
-                                label: 'Share Trip',
-                                icon: BootstrapIcons.share_fill,
-                                onPressed: () => AppToast.success(context, 'Live trip tracking link copied to clipboard!', title: 'Link Shared'),
+                              child: GestureDetector(
+                                behavior: HitTestBehavior.opaque,
+                                onTap: () => context.push(
+                                  AppRoutes.chat,
+                                  extra: ChatScreenArgs(title: driver.name, conversationId: 'ride_${booking.id}'),
+                                ),
+                                child: Container(
+                                  height: 50,
+                                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                                  decoration: BoxDecoration(color: colors.surface, borderRadius: BorderRadius.circular(AppRadius.pill)),
+                                  child: Row(
+                                    children: [
+                                      Icon(AppIcons.chat_dots, size: 18, color: colors.navy),
+                                      const SizedBox(width: 10),
+                                      Expanded(
+                                        child: Text(
+                                          'Message ${driver.name.split(' ').first}',
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: type.body.copyWith(color: colors.secondaryText, fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
-                            const SizedBox(width: 12),
+                            const SizedBox(width: 10),
+                            CircleIconButton(
+                              icon: AppIcons.telephone_fill,
+                              background: colors.surface,
+                              foreground: colors.navy,
+                              onPressed: () => launchPhoneCall(driver.phone),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          children: [
                             Expanded(
-                              child: DestructiveButton(
-                                label: 'Cancel Ride',
-                                onPressed: () {
+                              child: SheetActionButton(
+                                icon: AppIcons.share_fill,
+                                label: 'Share trip',
+                                onTap: () => AppToast.success(context, 'Live trip tracking link copied to clipboard!', title: 'Link Shared'),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: SheetActionButton(
+                                icon: AppIcons.x_circle_fill,
+                                label: 'Cancel ride',
+                                destructive: true,
+                                onTap: () {
                                   ref.read(bookingControllerProvider.notifier).cancelBooking();
                                   context.go(AppRoutes.home);
                                 },
@@ -201,41 +259,23 @@ class LiveTrackingScreen extends ConsumerWidget {
             ],
           ),
 
-          // Floating Back / Recenter Button
-          Positioned(
-            top: 48,
-            left: 16,
-            child: CircleAvatar(
-              backgroundColor: AppColors.of(context).card,
-              radius: 20,
-              child: IconButton(
-                onPressed: () => context.go(AppRoutes.home),
-                icon: Icon(BootstrapIcons.chevron_left, color: AppColors.of(context).navy, size: 18),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+              child: PressableScale(
+                pressedScale: 0.92,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => context.go(AppRoutes.home),
+                  child: Container(
+                    height: 46,
+                    width: 46,
+                    decoration: BoxDecoration(color: colors.card, shape: BoxShape.circle, boxShadow: AppShadows.elevated),
+                    child: Icon(AppIcons.arrow_left, color: colors.navy, size: 20),
+                  ),
+                ),
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _Metric extends StatelessWidget {
-  final String label;
-  final String value;
-  const _Metric({required this.label, required this.value});
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(label, style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).mutedText, fontSize: 11)),
-          const SizedBox(height: 2),
-          Text(
-            value,
-            style: AppTypography.of(context).h3.copyWith(fontSize: 14, color: AppColors.of(context).navy, fontWeight: FontWeight.w700),
           ),
         ],
       ),

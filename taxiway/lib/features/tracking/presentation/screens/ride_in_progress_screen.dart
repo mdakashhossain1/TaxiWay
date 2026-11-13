@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -10,8 +10,8 @@ import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_shadows.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/widgets/app_toast.dart';
-import '../../../../core/widgets/buttons.dart';
 import '../../../../core/widgets/ride_map_view.dart';
+import '../../../../core/widgets/sheet_action_button.dart';
 
 class RideInProgressScreen extends ConsumerWidget {
   const RideInProgressScreen({super.key});
@@ -40,12 +40,15 @@ class RideInProgressScreen extends ConsumerWidget {
     final remainingKm = booking.distanceKm * (1 - booking.routeProgress);
     final remainingMin = (booking.etaMinutes * (1 - booking.routeProgress)).round().clamp(1, 999);
 
+    final colors = AppColors.of(context);
+    final type = AppTypography.of(context);
+    final arrival = TimeOfDay.fromDateTime(DateTime.now().add(Duration(minutes: remainingMin))).format(context);
+
     return Scaffold(
-      backgroundColor: AppColors.of(context).appBackground,
+      backgroundColor: colors.appBackground,
       body: Column(
         children: [
           Expanded(
-            flex: 6,
             child: RideMapView(
               pickup: booking.pickup,
               destination: booking.destination,
@@ -56,134 +59,72 @@ class RideInProgressScreen extends ConsumerWidget {
               driverPosition: driverPositionOf(booking),
               height: double.infinity,
               borderRadius: BorderRadius.zero,
+              enableExpand: false,
             ),
           ),
-          Expanded(
-            flex: 4,
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.fromLTRB(20, 16, 20, 18),
-              decoration: BoxDecoration(
-                color: AppColors.of(context).card,
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(AppRadius.bottomSheet)),
-                boxShadow: AppShadows.elevated,
-              ),
-              child: SingleChildScrollView(
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: colors.card,
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(AppRadius.bottomSheet)),
+              boxShadow: AppShadows.sheet,
+            ),
+            child: SafeArea(
+              top: false,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 10, 20, 16),
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Drag Handle
                     Center(
                       child: Container(
                         width: 36,
                         height: 4,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFCBD5E1),
-                          borderRadius: BorderRadius.circular(2),
-                        ),
+                        decoration: BoxDecoration(color: colors.borderStrong, borderRadius: BorderRadius.circular(2)),
                       ),
                     ),
-                    const SizedBox(height: 12),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Ride in progress',
-                          style: AppTypography.of(context).h3.copyWith(fontSize: 18, color: AppColors.of(context).navy),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: AppColors.of(context).successBackground,
-                            borderRadius: BorderRadius.circular(AppRadius.pill),
-                          ),
-                          child: Text(
-                            'On Track',
-                            style: AppTypography.of(context).caption.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.of(context).success,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 16),
                     Text(
                       'Heading to ${booking.destination.shortName}',
-                      style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).bodyText),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: type.h2.copyWith(fontWeight: FontWeight.w800),
                     ),
-                    const SizedBox(height: 14),
-
-                    // Metrics Strip
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      decoration: BoxDecoration(
-                        color: AppColors.of(context).surface,
-                        borderRadius: BorderRadius.circular(AppRadius.card),
-                        border: Border.all(color: AppColors.of(context).border),
-                      ),
-                      child: Row(
-                        children: [
-                          _Metric(label: 'Distance Left', value: '${remainingKm.toStringAsFixed(1)} km'),
-                          Container(width: 1, height: 26, color: AppColors.of(context).border),
-                          const SizedBox(width: 12),
-                          _Metric(label: 'Time Left', value: '$remainingMin min'),
-                          Container(width: 1, height: 26, color: AppColors.of(context).border),
-                          const SizedBox(width: 12),
-                          _Metric(
-                            label: 'Arrival',
-                            value: TimeOfDay.fromDateTime(
-                              DateTime.now().add(Duration(minutes: remainingMin)),
-                            ).format(context),
-                          ),
-                        ],
-                      ),
+                    const SizedBox(height: 2),
+                    Text(
+                      'Arrive $arrival · $remainingMin min · ${remainingKm.toStringAsFixed(1)} km left',
+                      style: type.body.copyWith(color: colors.secondaryText),
                     ),
-
-                    const SizedBox(height: 14),
-
-                    // Progress Indicator Bar
+                    const SizedBox(height: 16),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(4),
                       child: LinearProgressIndicator(
                         value: booking.routeProgress.clamp(0.05, 1.0),
-                        backgroundColor: const Color(0xFFE2E8F0),
-                        valueColor: AlwaysStoppedAnimation<Color>(AppColors.of(context).primary),
-                        minHeight: 6,
+                        backgroundColor: colors.surface,
+                        valueColor: AlwaysStoppedAnimation<Color>(colors.primary),
+                        minHeight: 5,
                       ),
                     ),
-
-                    const SizedBox(height: 16),
-
+                    const SizedBox(height: 18),
                     Row(
                       children: [
                         Expanded(
-                          child: AppOutlineButton(
-                            label: 'Share Trip',
-                            icon: BootstrapIcons.share_fill,
-                            onPressed: () => AppToast.success(context, 'Live trip tracking link copied to clipboard!', title: 'Link Shared'),
+                          child: SheetActionButton(
+                            icon: AppIcons.share_fill,
+                            label: 'Share trip',
+                            onTap: () => AppToast.success(context, 'Live trip tracking link copied to clipboard!', title: 'Link Shared'),
                           ),
                         ),
-                        const SizedBox(width: 12),
+                        const SizedBox(width: 10),
                         Expanded(
-                          child: OutlinedButton.icon(
-                            onPressed: () => AppToast.error(
+                          child: SheetActionButton(
+                            icon: AppIcons.shield_exclamation,
+                            label: 'SOS',
+                            destructive: true,
+                            onTap: () => AppToast.error(
                               context,
                               'Emergency SOS alert triggered! 24x7 support & police alerted.',
                               title: 'SOS Alert Sent',
-                            ),
-                            icon: Icon(BootstrapIcons.shield_exclamation, color: AppColors.of(context).error, size: 16),
-                            label: Text(
-                              'SOS',
-                              style: AppTypography.of(context).button.copyWith(color: AppColors.of(context).error, fontSize: 13),
-                            ),
-                            style: OutlinedButton.styleFrom(
-                              side: BorderSide(color: AppColors.of(context).error, width: 1.2),
-                              minimumSize: const Size.fromHeight(48),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(AppRadius.button),
-                              ),
                             ),
                           ),
                         ),
@@ -193,29 +134,6 @@ class RideInProgressScreen extends ConsumerWidget {
                 ),
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _Metric extends StatelessWidget {
-  final String label;
-  final String value;
-  const _Metric({required this.label, required this.value});
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(label, style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).mutedText, fontSize: 11)),
-          const SizedBox(height: 2),
-          Text(
-            value,
-            style: AppTypography.of(context).h3.copyWith(fontSize: 14, color: AppColors.of(context).navy, fontWeight: FontWeight.w700),
           ),
         ],
       ),

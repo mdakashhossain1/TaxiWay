@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -60,7 +60,7 @@ class BulkOfferDetailsScreen extends ConsumerWidget {
                         width: 44,
                         height: 44,
                         decoration: BoxDecoration(color: AppColors.of(context).navySecondary, shape: BoxShape.circle),
-                        child: const Icon(BootstrapIcons.person_fill, color: Colors.white, size: 22),
+                        child: const Icon(AppIcons.person_fill, color: Colors.white, size: 22),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
@@ -111,7 +111,7 @@ class BulkOfferDetailsScreen extends ConsumerWidget {
                         padding: const EdgeInsets.symmetric(vertical: 4),
                         child: Row(
                           children: [
-                            Icon(BootstrapIcons.check, size: 18, color: AppColors.of(context).success),
+                            Icon(AppIcons.check, size: 18, color: AppColors.of(context).success),
                             const SizedBox(width: 8),
                             Text(c, style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).navy)),
                           ],

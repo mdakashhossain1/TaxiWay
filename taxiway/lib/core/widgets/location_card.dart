@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import '../models/place_location.dart';
 import '../theme/app_colors.dart';
@@ -6,7 +6,6 @@ import '../theme/app_radius.dart';
 import '../theme/app_typography.dart';
 import '../../l10n/generated/app_localizations.dart';
 
-/// Signature From / To Route Selector card matching Figma Screen 01.
 class LocationCard extends StatelessWidget {
   final PlaceLocation? pickup;
   final PlaceLocation? destination;
@@ -26,165 +25,108 @@ class LocationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final colors = AppColors.of(context);
+    final type = AppTypography.of(context);
     final hasDestination = destination != null && destination!.address.isNotEmpty;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
       decoration: BoxDecoration(
-        color: AppColors.of(context).card,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(AppRadius.card),
-        border: Border.all(color: AppColors.of(context).border, width: 1.2),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF0F172A).withValues(alpha: 0.05),
-            blurRadius: 16,
-            offset: const Offset(0, 4),
-          ),
-        ],
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Left: Vertical Indicator Track (Green Dot -> Dotted Line -> Orange Pin)
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                width: 12,
-                height: 12,
-                decoration: BoxDecoration(
-                  color: AppColors.of(context).success,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 2),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.of(context).success.withValues(alpha: 0.35),
-                      blurRadius: 4,
-                      offset: const Offset(0, 1),
-                    ),
-                  ],
-                ),
+                width: 10,
+                height: 10,
+                decoration: BoxDecoration(color: colors.navy, shape: BoxShape.circle),
               ),
-              const SizedBox(height: 3),
-              // Dotted vertical connector
               CustomPaint(
-                size: const Size(2, 28),
-                painter: _DottedLinePainter(color: const Color(0xFFCBD5E1)),
+                size: const Size(2, 34),
+                painter: _DottedLinePainter(color: colors.borderStrong),
               ),
-              const SizedBox(height: 3),
-              Icon(
-                BootstrapIcons.geo_alt_fill,
-                color: AppColors.of(context).primary,
-                size: 16,
+              Container(
+                width: 10,
+                height: 10,
+                decoration: BoxDecoration(color: colors.accent, borderRadius: BorderRadius.circular(2)),
               ),
             ],
           ),
-          const SizedBox(width: 14),
-
-          // Middle: Pickup & Destination text sections
+          const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                // From (Pickup)
                 InkWell(
                   onTap: onTapPickup,
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(AppRadius.small),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          l10n.fromPickupLabel,
-                          style: AppTypography.of(context).caption.copyWith(
-                            color: AppColors.of(context).mutedText,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 0.2,
+                    padding: const EdgeInsets.symmetric(vertical: 6),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(l10n.fromPickupLabel, style: type.caption.copyWith(color: colors.secondaryText)),
+                          const SizedBox(height: 1),
+                          Text(
+                            pickup?.shortName ?? (pickup?.address ?? l10n.searchPickup),
+                            style: type.bodyLarge.copyWith(fontWeight: FontWeight.w600),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          pickup?.shortName ?? (pickup?.address ?? l10n.searchPickup),
-                          style: AppTypography.of(context).bodyLarge.copyWith(
-                            color: AppColors.of(context).navy,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14.5,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: Divider(height: 1, thickness: 1, color: AppColors.of(context).border),
-                ),
-
-                // To (Destination)
+                Divider(height: 1, thickness: 1, color: colors.border),
                 InkWell(
                   onTap: onTapDestination,
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(AppRadius.small),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          l10n.toDestinationLabel,
-                          style: AppTypography.of(context).caption.copyWith(
-                            color: AppColors.of(context).mutedText,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 0.2,
+                    padding: const EdgeInsets.symmetric(vertical: 6),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(l10n.toDestinationLabel, style: type.caption.copyWith(color: colors.secondaryText)),
+                          const SizedBox(height: 1),
+                          Text(
+                            hasDestination ? destination!.shortName : l10n.whereDoYouWantToGo,
+                            style: type.bodyLarge.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: hasDestination ? colors.navy : colors.mutedText,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          hasDestination
-                              ? destination!.shortName
-                              : l10n.whereDoYouWantToGo,
-                          style: AppTypography.of(context).bodyLarge.copyWith(
-                            color: hasDestination ? AppColors.of(context).navy : AppColors.of(context).primary,
-                            fontWeight: hasDestination ? FontWeight.w700 : FontWeight.w600,
-                            fontSize: 14.5,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ],
             ),
           ),
-
-          // Right: Swap Button
           if (onSwap != null)
             Padding(
-              padding: const EdgeInsets.only(left: 8),
+              padding: const EdgeInsets.only(left: 4),
               child: Material(
-                color: const Color(0xFFFFF7ED),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  side: const BorderSide(color: Color(0xFFFED7AA), width: 1),
-                ),
+                color: colors.card,
+                shape: const CircleBorder(),
                 child: InkWell(
                   onTap: onSwap,
-                  borderRadius: BorderRadius.circular(10),
+                  customBorder: const CircleBorder(),
                   child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Icon(
-                      BootstrapIcons.arrow_down_up,
-                      size: 16,
-                      color: AppColors.of(context).primary,
-                    ),
+                    padding: const EdgeInsets.all(10),
+                    child: Icon(AppIcons.arrow_down_up, size: 15, color: colors.navy),
                   ),
                 ),
               ),
@@ -203,14 +145,14 @@ class _DottedLinePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
       ..color = color
-      ..strokeWidth = 1.8
+      ..strokeWidth = 1.6
       ..strokeCap = StrokeCap.round;
 
     const dashHeight = 3.0;
     const dashSpace = 3.0;
-    double startY = 0.0;
+    double startY = 3.0;
 
-    while (startY < size.height) {
+    while (startY < size.height - 3) {
       canvas.drawLine(
         Offset(size.width / 2, startY),
         Offset(size.width / 2, startY + dashHeight),
@@ -221,5 +163,5 @@ class _DottedLinePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant _DottedLinePainter oldDelegate) => oldDelegate.color != color;
 }

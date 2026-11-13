@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -40,7 +40,7 @@ class DriverVehicleProfileScreen extends ConsumerWidget {
               // Intentionally fixed dark navy in both themes — the hero
               // card's white text is designed for a dark backdrop, unlike
               // AppColors.navy which flips to near-white in dark mode.
-              color: const Color(0xFF0F172A),
+              color: const Color(0xFF101114),
               borderRadius: BorderRadius.circular(AppRadius.card),
             ),
             child: Column(
@@ -52,7 +52,7 @@ class DriverVehicleProfileScreen extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(BootstrapIcons.patch_check_fill, size: 15, color: AppColors.of(context).success),
+                    Icon(AppIcons.patch_check_fill, size: 15, color: AppColors.of(context).success),
                     const SizedBox(width: 4),
                     Text('Verified Driver · Online', style: AppTypography.of(context).caption.copyWith(color: Colors.white70)),
                   ],
@@ -61,7 +61,7 @@ class DriverVehicleProfileScreen extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    _StatColumn(value: driver.rating.toStringAsFixed(1), label: 'Rating', icon: BootstrapIcons.star_fill),
+                    _StatColumn(value: driver.rating.toStringAsFixed(1), label: 'Rating', icon: AppIcons.star_fill),
                     _StatColumn(value: '${driver.totalTrips}', label: 'Trips'),
                     _StatColumn(value: '${driver.completionRate}%', label: 'Completion'),
                     _StatColumn(value: '${driver.yearsExperience}+ yrs', label: 'Experience'),
@@ -115,7 +115,7 @@ class DriverVehicleProfileScreen extends ConsumerWidget {
                       height: 44,
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFF8FAFC),
+                        color: const Color(0xFFF7F7F8),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: ClipRRect(
@@ -138,7 +138,7 @@ class DriverVehicleProfileScreen extends ConsumerWidget {
                             ),
                             child: Text(
                               vehicle.registrationNumber,
-                              style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).primaryDark, fontSize: 11, fontWeight: FontWeight.w700),
+                              style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).primaryDark, fontSize: 13, fontWeight: FontWeight.w700),
                             ),
                           ),
                         ],
@@ -240,7 +240,7 @@ class DriverVehicleProfileScreen extends ConsumerWidget {
               Expanded(
                 child: AppOutlineButton(
                   label: 'Message',
-                  icon: BootstrapIcons.chat_dots,
+                  icon: AppIcons.chat_dots,
                   onPressed: () => AppToast.info(context, 'Messaging driver Amit Kumar...', title: 'Chat'),
                 ),
               ),
@@ -248,7 +248,7 @@ class DriverVehicleProfileScreen extends ConsumerWidget {
               Expanded(
                 child: PrimaryButton(
                   label: 'Call Driver',
-                  icon: BootstrapIcons.telephone_fill,
+                  icon: AppIcons.telephone_fill,
                   onPressed: () => AppToast.call(context, 'Calling driver Amit Kumar (+91 98765 00000)...', title: 'Phone Call'),
                 ),
               ),
@@ -297,7 +297,7 @@ class _VerificationRow extends StatelessWidget {
       child: Row(
         children: [
           Icon(
-            verified ? BootstrapIcons.check_circle_fill : BootstrapIcons.x_circle_fill,
+            verified ? AppIcons.check_circle_fill : AppIcons.x_circle_fill,
             size: 18,
             color: verified ? AppColors.of(context).success : AppColors.of(context).error,
           ),
@@ -324,7 +324,7 @@ class _Chip extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: AppTypography.of(context).caption.copyWith(fontWeight: FontWeight.w600, color: AppColors.of(context).primaryDark, fontSize: 11),
+        style: AppTypography.of(context).caption.copyWith(fontWeight: FontWeight.w600, color: AppColors.of(context).primaryDark, fontSize: 13),
       ),
     );
   }

@@ -63,10 +63,10 @@ class TripCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.of(context).card,
           borderRadius: BorderRadius.circular(AppRadius.card),
-          border: Border.all(color: AppColors.of(context).border, width: 1.2),
+          border: Border.all(color: AppColors.of(context).border, width: 1),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF0F172A).withValues(alpha: 0.04),
+              color: const Color(0xFF101114).withValues(alpha: 0.04),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -85,7 +85,7 @@ class TripCard extends StatelessWidget {
                       height: 32,
                       padding: const EdgeInsets.all(2),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFF8FAFC),
+                        color: const Color(0xFFF7F7F8),
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: ClipRRect(
@@ -103,7 +103,7 @@ class TripCard extends StatelessWidget {
                         ),
                         Text(
                           DateFormat('dd MMM, hh:mm a').format(booking.createdAt),
-                          style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).mutedText, fontSize: 11),
+                          style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).mutedText, fontSize: 13),
                         ),
                       ],
                     ),
@@ -113,14 +113,14 @@ class TripCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
-            _RoutePoint(color: AppColors.of(context).success, text: booking.pickup.shortName),
+            _RoutePoint(color: AppColors.of(context).navy, text: booking.pickup.shortName),
             Padding(
               padding: const EdgeInsets.only(left: 4),
               child: SizedBox(height: 14, child: VerticalDivider(width: 1, thickness: 1.5, color: AppColors.of(context).borderStrong)),
             ),
-            _RoutePoint(color: AppColors.of(context).primary, text: booking.destination.shortName),
+            _RoutePoint(color: AppColors.of(context).accent, square: true, text: booking.destination.shortName),
             const SizedBox(height: 12),
-            Container(height: 1, color: const Color(0xFFE2E8F0)),
+            Container(height: 1, color: const Color(0xFFE8E8EA)),
             const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -149,14 +149,23 @@ class TripCard extends StatelessWidget {
 class _RoutePoint extends StatelessWidget {
   final Color color;
   final String text;
+  final bool square;
 
-  const _RoutePoint({required this.color, required this.text});
+  const _RoutePoint({required this.color, required this.text, this.square = false});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Container(width: 8, height: 8, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+        Container(
+          width: 9,
+          height: 9,
+          decoration: BoxDecoration(
+            color: color,
+            shape: square ? BoxShape.rectangle : BoxShape.circle,
+            borderRadius: square ? BorderRadius.circular(2) : null,
+          ),
+        ),
         const SizedBox(width: 10),
         Expanded(
           child: Text(

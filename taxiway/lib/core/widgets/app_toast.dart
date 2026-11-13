@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:toastification/toastification.dart';
 import '../../l10n/generated/app_localizations.dart';
@@ -12,7 +12,7 @@ class AppToast {
   static const _phoneType = ToastificationType.custom(
     'phone',
     Color(0xFF2563EB),
-    BootstrapIcons.telephone_fill,
+    AppIcons.telephone_fill,
   );
 
   static void show(
