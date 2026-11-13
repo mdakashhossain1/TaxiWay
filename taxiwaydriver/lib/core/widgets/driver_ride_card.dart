@@ -4,9 +4,9 @@ import '../theme/app_colors.dart';
 import '../theme/app_radius.dart';
 import '../theme/app_typography.dart';
 import '../utils/format_utils.dart';
+import 'pressable_scale.dart';
 import 'status_badge.dart';
 
-/// Large, date-forward ride card for the driver's My Rides list.
 class DriverRideCard extends StatelessWidget {
   final DriverRide ride;
   final VoidCallback onTap;
@@ -44,68 +44,72 @@ class DriverRideCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        margin: const EdgeInsets.only(bottom: 12),
-        decoration: BoxDecoration(
-          color: AppColors.of(context).card,
-          borderRadius: BorderRadius.circular(AppRadius.card),
-          border: Border.all(color: AppColors.of(context).border, width: 1.2),
-          boxShadow: [
-            BoxShadow(color: AppColors.of(context).navy.withValues(alpha: 0.04), blurRadius: 8, offset: const Offset(0, 2)),
-          ],
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Big date badge.
-            Container(
-              width: 56,
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              decoration: BoxDecoration(
-                color: AppColors.of(context).primaryBackground,
-                borderRadius: BorderRadius.circular(AppRadius.medium),
+    final colors = AppColors.of(context);
+    final type = AppTypography.of(context);
+
+    return PressableScale(
+      pressedScale: 0.98,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          margin: const EdgeInsets.only(bottom: 12),
+          decoration: BoxDecoration(
+            color: colors.surface,
+            borderRadius: BorderRadius.circular(AppRadius.card),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 58,
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                  color: colors.primary,
+                  borderRadius: BorderRadius.circular(AppRadius.medium),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      formatRideDate(ride.dateTime).split(' ').first,
+                      style: type.h2.copyWith(color: colors.onPrimary, fontSize: 22),
+                    ),
+                    Text(
+                      formatRideDate(ride.dateTime).split(' ').last,
+                      style: type.caption.copyWith(color: colors.onPrimary.withValues(alpha: 0.75), fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
               ),
-              child: Column(
-                children: [
-                  Text(
-                    formatRideDate(ride.dateTime).split(' ').first,
-                    style: AppTypography.of(context).h2.copyWith(color: AppColors.of(context).primaryDark, fontSize: 20),
-                  ),
-                  Text(
-                    formatRideDate(ride.dateTime).split(' ').last,
-                    style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).primaryDark, fontWeight: FontWeight.w600),
-                  ),
-                ],
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(formatRideTime(ride.dateTime), style: type.label.copyWith(fontWeight: FontWeight.w700)),
+                        StatusBadge(label: _statusLabel, variant: _variant),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    _RoutePoint(isPickup: true, text: ride.pickup),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 4),
+                      child: SizedBox(
+                        height: 12,
+                        child: VerticalDivider(width: 1, thickness: 1.5, color: colors.borderStrong),
+                      ),
+                    ),
+                    _RoutePoint(isPickup: false, text: ride.destination),
+                    const SizedBox(height: 12),
+                    Text(formatRupees(ride.fare), style: type.h3.copyWith(fontWeight: FontWeight.w800)),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(formatRideTime(ride.dateTime), style: AppTypography.of(context).label.copyWith(fontWeight: FontWeight.w700)),
-                      StatusBadge(label: _statusLabel, variant: _variant),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  _RoutePoint(color: AppColors.of(context).success, text: ride.pickup),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 4),
-                    child: SizedBox(height: 12, child: VerticalDivider(width: 1, thickness: 1.5, color: AppColors.of(context).borderStrong)),
-                  ),
-                  _RoutePoint(color: AppColors.of(context).primary, text: ride.destination),
-                  const SizedBox(height: 10),
-                  Text(formatRupees(ride.fare), style: AppTypography.of(context).h3.copyWith(color: AppColors.of(context).primaryDark)),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -113,21 +117,31 @@ class DriverRideCard extends StatelessWidget {
 }
 
 class _RoutePoint extends StatelessWidget {
-  final Color color;
+  final bool isPickup;
   final String text;
 
-  const _RoutePoint({required this.color, required this.text});
+  const _RoutePoint({required this.isPickup, required this.text});
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Row(
       children: [
-        Container(width: 8, height: 8, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+        Container(
+          width: 9,
+          height: 9,
+          decoration: BoxDecoration(
+            color: isPickup ? colors.navy : colors.accent,
+            shape: isPickup ? BoxShape.circle : BoxShape.rectangle,
+            borderRadius: isPickup ? null : BorderRadius.circular(2),
+          ),
+        ),
         const SizedBox(width: 10),
         Expanded(
           child: Text(
             text,
-            style: AppTypography.of(context).body.copyWith(fontWeight: FontWeight.w600),
+            style: AppTypography.of(context).body.copyWith(fontWeight: FontWeight.w600, color: colors.navy),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),

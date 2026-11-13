@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -98,7 +98,7 @@ class DashboardScreen extends ConsumerWidget {
                     width: 52,
                     height: 52,
                     decoration: BoxDecoration(color: AppColors.of(context).surface, shape: BoxShape.circle),
-                    child: Icon(BootstrapIcons.person_fill, color: AppColors.of(context).mutedText, size: 26),
+                    child: Icon(AppIcons.person_fill, color: AppColors.of(context).mutedText, size: 26),
                   ),
                   const SizedBox(width: 14),
                   Expanded(
@@ -107,7 +107,7 @@ class DashboardScreen extends ConsumerWidget {
                       children: [
                         Text(driver?.name ?? '', style: AppTypography.of(context).h2),
                         const SizedBox(height: 4),
-                        StatusBadge(label: l10n.verifiedDriver, variant: BadgeVariant.verified, icon: BootstrapIcons.check_circle_fill),
+                        StatusBadge(label: l10n.verifiedDriver, variant: BadgeVariant.verified, icon: AppIcons.check_circle_fill),
                       ],
                     ),
                   ),
@@ -131,19 +131,31 @@ class DashboardScreen extends ConsumerWidget {
                     width: double.infinity,
                     padding: const EdgeInsets.all(18),
                     decoration: BoxDecoration(
-                      color: AppColors.of(context).primaryBackground,
+                      color: AppColors.of(context).primary,
                       borderRadius: BorderRadius.circular(AppRadius.card),
-                      border: Border.all(color: AppColors.of(context).primaryBorder),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(l10n.currentPlan, style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).primaryDark)),
+                        Text(
+                          l10n.currentPlan,
+                          style: AppTypography.of(context).label.copyWith(color: AppColors.of(context).onPrimary.withValues(alpha: 0.7)),
+                        ),
                         const SizedBox(height: 4),
-                        Text('${formatRupees(plan.pricePerMonth)} / month', style: AppTypography.of(context).priceLarge),
-                        Text(l10n.ridesIncluded(plan.totalRides), style: AppTypography.of(context).body),
+                        Text(
+                          '${formatRupees(plan.pricePerMonth)} / month',
+                          style: AppTypography.of(context).priceLarge.copyWith(color: AppColors.of(context).onPrimary),
+                        ),
+                        Text(
+                          l10n.ridesIncluded(plan.totalRides),
+                          style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).onPrimary.withValues(alpha: 0.7)),
+                        ),
                         const SizedBox(height: 14),
-                        UsageProgressBar(fraction: plan.usageFraction),
+                        UsageProgressBar(
+                          fraction: plan.usageFraction,
+                          trackColor: AppColors.of(context).onPrimary.withValues(alpha: 0.18),
+                          fillColor: AppColors.of(context).accent,
+                        ),
                         const SizedBox(height: 14),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -151,15 +163,15 @@ class DashboardScreen extends ConsumerWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('${plan.usedRides}', style: AppTypography.of(context).priceLarge.copyWith(color: AppColors.of(context).primaryDark)),
-                                Text(l10n.ridesUsed, style: AppTypography.of(context).caption),
+                                Text('${plan.usedRides}', style: AppTypography.of(context).priceLarge.copyWith(color: AppColors.of(context).onPrimary)),
+                                Text(l10n.ridesUsed, style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).onPrimary.withValues(alpha: 0.7))),
                               ],
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                Text('${plan.remainingRides}', style: AppTypography.of(context).priceLarge.copyWith(color: AppColors.of(context).primaryDark)),
-                                Text(l10n.ridesRemaining, style: AppTypography.of(context).caption),
+                                Text('${plan.remainingRides}', style: AppTypography.of(context).priceLarge.copyWith(color: AppColors.of(context).onPrimary)),
+                                Text(l10n.ridesRemaining, style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).onPrimary.withValues(alpha: 0.7))),
                               ],
                             ),
                           ],
@@ -167,7 +179,7 @@ class DashboardScreen extends ConsumerWidget {
                         const SizedBox(height: 10),
                         Text(
                           '${l10n.renewalDateLabel}: ${formatRideDate(plan.renewalDate)} ${plan.renewalDate.year}',
-                          style: AppTypography.of(context).caption,
+                          style: AppTypography.of(context).caption.copyWith(color: AppColors.of(context).onPrimary.withValues(alpha: 0.7)),
                         ),
                       ],
                     ),
@@ -218,7 +230,7 @@ class DashboardScreen extends ConsumerWidget {
                   onRetry: () => ref.invalidate(nextRideProvider),
                 ),
                 builder: (context, nextRide) => nextRide == null
-                    ? EmptyState(icon: BootstrapIcons.calendar_x, title: l10n.noUpcomingRides, message: '')
+                    ? EmptyState(icon: AppIcons.calendar_x, title: l10n.noUpcomingRides, message: '')
                     : _NextRideCard(ride: nextRide, l10n: l10n),
               ),
 
@@ -249,13 +261,12 @@ class _ScheduledRidesBanner extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.of(context).card,
+        color: AppColors.of(context).surface,
         borderRadius: BorderRadius.circular(AppRadius.card),
-        border: Border.all(color: AppColors.of(context).border),
       ),
       child: Row(
         children: [
-          Icon(BootstrapIcons.calendar_event, color: AppColors.of(context).primary),
+          Icon(AppIcons.calendar_event, color: AppColors.of(context).navy),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -289,13 +300,12 @@ class _PendingOfferBanner extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.of(context).primaryBackground,
+        color: AppColors.of(context).warningBackground,
         borderRadius: BorderRadius.circular(AppRadius.card),
-        border: Border.all(color: AppColors.of(context).primaryBorder),
       ),
       child: Row(
         children: [
-          Icon(BootstrapIcons.bell_fill, color: AppColors.of(context).primaryDark),
+          Icon(AppIcons.bell_fill, color: AppColors.of(context).accent),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -338,7 +348,7 @@ class _OfferCheckFailedBanner extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(BootstrapIcons.exclamation_triangle_fill, size: 18, color: colors.warningText),
+          Icon(AppIcons.exclamation_triangle_fill, size: 18, color: colors.warningText),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
@@ -365,21 +375,20 @@ class _NextRideCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.of(context).card,
+        color: AppColors.of(context).surface,
         borderRadius: BorderRadius.circular(AppRadius.card),
-        border: Border.all(color: AppColors.of(context).border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('${formatRideDate(ride.dateTime)} · ${formatRideTime(ride.dateTime)}', style: AppTypography.of(context).label.copyWith(fontWeight: FontWeight.w700)),
           const SizedBox(height: 12),
-          _RoutePoint(color: AppColors.of(context).success, text: ride.pickup),
+          _RoutePoint(isPickup: true, text: ride.pickup),
           Padding(
             padding: const EdgeInsets.only(left: 4),
             child: SizedBox(height: 14, child: VerticalDivider(width: 1, thickness: 1.5, color: AppColors.of(context).borderStrong)),
           ),
-          _RoutePoint(color: AppColors.of(context).primary, text: ride.destination),
+          _RoutePoint(isPickup: false, text: ride.destination),
           const SizedBox(height: 12),
           Container(height: 1, color: AppColors.of(context).border),
           const SizedBox(height: 12),
@@ -391,7 +400,7 @@ class _NextRideCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 6),
-          Text('${l10n.expectedFare}: ${formatRupees(ride.fare)}', style: AppTypography.of(context).h3.copyWith(color: AppColors.of(context).primaryDark)),
+          Text('${l10n.expectedFare}: ${formatRupees(ride.fare)}', style: AppTypography.of(context).h3.copyWith(fontWeight: FontWeight.w800)),
           const SizedBox(height: 16),
           PrimaryButton(
             label: l10n.viewRideDetails,
@@ -403,7 +412,7 @@ class _NextRideCard extends StatelessWidget {
               Expanded(
                 child: AppOutlineButton(
                   label: l10n.callCustomer,
-                  icon: BootstrapIcons.telephone_fill,
+                  icon: AppIcons.telephone_fill,
                   onPressed: () {
                     launchPhoneCall(ride.customerPhone);
                     AppToast.call(context, 'Calling ${ride.customerName}...');
@@ -415,7 +424,7 @@ class _NextRideCard extends StatelessWidget {
                 width: 44,
                 height: 52,
                 child: CircleIconButton(
-                  icon: BootstrapIcons.chat_dots_fill,
+                  icon: AppIcons.chat_dots_fill,
                   onPressed: () => context.push(
                     AppRoutes.chat,
                     extra: ChatScreenArgs(title: ride.customerName, conversationId: 'ride_${ride.id}'),
@@ -433,18 +442,28 @@ class _NextRideCard extends StatelessWidget {
 }
 
 class _RoutePoint extends StatelessWidget {
-  final Color color;
+  final bool isPickup;
   final String text;
 
-  const _RoutePoint({required this.color, required this.text});
+  const _RoutePoint({required this.isPickup, required this.text});
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Row(
       children: [
-        Container(width: 8, height: 8, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+        Container(
+          width: 9,
+          height: 9,
+          decoration: BoxDecoration(
+            color: isPickup ? colors.navy : colors.accent,
+            shape: isPickup ? BoxShape.circle : BoxShape.rectangle,
+            borderRadius: isPickup ? null : BorderRadius.circular(2),
+          ),
+        ),
         const SizedBox(width: 10),
-        Expanded(child: Text(text, style: AppTypography.of(context).body.copyWith(fontWeight: FontWeight.w600))),
+        Expanded(child: Text(text, style: AppTypography.of(context).body.copyWith(fontWeight: FontWeight.w600, color: colors.navy))),
       ],
     );
   }

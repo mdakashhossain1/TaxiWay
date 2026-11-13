@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 
@@ -35,7 +35,7 @@ class AppBackButton extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(right: 2), // Optical centering for chevron
               child: Icon(
-                BootstrapIcons.chevron_left,
+                AppIcons.chevron_left,
                 color: iconColor ?? AppColors.of(context).navy,
                 size: 22,
               ),

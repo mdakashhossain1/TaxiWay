@@ -1,5 +1,5 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../state/theme_controller.dart';
@@ -8,8 +8,8 @@ import '../theme/app_theme.dart';
 import '../theme/app_typography.dart';
 import '../theme/eased_circle_clipper.dart';
 import 'language_picker_sheet.dart';
+import 'pressable_scale.dart';
 
-/// Pass [lightMode] = true to render on dark backgrounds (white text).
 class TaxiwayWordmark extends StatelessWidget {
   final double fontSize;
   final bool lightMode;
@@ -17,11 +17,47 @@ class TaxiwayWordmark extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      'Taxiway',
-      style: AppTypography.of(context).h2.copyWith(
-        fontSize: fontSize,
-        color: lightMode ? Colors.white : AppColors.of(context).navy,
+    final colors = AppColors.of(context);
+    final ink = lightMode ? Colors.white : colors.navy;
+    final style = AppTypography.of(context).h2.copyWith(
+      fontSize: fontSize,
+      fontWeight: FontWeight.w800,
+      letterSpacing: -0.8,
+      color: ink,
+    );
+
+    return Text.rich(
+      TextSpan(
+        text: 'Taxiway',
+        style: style,
+        children: [TextSpan(text: '.', style: style.copyWith(color: colors.accent))],
+      ),
+    );
+  }
+}
+
+class _HeaderIconButton extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback onTap;
+  final bool filled;
+
+  const _HeaderIconButton({required this.icon, required this.onTap, this.filled = false});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
+    return PressableScale(
+      pressedScale: 0.92,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: Container(
+          height: 44,
+          width: 44,
+          decoration: BoxDecoration(color: filled ? colors.primary : colors.surface, shape: BoxShape.circle),
+          child: Icon(icon, size: 20, color: filled ? colors.onPrimary : colors.navy),
+        ),
       ),
     );
   }
@@ -40,22 +76,7 @@ class TaxiwayHeader extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const TaxiwayWordmark(fontSize: 26),
-              const SizedBox(height: 2),
-              Text(
-                'Safe. Reliable. Anytime.',
-                style: AppTypography.of(context).caption.copyWith(
-                  color: AppColors.of(context).mutedText,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
+          const TaxiwayWordmark(fontSize: 28),
           Row(
             children: [
               Consumer(
@@ -63,80 +84,30 @@ class TaxiwayHeader extends StatelessWidget {
                   clipper: const EasedThemeSwitcherCircleClipper(),
                   builder: (context, switcher, theme) {
                     final isDark = theme.brightness == Brightness.dark;
-                    return Material(
-                      color: AppColors.of(context).card,
-                      shape: const CircleBorder(),
-                      elevation: 1.5,
-                      shadowColor: Colors.black26,
-                      child: InkWell(
-                        customBorder: const CircleBorder(),
-                        onTap: () {
-                          final newIsDark = !isDark;
-                          switcher.changeTheme(theme: newIsDark ? AppTheme.dark : AppTheme.light);
-                          ref.read(themeControllerProvider.notifier).setDark(newIsDark);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(9),
-                          child: Icon(
-                            isDark ? BootstrapIcons.moon_stars_fill : BootstrapIcons.sun_fill,
-                            size: 20,
-                            color: AppColors.of(context).navy,
-                          ),
-                        ),
-                      ),
+                    return _HeaderIconButton(
+                      icon: isDark ? AppIcons.moon_stars_fill : AppIcons.sun_fill,
+                      onTap: () {
+                        final newIsDark = !isDark;
+                        switcher.changeTheme(theme: newIsDark ? AppTheme.dark : AppTheme.light);
+                        ref.read(themeControllerProvider.notifier).setDark(newIsDark);
+                      },
                     );
                   },
                 ),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 8),
               Consumer(
-                builder: (context, ref, _) => Material(
-                  color: AppColors.of(context).card,
-                  shape: const CircleBorder(),
-                  elevation: 1.5,
-                  shadowColor: Colors.black26,
-                  child: InkWell(
-                    customBorder: const CircleBorder(),
-                    onTap: () => showLanguagePickerSheet(context, ref),
-                    child: Padding(
-                      padding: const EdgeInsets.all(9),
-                      child: Icon(BootstrapIcons.translate, size: 20, color: AppColors.of(context).navy),
-                    ),
-                  ),
+                builder: (context, ref, _) => _HeaderIconButton(
+                  icon: AppIcons.translate,
+                  onTap: () => showLanguagePickerSheet(context, ref),
                 ),
               ),
               if (onSupportTap != null) ...[
-                const SizedBox(width: 10),
-                Material(
-                  color: AppColors.of(context).card,
-                  shape: const CircleBorder(),
-                  elevation: 1.5,
-                  shadowColor: Colors.black26,
-                  child: InkWell(
-                    customBorder: const CircleBorder(),
-                    onTap: onSupportTap,
-                    child: Padding(
-                      padding: const EdgeInsets.all(9),
-                      child: Icon(BootstrapIcons.chat_dots_fill, size: 20, color: AppColors.of(context).navy),
-                    ),
-                  ),
-                ),
+                const SizedBox(width: 8),
+                _HeaderIconButton(icon: AppIcons.chat_dots_fill, onTap: onSupportTap!),
               ],
-              const SizedBox(width: 10),
-              Material(
-                color: AppColors.of(context).card,
-                shape: const CircleBorder(),
-                elevation: 1.5,
-                shadowColor: Colors.black26,
-                child: InkWell(
-                  customBorder: const CircleBorder(),
-                  onTap: onProfileTap,
-                  child: Padding(
-                    padding: const EdgeInsets.all(9),
-                    child: Icon(BootstrapIcons.person_fill, size: 20, color: AppColors.of(context).navy),
-                  ),
-                ),
-              ),
+              const SizedBox(width: 8),
+              _HeaderIconButton(icon: AppIcons.person_fill, onTap: onProfileTap, filled: true),
             ],
           ),
         ],

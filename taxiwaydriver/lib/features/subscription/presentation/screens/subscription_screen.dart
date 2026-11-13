@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -37,7 +37,7 @@ class SubscriptionScreen extends ConsumerWidget {
         title: Text(l10n.subscriptionTitle, style: AppTypography.of(context).h2),
         automaticallyImplyLeading: false,
         leading: IconButton(
-          icon: Icon(BootstrapIcons.house_fill, color: AppColors.of(context).navy),
+          icon: Icon(AppIcons.house_fill, color: AppColors.of(context).navy),
           onPressed: () => context.go(AppRoutes.dashboard),
         ),
       ),
@@ -92,20 +92,26 @@ class SubscriptionScreen extends ConsumerWidget {
                   const SizedBox(height: 20),
 
                   // 2x2 payment summary grid.
-                  Row(
+                  IntrinsicHeight(
+                    child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Expanded(child: SubscriptionMetricCard(value: formatRupees(summary.thisMonthCollected), label: l10n.thisMonthCollected)),
                       const SizedBox(width: 12),
                       Expanded(child: SubscriptionMetricCard(value: '${summary.completedRides}', label: l10n.completedRidesLabel)),
                     ],
+                    ),
                   ),
                   const SizedBox(height: 12),
-                  Row(
+                  IntrinsicHeight(
+                    child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Expanded(child: SubscriptionMetricCard(value: formatRupees(summary.todayCollected), label: l10n.todayCollected)),
                       const SizedBox(width: 12),
                       Expanded(child: SubscriptionMetricCard(value: formatRupees(summary.pendingPayment), label: l10n.pendingPaymentLabel)),
                     ],
+                    ),
                   ),
 
                   const SizedBox(height: 20),

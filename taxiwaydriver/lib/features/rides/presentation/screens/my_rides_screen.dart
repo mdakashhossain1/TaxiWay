@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -52,7 +52,7 @@ class _MyRidesScreenState extends ConsumerState<MyRidesScreen> with SingleTicker
         title: Text(l10n.myRidesTitle, style: AppTypography.of(context).h2),
         automaticallyImplyLeading: false,
         leading: IconButton(
-          icon: Icon(BootstrapIcons.house_fill, color: AppColors.of(context).navy),
+          icon: Icon(AppIcons.house_fill, color: AppColors.of(context).navy),
           onPressed: () => context.go(AppRoutes.dashboard),
         ),
         bottom: TabBar(
@@ -92,7 +92,7 @@ class _RideList extends ConsumerWidget {
       asyncValue: ridesAsync,
       shimmer: const RideListShimmer(itemCount: 4),
       isEmpty: (rides) => rides.isEmpty,
-      emptyWidget: EmptyState(icon: BootstrapIcons.calendar3, title: emptyTitle, message: ''),
+      emptyWidget: EmptyState(icon: AppIcons.calendar3, title: emptyTitle, message: ''),
       onRetry: () async {
         if (showCompleted) {
           ref.invalidate(completedRidesProvider);
@@ -129,7 +129,7 @@ class _ScheduledRideList extends ConsumerWidget {
       asyncValue: ridesAsync,
       shimmer: const RideListShimmer(itemCount: 4),
       isEmpty: (rides) => rides.isEmpty,
-      emptyWidget: EmptyState(icon: BootstrapIcons.calendar3, title: l10n.noScheduledRidesTitle, message: ''),
+      emptyWidget: EmptyState(icon: AppIcons.calendar3, title: l10n.noScheduledRidesTitle, message: ''),
       onRetry: () async => ref.invalidate(scheduledRidesProvider),
       builder: (context, rides) {
         final sorted = [...rides]..sort((a, b) => (a.scheduledAt ?? a.dateTime).compareTo(b.scheduledAt ?? b.dateTime));

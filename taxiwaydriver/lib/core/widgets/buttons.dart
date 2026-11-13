@@ -26,7 +26,7 @@ class PrimaryButton extends StatelessWidget {
     return PressableScale(
       enabled: action != null,
       child: SizedBox(
-        height: 52,
+        height: 54,
         width: double.infinity,
         child: ElevatedButton(
           onPressed: action == null
@@ -36,10 +36,10 @@ class PrimaryButton extends StatelessWidget {
                   action();
                 },
           child: loading
-              ? const SizedBox(
+              ? SizedBox(
                   height: 22,
                   width: 22,
-                  child: CircularProgressIndicator(strokeWidth: 2.4, color: Colors.white),
+                  child: CircularProgressIndicator(strokeWidth: 2.4, color: AppColors.of(context).onPrimary),
                 )
               : Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -67,7 +67,7 @@ class SecondaryButton extends StatelessWidget {
     return PressableScale(
       enabled: onPressed != null,
       child: SizedBox(
-        height: 52,
+        height: 54,
         width: double.infinity,
         child: ElevatedButton(
           onPressed: onPressed,
@@ -105,7 +105,7 @@ class AppOutlineButton extends StatelessWidget {
     return PressableScale(
       enabled: onPressed != null,
       child: SizedBox(
-        height: 52,
+        height: 54,
         width: double.infinity,
         child: OutlinedButton(
           onPressed: onPressed,
@@ -135,7 +135,7 @@ class DestructiveButton extends StatelessWidget {
     return PressableScale(
       enabled: onPressed != null,
       child: SizedBox(
-        height: 52,
+        height: 54,
         width: double.infinity,
         child: ElevatedButton(
           onPressed: onPressed,

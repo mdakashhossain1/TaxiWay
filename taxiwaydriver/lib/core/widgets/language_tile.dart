@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_radius.dart';
@@ -47,7 +47,7 @@ class LanguageTile extends StatelessWidget {
               ),
             ),
             Icon(
-              selected ? BootstrapIcons.check_circle_fill : BootstrapIcons.circle,
+              selected ? AppIcons.check_circle_fill : AppIcons.circle,
               color: selected ? AppColors.of(context).primary : AppColors.of(context).border,
               size: 22,
             ),

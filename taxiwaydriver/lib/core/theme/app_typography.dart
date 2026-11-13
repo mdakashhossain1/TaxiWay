@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'app_colors.dart';
 
-/// Clean, Modern Plus Jakarta Sans Typography System, as a [ThemeExtension]
+/// Clean, Modern Inter Typography System, as a [ThemeExtension]
 /// so text colors follow light/dark mode via `Theme.of(context)`.
 /// Sized larger than the customer app per the Driver App typography rule
 /// (18-22px section labels, 16px minimum body/labels, 24-32px key numbers) —
@@ -41,9 +41,9 @@ class AppTypographyExtension extends ThemeExtension<AppTypographyExtension> {
     required double height,
     required FontWeight weight,
     required Color color,
-    double letterSpacing = -0.1,
+    double letterSpacing = -0.2,
   }) {
-    return GoogleFonts.plusJakartaSans(
+    return GoogleFonts.inter(
       fontSize: size,
       height: height / size,
       fontWeight: weight,
@@ -55,37 +55,37 @@ class AppTypographyExtension extends ThemeExtension<AppTypographyExtension> {
   factory AppTypographyExtension.build({required AppColorsExtension colors}) {
     return AppTypographyExtension(
       /// Big Display Hero Heading (Splash, Welcome)
-      display: _style(size: 48, height: 56, weight: FontWeight.w700, color: colors.navy, letterSpacing: -0.6),
+      display: _style(size: 44, height: 50, weight: FontWeight.w800, color: colors.navy, letterSpacing: -1.0),
 
       /// Primary Screen Headings
-      h1: _style(size: 28, height: 36, weight: FontWeight.w600, color: colors.navy, letterSpacing: -0.3),
+      h1: _style(size: 28, height: 34, weight: FontWeight.w700, color: colors.navy, letterSpacing: -0.6),
 
       /// Section Headings & Card Titles
-      h2: _style(size: 22, height: 28, weight: FontWeight.w600, color: colors.navy, letterSpacing: -0.2),
+      h2: _style(size: 22, height: 28, weight: FontWeight.w700, color: colors.navy, letterSpacing: -0.4),
 
       /// Sub-Headings & Subsection Titles
-      h3: _style(size: 18, height: 24, weight: FontWeight.w600, color: colors.navy, letterSpacing: -0.1),
+      h3: _style(size: 19, height: 26, weight: FontWeight.w600, color: colors.navy, letterSpacing: -0.2),
 
       /// Large Body Text
-      bodyLarge: _style(size: 18, height: 26, weight: FontWeight.w400, color: colors.navy),
+      bodyLarge: _style(size: 18, height: 26, weight: FontWeight.w400, color: colors.navy, letterSpacing: -0.1),
 
       /// Standard Body Text — 16px floor for anything operational.
-      body: _style(size: 16, height: 22, weight: FontWeight.w400, color: colors.bodyText),
+      body: _style(size: 16, height: 22, weight: FontWeight.w400, color: colors.bodyText, letterSpacing: -0.1),
 
       /// Form Labels & Subsection Badges — 16px floor.
-      label: _style(size: 16, height: 22, weight: FontWeight.w500, color: colors.navy),
+      label: _style(size: 16, height: 22, weight: FontWeight.w600, color: colors.navy, letterSpacing: -0.1),
 
       /// Captions carrying operational meaning (still readable, never tiny).
-      caption: _style(size: 16, height: 21, weight: FontWeight.w400, color: colors.mutedText),
+      caption: _style(size: 16, height: 21, weight: FontWeight.w500, color: colors.mutedText, letterSpacing: 0),
 
       /// Genuinely disposable metadata only (timestamps, footnotes).
       captionSmall: _style(size: 13, height: 18, weight: FontWeight.w400, color: colors.mutedText),
 
       /// Action Buttons & CTAs
-      button: _style(size: 18, height: 24, weight: FontWeight.w600, color: colors.navy, letterSpacing: 0.1),
+      button: _style(size: 18, height: 24, weight: FontWeight.w600, color: colors.navy, letterSpacing: -0.1),
 
       /// Numeric Pricing & Fare Amounts
-      price: _style(size: 30, height: 36, weight: FontWeight.w700, color: colors.navy, letterSpacing: -0.3),
+      price: _style(size: 30, height: 36, weight: FontWeight.w700, color: colors.navy, letterSpacing: -0.5),
 
       /// Dominant key numbers (rides used/remaining, subscription price).
       priceLarge: _style(size: 32, height: 38, weight: FontWeight.w700, color: colors.navy, letterSpacing: -0.4),

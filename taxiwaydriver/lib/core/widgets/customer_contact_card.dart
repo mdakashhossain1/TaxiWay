@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_radius.dart';
@@ -34,7 +34,7 @@ class CustomerContactCard extends StatelessWidget {
             width: 48,
             height: 48,
             decoration: BoxDecoration(color: AppColors.of(context).surface, shape: BoxShape.circle),
-            child: Icon(BootstrapIcons.person_fill, color: AppColors.of(context).mutedText, size: 24),
+            child: Icon(AppIcons.person_fill, color: AppColors.of(context).mutedText, size: 24),
           ),
           const SizedBox(width: 14),
           Expanded(
@@ -47,7 +47,7 @@ class CustomerContactCard extends StatelessWidget {
               ],
             ),
           ),
-          CircleIconButton(icon: BootstrapIcons.telephone_fill, onPressed: onCall),
+          CircleIconButton(icon: AppIcons.telephone_fill, onPressed: onCall),
         ],
       ),
     );

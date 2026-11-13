@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -89,7 +89,7 @@ class _ScheduledRideDetailScreenState extends ConsumerState<ScheduledRideDetailS
             ),
             child: Row(
               children: [
-                Icon(BootstrapIcons.calendar_event, color: AppColors.of(context).primaryDark, size: 18),
+                Icon(AppIcons.calendar_event, color: AppColors.of(context).primaryDark, size: 18),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
@@ -146,7 +146,7 @@ class _ScheduledRideDetailScreenState extends ConsumerState<ScheduledRideDetailS
           const SizedBox(height: 28),
           PrimaryButton(
             label: l10n.acceptRideLabel,
-            icon: BootstrapIcons.check_circle_fill,
+            icon: AppIcons.check_circle_fill,
             loading: _acting,
             onPressed: _accept,
           ),

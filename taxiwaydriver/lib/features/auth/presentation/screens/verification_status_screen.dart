@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -57,7 +57,7 @@ class VerificationStatusScreen extends ConsumerWidget {
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
-                  isSuspended ? BootstrapIcons.exclamation_triangle_fill : BootstrapIcons.hourglass_split,
+                  isSuspended ? AppIcons.exclamation_triangle_fill : AppIcons.hourglass_split,
                   size: 44,
                   color: isSuspended ? AppColors.of(context).error : AppColors.of(context).warningText,
                 ),
@@ -77,7 +77,7 @@ class VerificationStatusScreen extends ConsumerWidget {
               const SizedBox(height: 32),
               PrimaryButton(
                 label: l10n.callOfficeSupport,
-                icon: BootstrapIcons.telephone_fill,
+                icon: AppIcons.telephone_fill,
                 onPressed: () => _callSupport(context, ref),
               ),
               const SizedBox(height: 12),

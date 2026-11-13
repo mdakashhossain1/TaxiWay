@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 
@@ -44,12 +44,12 @@ class AuthHeroBadge extends StatelessWidget {
           Positioned(
             top: stage * 0.06,
             right: stage * 0.1,
-            child: Icon(BootstrapIcons.stars, size: 18, color: resolvedColor.withValues(alpha: 0.55)),
+            child: Icon(AppIcons.stars, size: 18, color: resolvedColor.withValues(alpha: 0.55)),
           ),
           Positioned(
             bottom: stage * 0.16,
             left: stage * 0.02,
-            child: Icon(BootstrapIcons.stars, size: 13, color: resolvedColor.withValues(alpha: 0.4)),
+            child: Icon(AppIcons.stars, size: 13, color: resolvedColor.withValues(alpha: 0.4)),
           ),
           Container(
             width: size,

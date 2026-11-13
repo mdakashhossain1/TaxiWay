@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -85,7 +85,7 @@ class RideDetailsScreen extends ConsumerWidget {
           const SizedBox(height: 24),
           PrimaryButton(
             label: l10n.callCustomer,
-            icon: BootstrapIcons.telephone_fill,
+            icon: AppIcons.telephone_fill,
             onPressed: () {
               launchPhoneCall(ride.customerPhone);
               AppToast.call(context, 'Calling ${ride.customerName}...');
@@ -94,7 +94,7 @@ class RideDetailsScreen extends ConsumerWidget {
           const SizedBox(height: 12),
           AppOutlineButton(
             label: 'Message Customer',
-            icon: BootstrapIcons.chat_dots_fill,
+            icon: AppIcons.chat_dots_fill,
             onPressed: () => context.push(
               AppRoutes.chat,
               extra: ChatScreenArgs(title: ride.customerName, conversationId: 'ride_${ride.id}'),
@@ -103,14 +103,14 @@ class RideDetailsScreen extends ConsumerWidget {
           const SizedBox(height: 12),
           AppOutlineButton(
             label: l10n.openMap,
-            icon: BootstrapIcons.map_fill,
+            icon: AppIcons.map_fill,
             onPressed: () => launchMapsDirections(destLat: ride.destinationLat, destLng: ride.destinationLng),
           ),
           if (!isCompleted) ...[
             const SizedBox(height: 12),
             SecondaryButton(
               label: l10n.markCompleted,
-              icon: BootstrapIcons.check_circle_fill,
+              icon: AppIcons.check_circle_fill,
               onPressed: () async {
                 try {
                   await ref.read(rideActionsProvider.notifier).markCompleted(ride.id);

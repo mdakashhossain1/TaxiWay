@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../theme/app_colors.dart';
@@ -22,16 +22,8 @@ class PhoneInput extends StatelessWidget {
     return Container(
       height: 54,
       decoration: BoxDecoration(
-        color: AppColors.of(context).card,
+        color: AppColors.of(context).surface,
         borderRadius: BorderRadius.circular(AppRadius.input),
-        border: Border.all(color: AppColors.of(context).border, width: 1.2),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF0F172A).withValues(alpha: 0.03),
-            blurRadius: 10,
-            offset: const Offset(0, 3),
-          ),
-        ],
       ),
       child: Row(
         children: [
@@ -46,9 +38,9 @@ class PhoneInput extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 4),
-          Icon(BootstrapIcons.chevron_down, size: 12, color: AppColors.of(context).mutedText),
+          Icon(AppIcons.chevron_down, size: 12, color: AppColors.of(context).mutedText),
           const SizedBox(width: 12),
-          Container(width: 1, height: 26, color: AppColors.of(context).border),
+          Container(width: 1, height: 26, color: AppColors.of(context).borderStrong),
           const SizedBox(width: 4),
           Expanded(
             child: TextField(
@@ -66,6 +58,7 @@ class PhoneInput extends StatelessWidget {
                 hintText: 'Enter mobile number',
                 hintStyle: AppTypography.of(context).body.copyWith(color: AppColors.of(context).mutedText),
                 counterText: '',
+                filled: false,
                 border: InputBorder.none,
                 enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,
@@ -85,9 +78,9 @@ class PhoneInput extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
-                        BootstrapIcons.sim_fill,
+                        AppIcons.sim_fill,
                         size: 16,
-                        color: AppColors.of(context).primary.withValues(alpha: 0.85),
+                        color: AppColors.of(context).navy,
                       ),
                       const SizedBox(width: 4),
                       Text(
@@ -95,7 +88,7 @@ class PhoneInput extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.of(context).primary.withValues(alpha: 0.9),
+                          color: AppColors.of(context).navy,
                         ),
                       ),
                     ],
