@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -68,10 +68,10 @@ class _DriverOnboardingScreenState extends ConsumerState<DriverOnboardingScreen>
     return [
       _DriverOnboardingSlide(
         illustration: AuthHeroBadge(
-          icon: BootstrapIcons.car_front_fill,
+          icon: AppIcons.car_front_fill,
           color: AppColors.of(context).primary,
           size: 110,
-          badgeIcon: BootstrapIcons.cash_coin,
+          badgeIcon: AppIcons.cash_coin,
           badgeColor: Color(0xFF16A34A),
         )
             .animate(onPlay: (c) => c.repeat(reverse: true))
@@ -227,7 +227,7 @@ class _DriverOnboardingScreenState extends ConsumerState<DriverOnboardingScreen>
                       onPressed: () => _next(slides.length),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.of(context).primary,
-                        foregroundColor: Colors.white,
+                        foregroundColor: AppColors.of(context).onPrimary,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(AppRadius.button),
@@ -240,7 +240,7 @@ class _DriverOnboardingScreenState extends ConsumerState<DriverOnboardingScreen>
                           Text(isLast ? 'Get Started' : l10n.continueLabel),
                           const SizedBox(width: 8),
                           Icon(
-                            isLast ? BootstrapIcons.arrow_right : BootstrapIcons.chevron_right,
+                            isLast ? AppIcons.arrow_right : AppIcons.chevron_right,
                             size: 18,
                           ),
                         ],

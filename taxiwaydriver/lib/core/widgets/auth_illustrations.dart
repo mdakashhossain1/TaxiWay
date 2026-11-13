@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 
@@ -18,7 +18,7 @@ class TaxiwayPinLogo extends StatelessWidget {
           padding: EdgeInsets.only(bottom: size * 0.18),
           child: Center(
             child: Icon(
-              BootstrapIcons.car_front_fill,
+              AppIcons.car_front_fill,
               color: Colors.white,
               size: size * 0.44,
             ),
@@ -113,10 +113,10 @@ class PhoneAuthHeroIllustration extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: const Color(0xFF1E293B), width: 2.4),
+              border: Border.all(color: const Color(0xFF1F2024), width: 2.4),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF0F172A).withValues(alpha: 0.06),
+                  color: const Color(0xFF101114).withValues(alpha: 0.06),
                   blurRadius: 16,
                   offset: const Offset(0, 8),
                 ),
@@ -132,7 +132,7 @@ class PhoneAuthHeroIllustration extends StatelessWidget {
                     width: 20,
                     height: 3,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF1E293B),
+                      color: const Color(0xFF1F2024),
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -195,7 +195,7 @@ class _DecorativeLeaves extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(BootstrapIcons.flower1, size: 14, color: color.withValues(alpha: 0.8)),
+          Icon(AppIcons.flower1, size: 14, color: color.withValues(alpha: 0.8)),
           const SizedBox(height: 2),
         ],
       ),
@@ -207,7 +207,7 @@ class _CityBackdropPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = const Color(0xFFE2E8F0).withValues(alpha: 0.6)
+      ..color = const Color(0xFFE8E8EA).withValues(alpha: 0.6)
       ..style = PaintingStyle.fill;
 
     final w = size.width;
@@ -244,17 +244,17 @@ class OtpHeroIllustration extends StatelessWidget {
           Positioned(
             top: size * 0.14,
             left: size * 0.12,
-            child: Icon(BootstrapIcons.stars, size: 14, color: const Color(0xFFF97316).withValues(alpha: 0.45)),
+            child: Icon(AppIcons.stars, size: 14, color: const Color(0xFFF97316).withValues(alpha: 0.45)),
           ),
           Positioned(
             top: size * 0.12,
             right: size * 0.18,
-            child: Icon(BootstrapIcons.stars, size: 12, color: const Color(0xFFF97316).withValues(alpha: 0.4)),
+            child: Icon(AppIcons.stars, size: 12, color: const Color(0xFFF97316).withValues(alpha: 0.4)),
           ),
           Positioned(
             bottom: size * 0.22,
             right: size * 0.1,
-            child: Icon(BootstrapIcons.stars, size: 16, color: const Color(0xFFF97316).withValues(alpha: 0.5)),
+            child: Icon(AppIcons.stars, size: 16, color: const Color(0xFFF97316).withValues(alpha: 0.5)),
           ),
 
           // Shield Body
@@ -281,7 +281,7 @@ class OtpHeroIllustration extends StatelessWidget {
                       ],
                     ),
                     child: const Icon(
-                      BootstrapIcons.lock_fill,
+                      AppIcons.lock_fill,
                       color: Colors.white,
                       size: 24,
                     ),
@@ -315,7 +315,7 @@ class OtpHeroIllustration extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
-                  BootstrapIcons.check_lg,
+                  AppIcons.check_lg,
                   color: Colors.white,
                   size: 14,
                 ),

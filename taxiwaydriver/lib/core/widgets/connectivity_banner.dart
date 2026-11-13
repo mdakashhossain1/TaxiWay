@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../l10n/generated/app_localizations.dart';
@@ -49,17 +49,17 @@ class _ConnectivityBanner extends ConsumerWidget {
 
   _BannerStyle _styleFor(AppLocalizations l10n) {
     if (network.justRecovered) {
-      return _BannerStyle(const Color(0xFF15803D), BootstrapIcons.check_circle_fill, l10n.connectionRestoredTitle, false);
+      return _BannerStyle(const Color(0xFF15803D), AppIcons.check_circle_fill, l10n.connectionRestoredTitle, false);
     }
     switch (network.status) {
       case NetworkStatus.offline:
-        return _BannerStyle(const Color(0xFF1E293B), BootstrapIcons.wifi_off, l10n.connectionOfflineTitle, true);
+        return _BannerStyle(const Color(0xFF1F2024), AppIcons.wifi_off, l10n.connectionOfflineTitle, true);
       case NetworkStatus.serverError:
-        return _BannerStyle(const Color(0xFF1E293B), BootstrapIcons.hdd_network_fill, l10n.connectionServerTroubleTitle, true);
+        return _BannerStyle(const Color(0xFF1F2024), AppIcons.hdd_network_fill, l10n.connectionServerTroubleTitle, true);
       case NetworkStatus.slowConnection:
-        return _BannerStyle(const Color(0xFFB45309), BootstrapIcons.hourglass_split, l10n.connectionSlowTitle, false);
+        return _BannerStyle(const Color(0xFFB45309), AppIcons.hourglass_split, l10n.connectionSlowTitle, false);
       case NetworkStatus.online:
-        return _BannerStyle(const Color(0xFF15803D), BootstrapIcons.check_circle_fill, l10n.connectionRestoredTitle, false);
+        return _BannerStyle(const Color(0xFF15803D), AppIcons.check_circle_fill, l10n.connectionRestoredTitle, false);
     }
   }
 

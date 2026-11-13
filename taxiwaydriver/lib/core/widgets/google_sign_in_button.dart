@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_radius.dart';
@@ -33,7 +33,7 @@ class GoogleSignInButton extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(BootstrapIcons.google, size: 18, color: Color(0xFFEA4335)),
+                  const Icon(AppIcons.google, size: 18, color: Color(0xFFEA4335)),
                   const SizedBox(width: 10),
                   const Text('Continue with Google'),
                 ],

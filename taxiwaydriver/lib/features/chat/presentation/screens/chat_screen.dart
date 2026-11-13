@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -139,7 +139,7 @@ class _MessageList extends ConsumerWidget {
         }
         if (messages.isEmpty) {
           return EmptyState(
-            icon: BootstrapIcons.chat_dots,
+            icon: AppIcons.chat_dots,
             title: l10n.chatEmptyTitle,
             message: l10n.chatEmptyMessage,
           );
@@ -244,7 +244,7 @@ class _MessageInputBar extends StatelessWidget {
               onTap: onSend,
               child: const Padding(
                 padding: EdgeInsets.all(12),
-                child: Icon(BootstrapIcons.send_fill, color: Colors.white, size: 20),
+                child: Icon(AppIcons.send_fill, color: Colors.white, size: 20),
               ),
             ),
           ),

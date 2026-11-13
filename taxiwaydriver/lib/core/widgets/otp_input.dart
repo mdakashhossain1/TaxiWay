@@ -248,7 +248,7 @@ class OtpInputState extends State<OtpInput> with TickerProviderStateMixin {
                 backgroundColor = Colors.white;
                 boxShadows = [
                   BoxShadow(
-                    color: const Color(0xFF0F172A).withValues(alpha: 0.06),
+                    color: const Color(0xFF101114).withValues(alpha: 0.06),
                     blurRadius: 6,
                     offset: const Offset(0, 2),
                   ),
@@ -256,10 +256,10 @@ class OtpInputState extends State<OtpInput> with TickerProviderStateMixin {
               } else {
                 borderColor = AppColors.of(context).border;
                 borderWidth = 1.5;
-                backgroundColor = const Color(0xFFF8FAFC);
+                backgroundColor = const Color(0xFFF7F7F8);
                 boxShadows = [
                   BoxShadow(
-                    color: const Color(0xFF0F172A).withValues(alpha: 0.03),
+                    color: const Color(0xFF101114).withValues(alpha: 0.03),
                     blurRadius: 4,
                     offset: const Offset(0, 1.5),
                   ),

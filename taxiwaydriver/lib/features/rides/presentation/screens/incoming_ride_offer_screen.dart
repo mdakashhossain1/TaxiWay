@@ -1,8 +1,10 @@
 import 'dart:async';
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
 import '../../../../core/api/api_client.dart';
 import '../../../../core/models/driver_ride.dart';
 import '../../../../core/router/app_router.dart';
@@ -31,6 +33,8 @@ class IncomingRideOfferScreen extends ConsumerStatefulWidget {
 }
 
 class _IncomingRideOfferScreenState extends ConsumerState<IncomingRideOfferScreen> {
+  static const _offerWindowSeconds = 20;
+
   Timer? _timer;
   int _secondsLeft = 0;
   bool _acting = false;
@@ -100,77 +104,78 @@ class _IncomingRideOfferScreenState extends ConsumerState<IncomingRideOfferScree
   Widget build(BuildContext context) {
     final ride = widget.ride;
     final expired = _secondsLeft <= 0;
+    final colors = AppColors.of(context);
+    final type = AppTypography.of(context);
 
     return AppScaffold(
-      appBar: AppBar(title: Text('New Ride Offer', style: AppTypography.of(context).h2), automaticallyImplyLeading: false),
+      appBar: AppBar(title: Text('New Ride Offer', style: type.h2), automaticallyImplyLeading: false),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 8),
-          Center(
-            child: Container(
-              width: 84,
-              height: 84,
-              decoration: BoxDecoration(
-                color: expired ? AppColors.of(context).surface : AppColors.of(context).primaryBackground,
-                shape: BoxShape.circle,
-              ),
-              child: Center(
-                child: Text(
-                  expired ? '0s' : '${_secondsLeft}s',
-                  style: AppTypography.of(context).h2.copyWith(color: expired ? AppColors.of(context).mutedText : AppColors.of(context).primaryDark),
-                ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 8),
+                  Center(
+                    child: SizedBox(
+                      width: 104,
+                      height: 104,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          SizedBox.expand(
+                            child: TweenAnimationBuilder<double>(
+                              tween: Tween(end: expired ? 0 : (_secondsLeft / _offerWindowSeconds).clamp(0.0, 1.0)),
+                              duration: const Duration(milliseconds: 900),
+                              curve: Curves.linear,
+                              builder: (context, value, _) => CircularProgressIndicator(
+                                value: value,
+                                strokeWidth: 6,
+                                strokeCap: StrokeCap.round,
+                                backgroundColor: colors.surface,
+                                color: _secondsLeft <= 5 ? colors.error : colors.primary,
+                              ),
+                            ),
+                          ),
+                          Text('${_secondsLeft}s', style: type.h1.copyWith(color: expired ? colors.mutedText : colors.navy)),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Center(child: Text(formatRupees(ride.fare), style: type.display.copyWith(fontSize: 44, height: 1.1))),
+                  const SizedBox(height: 4),
+                  Center(child: Text('${ride.vehicleCategory} · ${ride.customerName}', style: type.body)),
+                  const SizedBox(height: 24),
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(color: colors.surface, borderRadius: BorderRadius.circular(AppRadius.card)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _RoutePoint(isPickup: true, text: ride.pickup),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 4),
+                          child: SizedBox(height: 16, child: VerticalDivider(width: 1, thickness: 1.5, color: colors.borderStrong)),
+                        ),
+                        _RoutePoint(isPickup: false, text: ride.destination),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
-          const SizedBox(height: 20),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: AppColors.of(context).card,
-              borderRadius: BorderRadius.circular(AppRadius.card),
-              border: Border.all(color: AppColors.of(context).border),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _RoutePoint(color: AppColors.of(context).success, text: ride.pickup),
-                Padding(
-                  padding: const EdgeInsets.only(left: 4),
-                  child: SizedBox(height: 14, child: VerticalDivider(width: 1, thickness: 1.5, color: AppColors.of(context).borderStrong)),
-                ),
-                _RoutePoint(color: AppColors.of(context).primary, text: ride.destination),
-                const SizedBox(height: 12),
-                Container(height: 1, color: AppColors.of(context).border),
-                const SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Customer: ${ride.customerName}', style: AppTypography.of(context).body),
-                    Text(ride.vehicleCategory, style: AppTypography.of(context).body),
-                  ],
-                ),
-                const SizedBox(height: 6),
-                Text('Fare: ${formatRupees(ride.fare)}', style: AppTypography.of(context).h3.copyWith(color: AppColors.of(context).primaryDark)),
-              ],
-            ),
-          ),
-          const SizedBox(height: 28),
+          const SizedBox(height: 16),
           if (expired)
             Center(
-              child: Text(
-                'This offer has expired.',
-                style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).mutedText),
-              ),
+              child: Text('This offer has expired.', style: type.body.copyWith(color: colors.mutedText)),
             )
           else ...[
-            PrimaryButton(
-              label: 'Accept Ride',
-              icon: BootstrapIcons.check_circle_fill,
-              loading: _acting,
-              onPressed: _accept,
-            ),
+            PrimaryButton(label: 'Accept Ride', icon: AppIcons.check_circle_fill, loading: _acting, onPressed: _accept),
             const SizedBox(height: 12),
             DestructiveButton(label: 'Decline', onPressed: _acting ? null : _reject),
           ],
@@ -182,18 +187,33 @@ class _IncomingRideOfferScreenState extends ConsumerState<IncomingRideOfferScree
 }
 
 class _RoutePoint extends StatelessWidget {
-  final Color color;
+  final bool isPickup;
   final String text;
 
-  const _RoutePoint({required this.color, required this.text});
+  const _RoutePoint({required this.isPickup, required this.text});
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Row(
       children: [
-        Container(width: 8, height: 8, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+        Container(
+          width: 9,
+          height: 9,
+          decoration: BoxDecoration(
+            color: isPickup ? colors.navy : colors.accent,
+            shape: isPickup ? BoxShape.circle : BoxShape.rectangle,
+            borderRadius: isPickup ? null : BorderRadius.circular(2),
+          ),
+        ),
         const SizedBox(width: 10),
-        Expanded(child: Text(text, style: AppTypography.of(context).body.copyWith(fontWeight: FontWeight.w600))),
+        Expanded(
+          child: Text(
+            text,
+            style: AppTypography.of(context).body.copyWith(fontWeight: FontWeight.w600, color: colors.navy),
+          ),
+        ),
       ],
     );
   }

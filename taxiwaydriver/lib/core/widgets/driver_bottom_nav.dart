@@ -1,13 +1,11 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_radius.dart';
 import '../theme/app_typography.dart';
 
 enum DriverNavTab { rides, subscription }
 
-/// The driver app's only bottom navigation — exactly 2 destinations per the
-/// PRD ("No other main tabs in V1."). Used on Dashboard, My Rides, and
-/// Subscription so a driver is never more than one tap away from either.
 class DriverBottomNav extends StatelessWidget {
   final DriverNavTab? selected;
   final ValueChanged<DriverNavTab> onSelect;
@@ -16,19 +14,21 @@ class DriverBottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.of(context).card,
-        border: Border(top: BorderSide(color: AppColors.of(context).border)),
+        color: colors.card,
+        border: Border(top: BorderSide(color: colors.border)),
       ),
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
+          padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
           child: Row(
             children: [
               Expanded(
                 child: _NavItem(
-                  icon: BootstrapIcons.car_front_fill,
+                  icon: AppIcons.car_front_fill,
                   label: 'Rides',
                   active: selected == DriverNavTab.rides,
                   onTap: () => onSelect(DriverNavTab.rides),
@@ -36,7 +36,7 @@ class DriverBottomNav extends StatelessWidget {
               ),
               Expanded(
                 child: _NavItem(
-                  icon: BootstrapIcons.credit_card_fill,
+                  icon: AppIcons.credit_card_fill,
                   label: 'Subscription',
                   active: selected == DriverNavTab.subscription,
                   onTap: () => onSelect(DriverNavTab.subscription),
@@ -60,19 +60,34 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = active ? AppColors.of(context).primary : AppColors.of(context).mutedText;
-    return InkWell(
+    final colors = AppColors.of(context);
+    final color = active ? colors.navy : colors.mutedText;
+
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 6),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, color: color, size: 24),
-            const SizedBox(height: 4),
-            Text(label, style: AppTypography.of(context).caption.copyWith(color: color, fontWeight: active ? FontWeight.w700 : FontWeight.w500)),
-          ],
-        ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeOutCubic,
+            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 6),
+            decoration: BoxDecoration(
+              color: active ? colors.surface : Colors.transparent,
+              borderRadius: BorderRadius.circular(AppRadius.pill),
+            ),
+            child: Icon(icon, color: color, size: 22),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            label,
+            style: AppTypography.of(context).caption.copyWith(
+              color: color,
+              fontWeight: active ? FontWeight.w700 : FontWeight.w500,
+            ),
+          ),
+        ],
       ),
     );
   }

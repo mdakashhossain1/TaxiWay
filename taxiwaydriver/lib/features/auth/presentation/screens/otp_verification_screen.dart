@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -277,14 +277,14 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFF8FAFC),
+                          color: const Color(0xFFF7F7F8),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(color: AppColors.of(context).border),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(BootstrapIcons.phone_fill, size: 14, color: AppColors.of(context).primary),
+                            Icon(AppIcons.phone_fill, size: 14, color: AppColors.of(context).primary),
                             const SizedBox(width: 8),
                             Text(
                               '+91 $displayPhone',
@@ -308,7 +308,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Icon(BootstrapIcons.pencil_square, size: 12, color: AppColors.of(context).primary),
+                                    Icon(AppIcons.pencil_square, size: 12, color: AppColors.of(context).primary),
                                     const SizedBox(width: 4),
                                     Text(
                                       'Change',
@@ -354,12 +354,12 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                           decoration: BoxDecoration(
                             color: _secondsLeft == 0
                                 ? AppColors.of(context).primary.withValues(alpha: 0.08)
-                                : const Color(0xFFF1F5F9),
+                                : const Color(0xFFF4F4F5),
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
                               color: _secondsLeft == 0
                                   ? AppColors.of(context).primary.withValues(alpha: 0.35)
-                                  : const Color(0xFFE2E8F0),
+                                  : const Color(0xFFE8E8EA),
                               width: 1,
                             ),
                           ),
@@ -367,7 +367,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                               ? Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Icon(BootstrapIcons.clock_history, size: 13, color: AppColors.of(context).secondaryText),
+                                    Icon(AppIcons.clock_history, size: 13, color: AppColors.of(context).secondaryText),
                                     const SizedBox(width: 6),
                                     Text(
                                       '${l10n.resendOtp} in ',
@@ -393,7 +393,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Icon(BootstrapIcons.arrow_clockwise, size: 14, color: AppColors.of(context).primary),
+                                      Icon(AppIcons.arrow_clockwise, size: 14, color: AppColors.of(context).primary),
                                       const SizedBox(width: 6),
                                       Text(
                                         "Didn't receive code? ",
