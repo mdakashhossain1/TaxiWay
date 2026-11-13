@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_radius.dart';
@@ -37,9 +37,9 @@ class NumberStepper extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _StepperButton(icon: BootstrapIcons.dash, onTap: value > min ? () => onChanged(value - 1) : null),
+              _StepperButton(icon: AppIcons.dash, onTap: value > min ? () => onChanged(value - 1) : null),
               Text('$value', style: AppTypography.of(context).h2),
-              _StepperButton(icon: BootstrapIcons.plus, onTap: value < max ? () => onChanged(value + 1) : null),
+              _StepperButton(icon: AppIcons.plus, onTap: value < max ? () => onChanged(value + 1) : null),
             ],
           ),
         ),

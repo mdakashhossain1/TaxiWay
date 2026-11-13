@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -167,7 +167,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
                 controller: _nameController,
                 label: l10n.fullNameLabel,
                 hint: l10n.fullNameHint,
-                prefixIcon: BootstrapIcons.person_vcard,
+                prefixIcon: AppIcons.person_vcard,
                 textCapitalization: TextCapitalization.words,
                 textInputAction: TextInputAction.next,
                 autofillHints: const [AutofillHints.name],
@@ -179,7 +179,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
                 focusNode: _emailFocus,
                 label: l10n.emailOptionalLabel,
                 hint: l10n.emailHint,
-                prefixIcon: BootstrapIcons.envelope,
+                prefixIcon: AppIcons.envelope,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.done,
                 autofillHints: const [AutofillHints.email],
@@ -237,7 +237,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
         const Spacer(flex: 3),
         PrimaryButton(
           label: l10n.startRidingButton,
-          icon: BootstrapIcons.arrow_right,
+          icon: AppIcons.arrow_right,
           onPressed: _goHome,
         ),
         const SizedBox(height: 24),
@@ -273,7 +273,7 @@ class _InitialAvatar extends StatelessWidget {
         ),
         child: initial == null
             ? Icon(
-                BootstrapIcons.person_fill,
+                AppIcons.person_fill,
                 key: const ValueKey('empty'),
                 size: 44,
                 color: colors.primary.withValues(alpha: 0.55),

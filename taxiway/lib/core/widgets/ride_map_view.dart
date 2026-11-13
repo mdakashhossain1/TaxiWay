@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../theme/app_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -503,7 +503,7 @@ class _RideMapViewState extends State<RideMapView> with SingleTickerProviderStat
         borderRadius: widget.borderRadius,
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF0F172A).withValues(alpha: 0.10),
+            color: const Color(0xFF101114).withValues(alpha: 0.10),
             blurRadius: 18,
             offset: const Offset(0, 4),
           ),
@@ -555,7 +555,7 @@ class _RideMapViewState extends State<RideMapView> with SingleTickerProviderStat
                   decoration: BoxDecoration(
                     color: AppColors.of(context).card,
                     borderRadius: BorderRadius.circular(AppRadius.pill),
-                    border: Border.all(color: AppColors.of(context).border, width: 1.2),
+                    border: Border.all(color: AppColors.of(context).border, width: 1),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withValues(alpha: 0.12),
@@ -567,14 +567,14 @@ class _RideMapViewState extends State<RideMapView> with SingleTickerProviderStat
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(BootstrapIcons.car_front_fill, size: 14, color: AppColors.of(context).primary),
+                      Icon(AppIcons.car_front_fill, size: 14, color: AppColors.of(context).primary),
                       const SizedBox(width: 6),
                       Text(
                         '${l10n.kmShort(widget.distanceKm!.toStringAsFixed(1))} • ${l10n.minutesShort(widget.etaMinutes!)}',
                         style: AppTypography.of(context).caption.copyWith(
                           fontWeight: FontWeight.w700,
                           color: AppColors.of(context).navy,
-                          fontSize: 12,
+                          fontSize: 13,
                         ),
                       ),
                     ],
@@ -600,7 +600,7 @@ class _RideMapViewState extends State<RideMapView> with SingleTickerProviderStat
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
-                            _isExpanded ? BootstrapIcons.fullscreen_exit : BootstrapIcons.arrows_fullscreen,
+                            _isExpanded ? AppIcons.fullscreen_exit : AppIcons.arrows_fullscreen,
                             size: 15,
                             color: AppColors.of(context).navy,
                           ),
@@ -609,7 +609,7 @@ class _RideMapViewState extends State<RideMapView> with SingleTickerProviderStat
                             _isExpanded ? l10n.collapseMapLabel : l10n.expandMapLabel,
                             style: AppTypography.of(context).caption.copyWith(
                               fontWeight: FontWeight.w700,
-                              fontSize: 11,
+                              fontSize: 13,
                               color: AppColors.of(context).navy,
                             ),
                           ),
@@ -659,7 +659,7 @@ class _RecenterButton extends StatelessWidget {
         onTap: onTap,
         child: Padding(
           padding: EdgeInsets.all(10),
-          child: Icon(BootstrapIcons.crosshair, size: 18, color: AppColors.of(context).navy),
+          child: Icon(AppIcons.crosshair, size: 18, color: AppColors.of(context).navy),
         ),
       ),
     );

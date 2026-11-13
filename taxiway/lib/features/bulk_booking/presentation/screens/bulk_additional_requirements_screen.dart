@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -98,13 +98,13 @@ class _BulkAdditionalRequirementsScreenState extends ConsumerState<BulkAdditiona
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFF8FAFC),
+                  color: const Color(0xFFF7F7F8),
                   borderRadius: BorderRadius.circular(AppRadius.medium),
                   border: Border.all(color: AppColors.of(context).border),
                 ),
                 child: Row(
                   children: [
-                    Icon(BootstrapIcons.chat_left_text, size: 16, color: AppColors.of(context).primary),
+                    Icon(AppIcons.chat_left_text, size: 16, color: AppColors.of(context).primary),
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
@@ -116,7 +116,7 @@ class _BulkAdditionalRequirementsScreenState extends ConsumerState<BulkAdditiona
                         ),
                       ),
                     ),
-                    Icon(BootstrapIcons.plus_circle, size: 18, color: AppColors.of(context).primary),
+                    Icon(AppIcons.plus_circle, size: 18, color: AppColors.of(context).primary),
                   ],
                 ),
               ),
@@ -124,7 +124,7 @@ class _BulkAdditionalRequirementsScreenState extends ConsumerState<BulkAdditiona
             secondChild: Container(
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
-                color: const Color(0xFFF8FAFC),
+                color: const Color(0xFFF7F7F8),
                 borderRadius: BorderRadius.circular(AppRadius.medium),
                 border: Border.all(color: AppColors.of(context).border),
               ),
@@ -136,7 +136,7 @@ class _BulkAdditionalRequirementsScreenState extends ConsumerState<BulkAdditiona
                     children: [
                       Row(
                         children: [
-                          Icon(BootstrapIcons.chat_left_text, size: 16, color: AppColors.of(context).primary),
+                          Icon(AppIcons.chat_left_text, size: 16, color: AppColors.of(context).primary),
                           const SizedBox(width: 8),
                           Text(
                             'Special Notes (Optional)',
@@ -200,7 +200,7 @@ class _BulkAdditionalRequirementsScreenState extends ConsumerState<BulkAdditiona
           AppTextField(
             controller: _nameController,
             hint: 'Full name',
-            prefixIcon: BootstrapIcons.person,
+            prefixIcon: AppIcons.person,
             onChanged: notifier.setContactName,
           ),
           const SizedBox(height: 12),

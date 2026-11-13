@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_radius.dart';
@@ -40,7 +40,7 @@ class PhoneFetchProgressDialog {
                       color: AppColors.of(dialogContext).primary.withValues(alpha: 0.1),
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(BootstrapIcons.phone_fill, color: AppColors.of(dialogContext).primary, size: 24),
+                    child: Icon(AppIcons.phone_fill, color: AppColors.of(dialogContext).primary, size: 24),
                   ),
                   const SizedBox(height: 16),
                   Text(

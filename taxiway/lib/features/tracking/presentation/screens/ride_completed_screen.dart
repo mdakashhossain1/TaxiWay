@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -101,7 +101,7 @@ class RideCompletedScreen extends ConsumerWidget {
               border: Border.all(color: AppColors.of(context).border),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF0F172A).withValues(alpha: 0.04),
+                  color: const Color(0xFF101114).withValues(alpha: 0.04),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),
@@ -136,7 +136,7 @@ class RideCompletedScreen extends ConsumerWidget {
 
           AppOutlineButton(
             label: 'View Full Invoice',
-            icon: BootstrapIcons.receipt,
+            icon: AppIcons.receipt,
             onPressed: () => context.push(AppRoutes.tripDetails, extra: TripHistoryItem(booking: booking)),
           ),
 

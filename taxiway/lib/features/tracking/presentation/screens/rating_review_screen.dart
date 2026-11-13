@@ -118,7 +118,7 @@ class _RatingReviewScreenState extends ConsumerState<RatingReviewScreen> {
                   onSelected: (v) => setState(() => v ? _selectedTags.add(tag) : _selectedTags.remove(tag)),
                   labelStyle: AppTypography.of(context).label.copyWith(
                     color: selected ? AppColors.of(context).primaryDark : AppColors.of(context).navy,
-                    fontSize: 12,
+                    fontSize: 13,
                     fontWeight: FontWeight.w600,
                   ),
                   selectedColor: AppColors.of(context).primaryBackground,

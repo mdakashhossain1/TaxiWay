@@ -27,7 +27,7 @@ class SeatFilterChips extends ConsumerWidget {
     final selected = ref.watch(selectedMinSeatsProvider);
 
     return SizedBox(
-      height: 32,
+      height: 38,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: _options.length,
@@ -37,27 +37,24 @@ class SeatFilterChips extends ConsumerWidget {
           final isSelected = selected == value;
           final label = value == null ? l10n.seatsFilterAny : l10n.seatsFilterPlus(value);
 
-          return InkWell(
+          final colors = AppColors.of(context);
+
+          return GestureDetector(
             onTap: () => ref.read(selectedMinSeatsProvider.notifier).set(value),
-            borderRadius: BorderRadius.circular(AppRadius.medium),
             child: AnimatedContainer(
-              duration: const Duration(milliseconds: 150),
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+              duration: const Duration(milliseconds: 180),
+              curve: Curves.easeOutCubic,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: isSelected ? AppColors.of(context).primaryBackground : AppColors.of(context).card,
-                borderRadius: BorderRadius.circular(AppRadius.medium),
-                border: Border.all(
-                  color: isSelected ? AppColors.of(context).primary : AppColors.of(context).border,
-                  width: isSelected ? 1.5 : 1,
-                ),
+                color: isSelected ? colors.primary : colors.surface,
+                borderRadius: BorderRadius.circular(AppRadius.pill),
               ),
               child: Text(
                 label,
-                style: AppTypography.of(context).caption.copyWith(
-                  fontSize: 12,
-                  fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-                  color: isSelected ? AppColors.of(context).primaryDark : AppColors.of(context).navy,
+                style: AppTypography.of(context).label.copyWith(
+                  fontSize: 14,
+                  color: isSelected ? colors.onPrimary : colors.navy,
                 ),
               ),
             ),

@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/providers.dart';
@@ -183,7 +183,7 @@ class _VerifyRow extends StatelessWidget {
           Row(
             children: [
               Icon(
-                verified ? BootstrapIcons.check_circle_fill : BootstrapIcons.x_circle_fill,
+                verified ? AppIcons.check_circle_fill : AppIcons.x_circle_fill,
                 size: 14,
                 color: verified ? AppColors.of(context).success : AppColors.of(context).warningText,
               ),

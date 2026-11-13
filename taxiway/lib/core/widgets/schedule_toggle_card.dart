@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -66,7 +66,7 @@ class ScheduleToggleCard extends ConsumerWidget {
         Expanded(
           child: _ToggleChip(
             label: l10n.bookNow,
-            icon: BootstrapIcons.clock,
+            icon: AppIcons.clock,
             selected: !isScheduled,
             onTap: () => ref.read(bookingDraftControllerProvider.notifier).setScheduledAt(null),
           ),
@@ -75,7 +75,7 @@ class ScheduleToggleCard extends ConsumerWidget {
         Expanded(
           child: _ToggleChip(
             label: isScheduled ? DateFormat('d MMM, h:mm a').format(draft.scheduledAt!) : l10n.scheduleForLater,
-            icon: BootstrapIcons.calendar_event,
+            icon: AppIcons.calendar_event,
             selected: isScheduled,
             onTap: () => _pickSchedule(context, ref),
           ),
@@ -95,34 +95,31 @@ class _ToggleChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    final colors = AppColors.of(context);
+    final foreground = selected ? colors.onPrimary : colors.navy;
+
+    return GestureDetector(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(AppRadius.medium),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+        curve: Curves.easeOutCubic,
+        height: 48,
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
-          color: selected ? AppColors.of(context).primaryBackground : AppColors.of(context).card,
+          color: selected ? colors.primary : colors.surface,
           borderRadius: BorderRadius.circular(AppRadius.medium),
-          border: Border.all(
-            color: selected ? AppColors.of(context).primary : AppColors.of(context).border,
-            width: selected ? 1.5 : 1.2,
-          ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 15, color: selected ? AppColors.of(context).primaryDark : AppColors.of(context).mutedText),
-            const SizedBox(width: 6),
+            Icon(icon, size: 16, color: foreground),
+            const SizedBox(width: 8),
             Flexible(
               child: Text(
                 label,
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: AppTypography.of(context).caption.copyWith(
-                  fontSize: 12.5,
-                  fontWeight: selected ? FontWeight.w800 : FontWeight.w600,
-                  color: selected ? AppColors.of(context).primaryDark : AppColors.of(context).navy,
-                ),
+                style: AppTypography.of(context).label.copyWith(fontSize: 14, color: foreground),
               ),
             ),
           ],

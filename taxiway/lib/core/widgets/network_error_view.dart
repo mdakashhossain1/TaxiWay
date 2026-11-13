@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../l10n/generated/app_localizations.dart';
@@ -174,7 +174,7 @@ class _NetworkErrorViewState extends State<NetworkErrorView> {
                 width: widget.isCompact ? 160 : 200,
                 child: PrimaryButton(
                   label: _isRetrying ? l10n.tryingAgainLabel : l10n.tryAgainLabel,
-                  icon: _isRetrying ? null : BootstrapIcons.arrow_clockwise,
+                  icon: _isRetrying ? null : AppIcons.arrow_clockwise,
                   onPressed: _isRetrying ? null : _handleRetry,
                 ),
               )
@@ -225,7 +225,7 @@ class NetworkErrorScreen extends StatelessWidget {
               backgroundColor: Colors.transparent,
               elevation: 0,
               leading: IconButton(
-                icon: Icon(BootstrapIcons.arrow_left, color: AppColors.of(context).navy),
+                icon: Icon(AppIcons.arrow_left, color: AppColors.of(context).navy),
                 onPressed: onBack,
               ),
             )

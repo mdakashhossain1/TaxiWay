@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../state/network_state_controller.dart';
@@ -62,7 +63,7 @@ class PageStateBuilder<T> extends ConsumerWidget {
         if (isEmpty != null && isEmpty!(data)) {
           return emptyWidget ??
               EmptyState(
-                icon: Icons.inbox_outlined,
+                icon: AppIcons.inbox_outlined,
                 title: l10n.emptyDefaultTitle,
                 message: l10n.emptyDefaultMessage,
               );

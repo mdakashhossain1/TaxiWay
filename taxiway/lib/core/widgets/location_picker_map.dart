@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../theme/app_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -133,7 +133,7 @@ class LocationPickerMapState extends State<LocationPickerMap> {
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 30),
                   child: Icon(
-                    BootstrapIcons.geo_alt_fill,
+                    AppIcons.geo_alt_fill,
                     size: 38,
                     color: AppColors.of(context).mapDestination,
                     shadows: [Shadow(color: Color(0x40000000), blurRadius: 4, offset: Offset(0, 2))],
@@ -164,7 +164,7 @@ class _RecenterFab extends StatelessWidget {
         onTap: onTap,
         child: Padding(
           padding: EdgeInsets.all(10),
-          child: Icon(BootstrapIcons.crosshair, size: 20, color: AppColors.of(context).navy),
+          child: Icon(AppIcons.crosshair, size: 20, color: AppColors.of(context).navy),
         ),
       ),
     );

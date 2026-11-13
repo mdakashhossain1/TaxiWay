@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,7 +36,7 @@ class VehicleGalleryScreen extends ConsumerWidget {
                   onTap: () => Navigator.of(context).pop(),
                   child: const Padding(
                     padding: EdgeInsets.all(6),
-                    child: Icon(BootstrapIcons.x_lg, color: Colors.white, size: 20),
+                    child: Icon(AppIcons.x_lg, color: Colors.white, size: 20),
                   ),
                 ),
               ),

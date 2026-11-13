@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import '../api/api_client.dart';
 import '../services/phone_hint_service.dart';
@@ -121,7 +121,7 @@ class _EditPhoneBottomSheetState extends State<EditPhoneBottomSheet> {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: const Color(0xFFE2E8F0),
+                color: const Color(0xFFE8E8EA),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -139,7 +139,7 @@ class _EditPhoneBottomSheetState extends State<EditPhoneBottomSheet> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
-                  BootstrapIcons.pencil_square,
+                  AppIcons.pencil_square,
                   color: AppColors.of(context).primary,
                   size: 22,
                 ),
@@ -162,7 +162,7 @@ class _EditPhoneBottomSheetState extends State<EditPhoneBottomSheet> {
                       'Enter your correct mobile number to receive a new OTP',
                       style: AppTypography.of(context).caption.copyWith(
                         color: AppColors.of(context).bodyText,
-                        fontSize: 12,
+                        fontSize: 13,
                       ),
                     ),
                   ],
@@ -198,7 +198,7 @@ class _EditPhoneBottomSheetState extends State<EditPhoneBottomSheet> {
           // Action Button
           PrimaryButton(
             label: _loading ? 'Sending OTP...' : 'Send OTP to New Number',
-            icon: _loading ? null : BootstrapIcons.send_fill,
+            icon: _loading ? null : AppIcons.send_fill,
             onPressed: _isValid && !_loading ? _submit : null,
           ),
 

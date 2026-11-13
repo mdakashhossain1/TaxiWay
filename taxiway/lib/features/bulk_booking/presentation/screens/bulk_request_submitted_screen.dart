@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -32,7 +32,7 @@ class BulkRequestSubmittedScreen extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(color: AppColors.of(context).successBackground, shape: BoxShape.circle),
-            child: Icon(BootstrapIcons.check_circle_fill, color: AppColors.of(context).success, size: 42),
+            child: Icon(AppIcons.check_circle_fill, color: AppColors.of(context).success, size: 42),
           ),
           const SizedBox(height: 20),
           Text(

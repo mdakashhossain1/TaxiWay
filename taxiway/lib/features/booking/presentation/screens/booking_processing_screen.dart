@@ -36,7 +36,7 @@ class BookingProcessingScreen extends ConsumerWidget {
         if (next.status == BookingStatus.cancelled) {
           context.go(AppRoutes.home);
         } else {
-          context.pushReplacement(AppRoutes.bookingConfirmed);
+          context.pushReplacement(AppRoutes.liveTracking);
         }
       }
     });
@@ -58,37 +58,49 @@ class BookingProcessingScreen extends ConsumerWidget {
             left: 0,
             right: 0,
             bottom: 0,
-            child: SafeArea(
-              child: Container(
-                margin: const EdgeInsets.all(16),
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: AppColors.of(context).card,
-                  borderRadius: BorderRadius.circular(AppRadius.bottomSheet),
-                  boxShadow: AppShadows.elevated,
-                ),
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: AppColors.of(context).card,
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(AppRadius.bottomSheet)),
+                boxShadow: AppShadows.sheet,
+              ),
+              child: SafeArea(
+                top: false,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: CircularProgressIndicator(strokeWidth: 2.5, color: AppColors.of(context).primary),
+                    ClipRRect(
+                      borderRadius: const BorderRadius.vertical(top: Radius.circular(AppRadius.bottomSheet)),
+                      child: LinearProgressIndicator(
+                        minHeight: 4,
+                        color: AppColors.of(context).primary,
+                        backgroundColor: AppColors.of(context).surface,
+                      ),
                     ),
-                    const SizedBox(height: 14),
-                    Text(l10n.findingDriverHeading, style: AppTypography.of(context).h3, textAlign: TextAlign.center),
-                    const SizedBox(height: 6),
-                    Text(
-                      l10n.findingDriverSubtitle,
-                      style: AppTypography.of(context).body,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 18),
-                    DestructiveButton(
-                      label: l10n.cancelRequestLabel,
-                      onPressed: () {
-                        ref.read(bookingControllerProvider.notifier).cancelBooking();
-                      },
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            l10n.findingDriverHeading,
+                            style: AppTypography.of(context).h2.copyWith(fontWeight: FontWeight.w800),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            l10n.findingDriverSubtitle,
+                            style: AppTypography.of(context).body.copyWith(color: AppColors.of(context).secondaryText),
+                          ),
+                          const SizedBox(height: 20),
+                          SecondaryButton(
+                            label: l10n.cancelRequestLabel,
+                            onPressed: () {
+                              ref.read(bookingControllerProvider.notifier).cancelBooking();
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -113,8 +125,8 @@ class SearchPulseOverlay extends StatelessWidget {
           height: 140,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: AppColors.of(context).primary.withValues(alpha: 0.15),
-            border: Border.all(color: AppColors.of(context).primary.withValues(alpha: 0.4), width: 2),
+            color: AppColors.of(context).accent.withValues(alpha: 0.16),
+            border: Border.all(color: AppColors.of(context).accent.withValues(alpha: 0.5), width: 2),
           ),
         )
             .animate(onPlay: (c) => c.repeat())

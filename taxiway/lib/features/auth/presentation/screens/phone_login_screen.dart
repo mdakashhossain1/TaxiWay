@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -211,7 +211,7 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(top: 2),
-                            child: Icon(BootstrapIcons.lock, size: 14, color: AppColors.of(context).bodyText),
+                            child: Icon(AppIcons.lock, size: 14, color: AppColors.of(context).bodyText),
                           ),
                           const SizedBox(width: 8),
                           Expanded(
@@ -219,7 +219,7 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
                               TextSpan(
                                 style: AppTypography.of(context).caption.copyWith(
                                   color: AppColors.of(context).bodyText,
-                                  fontSize: 12,
+                                  fontSize: 13,
                                   height: 1.4,
                                 ),
                                 children: [
@@ -261,9 +261,9 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
                           onPressed: _isValid ? _continue : null,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.of(context).primary,
-                            disabledBackgroundColor: AppColors.of(context).primary.withValues(alpha: 0.4),
-                            foregroundColor: Colors.white,
-                            disabledForegroundColor: Colors.white70,
+                            disabledBackgroundColor: AppColors.of(context).surface,
+                            foregroundColor: AppColors.of(context).onPrimary,
+                            disabledForegroundColor: AppColors.of(context).mutedText,
                             elevation: 0,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(AppRadius.button),
@@ -281,7 +281,7 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
                                   children: [
                                     Text(l10n.continueLabel),
                                     const SizedBox(width: 8),
-                                    const Icon(BootstrapIcons.arrow_right, size: 18),
+                                    const Icon(AppIcons.arrow_right, size: 18),
                                   ],
                                 ),
                         ),

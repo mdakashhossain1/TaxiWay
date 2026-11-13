@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -113,7 +113,7 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.of(context).error,
-              foregroundColor: Colors.white,
+              foregroundColor: AppColors.of(context).onPrimary,
             ),
             onPressed: () {
               Navigator.of(ctx).pop();
@@ -142,9 +142,9 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
     }
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: AppColors.of(context).appBackground,
       appBar: AppBar(
-        backgroundColor: AppColors.of(context).card,
+        backgroundColor: AppColors.of(context).appBackground,
         elevation: 0,
         leading: AppBackButton(
           onPressed: () => context.go(AppRoutes.home),
@@ -179,19 +179,11 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                             width: 48,
                             height: 48,
                             decoration: BoxDecoration(
-                              color: const Color(0xFF22C55E),
+                              color: AppColors.of(context).success,
                               shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: const Color(0xFF22C55E).withValues(alpha: 0.35),
-                                  blurRadius: 12,
-                                  spreadRadius: 2,
-                                  offset: const Offset(0, 3),
-                                ),
-                              ],
                             ),
-                            child: const Center(
-                              child: Icon(Icons.check_rounded, color: Colors.white, size: 28),
+                            child: Center(
+                              child: Icon(AppIcons.check_rounded, color: AppColors.of(context).onPrimary, size: 28),
                             ),
                           ),
                           const SizedBox(width: 14),
@@ -243,9 +235,8 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                           decoration: BoxDecoration(
-                            color: const Color(0xFFF1F5F9),
+                            color: AppColors.of(context).surface,
                             borderRadius: BorderRadius.circular(AppRadius.card),
-                            border: Border.all(color: AppColors.of(context).border),
                           ),
                           child: Row(
                             children: [
@@ -253,15 +244,14 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                                 width: 38,
                                 height: 38,
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFFDBEAFE),
+                                  color: AppColors.of(context).card,
                                   shape: BoxShape.circle,
-                                  border: Border.all(color: const Color(0xFFBFDBFE)),
                                 ),
-                                child: const Center(
+                                child: Center(
                                   child: Icon(
-                                    BootstrapIcons.telephone_fill,
+                                    AppIcons.telephone_fill,
                                     size: 16,
-                                    color: Color(0xFF2563EB),
+                                    color: AppColors.of(context).navy,
                                   ),
                                 ),
                               ),
@@ -283,7 +273,7 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                                       l10n.keepPhoneReachableSubtitle,
                                       style: AppTypography.of(context).caption.copyWith(
                                         color: AppColors.of(context).secondaryText,
-                                        fontSize: 12,
+                                        fontSize: 13,
                                       ),
                                     ),
                                   ],
@@ -296,20 +286,20 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                         const SizedBox(height: 20),
 
                         SizedBox(
-                          height: 52,
+                          height: 54,
                           width: double.infinity,
                           child: ElevatedButton.icon(
-                            icon: const Icon(BootstrapIcons.geo_alt_fill, size: 18),
+                            icon: const Icon(AppIcons.geo_alt_fill, size: 18),
                             label: Text(l10n.liveTrackDriverLabel),
                             onPressed: () => context.push(AppRoutes.liveTracking),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.of(context).primary,
-                              foregroundColor: Colors.white,
-                              elevation: 2,
+                              foregroundColor: AppColors.of(context).onPrimary,
+                              elevation: 0,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(AppRadius.button),
                               ),
-                              textStyle: AppTypography.of(context).button.copyWith(fontSize: 15),
+                              textStyle: AppTypography.of(context).button,
                             ),
                           ),
                         ),
@@ -319,23 +309,18 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                         SizedBox(
                           height: 50,
                           width: double.infinity,
-                          child: OutlinedButton(
+                          child: TextButton(
                             onPressed: _showCancelDialog,
-                            style: OutlinedButton.styleFrom(
-                              foregroundColor: const Color(0xFFEA580C),
-                              side: const BorderSide(color: Color(0xFFFDBA74), width: 1.4),
+                            style: TextButton.styleFrom(
+                              foregroundColor: AppColors.of(context).error,
+                              backgroundColor: AppColors.of(context).errorBackground,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(AppRadius.button),
                               ),
-                              backgroundColor: Colors.white,
                             ),
                             child: Text(
                               l10n.cancelRideLabel,
-                              style: AppTypography.of(context).button.copyWith(
-                                color: const Color(0xFFEA580C),
-                                fontWeight: FontWeight.w700,
-                                fontSize: 14.5,
-                              ),
+                              style: AppTypography.of(context).button.copyWith(color: AppColors.of(context).error),
                             ),
                           ),
                         ),
@@ -362,7 +347,7 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
         border: Border.all(color: AppColors.of(context).border, width: 1),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF0F172A).withValues(alpha: 0.05),
+            color: const Color(0xFF101114).withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -408,20 +393,20 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                                 ),
                               ),
                               const SizedBox(width: 6),
-                              Icon(BootstrapIcons.chevron_right, size: 14, color: AppColors.of(context).mutedText),
+                              Icon(AppIcons.chevron_right, size: 14, color: AppColors.of(context).mutedText),
                             ],
                           ),
                           const SizedBox(height: 3),
                           Row(
                             children: [
-                              const Icon(Icons.star_rounded, size: 16, color: Color(0xFFEAB308)),
+                              const Icon(AppIcons.star_rounded, size: 16, color: Color(0xFFEAB308)),
                               const SizedBox(width: 4),
                               Text(
                                 '${rating.toStringAsFixed(1)} ${l10n.reviewCountSuffix(230)}',
                                 style: AppTypography.of(context).caption.copyWith(
                                   fontWeight: FontWeight.w600,
                                   color: AppColors.of(context).navy,
-                                  fontSize: 12.5,
+                                  fontSize: 13,
                                 ),
                               ),
                             ],
@@ -436,12 +421,12 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                const Icon(Icons.verified_rounded, size: 12, color: Color(0xFF16A34A)),
+                                const Icon(AppIcons.verified_rounded, size: 12, color: Color(0xFF16A34A)),
                                 const SizedBox(width: 4),
                                 Text(
                                   l10n.verifiedDriverLabel,
                                   style: TextStyle(
-                                    fontSize: 11,
+                                    fontSize: 13,
                                     fontWeight: FontWeight.w700,
                                     color: const Color(0xFF15803D),
                                   ),
@@ -474,7 +459,7 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                             border: Border.all(color: AppColors.of(context).border),
                           ),
                           child: Icon(
-                            BootstrapIcons.telephone_fill,
+                            AppIcons.telephone_fill,
                             color: AppColors.of(context).navy,
                             size: 18,
                           ),
@@ -499,7 +484,7 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                       height: 40,
                       padding: const EdgeInsets.all(2),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFF8FAFC),
+                        color: const Color(0xFFF7F7F8),
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: Image.asset(_getVehicleImage(vehicleModel), fit: BoxFit.contain),
@@ -521,23 +506,23 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFE2E8F0),
+                              color: const Color(0xFFE8E8EA),
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Text(
                               plateNumber,
                               style: const TextStyle(
-                                fontSize: 11.5,
+                                fontSize: 13,
                                 fontWeight: FontWeight.w800,
                                 letterSpacing: 0.8,
-                                color: Color(0xFF1E293B),
+                                color: Color(0xFF1F2024),
                               ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    Icon(BootstrapIcons.chevron_right, size: 14, color: AppColors.of(context).mutedText),
+                    Icon(AppIcons.chevron_right, size: 14, color: AppColors.of(context).mutedText),
                   ],
                 ),
               ),
@@ -559,7 +544,7 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
         border: Border.all(color: AppColors.of(context).border),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF0F172A).withValues(alpha: 0.05),
+            color: const Color(0xFF101114).withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -582,7 +567,7 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
-                    BootstrapIcons.car_front_fill,
+                    AppIcons.car_front_fill,
                     size: 16,
                     color: Color(0xFF059669),
                   ),
@@ -603,7 +588,7 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                       Text(
                         booking.driverDistanceKm <= 0.05 ? l10n.driverArrivedLabel : l10n.kmAwaySuffix(booking.driverDistanceKm.toStringAsFixed(1)),
                         style: const TextStyle(
-                          fontSize: 11.5,
+                          fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: Color(0xFF047857),
                         ),
@@ -617,7 +602,7 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                     Text(
                       l10n.arrivingInLabel,
                       style: TextStyle(
-                        fontSize: 11,
+                        fontSize: 13,
                         color: const Color(0xFF065F46).withValues(alpha: 0.8),
                       ),
                     ),
@@ -678,7 +663,7 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                             l10n.pickupLabel,
                             style: AppTypography.of(context).caption.copyWith(
                               color: AppColors.of(context).mutedText,
-                              fontSize: 11,
+                              fontSize: 13,
                             ),
                           ),
                           Text(
@@ -710,7 +695,7 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                     child: SizedBox(
                       height: 14,
                       child: VerticalDivider(
-                        color: Color(0xFFCBD5E1),
+                        color: Color(0xFFD0D0D4),
                         thickness: 1.5,
                         width: 2,
                       ),
@@ -738,7 +723,7 @@ class _BookingConfirmedScreenState extends ConsumerState<BookingConfirmedScreen>
                             l10n.dropLabel,
                             style: AppTypography.of(context).caption.copyWith(
                               color: AppColors.of(context).mutedText,
-                              fontSize: 11,
+                              fontSize: 13,
                             ),
                           ),
                           Text(

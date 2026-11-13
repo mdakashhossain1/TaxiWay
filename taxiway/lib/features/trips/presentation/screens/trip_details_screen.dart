@@ -1,4 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -173,7 +173,7 @@ class TripDetailsScreen extends ConsumerWidget {
 
           AppOutlineButton(
             label: 'Contact Support',
-            icon: BootstrapIcons.headset,
+            icon: AppIcons.headset,
             onPressed: () => context.push(AppRoutes.helpSupport),
           ),
 
