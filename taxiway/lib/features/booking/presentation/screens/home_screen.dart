@@ -14,12 +14,12 @@ import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_shadows.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/utils/geo_utils.dart';
-import '../../../../core/widgets/app_shimmer.dart';
 import '../../../../core/widgets/inline_retry.dart';
 import '../../../../core/widgets/location_card.dart';
 import '../../../../core/widgets/pressable_scale.dart';
 import '../../../../core/widgets/ride_map_view.dart';
 import '../../../../core/widgets/schedule_toggle_card.dart';
+import '../../../../core/widgets/skeleton_loaders.dart';
 import '../../../../core/widgets/upcoming_scheduled_ride_card.dart';
 import '../../../../core/widgets/vehicle_option_tile.dart';
 import '../../../../l10n/generated/app_localizations.dart';
@@ -415,15 +415,7 @@ class _RideOptionsSheet extends ConsumerWidget {
           child: categoriesAsync.when(
             skipLoadingOnReload: true,
             skipError: true,
-            loading: () => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  for (var i = 0; i < 3; i++)
-                    const ShimmerBox(height: 72, borderRadius: AppRadius.card, margin: EdgeInsets.only(bottom: 8)),
-                ],
-              ),
-            ),
+            loading: () => const VehicleOptionListSkeleton(),
             error: (_, _) => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: InlineRetry(
